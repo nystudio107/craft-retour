@@ -4,6 +4,10 @@ Retour allows you to intelligently redirect legacy URLs, so that you don't lose 
 
 ![Screenshot](resources/img/plugin-logo.png)
 
+## Don't Use This Plugin
+
+No, really. It's not finished yet.
+
 ## Requirements
 
 This plugin requires Craft CMS 3.0.0-beta.23 or later.
@@ -18,7 +22,7 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-        composer require nystudio107/retour
+        composer require nystudio107/craft-retour
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Retour.
 
