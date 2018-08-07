@@ -37,7 +37,7 @@
         "hasCpSection": true,
         "changelogUrl": "https://raw.githubusercontent.com/nystudio107/retour/v1/CHANGELOG.md",
         "components": {
-            "retour": "nystudio107\\retour\\services\\Redirects"
+            "redirects": "nystudio107\\retour\\services\\Redirects"
         },
         "class": "nystudio107\\retour\\Retour"
     }
