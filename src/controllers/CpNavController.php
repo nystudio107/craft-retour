@@ -123,12 +123,29 @@ class CpNavController extends Controller
             return null;
         }
 
-        Seomatic::$plugin->clearAllCaches();
+        Retour::$plugin->clearAllCaches();
         Craft::$app->getSession()->setNotice(Craft::t('app', 'Plugin settings saved.'));
 
         return $this->redirectToPostedUrl();
     }
 
+    /**
+     * Hack to make webbpack async bundle loading work
+     *
+     * @param string $sectionHandle
+     * @param string $resourceType
+     * @param string $fileName
+     */
+    public function actionResource(string $sectionHandle, string $resourceType, string $fileName)
+    {
+        $baseAssetsUrl = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/retour/assetbundles/retour/dist',
+            true
+        );
+        $url = $baseAssetsUrl . '/' . $resourceType . '/' . $fileName;
+
+        $this->redirect($url);
+    }
     // Protected Methods
     // =========================================================================
 

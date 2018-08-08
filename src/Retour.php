@@ -363,6 +363,8 @@ class Retour extends Plugin
             'retour' => 'retour/dashboard',
             'retour/dashboard' => 'retour/cp-nav/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/cp-nav/dashboard',
+
+            'retour/<sectionHandle:{handle}>/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource'
         ];
     }
 
