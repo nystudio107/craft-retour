@@ -1,0 +1,68 @@
+{
+    "name": "retour",
+    "version": "1.0.0",
+    "description": "Website for seasidefl.com",
+    "copyright": "nystudio107",
+    "main": "index.js",
+    "scripts": {
+        "dev": "webpack --config webpack.dev.js --mode development --progress --hide-modules",
+        "watch": "webpack --config webpack.dev.js --mode development --progress --watch --hide-modules",
+        "build": "webpack --config webpack.prod.js --mode production"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nystudio107/craft-retour.git"
+    },
+    "author": "andrew@nystudio107.com",
+    "license": "UNLICENSED",
+    "bugs": {
+        "url": "https://github.com/nystudio107/craft-retour/issues"
+    },
+    "homepage": "https://github.com/nystudio107/craft-retour",
+    "paths": {
+        "src": {
+            "base": "./src/assetbundles/retour/src/",
+            "js": "./src/assetbundles/retour/src/js/"
+        },
+        "dist": {
+            "base": "./src/assetbundles/retour/dist/"
+        },
+        "templates": "./templates/"
+    },
+    "urls": {
+    },
+    "vars": {
+        "siteCssName": "site.combined.min.css"
+    },
+    "devDependencies": {
+        "autoprefixer": "^8.1.0",
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.4",
+        "babel-preset-env": "^1.6.1",
+        "clean-webpack-plugin": "^0.1.19",
+        "copy-webpack-plugin": "^4.5.1",
+        "css-loader": "^0.28.10",
+        "cssnano": "^3.10.0",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^1.1.11",
+        "git-rev-sync": "^1.10.0",
+        "mini-css-extract-plugin": "^0.4.0",
+        "moment": "^2.21.0",
+        "optimize-css-assets-webpack-plugin": "^4.0.3",
+        "phantomjs-critical-css-webpack-plugin": "^0.1.5",
+        "postcss": "^6.0.19",
+        "postcss-hexrgba": "^1.0.0",
+        "postcss-import": "^11.1.0",
+        "postcss-loader": "^2.1.1",
+        "postcss-nested": "^3.0.0",
+        "postcss-nested-ancestors": "^1.0.0",
+        "resolve-url-loader": "^2.3.0",
+        "style-loader": "^0.20.3",
+        "uglifyjs-webpack-plugin": "^1.2.7",
+        "webpack": "^4.1.1",
+        "webpack-cli": "^2.0.11",
+        "webpack-merge": "^4.1.2"
+    },
+    "dependencies": {
+    }
+}
