@@ -32,7 +32,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),
-        filename: path.join('./js', pkg.vars.jsName)
+        filename: path.join('./js', '[name].js')
     },
     resolve: {
         alias: {
@@ -40,21 +40,7 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    name: "vendor",
-                    chunks: "initial",
-                    test: /node_modules/,
-                    enforce: true,
-                    priority: 10
-                },
-                commons: {
-                    chunks: "initial",
-                    minChunks: 2,
-                    maxInitialRequests: 5,
-                    minSize: 0
-                }
-            }
+            chunks: 'all',
         }
     },
     module: {
@@ -98,7 +84,7 @@ module.exports = {
         new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new MiniCssExtractPlugin({
             path: path.resolve(__dirname, pkg.paths.dist.base),
-            filename: path.join('./css', pkg.vars.cssName),
+            filename: path.join('./css', '[name].css'),
             chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin([
