@@ -36,7 +36,14 @@ module.exports = merge(common, {
             sourceMap: true
           }),
           new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: { safe: true, discardComments: true },
+            cssProcessorOptions: {
+                map: {
+                    inline: false,
+                    annotation: true,
+                },
+                safe: true,
+                discardComments: true
+            },
           })
         ]
     },
