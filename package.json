@@ -72,6 +72,7 @@
         "webpack-merge": "^4.1.2"
     },
     "dependencies": {
+        "apexcharts": "^1.2.0",
         "datatables": "^1.10.18"
     }
 }

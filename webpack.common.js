@@ -29,6 +29,7 @@ module.exports = {
     },
     entry: {
         'retour': path.resolve(__dirname, pkg.paths.src.js + 'Retour.js'),
+        'dashboard': path.resolve(__dirname, pkg.paths.src.js + 'Dashboard.js'),
     },
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),

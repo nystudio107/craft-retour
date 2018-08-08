@@ -17,7 +17,6 @@
 {% import "_includes/forms" as forms %}
 
 {% do view.registerAssetBundle("nystudio107\\retour\\assetbundles\\retour\\RetourAsset") %}
-{% do view.registerAssetBundle("nystudio107\\retour\\assetbundles\\retourcpsection\\RetourCPSectionAsset") %}
 
 {% set docsUrl = "https://github.com/nystudio107/retour/blob/v1/README.md" %}
 
@@ -42,12 +41,12 @@
             <div class="readable" style="text-align:center; margin:0 auto; padding: 5% 10%;">
                 <img src="{{ baseAssetsUrl ~ '/img/Seomatic-icon.svg' }}"
                      width="30%" height="auto"/>
-                <h2>Thanks for using SEOmatic!</h2>
+                <h2>Thanks for using Retour!</h2>
                 <p>
-                    This Dashboard will show you how set up your SEO implementation is; you can click on any shaded part of the graphs to go to the settings that need your attention.
+                    This Dashboard will show you ...
                 </p>
                 <p>
-                    SEOmatic for Craft CMS 3 is a complete re-write and re-architecture from scratch of the plugin. This allowed us to take what we learned from SEOmatic 1.x, and rebuild it with a much more robust and extendable architecture.
+                    Retour for Craft CMS 3 is ...
                 </p>
                 <p>
                     We hope you love it!
@@ -55,18 +54,6 @@
             </div>
         {% endif %}
         <div class="flex">
-            <div class="flex-grow">
-                <h3 class="centeralign">Global SEO Setup</h3>
-                <div id="GlobalSEOChart" style="width: 300px; margin: 0 auto;"></div>
-            </div>
-            <div class="flex-grow">
-                <h3 class="centeralign">Content SEO Setup</h3>
-                <div id="ContentSEOChart" style="width: 300px; margin: 0 auto;"></div>
-            </div>
-            <div class="flex-grow">
-                <h3 class="centeralign">Site Settings Setup</h3>
-                <div id="SiteSettingsChart" style="width: 300px; margin: 0 auto;"></div>
-            </div>
         </div>
     
     </div>
