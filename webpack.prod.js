@@ -23,6 +23,8 @@ class TailwindExtractor {
 
 // Production module
 module.exports = merge(common, {
+    mode: 'production',
+    devtool: 'source-map',
     output: {
         publicPath: pkg.paths.dist.cdn,
     },
@@ -31,7 +33,7 @@ module.exports = merge(common, {
           new UglifyJsPlugin({
             cache: true,
             parallel: true,
-            sourceMap: false
+            sourceMap: true
           }),
           new OptimizeCSSAssetsPlugin({
             cssProcessorOptions: { safe: true, discardComments: true },
