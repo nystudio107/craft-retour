@@ -24,7 +24,7 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
-let defaultConfig = require('tailwindcss/defaultConfig')()
+// let defaultConfig = require('tailwindcss/defaultConfig')()
 
 
 /*
@@ -56,12 +56,77 @@ let colors = {
   'grey-lightest': '#f8fafc',
   'white': '#ffffff',
 
-  // Our main project colors
-  'ss-blue-light': '#96B6E5',
-  'ss-blue-med': '#33658A',
-  'ss-blue-dark': '#294453',
-  'ss-tan': '#F4F3EE',
+  'red-darkest': '#3b0d0c',
+  'red-darker': '#621b18',
+  'red-dark': '#cc1f1a',
+  'red': '#e3342f',
+  'red-light': '#ef5753',
+  'red-lighter': '#f9acaa',
+  'red-lightest': '#fcebea',
 
+  'orange-darkest': '#462a16',
+  'orange-darker': '#613b1f',
+  'orange-dark': '#de751f',
+  'orange': '#f6993f',
+  'orange-light': '#faad63',
+  'orange-lighter': '#fcd9b6',
+  'orange-lightest': '#fff5eb',
+
+  'yellow-darkest': '#453411',
+  'yellow-darker': '#684f1d',
+  'yellow-dark': '#f2d024',
+  'yellow': '#ffed4a',
+  'yellow-light': '#fff382',
+  'yellow-lighter': '#fff9c2',
+  'yellow-lightest': '#fcfbeb',
+
+  'green-darkest': '#0f2f21',
+  'green-darker': '#1a4731',
+  'green-dark': '#1f9d55',
+  'green': '#38c172',
+  'green-light': '#51d88a',
+  'green-lighter': '#a2f5bf',
+  'green-lightest': '#e3fcec',
+
+  'teal-darkest': '#0d3331',
+  'teal-darker': '#20504f',
+  'teal-dark': '#38a89d',
+  'teal': '#4dc0b5',
+  'teal-light': '#64d5ca',
+  'teal-lighter': '#a0f0ed',
+  'teal-lightest': '#e8fffe',
+
+  'blue-darkest': '#12283a',
+  'blue-darker': '#1c3d5a',
+  'blue-dark': '#2779bd',
+  'blue': '#3490dc',
+  'blue-light': '#6cb2eb',
+  'blue-lighter': '#bcdefa',
+  'blue-lightest': '#eff8ff',
+
+  'indigo-darkest': '#191e38',
+  'indigo-darker': '#2f365f',
+  'indigo-dark': '#5661b3',
+  'indigo': '#6574cd',
+  'indigo-light': '#7886d7',
+  'indigo-lighter': '#b2b7ff',
+  'indigo-lightest': '#e6e8ff',
+
+  'purple-darkest': '#21183c',
+  'purple-darker': '#382b5f',
+  'purple-dark': '#794acf',
+  'purple': '#9561e2',
+  'purple-light': '#a779e9',
+  'purple-lighter': '#d6bbfc',
+  'purple-lightest': '#f3ebff',
+
+  'pink-darkest': '#451225',
+  'pink-darker': '#6f213f',
+  'pink-dark': '#eb5286',
+  'pink': '#f66d9b',
+  'pink-light': '#fa7ea8',
+  'pink-lighter': '#ffbbca',
+  'pink-lightest': '#ffebef',
 }
 
 module.exports = {
@@ -102,10 +167,10 @@ module.exports = {
   */
 
   screens: {
-    'sm':    '576px',
-    'md':    '768px',
-    'lg':    '992px',
-    'xl':    '1500px',
+    'sm': '576px',
+    'md': '768px',
+    'lg': '992px',
+    'xl': '1200px',
   },
 
 
@@ -128,6 +193,40 @@ module.exports = {
   */
 
   fonts: {
+    'sans': [
+      'system-ui',
+      'BlinkMacSystemFont',
+      '-apple-system',
+      'Segoe UI',
+      'Roboto',
+      'Oxygen',
+      'Ubuntu',
+      'Cantarell',
+      'Fira Sans',
+      'Droid Sans',
+      'Helvetica Neue',
+      'sans-serif',
+    ],
+    'serif': [
+      'Constantia',
+      'Lucida Bright',
+      'Lucidabright',
+      'Lucida Serif',
+      'Lucida',
+      'DejaVu Serif',
+      'Bitstream Vera Serif',
+      'Liberation Serif',
+      'Georgia',
+      'serif',
+    ],
+    'mono': [
+      'Menlo',
+      'Monaco',
+      'Consolas',
+      'Liberation Mono',
+      'Courier New',
+      'monospace',
+    ]
   },
 
 
@@ -160,20 +259,6 @@ module.exports = {
     '3xl': '1.875rem',  // 30px
     '4xl': '2.25rem',   // 36px
     '5xl': '3rem',      // 48px
-
-    '9':  '0.5625rem',   // 12px
-    '11': '0.6875rem',   // 11px
-    '13': '0.8125rem',  // 13px
-    '18': '1.125rem',   // 18px
-    '22': '1.375rem',   // 22px
-    '24': '1.5rem',     // 24px
-    '28': '1.75rem',    // 28px
-    '30': '1.875rem',   // 30px
-    '35': '2.188rem',   // 35px
-    '38': '2.375rem',   // 38px
-    '40': '2.5rem',     // 40px
-    '42': '2.625rem',   // 42px
-    '48': '3rem',       // 48px
   },
 
 
@@ -239,8 +324,7 @@ module.exports = {
   tracking: {
     'tight': '-0.05em',
     'normal': '0',
-    'wide': '0.15em',
-    's-wide': '.3em'
+    'wide': '0.05em',
   },
 
 
@@ -274,6 +358,26 @@ module.exports = {
   */
 
   backgroundColors: colors,
+
+
+  /*
+  |-----------------------------------------------------------------------------
+  | Background sizes               https://tailwindcss.com/docs/background-size
+  |-----------------------------------------------------------------------------
+  |
+  | Here is where you define your background sizes. We provide some common
+  | values that are useful in most projects, but feel free to add other sizes
+  | that are specific to your project here as well.
+  |
+  | Class name: .bg-{size}
+  |
+  */
+
+  backgroundSize: {
+    'auto': 'auto',
+    'cover': 'cover',
+    'contain': 'contain',
+  },
 
 
   /*
@@ -370,6 +474,7 @@ module.exports = {
     '2': '0.5rem',
     '3': '0.75rem',
     '4': '1rem',
+    '5': '1.25rem',
     '6': '1.5rem',
     '8': '2rem',
     '10': '2.5rem',
@@ -379,19 +484,17 @@ module.exports = {
     '32': '8rem',
     '48': '12rem',
     '64': '16rem',
-
-    '1/12': '8.333333333%',
-    '2/12': '16.666666666%',
-    '3/12': '25%',
-    '4/12': '33.333333333%',
-    '5/12': '41.666666666%',
-    'half': '50%',
-    '7/12': '58.333333333%',
-    '8/12': '66.666666666%',
-    '9/12': '75%',
-    '10/12': '83.333333333%',
-    '11/12': '91.666666666%',
-
+    '1/2': '50%',
+    '1/3': '33.33333%',
+    '2/3': '66.66667%',
+    '1/4': '25%',
+    '3/4': '75%',
+    '1/5': '20%',
+    '2/5': '40%',
+    '3/5': '60%',
+    '4/5': '80%',
+    '1/6': '16.66667%',
+    '5/6': '83.33333%',
     'full': '100%',
     'screen': '100vw'
   },
@@ -419,6 +522,7 @@ module.exports = {
     '2': '0.5rem',
     '3': '0.75rem',
     '4': '1rem',
+    '5': '1.25rem',
     '6': '1.5rem',
     '8': '2rem',
     '10': '2.5rem',
@@ -429,14 +533,7 @@ module.exports = {
     '48': '12rem',
     '64': '16rem',
     'full': '100%',
-    'screen-40': '40vh',
-    'screen-60': '60vh',
-    'screen-70': '70vh',
-    'screen-80': '80vh',
-    'screen': '100vh',
-
-    
-    '850' : '53.13rem', // 850px
+    'screen': '100vh'
   },
 
 
@@ -475,11 +572,9 @@ module.exports = {
   */
 
   minHeight: {
-    '0':      '0',
-    'full':   '100%',
-    'screen': '100vh',
-    'screen-30': '30vw',
-    '385':    '24.06rem',
+    '0': '0',
+    'full': '100%',
+    'screen': '100vh'
   },
 
 
@@ -499,9 +594,8 @@ module.exports = {
   */
 
   maxWidth: {
-    'xxs': '5rem',
     'xs': '20rem',
-    'sm': '35rem',
+    'sm': '30rem',
     'md': '40rem',
     'lg': '50rem',
     'xl': '60rem',
@@ -555,13 +649,15 @@ module.exports = {
     '2': '0.5rem',
     '3': '0.75rem',
     '4': '1rem',
+    '5': '1.25rem',
     '6': '1.5rem',
     '8': '2rem',
-    '25': '1.563rem',
-    '45': '2.813rem',
-    '85': '5.313rem',
-    '120': '7.5rem',
-    '200': '12.5rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+    '20': '5rem',
+    '24': '6rem',
+    '32': '8rem',
   },
 
 
@@ -588,15 +684,15 @@ module.exports = {
     '2': '0.5rem',
     '3': '0.75rem',
     '4': '1rem',
+    '5': '1.25rem',
     '6': '1.5rem',
     '8': '2rem',
-    '12': '0.75rem',
-    '30': '1.875rem',
-    '60': '3.75rem',
-    '120': '7.5rem',
-    '85': '5.313rem',
-    '45': '2.813rem',
-    '180': '11.25rem'
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+    '20': '5rem',
+    '24': '6rem',
+    '32': '8rem',
   },
 
 
@@ -622,12 +718,15 @@ module.exports = {
     '2': '0.5rem',
     '3': '0.75rem',
     '4': '1rem',
+    '5': '1.25rem',
     '6': '1.5rem',
     '8': '2rem',
-
-    '45': '2.813rem',
-    '85': '5.313rem',
-    '120': '7.5rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+    '20': '5rem',
+    '24': '6rem',
+    '32': '8rem',
   },
 
 
@@ -652,6 +751,7 @@ module.exports = {
     'md': '0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)',
     'lg': '0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)',
     'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.06)',
+    'outline': '0 0 0 3px rgba(52,144,220,0.5)',
     'none': 'none',
   },
 
@@ -677,7 +777,6 @@ module.exports = {
     '30': 30,
     '40': 40,
     '50': 50,
-    '60': 60,
   },
 
 
@@ -749,7 +848,12 @@ module.exports = {
   | Here is where you control which modules are generated and what variants are
   | generated for each of those modules.
   |
-  | Currently supported variants: 'responsive', 'hover', 'focus', 'group-hover'
+  | Currently supported variants:
+  |   - responsive
+  |   - hover
+  |   - focus
+  |   - active
+  |   - group-hover
   |
   | To disable a module completely, use `false` instead of an array.
   |
@@ -758,11 +862,12 @@ module.exports = {
   modules: {
     appearance: ['responsive'],
     backgroundAttachment: ['responsive'],
-    backgroundColors: ['responsive', 'hover'],
+    backgroundColors: ['responsive', 'hover', 'focus'],
     backgroundPosition: ['responsive'],
     backgroundRepeat: ['responsive'],
     backgroundSize: ['responsive'],
-    borderColors: ['responsive', 'hover'],
+    borderCollapse: [],
+    borderColors: ['responsive', 'hover', 'focus'],
     borderRadius: ['responsive'],
     borderStyle: ['responsive'],
     borderWidths: ['responsive'],
@@ -771,7 +876,7 @@ module.exports = {
     flexbox: ['responsive'],
     float: ['responsive'],
     fonts: ['responsive'],
-    fontWeights: ['responsive', 'hover'],
+    fontWeights: ['responsive', 'hover', 'focus'],
     height: ['responsive'],
     leading: ['responsive'],
     lists: ['responsive'],
@@ -782,18 +887,20 @@ module.exports = {
     minWidth: ['responsive'],
     negativeMargin: ['responsive'],
     opacity: ['responsive'],
+    outline: ['focus'],
     overflow: ['responsive'],
     padding: ['responsive'],
     pointerEvents: ['responsive'],
     position: ['responsive'],
     resize: ['responsive'],
-    shadows: ['responsive'],
+    shadows: ['responsive', 'hover', 'focus'],
     svgFill: [],
     svgStroke: [],
+    tableLayout: ['responsive'],
     textAlign: ['responsive'],
-    textColors: ['responsive', 'hover'],
+    textColors: ['responsive', 'hover', 'focus'],
     textSizes: ['responsive'],
-    textStyle: ['responsive', 'hover'],
+    textStyle: ['responsive', 'hover', 'focus'],
     tracking: ['responsive'],
     userSelect: ['responsive'],
     verticalAlign: ['responsive'],
@@ -809,8 +916,9 @@ module.exports = {
   | Plugins                                https://tailwindcss.com/docs/plugins
   |-----------------------------------------------------------------------------
   |
-  | Here is where you can register any additional plugins you'd like to use in
-  | your project.
+  | Here is where you can register any plugins you'd like to use in your
+  | project. Tailwind's built-in `container` plugin is enabled by default to
+  | give you a Bootstrap-style responsive container component out of the box.
   |
   | Be sure to view the complete plugin documentation to learn more about how
   | the plugin system works.
@@ -818,7 +926,10 @@ module.exports = {
   */
 
   plugins: [
-    require('tailwindcss/plugins/container')(),
+    require('tailwindcss/plugins/container')({
+      // center: true,
+      // padding: '1rem',
+    }),
   ],
 
 

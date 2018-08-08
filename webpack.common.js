@@ -11,14 +11,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // config files
 const pkg = require('./package.json');
 
+// Clean settings
 const pathsToClean = ['js', 'css'];
-
 const cleanOptions = {
     root: path.resolve(__dirname, pkg.paths.dist.base),
     verbose: true,
     dry: false
 };
 
+// Common module
 module.exports = {
     name: 'retour',
     watchOptions: {
@@ -31,7 +32,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),
-        filename: path.join('./js', '[name].js')
+        filename: path.join('./js', pkg.vars.jsName)
     },
     resolve: {
         alias: {
@@ -96,7 +97,8 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new MiniCssExtractPlugin({
-            filename: "[name].[chunkhash].css",
+            path: path.resolve(__dirname, pkg.paths.dist.base),
+            filename: path.join('./css', pkg.vars.cssName),
             chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin([

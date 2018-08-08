@@ -22,17 +22,18 @@
     "paths": {
         "src": {
             "base": "./src/assetbundles/retour/src/",
-            "js": "./src/assetbundles/retour/src/js/"
+            "js": "./src/assetbundles/retour/src/js/",
+            "css": "./src/assetbundles/retour/src/css/"
         },
         "dist": {
             "base": "./src/assetbundles/retour/dist/"
         },
-        "templates": "./templates/"
+        "templates": "./src/templates/"
     },
-    "urls": {
-    },
+    "urls": {},
     "vars": {
-        "siteCssName": "site.combined.min.css"
+        "cssName": "retour.css",
+        "jsName": "retour.js"
     },
     "devDependencies": {
         "autoprefixer": "^8.1.0",
@@ -51,18 +52,23 @@
         "optimize-css-assets-webpack-plugin": "^4.0.3",
         "phantomjs-critical-css-webpack-plugin": "^0.1.5",
         "postcss": "^6.0.19",
+        "postcss-extend": "^1.0.5",
         "postcss-hexrgba": "^1.0.0",
         "postcss-import": "^11.1.0",
         "postcss-loader": "^2.1.1",
         "postcss-nested": "^3.0.0",
         "postcss-nested-ancestors": "^1.0.0",
+        "postcss-simple-vars": "^4.1.0",
         "resolve-url-loader": "^2.3.0",
         "style-loader": "^0.20.3",
+        "tailwindcss": "^0.6.4",
         "uglifyjs-webpack-plugin": "^1.2.7",
         "webpack": "^4.1.1",
         "webpack-cli": "^2.0.11",
         "webpack-merge": "^4.1.2"
     },
     "dependencies": {
+        "glob-all": "^3.1.0",
+        "purgecss-webpack-plugin": "^1.2.0"
     }
 }
