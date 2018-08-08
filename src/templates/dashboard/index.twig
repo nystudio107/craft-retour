@@ -16,21 +16,11 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("nystudio107\\retour\\assetbundles\\retour\\RetourAsset") %}
-
-{% set docsUrl = "https://github.com/nystudio107/retour/blob/v1/README.md" %}
-
-{% set title = "Retour" %}
-
-{% set pluginCpUrl = url('retour') %}
-
 {% set iconUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retourcpsection/dist', true) ~ '/img/Retour-icon.svg' %}
 
-{% set extraPageHeaderHtml %}
-    <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('retour') }}</a>
-    </div>
-{% endset %}
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
 
 {% set content %}
     <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>

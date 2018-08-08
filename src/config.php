@@ -24,7 +24,7 @@
 
 return [
 
-    // This controls blah blah blah
-    "someAttribute" => true,
+    // The public facing name of the plugin
+    "pluginName" => 'Retour',
 
 ];

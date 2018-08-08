@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2018 nystudio107
  */
 
-namespace nystudio107\retour\assetbundles\Retour;
+namespace nystudio107\retour\assetbundles\retour;
 
 use Craft;
 use craft\web\AssetBundle;

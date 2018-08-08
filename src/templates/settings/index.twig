@@ -1,60 +1,26 @@
-{# @var craft \craft\web\twig\variables\CraftVariable #}
-{#
-/**
- * Retour plugin for Craft CMS 3.x
- *
- * Retour index.twig
- *
- * @author    nystudio107
- * @copyright Copyright (c) 2018 nystudio107
- * @link      https://nystudio107.com/
- * @package   Retour
- * @since     3.0.0
- */
-#}
+{% requirePermission "retour:plugin-settings" %}
+
+{% from "retour/_includes/macros.twig" import configWarning %}
 
 {% extends "_layouts/cp" %}
+
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("nystudio107\\retour\\assetbundles\\retour\\RetourAsset") %}
+{% block content %}
 
-{% set docsUrl = "https://github.com/nystudio107/retour/blob/v1/README.md" %}
+    <input type="hidden" name="action" value="retour/cp-nav/save-plugin-settings">
+    <input type="hidden" name="pluginHandle" value="retour">
 
-{% set title = "Retour" %}
-
-{% set pluginCpUrl = url('retour') %}
-
-{% set iconUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retourcpsection/dist', true) ~ '/img/Retour-icon.svg' %}
-
-{% set extraPageHeaderHtml %}
-    <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('retour') }}</a>
-    </div>
-{% endset %}
-
-{% set content %}
-    <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
-    <img src="{{ iconUrl }}" height="64" width="64" />
-    <p class="textline"></p>
-    <div class="field readable">
-        {% if showWelcome %}
-            <div class="readable" style="text-align:center; margin:0 auto; padding: 5% 10%;">
-                <img src="{{ baseAssetsUrl ~ '/img/Seomatic-icon.svg' }}"
-                     width="30%" height="auto"/>
-                <h2>Thanks for using Retour!</h2>
-                <p>
-                    This Dashboard will show you ...
-                </p>
-                <p>
-                    Retour for Craft CMS 3 is ...
-                </p>
-                <p>
-                    We hope you love it!
-                </p>
-            </div>
-        {% endif %}
-        <div class="flex">
-        </div>
-    
-    </div>
-{% endset %}
+    {{ redirectInput("retour/settings") }}
+    {% namespace "settings" %}
+        {{ forms.textField({
+            label: "Plugin name"|t("retour"),
+            instructions: "The public-facing name of the plugin"|t("retour"),
+            id: "pluginName",
+            name: "pluginName",
+            value: settings.pluginName,
+            warning: configWarning("pluginName", "retour"),
+            errors: settings.getErrors("pluginName"),
+        }) }}
+    {% endnamespace %}
+{% endblock %}
