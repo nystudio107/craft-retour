@@ -34,7 +34,6 @@ use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 
 use yii\base\Event;
-use yii\base\Exception;
 use yii\web\HttpException;
 
 /**
@@ -74,7 +73,7 @@ class Retour extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-        $settings = Retour::$plugin->getSettings();
+        $settings = self::$plugin->getSettings();
         $this->name = $settings->pluginName;
 
         // Install our event listeners
@@ -133,7 +132,7 @@ class Retour extends Plugin
     public function clearAllCaches()
     {
         // Clear all of Retour's caches
-        Retour::$plugin->redirects->invalidateCaches();
+        self::$plugin->redirects->invalidateCaches();
     }
 
     // Protected Methods
@@ -370,7 +369,7 @@ class Retour extends Plugin
             [
                 'key' => 'retour-redirect-caches',
                 'label' => Craft::t('retour', 'Retour redirect caches'),
-                'action' => [Retour::$plugin->redirects, 'invalidateCaches'],
+                'action' => [self::$plugin->redirects, 'invalidateCaches'],
             ],
         ];
     }

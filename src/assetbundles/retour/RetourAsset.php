@@ -2,7 +2,8 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
+ * Retour allows you to intelligently redirect legacy URLs, so that you don't
+ * lose SEO value when rebuilding & restructuring a website
  *
  * @link      https://nystudio107.com/
  * @copyright Copyright (c) 2018 nystudio107
@@ -10,7 +11,6 @@
 
 namespace nystudio107\retour\assetbundles\retour;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
@@ -29,16 +29,13 @@ class RetourAsset extends AssetBundle
      */
     public function init()
     {
-        $this->sourcePath = "@nystudio107/retour/assetbundles/retour/dist";
-
+        $this->sourcePath = '@nystudio107/retour/assetbundles/retour/dist';
         $this->depends = [
             CpAsset::class,
         ];
-
         $this->js = [
             'js/retour.js',
         ];
-
         $this->css = [
             'css/retour.css',
         ];
