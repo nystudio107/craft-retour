@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2018 nystudio107
  */
 
-namespace nystudio107\retour\assetbundles\retourfield;
+namespace nystudio107\retour\assetbundles\retour;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -19,7 +19,7 @@ use craft\web\assets\cp\CpAsset;
  * @package   Retour
  * @since     3.0.0
  */
-class RetourFieldAsset extends AssetBundle
+class RetourDashboardAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
@@ -29,18 +29,14 @@ class RetourFieldAsset extends AssetBundle
      */
     public function init()
     {
-        $this->sourcePath = "@nystudio107/retour/assetbundles/retourfield/dist";
+        $this->sourcePath = "@nystudio107/retour/assetbundles/retour/dist";
 
         $this->depends = [
             CpAsset::class,
+            RetourAsset::class
         ];
-
         $this->js = [
-            'js/Retour.js',
-        ];
-
-        $this->css = [
-            'css/Retour.css',
+            'js/dashboard.js',
         ];
 
         parent::init();

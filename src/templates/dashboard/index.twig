@@ -16,20 +16,17 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% set iconUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retourcpsection/dist', true) ~ '/img/Retour-icon.svg' %}
-
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
 
 {% set content %}
     <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
-    <img src="{{ iconUrl }}" height="64" width="64" />
     <p class="textline"></p>
     <div class="field readable">
         {% if showWelcome %}
             <div class="readable" style="text-align:center; margin:0 auto; padding: 5% 10%;">
-                <img src="{{ iconUrl }}"
+                <img src="{{ baseAssetsUrl ~ '/img/Retour-icon.svg' }}"
                      width="30%" height="auto"/>
                 <h2>Thanks for using Retour!</h2>
                 <p>

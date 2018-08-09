@@ -1,4 +1,4 @@
-console.log("hello, world");
+console.log("Dashboard says hello");
 
 async function initDataTables() {
     const dataTables = await import(/* webpackChunkName: "datatables" */ 'datatables');
@@ -13,9 +13,9 @@ async function initApexCharts() {
 }
 
 initDataTables().then(dataTables => {
-    console.log("DataTables hello!");
+    console.log("Dashboard DataTables hello!");
 });
 
 initApexCharts().then(apexCharts => {
-    console.log("ApexCharts hello!");
+    console.log("Dashboard ApexCharts hello!");
 });

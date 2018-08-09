@@ -36,11 +36,11 @@ class RetourAsset extends AssetBundle
         ];
 
         $this->js = [
-            'js/Retour.js',
+            'js/retour.js',
         ];
 
         $this->css = [
-            'css/Retour.css',
+            'css/retour.css',
         ];
 
         parent::init();

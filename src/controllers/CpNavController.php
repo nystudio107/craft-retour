@@ -14,6 +14,7 @@ use craft\helpers\UrlHelper;
 use craft\models\Site;
 use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 
 use Craft;
 use craft\web\Controller;
@@ -58,7 +59,7 @@ class CpNavController extends Controller
         $view = Craft::$app->getView();
         // Asset bundle
         try {
-            $view->registerAssetBundle(RetourAsset::class);
+            $view->registerAssetBundle(RetourDashboardAsset::class);
         } catch (InvalidConfigException $e) {
             Craft::error($e->getMessage(), __METHOD__);
         }
