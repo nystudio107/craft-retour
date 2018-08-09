@@ -23,7 +23,7 @@ use craft\base\Widget;
  * @package   Retour
  * @since     3.0.0
  */
-class Retour extends Widget
+class RetourWidget extends Widget
 {
 
     // Public Properties

@@ -95,6 +95,50 @@ class CpNavController extends Controller
 
 
     /**
+     * Plugin settings
+     *
+     * @return Response The rendered result
+     */
+    public function actionPluginSettings(): Response
+    {
+        $variables = [];
+        $settings = Retour::$plugin->getSettings();
+        $pluginName = $settings->pluginName;
+        $templateTitle = Craft::t('retour', 'Plugin Settings');
+        $view = Craft::$app->getView();
+        // Asset bundle
+        try {
+            $view->registerAssetBundle(RetourAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+        $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/seomatic/assetbundles/seomatic/dist',
+            true
+        );
+        // Basic variables
+        $variables['fullPageForm'] = true;
+        $variables['docsUrl'] = self::DOCUMENTATION_URL;
+        $variables['pluginName'] = $pluginName;
+        $variables['title'] = $templateTitle;
+        $variables['crumbs'] = [
+            [
+                'label' => $pluginName,
+                'url' => UrlHelper::cpUrl('retour'),
+            ],
+            [
+                'label' => $templateTitle,
+                'url' => UrlHelper::cpUrl('retour/settings'),
+            ],
+        ];
+        $variables['selectedSubnavItem'] = 'settings';
+        $variables['settings'] = $settings;
+
+        // Render the template
+        return $this->renderTemplate('retour/settings', $variables);
+    }
+
+    /**
      * Saves a plugin’s settings.
      *
      * @return Response|null
@@ -131,7 +175,7 @@ class CpNavController extends Controller
     }
 
     /**
-     * Hack to make webbpack async bundle loading work
+     * Make webbpack async bundle loading work out of published AssetBundles
      *
      * @param string $sectionHandle
      * @param string $resourceType

@@ -14,7 +14,7 @@ namespace nystudio107\retour;
 use nystudio107\retour\services\Redirects;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\models\Settings;
-use nystudio107\retour\widgets\Retour as RetourWidget;
+use nystudio107\retour\widgets\RetourWidget;
 
 use Craft;
 use craft\base\Plugin;
@@ -74,6 +74,9 @@ class Retour extends Plugin
     {
         parent::init();
         self::$plugin = $this;
+        $settings = Retour::$plugin->getSettings();
+        $this->name = $settings->pluginName;
+
         // Install our event listeners
         $this->installEventListeners();
         // Log that Retour has been loaded
@@ -103,13 +106,18 @@ class Retour extends Plugin
     {
         $subNavs = [];
         $navItem = parent::getCpNavItem();
-        /** @var User $currentUser */
         $currentUser = Craft::$app->getUser()->getIdentity();
         // Only show sub-navs the user has permission to view
         if ($currentUser->can('retour:dashboard')) {
             $subNavs['dashboard'] = [
                 'label' => 'Dashboard',
                 'url' => 'retour/dashboard',
+            ];
+        }
+        if ($currentUser->can('retour:settings')) {
+            $subNavs['settings'] = [
+                'label' => 'Settings',
+                'url' => 'retour/settings',
             ];
         }
         $navItem = array_merge($navItem, [
@@ -333,26 +341,6 @@ class Retour extends Plugin
     }
 
     /**
-     * @inheritdoc
-     */
-    protected function settingsHtml(): string
-    {
-        try {
-            return Craft::$app->view->renderTemplate(
-                'retour/settings',
-                [
-                    'settings' => $this->getSettings(),
-                ]
-            );
-        } catch (\Twig_Error_Loader $e) {
-            Craft::error($e->getMessage(), __METHOD__);
-        } catch (Exception $e) {
-            Craft::error($e->getMessage(), __METHOD__);
-        }
-    }
-
-
-    /**
      * Return the custom AdminCP routes
      *
      * @return array
@@ -360,10 +348,13 @@ class Retour extends Plugin
     protected function customAdminCpRoutes(): array
     {
         return [
-            'retour' => 'retour/dashboard',
+            'retour' => 'retour/cp-nav/dashboard',
             'retour/dashboard' => 'retour/cp-nav/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/cp-nav/dashboard',
 
+            'retour/settings' => 'retour/cp-nav/plugin-settings',
+
+            // Make webbpack async bundle loading work out of published AssetBundles
             'retour/<sectionHandle:{handle}>/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource'
         ];
     }
@@ -376,7 +367,6 @@ class Retour extends Plugin
     protected function customAdminCpCacheOptions(): array
     {
         return [
-            // Frontend template caches
             [
                 'key' => 'retour-redirect-caches',
                 'label' => Craft::t('retour', 'Retour redirect caches'),
@@ -395,6 +385,9 @@ class Retour extends Plugin
         return [
             'retour:dashboard' => [
                 'label' => Craft::t('retour', 'Dashboard'),
+            ],
+            'retour:settings' => [
+                'label' => Craft::t('retour', 'Settings'),
             ],
             'retour:redirects' => [
                 'label' => Craft::t('retour', 'Redirects'),
