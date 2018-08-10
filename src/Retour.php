@@ -36,6 +36,8 @@ use craft\web\UrlManager;
 use yii\base\Event;
 use yii\web\HttpException;
 
+/** @noinspection MissingPropertyAnnotationsInspection */
+
 /**
  * Class Retour
  *
