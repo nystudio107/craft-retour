@@ -26,7 +26,7 @@ module.exports = merge(common, {
     mode: 'production',
     devtool: 'source-map',
     output: {
-        publicPath: pkg.paths.dist.cdn,
+        publicPath: pkg.paths.dist.base,
     },
     optimization: {
         minimizer: [

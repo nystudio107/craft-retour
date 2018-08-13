@@ -356,7 +356,8 @@ class Retour extends Plugin
             'retour/settings' => 'retour/cp-nav/plugin-settings',
 
             // Make webbpack async bundle loading work out of published AssetBundles
-            'retour/<sectionHandle:{handle}>/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource'
+            'retour/<sectionHandle:{handle}>/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
+            'retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource'
         ];
     }
 

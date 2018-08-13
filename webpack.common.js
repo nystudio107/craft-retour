@@ -27,17 +27,8 @@ module.exports = {
         aggregateTimeout: 300,
         poll: 500
     },
-    entry: {
-        'retour': path.resolve(__dirname, pkg.paths.src.js + 'Retour.js'),
-        'dashboard': path.resolve(__dirname, pkg.paths.src.js + 'Dashboard.js'),
-    },
-    output: {
-        path: path.resolve(__dirname, pkg.paths.dist.base),
-        filename: path.join('./js', '[name].js')
-    },
     resolve: {
-        alias: {
-        }
+        alias: {}
     },
     optimization: {
         splitChunks: {
@@ -45,11 +36,7 @@ module.exports = {
         }
     },
     module: {
-        rules: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "babel-loader"
-            },
+        rules: [
             {
                 test: /\.png|jpe?g|gif|svg$/,
                 loader: 'file-loader',
@@ -88,8 +75,7 @@ module.exports = {
             filename: path.join('./css', '[name].css'),
             chunkFilename: "[id].css"
         }),
-        new CopyWebpackPlugin([
-        ]),
+        new CopyWebpackPlugin([]),
         new webpack.BannerPlugin({
             banner: [
                 '/*!',
