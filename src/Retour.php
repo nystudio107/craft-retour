@@ -232,6 +232,22 @@ class Retour extends Plugin
      */
     protected function installSiteEventListeners()
     {
+        // Handler: UrlManager::EVENT_REGISTER_SITE_URL_RULES
+        Event::on(
+            UrlManager::class,
+            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
+            function (RegisterUrlRulesEvent $event) {
+                Craft::debug(
+                    'UrlManager::EVENT_REGISTER_SITE_URL_RULES',
+                    __METHOD__
+                );
+                // Register our AdminCP routes
+                $event->rules = array_merge(
+                    $event->rules,
+                    $this->customFrontendRoutes()
+                );
+            }
+        );
     }
 
     /**
@@ -357,7 +373,20 @@ class Retour extends Plugin
 
             // Make webbpack async bundle loading work out of published AssetBundles
             'retour/<sectionHandle:{handle}>/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
-            'retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource'
+            'retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
+        ];
+    }
+
+    /**
+     * Return the custom frontend routes
+     *
+     * @return array
+     */
+    protected function customFrontendRoutes(): array
+    {
+        return [
+            // Make webbpack async bundle loading work out of published AssetBundles
+            'cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
         ];
     }
 

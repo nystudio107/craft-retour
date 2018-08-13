@@ -45,6 +45,7 @@ class CpNavController extends Controller
      * @access protected
      */
     protected $allowAnonymous = [
+        'resource'
     ];
 
     // Public Methods
@@ -189,9 +190,17 @@ class CpNavController extends Controller
             true
         );
         $url = $baseAssetsUrl . '/' . $resourceType . '/' . $fileName;
+        $response = Craft::$app->getResponse();
 
-        $this->redirect($url);
+        $redirectRepsonse = $this->redirect($url, 200);
+
+        $response->format = Response::FORMAT_RAW;
+        $headers = $response->headers;
+        $headers->add('Content-Type', 'application/javascript');
+
+        return $redirectRepsonse;
     }
+
     // Protected Methods
     // =========================================================================
 

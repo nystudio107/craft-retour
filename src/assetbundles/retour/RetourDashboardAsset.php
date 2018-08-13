@@ -34,9 +34,6 @@ class RetourDashboardAsset extends AssetBundle
             CpAsset::class,
             RetourAsset::class
         ];
-        $this->js = [
-            'js/dashboard.js',
-        ];
 
         parent::init();
     }

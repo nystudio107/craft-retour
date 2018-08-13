@@ -33,11 +33,11 @@ class RetourAsset extends AssetBundle
         $this->depends = [
             CpAsset::class,
         ];
-        $this->js = [
-            'js/retour.js',
-        ];
         $this->css = [
             'css/retour.css',
+        ];
+        $this->js = [
+            'js/retour-legacy.js',
         ];
 
         parent::init();

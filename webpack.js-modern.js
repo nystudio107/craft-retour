@@ -16,7 +16,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),
-        filename: path.join('./js', '[name].js')
+        filename: path.join('./js', '[name].js'),
+        publicPath: '/cpresources/retour/'
     },
     module: {
         rules: [
@@ -31,7 +32,6 @@ module.exports = {
                             modules: false,
                             useBuiltIns: true,
                             targets: {
-                                node: 'current',
                                 browsers: [
                                     'Chrome >= 60',
                                     'Safari >= 10.1',
