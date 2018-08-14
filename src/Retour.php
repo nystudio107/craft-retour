@@ -381,7 +381,7 @@ class Retour extends Plugin
     protected function customFrontendRoutes(): array
     {
         return [
-            // Make webbpack async bundle loading work out of published AssetBundles
+            // Make webpack async bundle loading work out of published AssetBundles
             '/cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
         ];
     }

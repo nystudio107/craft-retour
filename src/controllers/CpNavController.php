@@ -177,7 +177,7 @@ class CpNavController extends Controller
     }
 
     /**
-     * Make webbpack async bundle loading work out of published AssetBundles
+     * Make webpack async bundle loading work out of published AssetBundles
      *
      * @param string $resourceType
      * @param string $fileName
