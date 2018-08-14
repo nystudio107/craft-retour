@@ -1,21 +1,12 @@
-console.log("Dashboard says hello");
+import 'babel-polyfill';
 
-async function initDataTables() {
+const main = async () => {
+    console.log("Dashboard says hello");
     const dataTables = await import(/* webpackChunkName: "datatables" */ 'datatables');
-
-    return dataTables;
-}
-
-async function initApexCharts() {
-    const apexCharts = await import(/* webpackChunkName: "apexcharts" */ 'apexcharts');
-
-    return apexCharts;
-}
-
-initDataTables().then(dataTables => {
     console.log("Dashboard DataTables hello!");
-});
-
-initApexCharts().then(apexCharts => {
+    const apexCharts = await import(/* webpackChunkName: "apexcharts" */ 'apexcharts');
     console.log("Dashboard ApexCharts hello!");
-});
+
+};
+
+main();

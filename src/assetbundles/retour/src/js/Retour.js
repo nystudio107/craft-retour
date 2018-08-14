@@ -1,24 +1,13 @@
+import 'babel-polyfill';
 // Import our CSS
 import styles from '../css/app.pcss';
 
-console.log("hello, world");
-
-async function initDataTables() {
+const main = async () => {
+    console.log("hello, world");
     const dataTables = await import(/* webpackChunkName: "datatables" */ 'datatables');
-
-    return dataTables;
-}
-
-async function initApexCharts() {
-    const apexCharts = await import(/* webpackChunkName: "apexcharts" */ 'apexcharts');
-
-    return apexCharts;
-}
-
-initDataTables().then(dataTables => {
     console.log("DataTables hello!");
-});
-
-initApexCharts().then(apexCharts => {
+    const apexCharts = await import(/* webpackChunkName: "apexcharts" */ 'apexcharts');
     console.log("ApexCharts hello!");
-});
+};
+
+main();

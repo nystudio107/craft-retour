@@ -182,6 +182,8 @@ class CpNavController extends Controller
      * @param string $sectionHandle
      * @param string $resourceType
      * @param string $fileName
+     *
+     * @return Response
      */
     public function actionResource(string $sectionHandle = null, string $resourceType = '', string $fileName = '')
     {
@@ -190,15 +192,8 @@ class CpNavController extends Controller
             true
         );
         $url = $baseAssetsUrl . '/' . $resourceType . '/' . $fileName;
-        $response = Craft::$app->getResponse();
 
-        $redirectRepsonse = $this->redirect($url, 200);
-
-        $response->format = Response::FORMAT_RAW;
-        $headers = $response->headers;
-        $headers->add('Content-Type', 'application/javascript');
-
-        return $redirectRepsonse;
+        return $this->redirect($url);
     }
 
     // Protected Methods

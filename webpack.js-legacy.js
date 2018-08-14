@@ -1,4 +1,4 @@
-// js-legacy, builds the legacy JavaScript bundle
+// js-modern, builds the modern JavaScript bundle
 
 // node modules
 const path = require('path');
@@ -27,29 +27,19 @@ module.exports = {
                 loader: "babel-loader",
                 options: {
                     presets: [
-                        [
-                            'env', {
+                        ['env', {
                             modules: false,
                             useBuiltIns: true,
                             targets: {
-                                browsers: [
+                                browsers:  [
                                     '> 1%',
                                     'last 2 versions',
                                     'Firefox ESR',
                                 ],
                             },
-                        }
-                        ],
+                        }],
                     ],
-                    "plugins": [
-                        "syntax-dynamic-import",
-                        [
-                            "transform-runtime", {
-                            "polyfill": true,
-                            "regenerator": true
-                        }
-                        ]
-                    ]
+                    plugins: ['syntax-dynamic-import'],
                 },
             },
         ]

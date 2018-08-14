@@ -30,11 +30,6 @@ module.exports = {
     resolve: {
         alias: {}
     },
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-        }
-    },
     module: {
         rules: [
             {

@@ -8,15 +8,15 @@ const jsLegacy = require('./webpack.js-legacy.js');
 // Development module
 module.exports = [
     merge(
-        jsModern,
+        common,
+        jsLegacy,
         {
             mode: 'development',
             devtool: 'inline-source-map'
         }
     ),
     merge(
-        common,
-        jsLegacy,
+        jsModern,
         {
             mode: 'development',
             devtool: 'inline-source-map'

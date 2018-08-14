@@ -6,10 +6,11 @@ const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
-
 // config files
 const pkg = require('./package.json');
 const common = require('./webpack.common.js');
+const jsModern = require('./webpack.js-modern.js');
+const jsLegacy = require('./webpack.js-legacy.js');
 
 // Custom PurgeCSS extractor for Tailwind that allows special characters in
 // class names.
@@ -21,50 +22,69 @@ class TailwindExtractor {
     }
 }
 
-// Production module
-module.exports = merge(common, {
-    mode: 'production',
-    devtool: 'source-map',
-    output: {
-        publicPath: pkg.paths.dist.base,
-    },
-    optimization: {
-        minimizer: [
-          new UglifyJsPlugin({
-            cache: true,
-            parallel: true,
-            sourceMap: true
-          }),
-          new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-                map: {
-                    inline: false,
-                    annotation: true,
+// Development module
+module.exports = [
+    merge(
+        common,
+        jsLegacy,
+        {
+            mode: 'production',
+            devtool: 'source-map',
+            optimization: {
+                splitChunks: {
                 },
-                safe: true,
-                discardComments: true
+                minimizer: [
+                    new UglifyJsPlugin({
+                        cache: true,
+                        parallel: true,
+                        sourceMap: true
+                    }),
+                    new OptimizeCSSAssetsPlugin({
+                        cssProcessorOptions: {
+                            map: {
+                                inline: false,
+                                annotation: true,
+                            },
+                            safe: true,
+                            discardComments: true
+                        },
+                    })
+                ]
             },
-          })
-        ]
-    },
-    resolve: {
-        alias: {
-        }
-    },
-    plugins: [
-        new PurgecssPlugin({
-            // Specify the locations of any files you want to scan for class names.
-            paths: glob.sync([
-                path.join(__dirname, pkg.paths.templates + "**/*.{twig,html}")
-            ]),
-            extractors: [
-                {
-                    extractor: TailwindExtractor,
-                    // Specify the file extensions to include when scanning for
-                    // class names.
-                    extensions: ["html", "js", "twig", "vue"]
-                }
+            plugins: [
+                new PurgecssPlugin({
+                    // Specify the locations of any files you want to scan for class names.
+                    paths: glob.sync([
+                        path.join(__dirname, pkg.paths.templates + "**/*.{twig,html}")
+                    ]),
+                    extractors: [
+                        {
+                            extractor: TailwindExtractor,
+                            // Specify the file extensions to include when scanning for
+                            // class names.
+                            extensions: ["html", "js", "twig", "vue"]
+                        }
+                    ]
+                })
             ]
-        })
-    ]
-});
+        }
+    ),
+    merge(
+        jsModern,
+        {
+            mode: 'production',
+            devtool: 'source-map',
+            optimization: {
+                splitChunks: {
+                },
+                minimizer: [
+                    new UglifyJsPlugin({
+                        cache: true,
+                        parallel: true,
+                        sourceMap: true
+                    }),
+                ]
+            },
+        }
+    ),
+];
