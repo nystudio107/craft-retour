@@ -10,17 +10,8 @@ const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 // config files
 const pkg = require('./package.json');
-
-// Clean settings
-const pathsToClean = ['js', 'css'];
-const cleanOptions = {
-    root: path.resolve(__dirname, pkg.paths.dist.base),
-    verbose: true,
-    dry: false
-};
 
 // Babel loader
 const configureBabelLoader = (browserList) => {
@@ -99,16 +90,24 @@ const configurePostcssLoader = (build) => {
     }
 };
 
+// Entries from package.json
+const configureEntries = () => {
+    let entries = {};
+
+    for (const [key, value] of Object.entries(pkg.entries)) {
+        entries[key] = path.resolve(__dirname, pkg.paths.src.js + value);
+    }
+
+    return entries;
+};
+
 // The base webpack config
 const baseConfig = {
-    name: 'retour',
-    entry: {
-        'retour': path.resolve(__dirname, pkg.paths.src.js + 'Retour.js'),
-        'dashboard': path.resolve(__dirname, pkg.paths.src.js + 'Dashboard.js'),
-    },
+    name: pkg.name,
+    entry: configureEntries(),
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),
-        publicPath: '/cpresources/retour/'
+        publicPath: pkg.paths.dist.public
     },
     optimization: {
         splitChunks: {},
@@ -152,7 +151,11 @@ const legacyConfig = {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(pathsToClean, cleanOptions),
+        new CleanWebpackPlugin(pkg.paths.dist.clean, {
+            root: path.resolve(__dirname, pkg.paths.dist.base),
+            verbose: true,
+            dry: false
+        }),
         new MiniCssExtractPlugin({
             path: path.resolve(__dirname, pkg.paths.dist.base),
             filename: path.join('./css', '[name].css'),

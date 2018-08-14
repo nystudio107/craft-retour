@@ -1,7 +1,7 @@
 {
     "name": "retour",
     "version": "1.0.0",
-    "description": "Website for seasidefl.com",
+    "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
     "copyright": "nystudio107",
     "main": "index.js",
     "scripts": {
@@ -14,7 +14,7 @@
         "url": "git+https://github.com/nystudio107/craft-retour.git"
     },
     "author": "andrew@nystudio107.com",
-    "license": "UNLICENSED",
+    "license": "Craft License",
     "bugs": {
         "url": "https://github.com/nystudio107/craft-retour/issues"
     },
@@ -26,9 +26,15 @@
             "css": "./src/assetbundles/retour/src/css/"
         },
         "dist": {
-            "base": "./src/assetbundles/retour/dist/"
+            "base": "./src/assetbundles/retour/dist/",
+            "public": "/cpresources/retour/",
+            "clean": ["./js", "./css"]
         },
         "templates": "./src/templates/"
+    },
+    "entries": {
+        "retour": "Retour.js",
+        "dashboard": "Dashboard.js"
     },
     "urls": {},
     "vars": {
