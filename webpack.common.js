@@ -1,3 +1,5 @@
+// webpack.common.js - common webpack config
+
 // node modules
 const webpack = require('webpack');
 const path = require('path');
@@ -26,6 +28,14 @@ module.exports = {
         ignored: /node_modules/,
         aggregateTimeout: 300,
         poll: 500
+    },
+    entry: {
+        'retour': path.resolve(__dirname, pkg.paths.src.js + 'Retour.js'),
+        'dashboard': path.resolve(__dirname, pkg.paths.src.js + 'Dashboard.js'),
+    },
+    output: {
+        path: path.resolve(__dirname, pkg.paths.dist.base),
+        publicPath: '/cpresources/retour/'
     },
     resolve: {
         alias: {}

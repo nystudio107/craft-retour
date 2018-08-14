@@ -10,14 +10,8 @@ const pkg = require('./package.json');
 
 // js-legacy module
 module.exports = {
-    entry: {
-        'retour': path.resolve(__dirname, pkg.paths.src.js + 'Retour.js'),
-        'dashboard': path.resolve(__dirname, pkg.paths.src.js + 'Dashboard.js'),
-    },
     output: {
-        path: path.resolve(__dirname, pkg.paths.dist.base),
         filename: path.join('./js', '[name].js'),
-        publicPath: '/cpresources/retour/'
     },
     module: {
         rules: [
@@ -43,7 +37,13 @@ module.exports = {
                             },
                         }],
                     ],
-                    plugins: ['syntax-dynamic-import'],
+                    plugins: [
+                        'syntax-dynamic-import',
+                        ["transform-runtime", {
+                            "polyfill": false,
+                            "regenerator": true
+                        }]
+                    ],
                 },
             },
             {

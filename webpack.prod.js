@@ -1,3 +1,5 @@
+// webpack.prod.js - production builds
+
 // node modules
 const glob = require("glob-all");
 const path = require('path');

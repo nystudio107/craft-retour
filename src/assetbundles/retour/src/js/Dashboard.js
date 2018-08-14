@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 
 const main = async () => {
     console.log("Dashboard says hello");

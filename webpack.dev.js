@@ -1,3 +1,5 @@
+// webpack.dev.js - developmental builds
+
 // webpack plugins
 const merge = require('webpack-merge');
 // config files
