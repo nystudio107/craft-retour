@@ -1,10 +1,9 @@
 {% requirePermission "retour:plugin-settings" %}
 
-{% from "retour/_includes/macros.twig" import configWarning %}
-
 {% extends "_layouts/cp" %}
 
 {% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import configWarning %}
 
 {% block content %}
 
@@ -23,11 +22,7 @@
             errors: settings.getErrors("pluginName"),
         }) }}
     {% endnamespace %}
-    
-    <!-- Browsers with ES module support load this file. -->
-    <script type="module" src="js/retour.js"></script>
-    
-    <!-- Older browsers load this file (and module-supporting -->
-    <!-- browsers know *not* to load this file). -->
-    <script nomodule src="js/retour-legacy.js"></script>
+
+    {# include our JavaScript modules #}
+    {{ parent() }}
 {% endblock %}

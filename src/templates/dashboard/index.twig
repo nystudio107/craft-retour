@@ -3,7 +3,7 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour index.twig
+ * Retour Settings index.twig
  *
  * @author    nystudio107
  * @copyright Copyright (c) 2018 nystudio107
@@ -13,14 +13,18 @@
  */
 #}
 
-{% extends "_layouts/cp" %}
+{% requirePermission "retour:plugin-settings" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
 {% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import includeJsModule %}
 
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
 
-{% set content %}
+{% block content %}
     <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
     <p class="textline"></p>
     <div class="field readable">
@@ -44,14 +48,7 @@
         </div>
 
     </div>
-
-    <!-- Browsers with ES module support load this file. -->
-    <script type="module" src="/cpresources/retour/js/retour.js"></script>
-    <script type="module" src="/cpresources/retour/js/dashboard.js"></script>
-
-    <!-- Older browsers load this file (and module-supporting -->
-    <!-- browsers know *not* to load this file). -->
-    <script nomodule src="/cpresources/retour/js/retour-legacy.js"></script>
-    <script nomodule src="/cpresources/retour/js/dashboard-legacy.js"></script>
-
-{% endset %}
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {{ includeJsModule("retour", "dashboard") }}
+{% endblock %}

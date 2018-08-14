@@ -184,7 +184,7 @@ class CpNavController extends Controller
      *
      * @return Response
      */
-    public function actionResource(string $resourceType = '', string $fileName = '')
+    public function actionResource(string $resourceType = '', string $fileName = ''): Response
     {
         $baseAssetsUrl = Craft::$app->assetManager->getPublishedUrl(
             '@nystudio107/retour/assetbundles/retour/dist',
