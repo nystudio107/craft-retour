@@ -3,22 +3,20 @@
 // webpack plugins
 const merge = require('webpack-merge');
 // config files
+const pkg = require('./package.json');
 const common = require('./webpack.common.js');
-const jsModern = require('./webpack.js-modern.js');
-const jsLegacy = require('./webpack.js-legacy.js');
 
 // Development module
 module.exports = [
     merge(
-        common,
-        jsLegacy,
+        common.legacyConfig,
         {
             mode: 'development',
             devtool: 'inline-source-map'
         }
     ),
     merge(
-        jsModern,
+        common.modernConfig,
         {
             mode: 'development',
             devtool: 'inline-source-map'

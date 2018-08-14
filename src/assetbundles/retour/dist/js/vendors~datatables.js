@@ -1,3 +1,12 @@
+/*!
+ * @project        nystudio107
+ * @name           vendors~datatables.js
+ * @author         andrew@nystudio107.com
+ * @build          Tue, Aug 14, 2018 6:27 AM ET
+ * @release        876fa086c97c311dcb46238b2dbbb8da2d7facf4 [develop]
+ * @copyright      Copyright (c) 2018 nystudio107
+ *
+ */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[2],{0:function(e,t,n){var r,a;
 /*! DataTables 1.10.18
  * ©2008-2018 SpryMedia Ltd - datatables.net/license

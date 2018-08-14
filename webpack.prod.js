@@ -11,8 +11,6 @@ const PurgecssPlugin = require("purgecss-webpack-plugin");
 // config files
 const pkg = require('./package.json');
 const common = require('./webpack.common.js');
-const jsModern = require('./webpack.js-modern.js');
-const jsLegacy = require('./webpack.js-legacy.js');
 
 // Custom PurgeCSS extractor for Tailwind that allows special characters in
 // class names.
@@ -27,8 +25,7 @@ class TailwindExtractor {
 // Development module
 module.exports = [
     merge(
-        common,
-        jsLegacy,
+        common.legacyConfig,
         {
             mode: 'production',
             devtool: 'source-map',
@@ -72,7 +69,7 @@ module.exports = [
         }
     ),
     merge(
-        jsModern,
+        common.modernConfig,
         {
             mode: 'production',
             devtool: 'source-map',

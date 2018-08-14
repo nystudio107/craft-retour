@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~datatables-legacy.js
  * @author         andrew@nystudio107.com
- * @build          Tue, Aug 14, 2018 4:43 AM ET
- * @release        a74641c446993f1a0537b4303f6c0983f2caa3fd [develop]
+ * @build          Tue, Aug 14, 2018 6:27 AM ET
+ * @release        876fa086c97c311dcb46238b2dbbb8da2d7facf4 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

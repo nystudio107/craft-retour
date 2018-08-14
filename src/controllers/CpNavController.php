@@ -179,19 +179,18 @@ class CpNavController extends Controller
     /**
      * Make webbpack async bundle loading work out of published AssetBundles
      *
-     * @param string $sectionHandle
      * @param string $resourceType
      * @param string $fileName
      *
      * @return Response
      */
-    public function actionResource(string $sectionHandle = null, string $resourceType = '', string $fileName = '')
+    public function actionResource(string $resourceType = '', string $fileName = '')
     {
         $baseAssetsUrl = Craft::$app->assetManager->getPublishedUrl(
             '@nystudio107/retour/assetbundles/retour/dist',
             true
         );
-        $url = $baseAssetsUrl . '/' . $resourceType . '/' . $fileName;
+        $url = "{$baseAssetsUrl}/{$resourceType}/{$fileName}";
 
         return $this->redirect($url);
     }
