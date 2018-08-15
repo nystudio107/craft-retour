@@ -6,7 +6,7 @@ const merge = require('webpack-merge');
 const pkg = require('./package.json');
 const common = require('./webpack.common.js');
 
-// Development module
+// Development module exports
 module.exports = [
     merge(
         common.legacyConfig,

@@ -39,13 +39,37 @@
         "retour": "Retour.js",
         "dashboard": "Dashboard.js"
     },
+    "babelConfig": {
+        "legacyBrowsers": [
+            "> 1%",
+            "last 2 versions",
+            "Firefox ESR"
+        ],
+        "modernBrowsers": [
+            "last 2 Chrome versions",
+            "not Chrome < 60",
+            "last 2 Safari versions",
+            "not Safari < 10.1",
+            "last 2 iOS versions",
+            "not iOS < 10.3",
+            "last 2 Firefox versions",
+            "not Firefox < 54",
+            "last 2 Edge versions",
+            "not Edge < 15"
+        ]
+    },
     "purgeCss": {
         "paths": [
             "./src/templates/**/*.{twig,html}"
         ],
         "whitelist": [],
         "whitelistPatterns": [],
-        "extensions": ["html", "js", "twig", "vue"]
+        "extensions": [
+            "html",
+            "js",
+            "twig",
+            "vue"
+        ]
     },
     "urls": {},
     "vars": {
@@ -87,6 +111,9 @@
         "style-loader": "^0.20.3",
         "tailwindcss": "^0.6.4",
         "uglifyjs-webpack-plugin": "^1.2.7",
+        "vue-loader": "^15.3.0",
+        "vue-style-loader": "^4.1.2",
+        "vue-template-compiler": "^2.5.17",
         "webpack": "^4.1.1",
         "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^2.0.11",
@@ -94,6 +121,8 @@
     },
     "dependencies": {
         "apexcharts": "^1.2.0",
-        "datatables": "^1.10.18"
+        "datatables": "^1.10.18",
+        "vue": "^2.5.17",
+        "vue-confetti": "^0.4.1"
     }
 }

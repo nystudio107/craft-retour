@@ -32,7 +32,7 @@ class RetourDashboardAsset extends AssetBundle
         $this->sourcePath = '@nystudio107/retour/assetbundles/retour/dist';
         $this->depends = [
             CpAsset::class,
-            RetourAsset::class
+            RetourAsset::class,
         ];
 
         parent::init();

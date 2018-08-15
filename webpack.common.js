@@ -10,8 +10,36 @@ const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // config files
 const pkg = require('./package.json');
+
+// File banner banner
+const configureBanner = () => {
+    return {
+        banner: [
+            '/*!',
+            ' * @project        ' + pkg.copyright,
+            ' * @name           ' + '[filebase]',
+            ' * @author         ' + pkg.author,
+            ' * @build          ' + moment().format('llll') + ' ET',
+            ' * @release        ' + git.long() + ' [' + git.branch() + ']',
+            ' * @copyright      Copyright (c) ' + moment().format('YYYY') + ' ' + pkg.copyright,
+            ' *',
+            ' */',
+            ''
+        ].join('\n'),
+        raw: true
+    };
+};
+
+// Vue loader
+const configureVueLoader = () => {
+    return {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+    };
+};
 
 // Babel loader
 const configureBabelLoader = (browserList) => {
@@ -109,6 +137,11 @@ const baseConfig = {
         path: path.resolve(__dirname, pkg.paths.dist.base),
         publicPath: pkg.paths.dist.public
     },
+    module: {
+        rules: [
+            configureVueLoader(),
+        ],
+    },
     optimization: {
         splitChunks: {},
     },
@@ -116,21 +149,8 @@ const baseConfig = {
         alias: {}
     },
     plugins: [
-        new webpack.BannerPlugin({
-            banner: [
-                '/*!',
-                ' * @project        ' + pkg.copyright,
-                ' * @name           ' + '[filebase]',
-                ' * @author         ' + pkg.author,
-                ' * @build          ' + moment().format('llll') + ' ET',
-                ' * @release        ' + git.long() + ' [' + git.branch() + ']',
-                ' * @copyright      Copyright (c) ' + moment().format('YYYY') + ' ' + pkg.copyright,
-                ' *',
-                ' */',
-                ''
-            ].join('\n'),
-            raw: true
-        }),
+        new VueLoaderPlugin(),
+        new webpack.BannerPlugin(configureBanner()),
     ]
 };
 
@@ -141,11 +161,7 @@ const legacyConfig = {
     },
     module: {
         rules: [
-            configureBabelLoader([
-                '> 1%',
-                'last 2 versions',
-                'Firefox ESR',
-            ]),
+            configureBabelLoader(Object.values(pkg.babelConfig.legacyBrowsers)),
             configureImageLoader(),
             configurePostcssLoader(true),
         ],
@@ -172,21 +188,13 @@ const modernConfig = {
     },
     module: {
         rules: [
-            configureBabelLoader([
-                // The last two versions of each browser, excluding versions
-                // that don't support <script type="module">.
-                'last 2 Chrome versions', 'not Chrome < 60',
-                'last 2 Safari versions', 'not Safari < 10.1',
-                'last 2 iOS versions', 'not iOS < 10.3',
-                'last 2 Firefox versions', 'not Firefox < 54',
-                'last 2 Edge versions', 'not Edge < 15',
-            ]),
+            configureBabelLoader(Object.values(pkg.babelConfig.modernBrowsers)),
             configurePostcssLoader(false),
         ],
     },
 };
 
-// Common module
+// Common module exports
 module.exports = {
     'legacyConfig': merge(
         baseConfig,

@@ -34,7 +34,7 @@ const configurePurgeCssPaths = () => {
     return paths;
 };
 
-// Development module
+// Production module exports
 module.exports = [
     merge(
         common.legacyConfig,
