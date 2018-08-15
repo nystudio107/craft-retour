@@ -8,6 +8,7 @@ const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
+const whitelister = require('purgecss-whitelister')
 // config files
 const pkg = require('./package.json');
 const common = require('./webpack.common.js');
@@ -21,6 +22,17 @@ class TailwindExtractor {
         return content.match(/[A-Za-z0-9-_:\/]+/g) || [];
     }
 }
+
+// Configure the PurgeCSS paths
+const configurePurgeCssPaths = () => {
+    let paths = [];
+
+    for (const [key, value] of Object.entries(pkg.purgeCss.paths)) {
+        paths.push(path.join(__dirname, value));
+    }
+
+    return paths;
+};
 
 // Development module
 module.exports = [
@@ -52,18 +64,13 @@ module.exports = [
             },
             plugins: [
                 new PurgecssPlugin({
-                    // Specify the locations of any files you want to scan for class names.
-                    paths: glob.sync([
-                        path.join(__dirname, pkg.paths.templates + "**/*.{twig,html}")
-                    ]),
-                    extractors: [
-                        {
+                    paths: glob.sync(configurePurgeCssPaths()),
+                    whitelist: whitelister(pkg.purgeCss.whitelist),
+                    whitelistPatterns: pkg.purgeCss.whitelistPatterns,
+                    extractors: [{
                             extractor: TailwindExtractor,
-                            // Specify the file extensions to include when scanning for
-                            // class names.
-                            extensions: ["html", "js", "twig", "vue"]
-                        }
-                    ]
+                            extensions: pkg.purgeCss.extensions
+                        }]
                 })
             ]
         }

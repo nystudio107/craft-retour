@@ -28,13 +28,24 @@
         "dist": {
             "base": "./src/assetbundles/retour/dist/",
             "public": "/cpresources/retour/",
-            "clean": ["./js", "./css"]
+            "clean": [
+                "./js",
+                "./css"
+            ]
         },
         "templates": "./src/templates/"
     },
     "entries": {
         "retour": "Retour.js",
         "dashboard": "Dashboard.js"
+    },
+    "purgeCss": {
+        "paths": [
+            "./src/templates/**/*.{twig,html}"
+        ],
+        "whitelist": [],
+        "whitelistPatterns": [],
+        "extensions": ["html", "js", "twig", "vue"]
     },
     "urls": {},
     "vars": {
@@ -71,6 +82,7 @@
         "postcss-nested-ancestors": "^1.0.0",
         "postcss-simple-vars": "^4.1.0",
         "purgecss-webpack-plugin": "^1.2.0",
+        "purgecss-whitelister": "^2.1.0",
         "resolve-url-loader": "^2.3.0",
         "style-loader": "^0.20.3",
         "tailwindcss": "^0.6.4",
