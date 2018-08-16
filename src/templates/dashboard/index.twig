@@ -25,33 +25,32 @@
 {% endblock %}
 
 {% block content %}
-    <div id="dash">
-        <p>${message}</p>
-        <confetti>
-        </confetti>
-    </div>
-    <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
-    <p class="textline"></p>
-    <div class="field readable">
-        {% if showWelcome %}
-            <div class="readable" style="text-align:center; margin:0 auto; padding: 5% 10%;">
-                <img src="{{ baseAssetsUrl ~ '/img/Retour-icon.svg' }}"
-                     width="30%" height="auto"/>
-                <h2>Thanks for using Retour!</h2>
-                <p>
-                    This Dashboard will show you ...
-                </p>
-                <p>
-                    Retour for Craft CMS 3 is ...
-                </p>
-                <p>
-                    We hope you love it!
-                </p>
+    <div id="cp-nav-content">
+        <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
+        <p class="textline"></p>
+        <div class="field readable">
+            {% if showWelcome %}
+                <confetti>
+                </confetti>
+                <div class="readable" style="text-align:center; margin:0 auto; padding: 5% 10%;">
+                    <img src="{{ baseAssetsUrl ~ '/img/Retour-icon.svg' }}"
+                         width="30%" height="auto"/>
+                    <h2>Thanks for using Retour!</h2>
+                    <p>
+                        This Dashboard will show you ...
+                    </p>
+                    <p>
+                        Retour for Craft CMS 3 is ...
+                    </p>
+                    <p>
+                        We hope you love it!
+                    </p>
+                </div>
+            {% endif %}
+            <div class="flex">
             </div>
-        {% endif %}
-        <div class="flex">
-        </div>
 
+        </div>
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}

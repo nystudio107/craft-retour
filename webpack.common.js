@@ -137,6 +137,11 @@ const baseConfig = {
         path: path.resolve(__dirname, pkg.paths.dist.base),
         publicPath: pkg.paths.dist.public
     },
+    resolve: {
+        alias: {
+            'vue': 'vue/dist/vue.esm.js'
+        }
+    },
     module: {
         rules: [
             configureVueLoader(),
@@ -144,9 +149,6 @@ const baseConfig = {
     },
     optimization: {
         splitChunks: {},
-    },
-    resolve: {
-        alias: {}
     },
     plugins: [
         new VueLoaderPlugin(),
