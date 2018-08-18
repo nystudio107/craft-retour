@@ -12,7 +12,10 @@
  * You can see the styles here:
  * https://github.com/tailwindcss/tailwindcss/blob/master/css/preflight.css
  */
-@import "tailwindcss/preflight";
+/**
+ * We don't want these in the AdminCP
+ * @import "tailwindcss/preflight";
+ */
 
 /**
  * This injects any component classes registered by plugins.
@@ -21,7 +24,7 @@
 @import 'tailwindcss/components';
 
 /**
- * Here we add custom component classes; stuff we want loaded 
+ * Here we add custom component classes; stuff we want loaded
  * *before* the utilities so that the utilities can still
  * override them.
  *
