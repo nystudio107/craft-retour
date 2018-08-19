@@ -1,0 +1,13 @@
+{% macro includeLegacyModule(jsModuleName) -%}
+    {% set hashLookup = {
+        
+        
+            "retour": "/cpresources/retour/js/retour-legacy.e1de291de58255793893.js",
+        
+            "dashboard": "/cpresources/retour/js/dashboard-legacy.ed9e6ec1a36799afa02b.js",
+        
+    } %}
+    {# Older browsers load this file (and module-supporting #}
+    {# browsers know *not* to load this file). #}
+    <script nomodule src="{{ hashLookup[jsModuleName] }}"></script>
+{%- endmacro %}
