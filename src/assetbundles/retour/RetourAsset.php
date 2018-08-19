@@ -33,9 +33,6 @@ class RetourAsset extends AssetBundle
         $this->depends = [
             CpAsset::class,
         ];
-        $this->css = [
-            'css/retour.css',
-        ];
 
         parent::init();
     }

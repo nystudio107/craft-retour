@@ -1,3 +1,12 @@
+/*!
+ * @project        nystudio107
+ * @name           vendors~confetti~vue.1889e5ea690862bf957a.js
+ * @author         andrew@nystudio107.com
+ * @build          Sun, Aug 19, 2018 8:03 PM ET
+ * @release        d3ef4d8aa5057d3beb3e3182b5b0dda1a8972804 [develop]
+ * @copyright      Copyright (c) 2018 nystudio107
+ *
+ */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[0],[,,,function(e,t,n){"use strict";n.r(t),function(e,n){
 /*!
  * Vue.js v2.5.17

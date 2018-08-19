@@ -1,0 +1,12 @@
+{% macro includeCssModule(cssModuleName) -%}
+    {% set hashLookup = {
+        
+        
+            "retour": "/cpresources/retour/css/retour.e1de291de58255793893.css",
+        
+            "dashboard": "",
+        
+    } %}
+    <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+{%- endmacro includeCssModule %}
