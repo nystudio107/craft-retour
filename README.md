@@ -4,6 +4,10 @@ Retour allows you to intelligently redirect legacy URLs, so that you don't lose 
 
 ![Screenshot](resources/img/plugin-logo.png)
 
+Related: [Retour for Craft 2.x](https://github.com/nystudio107/retour)
+
+**Note**: _The license fee for this plugin is $59.00 via the Craft Plugin Store._
+
 ## Don't Use This Plugin
 
 No, really. It's not finished yet.
