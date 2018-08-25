@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~dashboard-chart-legacy.94a589c7198c829f7202.js
  * @author         andrew@nystudio107.com
- * @build          Sat, Aug 25, 2018 5:17 AM ET
- * @release        7972773e9bd076cdec2cccef78036a4ae235bf1f [develop]
+ * @build          Sat, Aug 25, 2018 6:33 AM ET
+ * @release        e8b4539a13300b30c24e6b638a08a6481ae69706 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
