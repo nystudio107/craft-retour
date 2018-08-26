@@ -11,8 +11,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use nystudio107\retour\Retour;
-
 use Craft;
 use craft\config\DbConfig;
 use craft\db\Migration;
@@ -52,7 +50,7 @@ class Install extends Migration
         return true;
     }
 
-   /**
+    /**
      * @inheritdoc
      */
     public function safeDown()
@@ -69,7 +67,7 @@ class Install extends Migration
     /**
      * @return bool
      */
-    protected function createTables()
+    protected function createTables(): bool
     {
         $tablesCreated = false;
 
@@ -79,12 +77,44 @@ class Install extends Migration
             $this->createTable(
                 '{{%retour_redirects}}',
                 [
-                    'id' => $this->primaryKey(),
+                    'id'          => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid' => $this->uid(),
-                    'siteId' => $this->integer()->notNull(),
-                    'some_field' => $this->string(255)->notNull()->defaultValue(''),
+                    'uid'         => $this->uid(),
+
+                    'locale'               => $this->string(12)->defaultValue('match'),
+                    'associatedElement'    => $this->integer()->notNull(),
+                    'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
+                    'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
+                    'redirectMatchType'    => $this->string(255)->defaultValue('match'),
+                    'redirectDestUrl'      => $this->string(255)->defaultValue(''),
+                    'redirectHttpCode'     => $this->integer()->defaultValue(301),
+                    'hitCount'             => $this->integer()->defaultValue(1),
+                    'hitLastTime'          => $this->dateTime()->notNull(),
+                ]
+            );
+        }
+
+        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_static_redirects}}');
+        if ($tableSchema === null) {
+            $tablesCreated = true;
+            $this->createTable(
+                '{{%retour_static_redirects}}',
+                [
+                    'id'          => $this->primaryKey(),
+                    'dateCreated' => $this->dateTime()->notNull(),
+                    'dateUpdated' => $this->dateTime()->notNull(),
+                    'uid'         => $this->uid(),
+
+                    'locale'               => $this->string(12)->defaultValue('match'),
+                    'associatedElement'    => $this->integer()->notNull(),
+                    'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
+                    'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
+                    'redirectMatchType'    => $this->string(255)->defaultValue('match'),
+                    'redirectDestUrl'      => $this->string(255)->defaultValue(''),
+                    'redirectHttpCode'     => $this->integer()->defaultValue(301),
+                    'hitCount'             => $this->integer()->defaultValue(1),
+                    'hitLastTime'          => $this->dateTime()->notNull(),
                 ]
             );
         }
@@ -95,12 +125,16 @@ class Install extends Migration
             $this->createTable(
                 '{{%retour_stats}}',
                 [
-                    'id' => $this->primaryKey(),
+                    'id'          => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid' => $this->uid(),
-                    'siteId' => $this->integer()->notNull(),
-                    'some_field' => $this->string(255)->notNull()->defaultValue(''),
+                    'uid'         => $this->uid(),
+
+                    'redirectSrcUrl'  => $this->string(255)->defaultValue(''),
+                    'referrerUrl'     => $this->string(2000)->defaultValue(''),
+                    'hitCount'        => $this->integer()->defaultValue(1),
+                    'hitLastTime'     => $this->dateTime()->notNull(),
+                    'handledByRetour' => $this->boolean()->defaultValue(false),
                 ]
             );
         }
@@ -116,29 +150,11 @@ class Install extends Migration
         $this->createIndex(
             $this->db->getIndexName(
                 '{{%retour_redirects}}',
-                'some_field',
+                'redirectSrcUrlParsed',
                 true
             ),
             '{{%retour_redirects}}',
-            'some_field',
-            true
-        );
-        // Additional commands depending on the db driver
-        switch ($this->driver) {
-            case DbConfig::DRIVER_MYSQL:
-                break;
-            case DbConfig::DRIVER_PGSQL:
-                break;
-        }
-
-        $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'some_field',
-                true
-            ),
-            '{{%retour_stats}}',
-            'some_field',
+            'redirectSrcUrlParsed',
             true
         );
         // Additional commands depending on the db driver
