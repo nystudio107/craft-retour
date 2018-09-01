@@ -21,6 +21,85 @@
             warning: configWarning("pluginName", "retour"),
             errors: settings.getErrors("pluginName"),
         }) }}
+
+        {{ forms.lightswitchField({
+            label: "Create Entry Redirects"|t("retour"),
+            instructions: "Controls whether Retour automatically creates static redirects when an entry's URI changes."|t("retour"),
+            id: "createUriChangeRedirects",
+            name: "createUriChangeRedirects",
+            on: settings.createUriChangeRedirects,
+            warning: configWarning("createUriChangeRedirects", "retour"),
+            errors: settings.getErrors("createUriChangeRedirects"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Strip Query String from 404s"|t("retour"),
+            instructions: "Should the query string be stripped from all 404 URLs before their evaluation?"|t("retour"),
+            id: "alwaysStripQueryString",
+            name: "alwaysStripQueryString",
+            on: settings.alwaysStripQueryString,
+            warning: configWarning("alwaysStripQueryString", "retour"),
+            errors: settings.getErrors("alwaysStripQueryString"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Static Redirect Display"|t("retour"),
+            instructions: "How many static redirects to display in the AdminCP."|t("seomatic"),
+            id: "staticRedirectDisplayLimit",
+            name: "staticRedirectDisplayLimit",
+            size: 5,
+            maxlength: 5,
+            value: settings.staticRedirectDisplayLimit,
+            warning: configWarning("staticRedirectDisplayLimit", "retour"),
+            errors: settings.getErrors("staticRedirectDisplayLimit"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Dynamic Redirect Display"|t("retour"),
+            instructions: "How many dynamic redirects to display in the AdminCP."|t("seomatic"),
+            id: "dynamicRedirectDisplayLimit",
+            name: "dynamicRedirectDisplayLimit",
+            size: 5,
+            maxlength: 5,
+            value: settings.dynamicRedirectDisplayLimit,
+            warning: configWarning("dynamicRedirectDisplayLimit", "retour"),
+            errors: settings.getErrors("dynamicRedirectDisplayLimit"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Strip Query String from Statistics"|t("retour"),
+            instructions: "Should the query string be stripped from the saved statistics source URLs?"|t("retour"),
+            id: "stripQueryStringFromStats",
+            name: "stripQueryStringFromStats",
+            on: settings.stripQueryStringFromStats,
+            warning: configWarning("stripQueryStringFromStats", "retour"),
+            errors: settings.getErrors("stripQueryStringFromStats"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Statistics to Store"|t("retour"),
+            instructions: "How many unqie 404 statistics should be stored before they are trimmed."|t("seomatic"),
+            id: "statsStoredLimit",
+            name: "statsStoredLimit",
+            size: 7,
+            maxlength: 7,
+            value: settings.statsStoredLimit,
+            warning: configWarning("statsStoredLimit", "retour"),
+            errors: settings.getErrors("statsStoredLimit"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Statistics Display"|t("retour"),
+            instructions: "How many 404 statistics should be displayed in the AdminCP."|t("seomatic"),
+            id: "statsDisplayLimit",
+            name: "statsDisplayLimit",
+            size: 7,
+            maxlength: 7,
+            value: settings.statsDisplayLimit,
+            warning: configWarning("statsDisplayLimit", "retour"),
+            errors: settings.getErrors("statsDisplayLimit"),
+        }) }}
+
     {% endnamespace %}
 
     {# include our JavaScript modules #}
