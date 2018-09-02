@@ -6,8 +6,33 @@
     import Vue from 'vue'
     import VueApexCharts from 'vue-apexcharts'
 
+    const chartDataBaseUrl = '/retour/charts/dashboard/';
+
+    // Configure the api endpoint
+    const configureApi = (url) => {
+        return {
+            baseURL: url,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        };
+    };
+    // Query our API endpoint via an XHR GET
+    const queryApi = (api, uri, callback) => {
+        api.get(uri
+        ).then((result) => {
+            if (callback) {
+                callback(result.data);
+            }
+            console.log(result.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    };
+
     Vue.use(VueApexCharts);
 
+    // Our component exports
     export default {
         components: {
             apexcharts: VueApexCharts,
@@ -15,6 +40,20 @@
         props: {
             title: String,
             subTitle: String,
+            range: String,
+        },
+        methods: {
+            // Load in our chart data asynchronously
+            getSeriesData: async function() {
+                const axios = await import(/* webpackChunkName: "axios" */ 'axios');
+                const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
+                await queryApi(chartsAPI, this.range, (data) => {
+                    this.series = data;
+                })
+            }
+        },
+        mounted() {
+            this.getSeriesData();
         },
         data: function() {
             return {
@@ -65,14 +104,12 @@
                         }
                     }
                 },
-                series: [{
-                    name: 'series-1',
-                    data: [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46]
-                },
+                series: [
                     {
-                        name: 'series-2',
-                        data: [47, 45, 54, 38, 56, 53, 61, 27, 54, 43, 19, 46, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 9]
-                    }]
+                        name: 'placeholder',
+                        data: [0]
+                    }
+                ],
             }
         },
     }

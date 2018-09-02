@@ -11,13 +11,13 @@
 
 namespace nystudio107\retour\controllers;
 
-use craft\helpers\UrlHelper;
-use craft\models\Site;
 use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 
 use Craft;
+use craft\helpers\UrlHelper;
+use craft\models\Site;
 use craft\web\Controller;
 
 use yii\base\InvalidConfigException;

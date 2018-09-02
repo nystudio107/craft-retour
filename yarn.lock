@@ -355,20 +355,6 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-apexcharts@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-1.2.0.tgz#827bb3a7aad099beb5f69b31854724c575b040c2"
-  dependencies:
-    core-js "^2.5.7"
-    es6-promise-promise "^1.0.0"
-    svg.draggable.js "^2.2.1"
-    svg.easing.js "^2.0.0"
-    svg.filter.js "^2.0.2"
-    svg.js "^2.6.5"
-    svg.pathmorphing.js "^0.1.3"
-    svg.resize.js "^1.4.1"
-    svg.select.js "^2.1.2"
-
 apexcharts@^1.3.2:
   version "1.3.11"
   resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-1.3.11.tgz#b7cc5b522ccd3b60f351888680510d41ec05ca3b"
@@ -518,6 +504,13 @@ autoprefixer@^8.1.0:
     num2fraction "^1.2.2"
     postcss "^6.0.23"
     postcss-value-parser "^3.2.3"
+
+axios@^0.18.0:
+  version "0.18.0"
+  resolved "http://registry.npmjs.org/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  dependencies:
+    follow-redirects "^1.3.0"
+    is-buffer "^1.1.5"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -2672,6 +2665,12 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
+
+follow-redirects@^1.3.0:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.7.tgz#a39e4804dacb90202bca76a9e2ac10433ca6a69a"
+  dependencies:
+    debug "^3.1.0"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
