@@ -3,8 +3,6 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import VueApexCharts from 'vue-apexcharts'
 
     const chartDataBaseUrl = '/retour/charts/dashboard/';
 
@@ -30,12 +28,10 @@
         })
     };
 
-    Vue.use(VueApexCharts);
-
     // Our component exports
     export default {
         components: {
-            apexcharts: VueApexCharts,
+            'apexcharts': () => import(/* webpackChunkName: "apexcharts" */ 'vue-apexcharts')
         },
         props: {
             title: String,

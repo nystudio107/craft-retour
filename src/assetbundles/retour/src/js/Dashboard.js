@@ -8,7 +8,8 @@ const main = async () => {
         delimiters: ["${", "}"],
         components: {
             'confetti': () => import(/* webpackChunkName: "confetti" */ '../vue/Confetti.vue'),
-            'dashboard-chart': () => import(/* webpackChunkName: "dashboard-chart" */ '../vue/DashboardChart.vue')
+            'dashboard-chart': () => import(/* webpackChunkName: "dashboard-chart" */ '../vue/DashboardChart.vue'),
+            'dashboard-table': () => import(/* webpackChunkName: "dashboard-table" */ '../vue/DashboardTable.vue')
         },
         data: {
         },

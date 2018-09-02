@@ -77,7 +77,7 @@
             "./src/templates/**/*.{twig,html}"
         ],
         "whitelist": [
-            "../css/components.pcss"
+            "./src/assetbundles/retour/src/css/components/tables.css"
         ],
         "whitelistPatterns": [],
         "extensions": [
@@ -140,6 +140,7 @@
         "datatables": "^1.10.18",
         "vue": "^2.5.17",
         "vue-apexcharts": "^1.1.0",
-        "vue-confetti": "^0.4.1"
+        "vue-confetti": "^0.4.1",
+        "vuetable-2": "^1.7.0"
     }
 }

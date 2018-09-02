@@ -381,6 +381,10 @@ class Retour extends Plugin
     protected function customFrontendRoutes(): array
     {
         return [
+            // Tables
+            '/retour/tables/dashboard' => 'retour/tables/dashboard',
+            '/retour/tables/dashboard/<page:{handle}>' => 'retour/tables/dashboard',
+            // Charts
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
             // Make webpack async bundle loading work out of published AssetBundles
             '/cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',

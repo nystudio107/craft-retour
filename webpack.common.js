@@ -104,6 +104,28 @@ const configurePostcssLoader = (buildType) => {
     }
 };
 
+// CSS loader
+const configureCssLoader = (buildType) => {
+    if (buildType === LEGACY_CONFIG) {
+        return {
+            test: /\.css$/,
+            use: [
+                'vue-style-loader',
+                {
+                    loader: 'css-loader',
+                    options: {
+                    }
+                }
+            ]
+        };
+    }
+    if (buildType === MODERN_CONFIG) {
+        return {
+            test: /\.css$/,
+            loader: 'ignore-loader'
+        };
+    }
+}
 // Manifest
 const configureManifest = (fileName) => {
     return {
@@ -191,6 +213,7 @@ const legacyConfig = {
             configureBabelLoader(Object.values(pkg.babelConfig.legacyBrowsers)),
             configureImageLoader(),
             configurePostcssLoader(LEGACY_CONFIG),
+            configureCssLoader(LEGACY_CONFIG),
         ],
     },
     plugins: [
@@ -228,6 +251,7 @@ const modernConfig = {
         rules: [
             configureBabelLoader(Object.values(pkg.babelConfig.modernBrowsers)),
             configurePostcssLoader(MODERN_CONFIG),
+            configureCssLoader(MODERN_CONFIG),
         ],
     },
     plugins: [
