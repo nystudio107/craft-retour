@@ -26,8 +26,6 @@
 
 {% block content %}
     <div id="cp-nav-content">
-        <h2>{{ "Retour CP Section body goes here"|t('retour') }}</h2>
-        <p class="textline"></p>
         <div class="field readable">
             {% if showWelcome %}
                 <confetti>
@@ -47,9 +45,19 @@
                     </p>
                 </div>
             {% endif %}
-            <div class="w-full">
-                <dashboard-chart>
-                </dashboard-chart>
+            <div class="flex">
+                <div class="flex-grow shadow">
+                    <dashboard-chart title="Month">
+                    </dashboard-chart>
+                </div>
+                <div class="flex-grow shadow">
+                    <dashboard-chart title="Week">
+                    </dashboard-chart>
+                </div>
+                <div class="flex-grow shadow">
+                    <dashboard-chart title="Day">
+                    </dashboard-chart>
+                </div>
             </div>
 
         </div>

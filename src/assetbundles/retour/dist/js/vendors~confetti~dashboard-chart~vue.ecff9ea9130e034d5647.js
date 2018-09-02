@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~confetti~dashboard-chart~vue.ecff9ea9130e034d5647.js
  * @author         andrew@nystudio107.com
- * @build          Sun, Sep 2, 2018 4:36 AM ET
- * @release        f870607c7b4881b98c2e2882591458cd4d9a6bda [develop]
+ * @build          Sun, Sep 2, 2018 5:02 AM ET
+ * @release        b513d13ab270f4c4c9408a9fc3d2c6e7a77ac22e [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

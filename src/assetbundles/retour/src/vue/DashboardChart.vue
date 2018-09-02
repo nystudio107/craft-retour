@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <apexcharts width="100%" height="200px" type="area" :options="chartOptions" :series="series"></apexcharts>
-    </div>
+    <apexcharts width="100%" height="200px" type="area" :options="chartOptions" :series="series"></apexcharts>
 </template>
 
 <script>
@@ -13,6 +11,10 @@
     export default {
         components: {
             apexcharts: VueApexCharts,
+        },
+        props: {
+            title: String,
+            subTitle: String,
         },
         data: function() {
             return {
@@ -47,7 +49,7 @@
                         min: 0
                     },
                     title: {
-                        text: '$135,965',
+                        text: this.title,
                         offsetX: 0,
                         style: {
                             fontSize: '24px',
@@ -55,7 +57,7 @@
                         }
                     },
                     subtitle: {
-                        text: 'Profits',
+                        text: this.subTitle,
                         offsetX: 0,
                         style: {
                             fontSize: '14px',
