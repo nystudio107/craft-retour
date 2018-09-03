@@ -16,7 +16,7 @@
     export default {
         components: {
             'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue'),
-            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ 'vuetable-2/src/components/VuetablePagination.vue')
+            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ './VuetablePagination.vue')
         },
         props: {},
         data: function() {
