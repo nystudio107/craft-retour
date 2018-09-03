@@ -74,7 +74,7 @@ const configureImageLoader = () => {
 const configurePostcssLoader = (buildType) => {
     if (buildType === LEGACY_CONFIG) {
         return {
-            test: /\.pcss$/,
+            test: /\.(pcss|css)$/,
             use: [
                 MiniCssExtractPlugin.loader,
                 {
@@ -98,7 +98,7 @@ const configurePostcssLoader = (buildType) => {
     }
     if (buildType === MODERN_CONFIG) {
         return {
-            test: /\.pcss$/,
+            test: /\.(pcss|css)$/,
             loader: 'ignore-loader'
         };
     }
@@ -125,7 +125,8 @@ const configureCssLoader = (buildType) => {
             loader: 'ignore-loader'
         };
     }
-}
+};
+
 // Manifest
 const configureManifest = (fileName) => {
     return {
@@ -196,7 +197,18 @@ const baseConfig = {
         ],
     },
     optimization: {
-        splitChunks: {},
+        splitChunks: {
+            cacheGroups: {
+                default: false,
+                common: false,
+                styles: {
+                    name: 'styles',
+                    test: /\.(pcss|css|vue)$/,
+                    chunks: 'all',
+                    enforce: true
+                }
+            }
+        }
     },
     plugins: [
         new VueLoaderPlugin(),
@@ -213,7 +225,6 @@ const legacyConfig = {
             configureBabelLoader(Object.values(pkg.babelConfig.legacyBrowsers)),
             configureImageLoader(),
             configurePostcssLoader(LEGACY_CONFIG),
-            configureCssLoader(LEGACY_CONFIG),
         ],
     },
     plugins: [
@@ -225,7 +236,6 @@ const legacyConfig = {
         new MiniCssExtractPlugin({
             path: path.resolve(__dirname, pkg.paths.dist.base),
             filename: path.join('./css', '[name].[chunkhash].css'),
-            chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin(
             pkg.paths.copyFiles
@@ -251,7 +261,6 @@ const modernConfig = {
         rules: [
             configureBabelLoader(Object.values(pkg.babelConfig.modernBrowsers)),
             configurePostcssLoader(MODERN_CONFIG),
-            configureCssLoader(MODERN_CONFIG),
         ],
     },
     plugins: [

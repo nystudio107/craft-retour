@@ -18,6 +18,7 @@
                 fields: [
                     {
                         name: 'redirectSrcUrl',
+                        sortField: 'redirectSrcUrl',
                         title: '404 File Not Found URL',
                         titleClass: 'center',
                         dataClass: 'center',
@@ -26,6 +27,7 @@
                     },
                     {
                         name: 'referrerUrl',
+                        sortField: 'referrerUrl',
                         title: 'Last Referrer URL',
                         titleClass: 'center',
                         dataClass: 'center',
@@ -33,18 +35,21 @@
                     },
                     {
                         name: 'hitCount',
+                        sortField: 'hitCount',
                         title: 'Hits',
                         titleClass: 'center',
                         dataClass: 'center',
                     },
                     {
                         name: 'hitLastTime',
+                        sortField: 'hitLastTime',
                         title: 'Last Hit',
                         titleClass: 'center',
                         dataClass: 'center',
                     },
                     {
                         name: 'handledByRetour',
+                        sortField: 'hitLastTime',
                         title: 'Handled',
                         titleClass: 'center',
                         dataClass: 'center',
@@ -52,6 +57,7 @@
                     },
                     {
                         name: 'addLink',
+                        sortField: 'addLink',
                         title: '',
                         titleClass: 'center',
                         dataClass: 'center',

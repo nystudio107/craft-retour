@@ -77,7 +77,8 @@
             "./src/templates/**/*.{twig,html}"
         ],
         "whitelist": [
-            "./src/assetbundles/retour/src/css/components/tables.css"
+            "./src/assetbundles/retour/src/css/components/tables.css",
+            "./node_modules/vuetable-2/dist/vuetable-2.css"
         ],
         "whitelistPatterns": [],
         "extensions": [

@@ -71,8 +71,6 @@ const configurePurgeCss = () => {
 const configureOptimization = (buildType) => {
     if (buildType === LEGACY_CONFIG) {
         return {
-            splitChunks: {
-            },
             minimizer: [
                 new UglifyJsPlugin({
                     cache: true,
@@ -94,7 +92,6 @@ const configureOptimization = (buildType) => {
     }
     if (buildType === MODERN_CONFIG) {
         return {
-            splitChunks: {},
             minimizer: [
                 new UglifyJsPlugin({
                     cache: true,
