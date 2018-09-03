@@ -1,18 +1,24 @@
 <template>
-    <vuetable ref="vuetable"
-              api-url="/retour/tables/dashboard"
-              :fields="fields"
-    ></vuetable>
+    <div>
+        <vuetable ref="vuetable"
+                  api-url="/retour/tables/dashboard"
+                  :fields="fields"
+                  @vuetable:pagination-data="onPaginationData"
+        ></vuetable>
+        <vuetable-pagination ref="pagination"
+                             @vuetable-pagination:change-page="onChangePage"
+        ></vuetable-pagination>
+    </div>
 </template>
 
 <script>
     // Our component exports
     export default {
         components: {
-            'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue')
+            'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue'),
+            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ 'vuetable-2/src/components/VuetablePagination.vue')
         },
-        props: {
-        },
+        props: {},
         data: function() {
             return {
                 fields: [
@@ -67,6 +73,12 @@
             }
         },
         methods: {
+            onPaginationData (paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData)
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page)
+            },
             urlFormatter(value) {
                 if (value === '') {
                     return '';

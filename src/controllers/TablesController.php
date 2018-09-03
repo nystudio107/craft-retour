@@ -26,7 +26,19 @@ class TablesController extends Controller
     // =========================================================================
 
     const TEST_DATA = [
-        'data' => [
+        'links' => [
+            'pagination' => [
+                'total' => 200,
+                'per_page' => 15,
+                'current_page' => 1,
+                'last_page' => 14,
+                'next_page_url' => 'https://vuetable.ratiw.net/api/users?page=2',
+                'prev_page_url' => null,
+                'from' => 1,
+                'to' => 15,
+            ],
+        ],
+        'data'  => [
             [
                 'redirectSrcUrl'  => 'Andrew',
                 'referrerUrl'     => 'andrew@AmbrosiaSW.com',

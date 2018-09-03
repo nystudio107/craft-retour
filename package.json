@@ -74,11 +74,11 @@
     },
     "purgeCss": {
         "paths": [
-            "./src/templates/**/*.{twig,html}"
+            "./src/templates/**/*.{twig,html}",
+            "./node_modules/vuetable-2/src/components/**/*.{vue,html}"
         ],
         "whitelist": [
-            "./src/assetbundles/retour/src/css/components/tables.css",
-            "./node_modules/vuetable-2/dist/vuetable-2.css"
+            "./src/assetbundles/retour/src/css/components/tables.css"
         ],
         "whitelistPatterns": [],
         "extensions": [
