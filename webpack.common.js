@@ -202,7 +202,7 @@ const baseConfig = {
                 default: false,
                 common: false,
                 styles: {
-                    name: 'styles',
+                    name: pkg.vars.cssName,
                     test: /\.(pcss|css|vue)$/,
                     chunks: 'all',
                     enforce: true

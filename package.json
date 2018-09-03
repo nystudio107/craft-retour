@@ -90,8 +90,8 @@
     },
     "urls": {},
     "vars": {
-        "cssName": "retour.css",
-        "jsName": "retour.js"
+        "cssName": "styles",
+        "jsName": "retour"
     },
     "devDependencies": {
         "autoprefixer": "^8.1.0",
