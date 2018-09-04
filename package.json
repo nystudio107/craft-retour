@@ -51,7 +51,7 @@
     },
     "entries": {
         "dashboard": "Dashboard.js",
-        "redirects": "Retour.js",
+        "redirects": "Redirects.js",
         "retour": "Retour.js"
     },
     "babelConfig": {

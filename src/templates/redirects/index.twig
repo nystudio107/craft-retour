@@ -26,12 +26,12 @@
 
 {% block actionButton %}
     <div class="buttons">
-        <div class="retour-htaccess-container">
-            <form id="htaccess-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+        <div class="retour-import-container">
+            <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                 {{ getCsrfInput() }}
-                <input type="hidden" name="action" value="retour/importHtaccess">
-                <input type="file" name="file" id="file" class="inputfile" accept=".htaccess|text/*" onchange="this.form.submit();" />
-                <label class="btn" for="file">Import .htaccess File</label>
+                <input type="hidden" name="action" value="retour/import-file">
+                <input type="file" name="file" id="retour-file" class="retour-inputfile" accept=".csv|text/*" onchange="this.form.submit();" />
+                <label class="btn" for="retour-file">Import CSV File</label>
             </form>
         </div>
         <a href="{{ url('retour/new') }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>

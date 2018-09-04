@@ -1,7 +1,7 @@
 <template>
     <div>
         <vuetable ref="vuetable"
-                  api-url="/retour/tables/redirects"
+                  api-url="/retour/tables/dashboard"
                   :per-page="20"
                   :fields="fields"
                   :css="css"
