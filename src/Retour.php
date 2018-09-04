@@ -115,6 +115,12 @@ class Retour extends Plugin
                 'url' => 'retour/dashboard',
             ];
         }
+        if ($currentUser->can('retour:redirects')) {
+            $subNavs['redirects'] = [
+                'label' => 'Redirects',
+                'url' => 'retour/redirects',
+            ];
+        }
         if ($currentUser->can('retour:settings')) {
             $subNavs['settings'] = [
                 'label' => 'Settings',
@@ -366,9 +372,10 @@ class Retour extends Plugin
     {
         return [
             'retour' => 'retour/cp-nav/dashboard',
+            'retour/redirects' => 'retour/cp-nav/redirects',
+            'retour/redirects/<siteHandle:{handle}>' => 'retour/cp-nav/redirects',
             'retour/dashboard' => 'retour/cp-nav/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/cp-nav/dashboard',
-
             'retour/settings' => 'retour/cp-nav/plugin-settings',
         ];
     }

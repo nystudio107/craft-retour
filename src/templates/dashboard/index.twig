@@ -3,7 +3,7 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour Settings index.twig
+ * Retour Dashboard index.twig
  *
  * @author    nystudio107
  * @copyright Copyright (c) 2018 nystudio107
@@ -13,7 +13,7 @@
  */
 #}
 
-{% requirePermission "retour:plugin-settings" %}
+{% requirePermission "retour:dashboard" %}
 
 {% extends "retour/_layouts/retour-cp.twig" %}
 
@@ -22,6 +22,12 @@
 
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+        <a href="{{ url('retour/clearStats') }}" class="btn delete icon">{{ "Clear Stats"|t }}</a>
+    </div>
 {% endblock %}
 
 {% block content %}

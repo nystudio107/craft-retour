@@ -1,0 +1,51 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Redirects index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:redirects" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import includeJsModule %}
+
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+        <div class="retour-htaccess-container">
+            <form id="htaccess-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                {{ getCsrfInput() }}
+                <input type="hidden" name="action" value="retour/importHtaccess">
+                <input type="file" name="file" id="file" class="inputfile" accept=".htaccess|text/*" onchange="this.form.submit();" />
+                <label class="btn" for="file">Import .htaccess File</label>
+            </form>
+        </div>
+        <a href="{{ url('retour/new') }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="field readable">
+            <redirects-table>
+            </redirects-table>
+        </div>
+    </div>
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {{ includeJsModule("redirects") }}
+{% endblock %}

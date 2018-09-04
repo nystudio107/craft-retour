@@ -13,6 +13,7 @@ namespace nystudio107\retour\controllers;
 
 use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 
 use Craft;
@@ -51,6 +52,14 @@ class CpNavController extends Controller
     // Public Methods
     // =========================================================================
 
+    /**
+     * @param string|null $siteHandle
+     * @param bool        $showWelcome
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     * @throws \yii\web\ForbiddenHttpException
+     */
     public function actionDashboard(string $siteHandle = null, bool $showWelcome = false): Response
     {
         $variables = [];
@@ -95,6 +104,55 @@ class CpNavController extends Controller
         return $this->renderTemplate('retour/dashboard/index', $variables);
     }
 
+    /**
+     * @param string|null $siteHandle
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionRedirects(string $siteHandle = null): Response
+    {
+        $variables = [];
+        // Get the site to edit
+        $siteId = $this->getSiteIdFromHandle($siteHandle);
+        $pluginName = Retour::$plugin->getSettings()->pluginName;
+        $templateTitle = Craft::t('retour', 'Redirects');
+        $view = Craft::$app->getView();
+        // Asset bundle
+        try {
+            $view->registerAssetBundle(RetourRedirectsAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+        $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/retour/assetbundles/retour/dist',
+            true
+        );
+        // Enabled sites
+        $this->setMultiSiteVariables($siteHandle, $siteId, $variables);
+        $variables['controllerHandle'] = 'dashboard';
+
+        // Basic variables
+        $variables['fullPageForm'] = false;
+        $variables['docsUrl'] = self::DOCUMENTATION_URL;
+        $variables['pluginName'] = $pluginName;
+        $variables['title'] = $templateTitle;
+        $variables['crumbs'] = [
+            [
+                'label' => $pluginName,
+                'url' => UrlHelper::cpUrl('retour'),
+            ],
+            [
+                'label' => $templateTitle,
+                'url' => UrlHelper::cpUrl('retour/redirects'),
+            ],
+        ];
+        $variables['selectedSubnavItem'] = 'redirects';
+
+        // Render the template
+        return $this->renderTemplate('retour/redirects/index', $variables);
+    }
 
     /**
      * Plugin settings

@@ -1,4 +1,4 @@
-// Dashboard main
+// Redirects main
 const main = async () => {
     // Async load the vue module
     const Vue = await import(/* webpackChunkName: "vue" */ 'vue');
@@ -6,9 +6,7 @@ const main = async () => {
     const vm = new Vue.default({
         el: "#cp-nav-content",
         components: {
-            'confetti': () => import(/* webpackChunkName: "confetti" */ '../vue/Confetti.vue'),
-            'dashboard-chart': () => import(/* webpackChunkName: "dashboard-chart" */ '../vue/DashboardChart.vue'),
-            'dashboard-table': () => import(/* webpackChunkName: "dashboard-table" */ '../vue/DashboardTable.vue')
+            'redirects-table': () => import(/* webpackChunkName: "redirects-table" */ '../vue/RedirectsTable.vue')
         },
         data: {
         },

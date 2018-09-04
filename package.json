@@ -50,8 +50,9 @@
         "templates": "./src/templates/"
     },
     "entries": {
-        "retour": "Retour.js",
-        "dashboard": "Dashboard.js"
+        "dashboard": "Dashboard.js",
+        "redirects": "Retour.js",
+        "retour": "Retour.js"
     },
     "babelConfig": {
         "legacyBrowsers": [
