@@ -7,4 +7,30 @@
 
 table.vuetable {
   width: 100%;
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+th.vuetable-th-redirectSrcUrl {
+  width: 34%!important;
+}
+
+th.vuetable-th-referrerUrl {
+  width: 34%!important;
+}
+
+th.vuetable-th-hitCount {
+  width: 5%!important;
+}
+
+th.vuetable-th-hitLastTime {
+  width: 20%!important;
+}
+
+th.vuetable-th-handledByRetour {
+  width: 5%!important;
+}
+
+th.vuetable-th-addLink {
+  width: 5%!important;
 }

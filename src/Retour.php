@@ -383,7 +383,6 @@ class Retour extends Plugin
         return [
             // Tables
             '/retour/tables/dashboard' => 'retour/tables/dashboard',
-            '/retour/tables/dashboard/<page:{handle}>' => 'retour/tables/dashboard',
             // Charts
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
             // Make webpack async bundle loading work out of published AssetBundles

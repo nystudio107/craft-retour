@@ -2,7 +2,9 @@
     <div>
         <vuetable ref="vuetable"
                   api-url="/retour/tables/dashboard"
+                  :per-page="20"
                   :fields="fields"
+                  :css="css"
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
         <vuetable-pagination ref="pagination"
@@ -21,6 +23,18 @@
         props: {},
         data: function() {
             return {
+                css: {
+                    tableClass: 'data fullwidth',
+                    ascendingIcon: 'ordered asc',
+                    descendingIcon: 'ordered desc'
+                },
+                sortOrder: [
+                    {
+                        field: 'hitCount',
+                        sortField: 'hitCount',
+                        direction: 'desc'
+                    }
+                ],
                 fields: [
                     {
                         name: 'redirectSrcUrl',
