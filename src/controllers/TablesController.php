@@ -115,7 +115,6 @@ class TablesController extends Controller
                 'to'            => $offset + $per_page,
             ];
         }
-        Craft::error(print_r($data, true));
 
         return $this->asJson($data);
     }

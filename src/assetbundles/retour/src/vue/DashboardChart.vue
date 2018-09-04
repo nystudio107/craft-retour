@@ -6,6 +6,13 @@
 
     const chartDataBaseUrl = '/retour/charts/dashboard/';
 
+    // Get the largest number from the passed in arrays
+    const largestNumber = (mainArray) => {
+        return mainArray.map(function(subArray) {
+            return Math.max.apply(null, subArray);
+        });
+    };
+
     // Configure the api endpoint
     const configureApi = (url) => {
         return {
@@ -44,6 +51,8 @@
                 const axios = await import(/* webpackChunkName: "axios" */ 'axios');
                 const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
                 await queryApi(chartsAPI, this.range, (data) => {
+                    // This doesn't work:
+                    this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
                     this.series = data;
                 })
             }
@@ -62,7 +71,6 @@
                         sparkline: {
                             enabled: true
                         },
-
                     },
                     colors: ['#008FFB', '#DCE6EC'],
                     stroke: {
@@ -81,7 +89,8 @@
                         },
                     },
                     yaxis: {
-                        min: 0
+                        min: 0,
+                        max: 0,
                     },
                     title: {
                         text: this.title,

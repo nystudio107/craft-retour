@@ -11,6 +11,9 @@
 
 namespace nystudio107\retour\controllers;
 
+use Craft;
+use craft\db\Query;
+use craft\helpers\ArrayHelper;
 use craft\web\Controller;
 
 use yii\web\Response;
@@ -58,16 +61,45 @@ class ChartsController extends Controller
     public function actionDashboard(string $range = 'day'): Response
     {
         $data = [];
+        $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
         switch ($range) {
             case 'day':
-                $data = self::TEST_DATA;
+                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
                 break;
             case 'week':
-                $data = self::TEST_DATA;
+                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 WEEK) AND CURRENT_DATE()';
                 break;
             case 'month':
-                $data = self::TEST_DATA;
+                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 MONTH) AND CURRENT_DATE()';
                 break;
+        }
+
+        $stats = (new Query())
+            ->from('{{%retour_stats}}')
+            ->select([
+                'COUNT(redirectSrcUrl) AS cnt'
+            ])
+            ->where("hitLastTime {$whereQuery}")
+            ->groupBy('DAY(hitLastTime)')
+            ->all();
+        $handledStats = (new Query())
+            ->from('{{%retour_stats}}')
+            ->select([
+                'COUNT(redirectSrcUrl) AS cnt'
+            ])
+            ->where("hitLastTime {$whereQuery}")
+            ->andWhere('handledByRetour IS TRUE')
+            ->groupBy('DAY(hitLastTime)')
+            ->all();
+        if ($stats && $handledStats) {
+            $data[] = [
+                'name' => '404 hits',
+                'data' => ArrayHelper::getColumn($stats, 'cnt')
+            ];
+            $data[] = [
+                'name' => 'Handled 404 hits',
+                'data' => ArrayHelper::getColumn($handledStats, 'cnt')
+            ];
         }
 
         return $this->asJson($data);
