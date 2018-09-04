@@ -76,7 +76,8 @@
     "purgeCss": {
         "paths": [
             "./src/templates/**/*.{twig,html}",
-            "./node_modules/vuetable-2/src/components/**/*.{vue,html}"
+            "./node_modules/vuetable-2/src/components/**/*.{vue,html}",
+            "./src/assetbundles/retour/src/vue/**/*.{vue,html}"
         ],
         "whitelist": [
             "./src/assetbundles/retour/src/css/components/tables.css"

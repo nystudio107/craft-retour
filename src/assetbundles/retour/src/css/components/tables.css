@@ -20,17 +20,26 @@ th.vuetable-th-referrerUrl {
 }
 
 th.vuetable-th-hitCount {
-  width: 5%!important;
+  width: 6%!important;
+  text-align: right!important;
 }
 
 th.vuetable-th-hitLastTime {
-  width: 20%!important;
+  width: 18%!important;
 }
 
 th.vuetable-th-handledByRetour {
-  width: 5%!important;
+  width: 6%!important;
 }
 
 th.vuetable-th-addLink {
   width: 5%!important;
+}
+
+td.text-center {
+  text-align: center!important;
+}
+
+td.text-right {
+  text-align: right!important;
 }

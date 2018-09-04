@@ -77,28 +77,28 @@ class ChartsController extends Controller
         $stats = (new Query())
             ->from('{{%retour_stats}}')
             ->select([
+                '*',
                 'COUNT(redirectSrcUrl) AS cnt'
             ])
             ->where("hitLastTime {$whereQuery}")
             ->groupBy('DAY(hitLastTime)')
             ->all();
-        $handledStats = (new Query())
-            ->from('{{%retour_stats}}')
-            ->select([
-                'COUNT(redirectSrcUrl) AS cnt'
-            ])
-            ->where("hitLastTime {$whereQuery}")
-            ->andWhere('handledByRetour IS TRUE')
-            ->groupBy('DAY(hitLastTime)')
-            ->all();
+        $handledStats = $stats;
+        foreach ($handledStats as &$handledStat) {
+            if ($handledStat['handledByRetour'] != 1) {
+                $handledStat['cnt'] = 0;
+            }
+        }
         if ($stats && $handledStats) {
             $data[] = [
                 'name' => '404 hits',
-                'data' => ArrayHelper::getColumn($stats, 'cnt')
+                'data' => ArrayHelper::getColumn($stats, 'cnt'),
+                'labels' => ArrayHelper::getColumn($stats, 'redirectSrcUrl'),
             ];
             $data[] = [
                 'name' => 'Handled 404 hits',
-                'data' => ArrayHelper::getColumn($handledStats, 'cnt')
+                'data' => ArrayHelper::getColumn($handledStats, 'cnt'),
+                'labels' => ArrayHelper::getColumn($stats, 'redirectSrcUrl'),
             ];
         }
 

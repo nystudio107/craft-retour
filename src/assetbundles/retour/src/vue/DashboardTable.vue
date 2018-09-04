@@ -57,8 +57,8 @@
                         name: 'hitCount',
                         sortField: 'hitCount',
                         title: 'Hits',
-                        titleClass: 'center',
-                        dataClass: 'center',
+                        titleClass: 'text-right',
+                        dataClass: 'text-right',
                     },
                     {
                         name: 'hitLastTime',
@@ -71,16 +71,16 @@
                         name: 'handledByRetour',
                         sortField: 'hitLastTime',
                         title: 'Handled',
-                        titleClass: 'center',
-                        dataClass: 'center',
+                        titleClass: 'text-center',
+                        dataClass: 'text-center',
                         callback: 'boolFormatter'
                     },
                     {
                         name: 'addLink',
                         sortField: 'addLink',
                         title: '',
-                        titleClass: 'center',
-                        dataClass: 'center',
+                        titleClass: 'text-center',
+                        dataClass: 'text-center',
                         callback: 'addUrlFormatter'
                     }
                 ],
@@ -102,7 +102,7 @@
                 `;
             },
             boolFormatter(value) {
-                if (value) {
+                if (value == 1) {
                     return `
                 <span style="color: green;">&#x2714;</span>
                 `;

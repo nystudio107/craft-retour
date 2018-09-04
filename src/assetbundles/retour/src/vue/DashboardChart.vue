@@ -51,13 +51,17 @@
                 const axios = await import(/* webpackChunkName: "axios" */ 'axios');
                 const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
                 await queryApi(chartsAPI, this.range, (data) => {
-                    // This doesn't work:
-                    this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
+                    // Clone the chartOptions object, and replace the needed values
+                    const options = Object.assign({}, this.chartOptions);
+                    options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
+                    options.labels = data[0]['labels'];
+                    this.chartOptions = options;
+                    //this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
                     this.series = data;
                 })
             }
         },
-        mounted() {
+        created: function() {
             this.getSeriesData();
         },
         data: function() {
@@ -88,6 +92,7 @@
                             width: 1
                         },
                     },
+                    labels: [],
                     yaxis: {
                         min: 0,
                         max: 0,
