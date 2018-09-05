@@ -9,7 +9,7 @@
             ></vuetable-pagination>
         </div>
         <vuetable ref="vuetable"
-                  api-url="/retour/tables/dashboard"
+                  api-url="/retour/tables/redirects"
                   :per-page="20"
                   :fields="fields"
                   :css="css"
@@ -55,19 +55,34 @@
                     {
                         name: 'redirectSrcUrl',
                         sortField: 'redirectSrcUrl',
-                        title: '404 File Not Found URL',
+                        title: 'Legacy URL Pattern',
                         titleClass: 'center',
                         dataClass: 'center',
-                        callback: 'urlFormatter'
+                        callback: 'editUrlFormatter'
 
                     },
                     {
-                        name: 'referrerUrl',
-                        sortField: 'referrerUrl',
-                        title: 'Last Referrer URL',
+                        name: 'redirectDestUrl',
+                        sortField: 'redirectDestUrl',
+                        title: 'Redirect To',
                         titleClass: 'center',
                         dataClass: 'center',
                         callback: 'urlFormatter'
+                    },
+                    {
+                        name: 'redirectMatchType',
+                        sortField: 'redirectMatchType',
+                        title: 'Match Type',
+                        titleClass: 'text-left',
+                        dataClass: 'text-left',
+                        callback: 'matchFormatter'
+                    },
+                    {
+                        name: 'redirectHttpCode',
+                        sortField: 'redirectHttpCode',
+                        title: 'HTTP Status',
+                        titleClass: 'text-left',
+                        dataClass: 'text-left',
                     },
                     {
                         name: 'hitCount',
@@ -84,20 +99,12 @@
                         dataClass: 'center',
                     },
                     {
-                        name: 'handledByRetour',
-                        sortField: 'hitLastTime',
-                        title: 'Handled',
-                        titleClass: 'text-center',
-                        dataClass: 'text-center',
-                        callback: 'boolFormatter'
-                    },
-                    {
-                        name: 'addLink',
-                        sortField: 'addLink',
+                        name: 'deleteLink',
+                        sortField: 'deleteLink',
                         title: '',
                         titleClass: 'text-center',
                         dataClass: 'text-center',
-                        callback: 'addUrlFormatter'
+                        callback: 'deleteRedirectFormatter',
                     }
                 ],
             }
@@ -128,7 +135,28 @@
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page);
             },
+            matchFormatter(value) {
+                let $label = '';
+                switch (value) {
+                    case 'exactmatch':
+                        $label = 'Exact Match';
+                        break;
+                    case 'regexmatch':
+                        $label = 'RegEx Match';
+                        break;
+                }
+
+                return $label;
+            },
             urlFormatter(value) {
+                if (value === '') {
+                    return '';
+                }
+                return `
+                <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
+                `;
+            },
+            editUrlFormatter(value) {
                 if (value === '') {
                     return '';
                 }
@@ -136,20 +164,10 @@
                 <a class="go" href="${value}" title="${value}">${value}</a>
                 `;
             },
-            boolFormatter(value) {
+            deleteRedirectFormatter(value) {
                 if (value == 1) {
                     return `
-                <span style="color: green;">&#x2714;</span>
-                `;
-                }
-                return `
-                <span style="color: red;">&#x2716;</span>
-                `;
-            },
-            addUrlFormatter(value) {
-                if (value == 1) {
-                    return `
-                <a class="add icon" href="retour/add" title="Add"></a>
+                <a class="delete icon" href="retour/add" title="Delete"></a>
                 `;
                 }
                 return '';

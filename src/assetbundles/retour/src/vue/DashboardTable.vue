@@ -133,7 +133,7 @@
                     return '';
                 }
                 return `
-                <a class="go" href="${value}" title="${value}">${value}</a>
+                <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
                 `;
             },
             boolFormatter(value) {

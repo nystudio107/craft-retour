@@ -3,6 +3,9 @@
 {% set baseUrl = "retour/#{controllerHandle}/" %}
 {% set params = [] %}
 
+{# @TODO: enable when multi-site support is in #}
+{% set showSites = false %}
+
 {% if showSites %}
     <div id="sites-btn" class="btn menubtn" data-icon="world">{{ sitesMenuLabel }}</div>
     

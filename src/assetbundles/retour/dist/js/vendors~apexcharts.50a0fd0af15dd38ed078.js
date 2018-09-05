@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~apexcharts.50a0fd0af15dd38ed078.js
  * @author         andrew@nystudio107.com
- * @build          Wed, Sep 5, 2018 5:16 AM ET
- * @release        788880622f844ca01407bf6a3bc9dc5872578d3e [develop]
+ * @build          Wed, Sep 5, 2018 7:06 PM ET
+ * @release        9217190098d2ab5b4f3daa8fa1e495a14e96dffe [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

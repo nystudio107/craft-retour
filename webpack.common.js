@@ -182,6 +182,11 @@ const configureEntries = () => {
 const baseConfig = {
     name: pkg.name,
     entry: configureEntries(),
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 500
+    },
     output: {
         path: path.resolve(__dirname, pkg.paths.dist.base),
         publicPath: pkg.paths.dist.public

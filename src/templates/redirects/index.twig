@@ -26,7 +26,10 @@
 
 {% block actionButton %}
     <div class="buttons">
-        <div class="retour-import-container">
+        <div class="retour-button-container">
+            <a href="{{ url('retour/export') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+        </div>
+        <div class="retour-button-container">
             <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                 {{ csrfInput() }}
                 <input type="hidden" name="action" value="retour/import-file">

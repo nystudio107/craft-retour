@@ -11,9 +11,10 @@
 
 namespace nystudio107\retour;
 
-use nystudio107\retour\services\Redirects;
-use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\models\Settings;
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\services\Statistics;
+use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
 
 use Craft;
@@ -46,6 +47,7 @@ use yii\web\HttpException;
  * @since     3.0.0
  *
  * @property  Redirects $redirects
+ * @property  Statistics $statistics
  */
 class Retour extends Plugin
 {
@@ -390,6 +392,7 @@ class Retour extends Plugin
         return [
             // Tables
             '/retour/tables/dashboard' => 'retour/tables/dashboard',
+            '/retour/tables/redirects' => 'retour/tables/redirects',
             // Charts
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
             // Make webpack async bundle loading work out of published AssetBundles

@@ -26,6 +26,9 @@
 
 {% block actionButton %}
     <div class="buttons">
+        <div class="retour-button-container">
+            <a href="{{ url('retour/export') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+        </div>
         <a href="{{ url('retour/clearStats') }}" class="btn delete icon">{{ "Clear Stats"|t }}</a>
     </div>
 {% endblock %}

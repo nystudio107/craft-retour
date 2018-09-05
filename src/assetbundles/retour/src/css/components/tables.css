@@ -11,6 +11,10 @@ table.vuetable {
   overflow: hidden;
 }
 
+/**
+ * Dashboard chart
+ */
+
 th.vuetable-th-redirectSrcUrl {
   width: 34%!important;
 }
@@ -36,6 +40,29 @@ th.vuetable-th-addLink {
   width: 5%!important;
 }
 
+/**
+ * Redirects chart
+ */
+
+th.vuetable-th-redirectDestUrl {
+  width: 25%!important;
+}
+
+th.vuetable-th-redirectMatchType {
+  width: 15%!important;
+}
+
+th.vuetable-th-redirectHttpCode {
+  width: 10%!important;
+}
+
+th.vuetable-th-deleteLink {
+  width: 5%!important;
+}
+
+/**
+ * Column alignment
+ */
 td.text-center {
   text-align: center!important;
 }
