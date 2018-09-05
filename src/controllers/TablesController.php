@@ -15,6 +15,7 @@ use Craft;
 use craft\db\Query;
 use craft\web\Controller;
 
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 /**
@@ -48,6 +49,7 @@ class TablesController extends Controller
      * @param string $filter
      *
      * @return Response
+     * @throws ForbiddenHttpException
      */
     public function actionDashboard(
         string $sort = 'hitCount|desc',
@@ -55,6 +57,7 @@ class TablesController extends Controller
         int $per_page = 20,
         $filter = ''
     ): Response {
+        $this->permissionCheck('retour:dashboard');
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
@@ -93,14 +96,14 @@ class TablesController extends Controller
             }
             $count = $query->count();
             $data['links']['pagination'] = [
-                'total'         => $count,
-                'per_page'      => $per_page,
-                'current_page'  => $page,
-                'last_page'     => ceil($count / $per_page),
+                'total' => $count,
+                'per_page' => $per_page,
+                'current_page' => $page,
+                'last_page' => ceil($count / $per_page),
                 'next_page_url' => null,
                 'prev_page_url' => null,
-                'from'          => $offset + 1,
-                'to'            => $offset + ($count > $per_page ? $per_page : $count),
+                'from' => $offset + 1,
+                'to' => $offset + ($count > $per_page ? $per_page : $count),
             ];
         }
 
@@ -116,6 +119,7 @@ class TablesController extends Controller
      * @param string $filter
      *
      * @return Response
+     * @throws ForbiddenHttpException
      */
     public function actionRedirects(
         string $sort = 'hitCount|desc',
@@ -123,6 +127,7 @@ class TablesController extends Controller
         int $per_page = 20,
         $filter = ''
     ): Response {
+        $this->permissionCheck('retour:redirects');
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
@@ -161,14 +166,14 @@ class TablesController extends Controller
             }
             $count = $query->count();
             $data['links']['pagination'] = [
-                'total'         => $count,
-                'per_page'      => $per_page,
-                'current_page'  => $page,
-                'last_page'     => ceil($count / $per_page),
+                'total' => $count,
+                'per_page' => $per_page,
+                'current_page' => $page,
+                'last_page' => ceil($count / $per_page),
                 'next_page_url' => null,
                 'prev_page_url' => null,
-                'from'          => $offset + 1,
-                'to'            => $offset + ($count > $per_page ? $per_page : $count),
+                'from' => $offset + 1,
+                'to' => $offset + ($count > $per_page ? $per_page : $count),
             ];
         }
         Craft::error(print_r($data, true), __METHOD__);
@@ -178,4 +183,20 @@ class TablesController extends Controller
 
     // Protected Methods
     // =========================================================================
+
+    /**
+     * @param string $permission
+     *
+     * @throws ForbiddenHttpException
+     */
+    protected function permissionCheck(string $permission)
+    {
+        if (($currentUser = Craft::$app->getUser()->getIdentity()) === null) {
+            throw new ForbiddenHttpException("Your account has no identity.");
+        }
+
+        if (!$currentUser->can($permission)) {
+            throw new ForbiddenHttpException("Your account doesn't have permission to assign access this resource.");
+        }
+    }
 }

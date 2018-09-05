@@ -16,6 +16,7 @@ use craft\db\Query;
 use craft\helpers\ArrayHelper;
 use craft\web\Controller;
 
+use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 /**
@@ -46,9 +47,11 @@ class ChartsController extends Controller
      * @param string $range
      *
      * @return Response
+     * @throws ForbiddenHttpException
      */
     public function actionDashboard(string $range = 'day'): Response
     {
+        $this->permissionCheck('retour:dashboard');
         $data = [];
         $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
         switch ($range) {
@@ -96,4 +99,20 @@ class ChartsController extends Controller
 
     // Protected Methods
     // =========================================================================
+
+    /**
+     * @param string $permission
+     *
+     * @throws ForbiddenHttpException
+     */
+    protected function permissionCheck(string $permission)
+    {
+        if (($currentUser = Craft::$app->getUser()->getIdentity()) === null) {
+            throw new ForbiddenHttpException("Your account has no identity.");
+        }
+
+        if (!$currentUser->can($permission)) {
+            throw new ForbiddenHttpException("Your account doesn't have permission to assign access this resource.");
+        }
+    }
 }
