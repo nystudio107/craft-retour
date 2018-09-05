@@ -86,7 +86,7 @@ class TablesController extends Controller
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
-
+        // Figure out the sorting type
         if ($sort !== '') {
             if (strpos($sort, '|') === false) {
                 $sortField = $sort;
@@ -94,16 +94,24 @@ class TablesController extends Controller
                 list($sortField, $sortType) = explode('|', $sort);
             }
         }
-
+        // Query the db table
         $offset = ($page - 1) * $per_page;
         $stats = (new Query())
             ->from(['{{%retour_stats}}'])
+            ->offset($offset)
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}")
             ->all();
+        // Add in the `addLink` field
+        foreach ($stats as &$stat) {
+            $stat['addLink'] = !$stat['handledByRetour'];
+        }
+        // Format the data for the API
         if ($stats) {
             $data['data'] = $stats;
-            $count = \count($stats);
+            $count = (new Query())
+                ->from(['{{%retour_stats}}'])
+                ->count();
             $data['links']['pagination'] = [
                 'total'         => $count,
                 'per_page'      => $per_page,
@@ -111,10 +119,11 @@ class TablesController extends Controller
                 'last_page'     => ceil($count / $per_page),
                 'next_page_url' => '/api/users?page=2',
                 'prev_page_url' => null,
-                'from'          => $offset,
+                'from'          => $offset + 1,
                 'to'            => $offset + $per_page,
             ];
         }
+        Craft::error(print_r($data, true), __METHOD__);
 
         return $this->asJson($data);
     }

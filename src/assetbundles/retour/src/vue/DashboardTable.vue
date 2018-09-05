@@ -7,6 +7,8 @@
                   :css="css"
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
+        <vuetable-pagination-info ref="paginationInfo"
+        ></vuetable-pagination-info>
         <vuetable-pagination ref="pagination"
                              @vuetable-pagination:change-page="onChangePage"
         ></vuetable-pagination>
@@ -18,7 +20,8 @@
     export default {
         components: {
             'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue'),
-            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ './VuetablePagination.vue')
+            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ './VuetablePagination.vue'),
+            'vuetable-pagination-info': () => import(/* webpackChunkName: "vuetable-pagination-info" */ './VuetablePaginationInfo.vue'),
         },
         props: {},
         data: function() {
@@ -88,10 +91,11 @@
         },
         methods: {
             onPaginationData (paginationData) {
-                this.$refs.pagination.setPaginationData(paginationData)
+                this.$refs.pagination.setPaginationData(paginationData);
+                this.$refs.paginationInfo.setPaginationData(paginationData);
             },
             onChangePage (page) {
-                this.$refs.vuetable.changePage(page)
+                this.$refs.vuetable.changePage(page);
             },
             urlFormatter(value) {
                 if (value === '') {
@@ -112,12 +116,12 @@
                 `;
             },
             addUrlFormatter(value) {
-                if (value === '') {
-                    return '';
-                }
-                return `
+                if (value == 1) {
+                    return `
                 <a class="add icon" href="retour/add" title="Add"></a>
                 `;
+                }
+                return '';
             }
         }
     }

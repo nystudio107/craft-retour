@@ -43,3 +43,7 @@ td.text-center {
 td.text-right {
   text-align: right!important;
 }
+
+div.pagination a.active {
+  border: 1px solid #9d9d9d;
+}

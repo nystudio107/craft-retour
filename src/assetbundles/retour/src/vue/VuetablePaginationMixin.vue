@@ -5,19 +5,19 @@ export default {
       type: Object,
       default () {
         return {
-          wrapperClass: 'vuetable ui right floated pagination menu',
+          wrapperClass: 'vuetable pagination float-right py-4',
           activeClass: 'active large',
           disabledClass: 'disabled',
-          pageClass: 'item',
-          linkClass: 'icon item',
+          pageClass: 'item p-3 bg-grey-lightest',
+          linkClass: 'item p-3 bg-grey-lightest',
           paginationClass: 'ui bottom attached segment grid',
           paginationInfoClass: 'left floated left aligned six wide column',
           dropdownClass: 'ui search dropdown',
           icons: {
-            first: 'angle double left icon',
-            prev: 'left chevron icon',
-            next: 'right chevron icon',
-            last: 'angle double right icon',
+            first: '',
+            prev: '',
+            next: '',
+            last: '',
           }
         }
       }
