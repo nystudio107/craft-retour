@@ -78,10 +78,11 @@ class TablesController extends Controller
      * @param string $sort
      * @param int    $page
      * @param int    $per_page
+     * @param string $filter
      *
      * @return Response
      */
-    public function actionDashboard(string $sort = 'hitCount|desc', int $page = 1, int $per_page = 20): Response
+    public function actionDashboard(string $sort = 'hitCount|desc', int $page = 1, int $per_page = 20, $filter = ''): Response
     {
         $data = [];
         $sortField = 'hitCount';
@@ -96,12 +97,15 @@ class TablesController extends Controller
         }
         // Query the db table
         $offset = ($page - 1) * $per_page;
-        $stats = (new Query())
+        $query = (new Query())
             ->from(['{{%retour_stats}}'])
             ->offset($offset)
             ->limit($per_page)
-            ->orderBy("{$sortField} {$sortType}")
-            ->all();
+            ->orderBy("{$sortField} {$sortType}");
+        if ($filter !== '') {
+            $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
+        }
+        $stats = $query->all();
         // Add in the `addLink` field
         foreach ($stats as &$stat) {
             $stat['addLink'] = !$stat['handledByRetour'];
@@ -109,9 +113,12 @@ class TablesController extends Controller
         // Format the data for the API
         if ($stats) {
             $data['data'] = $stats;
-            $count = (new Query())
-                ->from(['{{%retour_stats}}'])
-                ->count();
+            $query = (new Query())
+                ->from(['{{%retour_stats}}']);
+            if ($filter !== '') {
+                $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
+            }
+            $count = $query->count();
             $data['links']['pagination'] = [
                 'total'         => $count,
                 'per_page'      => $per_page,
@@ -120,7 +127,7 @@ class TablesController extends Controller
                 'next_page_url' => '/api/users?page=2',
                 'prev_page_url' => null,
                 'from'          => $offset + 1,
-                'to'            => $offset + $per_page,
+                'to'            => $offset + ($count > $per_page ? $per_page : $count),
             ];
         }
         Craft::error(print_r($data, true), __METHOD__);

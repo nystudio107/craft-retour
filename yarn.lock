@@ -6475,6 +6475,10 @@ vue-confetti@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/vue-confetti/-/vue-confetti-0.4.1.tgz#ee48fb531d90c89b798678aa90ff2d60ca5768b2"
 
+vue-events@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vue-events/-/vue-events-3.1.0.tgz#8e23121c345b4ff32ee054f9795995f3e344b27d"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"

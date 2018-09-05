@@ -53,8 +53,10 @@
                 await queryApi(chartsAPI, this.range, (data) => {
                     // Clone the chartOptions object, and replace the needed values
                     const options = Object.assign({}, this.chartOptions);
-                    options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
-                    options.labels = data[0]['labels'];
+                    if (data[0] !== undefined) {
+                        options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
+                        options.labels = data[0]['labels'];
+                    }
                     this.chartOptions = options;
                     //this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
                     this.series = data;
