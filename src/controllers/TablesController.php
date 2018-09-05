@@ -27,39 +27,6 @@ class TablesController extends Controller
     // Constants
     // =========================================================================
 
-    const TEST_DATA = [
-        'links' => [
-            'pagination' => [
-                'total'         => 200,
-                'per_page'      => 15,
-                'current_page'  => 1,
-                'last_page'     => 14,
-                'next_page_url' => 'https://vuetable.ratiw.net/api/users?page=2',
-                'prev_page_url' => null,
-                'from'          => 1,
-                'to'            => 15,
-            ],
-        ],
-        'data'  => [
-            [
-                'redirectSrcUrl'  => 'Andrew',
-                'referrerUrl'     => 'andrew@AmbrosiaSW.com',
-                'hitCount'        => 10,
-                'hitLastTime'     => 'May 2nd',
-                'handledByRetour' => 'May 2nd',
-                'addLink'         => 'May 2nd',
-            ],
-            [
-                'redirectSrcUrl'  => 'Polly',
-                'referrerUrl'     => 'polly@nystudio107.com',
-                'hitCount'        => 5,
-                'hitLastTime'     => 'May 2nd',
-                'handledByRetour' => 'May 2nd',
-                'addLink'         => 'May 2nd',
-            ],
-        ],
-    ];
-
     // Protected Properties
     // =========================================================================
 
@@ -82,8 +49,12 @@ class TablesController extends Controller
      *
      * @return Response
      */
-    public function actionDashboard(string $sort = 'hitCount|desc', int $page = 1, int $per_page = 20, $filter = ''): Response
-    {
+    public function actionDashboard(
+        string $sort = 'hitCount|desc',
+        int $page = 1,
+        int $per_page = 20,
+        $filter = ''
+    ): Response {
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
@@ -104,6 +75,7 @@ class TablesController extends Controller
             ->orderBy("{$sortField} {$sortType}");
         if ($filter !== '') {
             $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
+            $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
         }
         $stats = $query->all();
         // Add in the `addLink` field
@@ -117,6 +89,7 @@ class TablesController extends Controller
                 ->from(['{{%retour_stats}}']);
             if ($filter !== '') {
                 $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
+                $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
             }
             $count = $query->count();
             $data['links']['pagination'] = [
