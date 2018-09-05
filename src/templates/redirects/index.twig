@@ -28,7 +28,7 @@
     <div class="buttons">
         <div class="retour-import-container">
             <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-                {{ getCsrfInput() }}
+                {{ csrfInput() }}
                 <input type="hidden" name="action" value="retour/import-file">
                 <input type="file" name="file" id="retour-file" class="retour-inputfile" accept=".csv|text/*" onchange="this.form.submit();" />
                 <label class="btn" for="retour-file">Import CSV File</label>
