@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           redirects-table-legacy.71b684c927ea5e783380.js
  * @author         andrew@nystudio107.com
- * @build          Wed, Sep 5, 2018 4:59 AM ET
- * @release        b9e18ba92fb58c39d98f859700a4c6bb3d7af1a1 [develop]
+ * @build          Wed, Sep 5, 2018 5:16 AM ET
+ * @release        788880622f844ca01407bf6a3bc9dc5872578d3e [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
