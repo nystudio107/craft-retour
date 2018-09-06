@@ -21,6 +21,7 @@ use Craft;
 use craft\base\Component;
 use craft\helpers\UrlHelper;
 
+use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
@@ -125,7 +126,12 @@ class Redirects extends Component
             // Increment the stats
             Retour::$plugin->statistics->incrementStatistics($url, true);
             // Redirect the request away
-            $response->redirect($dest, $status);
+            $response->redirect($dest, $status)->send();
+            try {
+                Craft::$app->end();
+            } catch (ExitException $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
         }
 
         return false;

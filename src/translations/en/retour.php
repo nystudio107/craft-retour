@@ -37,4 +37,13 @@ return [
     'Static Redirect Display'                                                                      => 'Static Redirect Display',
     'Statistics to Store'                                                                          => 'Statistics to Store',
     'Strip Query String from Statistics'                                                           => 'Strip Query String from Statistics',
+    'A 404 exception occurred'                                                                     => 'A 404 exception occurred',
+    'Trimmed {rows} from retour_stats table'                                                       => 'Trimmed {rows} from retour_stats table',
+    'Cached redirect saved for {url}'                                                              => 'Cached redirect saved for {url}',
+    'All redirect caches cleared'                                                                  => 'All redirect caches cleared',
+    'Redirecting {url} to {dest} with status {status}'                                             => 'Redirecting {url} to {dest} with status {status}',
+    '404 URL: {url}'                                                                               => '404 URL: {url}',
+    'Cached redirect hit for {url}'                                                                => 'Cached redirect hit for {url}',
+    'Not handled: {url}'                                                                           => 'Not handled: {url}',
+    'Redirect cache miss for site {siteId}, url {url}'                                             => 'Redirect cache miss for site {siteId}, url {url}',
 ];
