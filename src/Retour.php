@@ -51,6 +51,11 @@ use yii\web\HttpException;
  */
 class Retour extends Plugin
 {
+    // Constants
+    // =========================================================================
+
+    const DEVMODE_CACHE_DURATION = 30;
+
     // Static Properties
     // =========================================================================
 
@@ -58,6 +63,16 @@ class Retour extends Plugin
      * @var Retour
      */
     public static $plugin;
+
+    /**
+     * @var Settings
+     */
+    public static $settings;
+
+    /**
+     * @var int
+     */
+    public static $cacheDuration;
 
     // Public Properties
     // =========================================================================
@@ -77,9 +92,12 @@ class Retour extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-        $settings = self::$plugin->getSettings();
-        $this->name = $settings->pluginName;
-
+        // Initialize properties
+        self::$settings = $this->getSettings();
+        $this->name = self::$settings->pluginName;
+        self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
+            ? $this::DEVMODE_CACHE_DURATION
+            : null;
         // Install our event listeners
         $this->installEventListeners();
         // Log that Retour has been loaded
