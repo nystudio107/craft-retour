@@ -160,9 +160,9 @@ class Redirects extends Component
     /**
      * @param $url
      *
-     * @return array
+     * @return bool|array
      */
-    public function getRedirectFromCache($url): array
+    public function getRedirectFromCache($url)
     {
         $cache = Craft::$app->getCache();
         $cacheKey = $this::CACHE_KEY.md5($url);
