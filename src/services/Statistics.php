@@ -11,16 +11,19 @@
 
 namespace nystudio107\retour\services;
 
+
+use nystudio107\retour\Retour;
+use nystudio107\retour\helpers\Text as TextHelper;
+use nystudio107\retour\records\Stats as StatsRecord;
+
+use Craft;
+use craft\base\Component;
 use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
 use craft\helpers\UrlHelper;
-use nystudio107\retour\Retour;
 
-use Craft;
-use craft\base\Component;
-use nystudio107\retour\records\Stats as StatsRecord;
-
+use yii\base\InvalidConfigException;
 use yii\db\Exception;
 
 /**
@@ -41,8 +44,32 @@ class Statistics extends Component
      */
     protected $cachedStatistics;
 
+    /**
+     * @var array
+     */
+    protected $varCharLengths = [
+        'redirectSrcUrl' => 255,
+        'referrerUrl' => 2000,
+    ];
+
     // Public Methods
     // =========================================================================
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        // Get the lengths for the tables for truncation
+        try {
+            $schema = StatsRecord::getTableSchema();
+            $this->varCharLengths['redirectSrcUrl'] = $schema->columns['redirectSrcUrl']->size;
+            $this->varCharLengths['referrerUrl'] = $schema->columns['referrerUrl']->size;
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+    }
 
     /**
      * @return array All of the statistics
@@ -123,17 +150,21 @@ class Statistics extends Component
         // Strip the query string if `stripQueryStringFromStats` is set
         if (Retour::$settings->stripQueryStringFromStats) {
             $url = UrlHelper::stripQueryString($url);
+            $referrer = UrlHelper::stripQueryString($referrer);
         }
+        // Truncate all the things before saving
+        $url = $this->prepStringForDb($url, 'redirectSrcUrl');
+        $referrer = $this->prepStringForDb($referrer, 'referrerUrl');
         // Find any existing retour_stats record
         $stat = StatsRecord::find()
             ->where(['redirectSrcUrl' => $url])
             ->one();
         if ($stat === null) {
             $stat = new StatsRecord();
-            $stat->redirectSrcUrl = StringHelper::encodeMb4($url);
+            $stat->redirectSrcUrl = $url;
             $stat->hitCount = 0;
         }
-        $stat->referrerUrl = StringHelper::encodeMb4($referrer);
+        $stat->referrerUrl = $referrer;
         $stat->hitLastTime = Db::prepareDateForDb(new \DateTime());
         $stat->handledByRetour = $handledInt;
         $stat->hitCount++;
@@ -184,5 +215,23 @@ class Statistics extends Component
                 __METHOD__
             );
         }
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * @param string $text
+     * @param string $attribute
+     *
+     * @return string
+     */
+    protected function prepStringForDb(string $text, string $attribute): string
+    {
+        $cleanedText = TextHelper::cleanupText($text);
+        $cleanedText = StringHelper::encodeMb4($cleanedText);
+        $cleanedText = TextHelper::truncate($cleanedText, $this->varCharLengths[$attribute]);
+
+        return $cleanedText;
     }
 }

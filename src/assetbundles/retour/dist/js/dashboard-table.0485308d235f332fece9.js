@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           dashboard-table.0485308d235f332fece9.js
  * @author         andrew@nystudio107.com
- * @build          Wed, Sep 5, 2018 7:06 PM ET
- * @release        9217190098d2ab5b4f3daa8fa1e495a14e96dffe [develop]
+ * @build          Thu, Sep 6, 2018 6:19 PM ET
+ * @release        d37063f671de93a7c4bad60530297c3defaeabbc [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
