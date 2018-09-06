@@ -11,7 +11,6 @@
 
 namespace nystudio107\retour\services;
 
-
 use nystudio107\retour\Retour;
 use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\records\Stats as StatsRecord;
