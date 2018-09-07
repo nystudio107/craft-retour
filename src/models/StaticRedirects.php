@@ -9,28 +9,39 @@
  * @copyright Copyright (c) 2018 nystudio107
  */
 
-namespace nystudio107\retour\records;
+namespace nystudio107\retour\models;
 
 use nystudio107\retour\Retour;
 
 use Craft;
-use craft\db\ActiveRecord;
+use craft\base\Model;
 
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
  */
-class Redirects extends ActiveRecord
+class StaticRedirects extends Model
 {
-    // Public Static Methods
+    // Public Properties
+    // =========================================================================
+
+    /**
+     * @var string
+     */
+    public $someAttribute = 'Some Default';
+
+    // Public Methods
     // =========================================================================
 
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public function rules()
     {
-        return '{{%retour_redirects}}';
+        return [
+            ['someAttribute', 'string'],
+            ['someAttribute', 'default', 'value' => 'Some Default'],
+        ];
     }
 }

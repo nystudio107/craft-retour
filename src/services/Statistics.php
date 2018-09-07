@@ -12,18 +12,18 @@
 namespace nystudio107\retour\services;
 
 use nystudio107\retour\Retour;
-use nystudio107\retour\helpers\Text as TextHelper;
-use nystudio107\retour\records\Stats as StatsRecord;
+
+use nystudio107\retour\models\Stats as StatsModel;
 
 use Craft;
 use craft\base\Component;
 use craft\db\Query;
 use craft\helpers\Db;
-use craft\helpers\StringHelper;
 use craft\helpers\UrlHelper;
 
-use yii\base\InvalidConfigException;
 use yii\db\Exception;
+
+/** @noinspection MissingPropertyAnnotationsInspection */
 
 /**
  * @author    nystudio107
@@ -43,32 +43,8 @@ class Statistics extends Component
      */
     protected $cachedStatistics;
 
-    /**
-     * @var array
-     */
-    protected $varCharLengths = [
-        'redirectSrcUrl' => 255,
-        'referrerUrl' => 2000,
-    ];
-
     // Public Methods
     // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        // Get the lengths for the tables for truncation
-        try {
-            $schema = StatsRecord::getTableSchema();
-            $this->varCharLengths['redirectSrcUrl'] = $schema->columns['redirectSrcUrl']->size;
-            $this->varCharLengths['referrerUrl'] = $schema->columns['referrerUrl']->size;
-        } catch (InvalidConfigException $e) {
-            Craft::error($e->getMessage(), __METHOD__);
-        }
-    }
 
     /**
      * @return array All of the statistics
@@ -138,8 +114,6 @@ class Statistics extends Component
      */
     public function incrementStatistics(string $url, $handled = false)
     {
-        // Ensure it's an int
-        $handledInt = (int)$handled;
         $url = substr($url, 0, 255);
         $request = Craft::$app->getRequest();
         $referrer = $request->getReferrer();
@@ -151,26 +125,13 @@ class Statistics extends Component
             $url = UrlHelper::stripQueryString($url);
             $referrer = UrlHelper::stripQueryString($referrer);
         }
-        // Truncate all the things before saving
-        $url = $this->prepStringForDb($url, 'redirectSrcUrl');
-        $referrer = $this->prepStringForDb($referrer, 'referrerUrl');
-        // Find any existing retour_stats record
-        $stat = StatsRecord::find()
-            ->where(['redirectSrcUrl' => $url])
-            ->one();
-        if ($stat === null) {
-            $stat = new StatsRecord();
-            $stat->redirectSrcUrl = $url;
-            $stat->hitCount = 0;
+        $statConfig = $this->getStatsConfig($url, $referrer, (int)$handled);
+        if ($statConfig !== false) {
+            // Record the updated statistics
+            $this->recordStatistics($statConfig);
+            // After incrementing a statistic, trim the retour_stats db table
+            $this->trimStatistics();
         }
-        $stat->referrerUrl = $referrer;
-        $stat->hitLastTime = Db::prepareDateForDb(new \DateTime());
-        $stat->handledByRetour = $handledInt;
-        $stat->hitCount++;
-        $stat->save();
-
-        // After incrementing a statistic, trim the retour_stats db table
-        $this->trimStatistics();
     }
 
     /**
@@ -187,6 +148,7 @@ class Statistics extends Component
 
         // As per https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
         if (!empty($limit) && $limit) {
+            $affectedRows = 0;
             try {
                 $affectedRows = $db->createCommand(/** @lang mysql */
                     "
@@ -220,17 +182,73 @@ class Statistics extends Component
     // =========================================================================
 
     /**
-     * @param string $text
-     * @param string $attribute
+     * @param string $url
+     * @param string $referrer
+     * @param int    $handled
      *
-     * @return string
+     * @return bool|array
      */
-    protected function prepStringForDb(string $text, string $attribute): string
+    protected function getStatsConfig(string $url, string $referrer, int $handled)
     {
-        $cleanedText = TextHelper::cleanupText($text);
-        $cleanedText = StringHelper::encodeMb4($cleanedText);
-        $cleanedText = TextHelper::truncate($cleanedText, $this->varCharLengths[$attribute]);
+        // Normalize the $url via the validator
+        $stats = new StatsModel([
+            'redirectSrcUrl' => $url,
+        ]);
+        $stats->validate();
+        // Find any existing retour_stats record
+        $statsConfig = (new Query())
+            ->from(['{{%retour_stats}}'])
+            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
+            ->one();
+        if ($statsConfig === null) {
+            $statsConfig = [
+                'id' => 0,
+                'redirectSrcUrl' => $stats->redirectSrcUrl,
+                'hitCount' => 0,
+            ];
+        }
+        // Merge in the updated info
+        $stats = new StatsModel($statsConfig);
+        $stats->referrerUrl = $referrer;
+        $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
+        $stats->handledByRetour = $handled;
+        $stats->hitCount++;
+        if ($result = $stats->validate()) {
+            $result = $stats->getAttributes();
+        }
 
-        return $cleanedText;
+        return $result;
+    }
+
+    /**
+     * @param array $statConfig
+     */
+    protected function recordStatistics(array $statConfig)
+    {
+        $db = Craft::$app->getDb();
+        if ($statConfig['id'] !== 0) {
+            // Update the existing record
+            try {
+                $db->createCommand()->update(
+                    '{{%retour_stats}}',
+                    $statConfig,
+                    [
+                        'id' => $statConfig['id'],
+                    ]
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        } else {
+            // Create a new record
+            try {
+                $db->createCommand()->insert(
+                    '{{%retour_stats}}',
+                    $statConfig
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
     }
 }

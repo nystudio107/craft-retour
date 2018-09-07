@@ -11,25 +11,47 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
-use Craft;
-use craft\base\Model;
+use nystudio107\retour\validators\DbStringValidator;
 
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
  */
-class Stats extends Model
+class Stats extends DbModel
 {
     // Public Properties
     // =========================================================================
 
     /**
+     * @var int
+     */
+    public $id;
+
+    /**
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $redirectSrcUrl;
+
+    /**
+     * @var string
+     */
+    public $referrerUrl;
+
+    /**
+     * @var int
+     */
+    public $hitCount;
+
+    /**
+     * @var string
+     */
+    public $hitLastTime;
+
+    /**
+     * @var int
+     */
+    public $handledByRetour;
 
     // Public Methods
     // =========================================================================
@@ -40,8 +62,18 @@ class Stats extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['id', 'integer'],
+            ['redirectSrcUrl', DbStringValidator::class, 'max' => 255],
+            ['redirectSrcUrl', 'string'],
+            ['redirectSrcUrl', 'default', 'value' => ''],
+            ['referrerUrl', DbStringValidator::class, 'max' => 2000],
+            ['referrerUrl', 'string'],
+            ['referrerUrl', 'default', 'value' => ''],
+            ['hitCount', 'integer'],
+            ['hitCount', 'default', 'value' => 0],
+            ['hitLastTime', 'safe'],
+            ['handledByRetour', 'integer', 'min' => 0, 'max' => 1],
+            ['handledByRetour', 'default', 'value' => 0],
         ];
     }
 }

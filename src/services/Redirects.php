@@ -15,7 +15,6 @@ use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
 use nystudio107\retour\Retour;
-use nystudio107\retour\records\StaticRedirects as StaticRedirectsRecord;
 
 use Craft;
 use craft\base\Component;
