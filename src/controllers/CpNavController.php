@@ -15,8 +15,10 @@ use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
+use nystudio107\retour\models\Settings;
 
 use Craft;
+use craft\base\Model;
 use craft\helpers\UrlHelper;
 use craft\models\Site;
 use craft\web\Controller;
@@ -65,7 +67,7 @@ class CpNavController extends Controller
         $variables = [];
         // Get the site to edit
         $siteId = $this->getSiteIdFromHandle($siteHandle);
-        $pluginName = Retour::$plugin->getSettings()->pluginName;
+        $pluginName = Retour::$settings->pluginName;
         $templateTitle = Craft::t('retour', 'Dashboard');
         $view = Craft::$app->getView();
         // Asset bundle
@@ -97,6 +99,7 @@ class CpNavController extends Controller
                 'url' => UrlHelper::cpUrl('retour/dashboard'),
             ],
         ];
+        $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
         $variables['selectedSubnavItem'] = 'dashboard';
         $variables['showWelcome'] = $showWelcome;
 
@@ -116,7 +119,7 @@ class CpNavController extends Controller
         $variables = [];
         // Get the site to edit
         $siteId = $this->getSiteIdFromHandle($siteHandle);
-        $pluginName = Retour::$plugin->getSettings()->pluginName;
+        $pluginName = Retour::$settings->pluginName;
         $templateTitle = Craft::t('retour', 'Redirects');
         $view = Craft::$app->getView();
         // Asset bundle
@@ -148,6 +151,7 @@ class CpNavController extends Controller
                 'url' => UrlHelper::cpUrl('retour/redirects'),
             ],
         ];
+        $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
         $variables['selectedSubnavItem'] = 'redirects';
 
         // Render the template
@@ -157,14 +161,19 @@ class CpNavController extends Controller
     /**
      * Plugin settings
      *
+     * @param null|bool|Model $settings
+     *
      * @return Response The rendered result
      */
-    public function actionPluginSettings(): Response
+    public function actionPluginSettings($settings = null): Response
     {
         $variables = [];
-        $settings = Retour::$plugin->getSettings();
+        if ($settings === null) {
+            $settings = Retour::$settings;
+        }
+        /** @var Settings $settings */
         $pluginName = $settings->pluginName;
-        $templateTitle = Craft::t('retour', 'Plugin Settings');
+        $templateTitle = Craft::t('retour', 'Settings');
         $view = Craft::$app->getView();
         // Asset bundle
         try {
@@ -191,6 +200,7 @@ class CpNavController extends Controller
                 'url' => UrlHelper::cpUrl('retour/settings'),
             ],
         ];
+        $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
         $variables['selectedSubnavItem'] = 'settings';
         $variables['settings'] = $settings;
 
