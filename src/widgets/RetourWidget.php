@@ -12,10 +12,14 @@
 namespace nystudio107\retour\widgets;
 
 use nystudio107\retour\Retour;
-use nystudio107\retour\assetbundles\retourwidget\RetourWidgetAsset;
+use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
 
 use Craft;
 use craft\base\Widget;
+use yii\base\Exception;
+use yii\base\InvalidConfigException;
+
+/** @noinspection MissingPropertyAnnotationsInspection */
 
 /**
  * Retour Widget
@@ -51,7 +55,7 @@ class RetourWidget extends Widget
      */
     public static function iconPath()
     {
-        return Craft::getAlias("@nystudio107/retour/assetbundles/retourwidget/dist/img/Retour-icon.svg");
+        return Craft::getAlias("@nystudio107/retour/assetbundles/retour/dist/img/Retour-icon.svg");
     }
 
     /**
@@ -99,13 +103,23 @@ class RetourWidget extends Widget
      */
     public function getBodyHtml()
     {
-        Craft::$app->getView()->registerAssetBundle(RetourWidgetAsset::class);
+        try {
+            Craft::$app->getView()->registerAssetBundle(RetourWidgetAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
 
-        return Craft::$app->getView()->renderTemplate(
-            'retour/_components/widgets/Retour_body',
-            [
-                'message' => $this->message
-            ]
-        );
+        try {
+            return Craft::$app->getView()->renderTemplate(
+                'retour/_components/widgets/Retour_body',
+                [
+                    'message' => $this->message,
+                ]
+            );
+        } catch (\Twig_Error_Loader $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        } catch (Exception $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
     }
 }

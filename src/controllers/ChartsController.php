@@ -42,7 +42,7 @@ class ChartsController extends Controller
     // =========================================================================
 
     /**
-     * Make webpack async bundle loading work out of published AssetBundles
+     * The Dashboard chart
      *
      * @param string $range
      *
@@ -65,6 +65,45 @@ class ChartsController extends Controller
                 $days = 30;
                 break;
         }
+        // Query the db
+        $stats = (new Query())
+            ->from('{{%retour_stats}}')
+            ->select([
+                '*',
+                'COUNT(redirectSrcUrl) AS cnt',
+                'COUNT(handledByRetour = 1 or null) as handled_cnt'
+            ])
+            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+            ->orderBy('hitLastTime ASC')
+            ->groupBy('DAY(hitLastTime)')
+            ->all();
+        if ($stats) {
+            $data[] = [
+                'name' => '404 hits',
+                'data' => ArrayHelper::getColumn($stats, 'cnt'),
+                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
+            ];
+            $data[] = [
+                'name' => 'Handled 404 hits',
+                'data' => ArrayHelper::getColumn($stats, 'handled_cnt'),
+                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
+            ];
+        }
+        Craft::error($data);
+
+        return $this->asJson($data);
+    }
+
+    /**
+     * The Dashboard chart
+     *
+     * @param int $days
+     *
+     * @return Response
+     */
+    public function actionWidget(int $days = 1): Response
+    {
+        $data = [];
         // Query the db
         $stats = (new Query())
             ->from('{{%retour_stats}}')

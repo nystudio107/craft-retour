@@ -52,7 +52,8 @@
     "entries": {
         "dashboard": "Dashboard.js",
         "redirects": "Redirects.js",
-        "retour": "Retour.js"
+        "retour": "Retour.js",
+        "widget": "Widget.js"
     },
     "babelConfig": {
         "legacyBrowsers": [
