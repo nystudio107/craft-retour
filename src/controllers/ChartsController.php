@@ -56,13 +56,13 @@ class ChartsController extends Controller
         $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
         switch ($range) {
             case 'day':
-                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
+                $days = 1;
                 break;
             case 'week':
-                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 WEEK) AND CURRENT_DATE()';
+                $days = 7;
                 break;
             case 'month':
-                $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 MONTH) AND CURRENT_DATE()';
+                $days = 30;
                 break;
         }
 
@@ -72,7 +72,7 @@ class ChartsController extends Controller
                 '*',
                 'COUNT(redirectSrcUrl) AS cnt'
             ])
-            ->where("hitLastTime {$whereQuery}")
+            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
             ->groupBy('DAY(hitLastTime)')
             ->all();
         $handledStats = $stats;
