@@ -11,12 +11,12 @@
 
 namespace nystudio107\retour\controllers;
 
+use craft\errors\MissingComponentException;
 use nystudio107\retour\Retour;
 
 use Craft;
 use craft\web\Controller;
 
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -26,7 +26,6 @@ use yii\web\Response;
  */
 class StatisticsController extends Controller
 {
-
     // Protected Properties
     // =========================================================================
 
@@ -35,4 +34,28 @@ class StatisticsController extends Controller
     // Public Methods
     // =========================================================================
 
+    /**
+     * @return Response
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function actionClearStatistics(): Response
+    {
+        $error = Retour::$plugin->statistics->clearStatistics();
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Retour statistics cleared: {error}',
+                ['error' => $error]
+            ),
+            __METHOD__
+        );
+        Retour::$plugin->clearAllCaches();
+        try {
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour statistics cleared.'));
+        } catch (MissingComponentException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+
+        return $this->redirectToPostedUrl();
+    }
 }
