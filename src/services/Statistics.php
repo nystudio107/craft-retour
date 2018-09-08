@@ -138,15 +138,18 @@ class Statistics extends Component
         if ($statsConfig === null) {
             $stats->id = 0;
             $stats->hitCount = 0;
+        } else {
+            $stats->id = $statsConfig['id'];
+            $stats->hitCount = $statsConfig['hitCount'];
         }
         // Merge in the updated info
         $stats->referrerUrl = $referrer;
         $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
-        $stats->handledByRetour = $handled;
+        $stats->handledByRetour = (int)$handled;
         $stats->hitCount++;
-        $statConfig = $stats->getAttributes();
+        $statsConfig = $stats->getAttributes();
         // Record the updated statistics
-        $this->saveStatistics($statConfig);
+        $this->saveStatistics($statsConfig);
         // After incrementing a statistic, trim the retour_stats db table
         $this->trimStatistics();
     }
@@ -220,7 +223,7 @@ class Statistics extends Component
         if ($statsConfig['id'] !== 0) {
             // Update the existing record
             try {
-                $db->createCommand()->update(
+                $result = $db->createCommand()->update(
                     '{{%retour_stats}}',
                     $statsConfig,
                     [

@@ -16,44 +16,23 @@ use nystudio107\retour\Retour;
 use Craft;
 use craft\web\Controller;
 
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
  */
-class RetourController extends Controller
+class StatisticsController extends Controller
 {
 
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = ['index', 'do-something'];
+    protected $allowAnonymous = [];
 
     // Public Methods
     // =========================================================================
 
-    /**
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $result = 'Welcome to the RetourController actionIndex() method';
-
-        return $result;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function actionDoSomething()
-    {
-        $result = 'Welcome to the RetourController actionDoSomething() method';
-
-        return $result;
-    }
 }
