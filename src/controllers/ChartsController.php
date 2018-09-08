@@ -65,7 +65,7 @@ class ChartsController extends Controller
                 $days = 30;
                 break;
         }
-
+        // Query the db
         $stats = (new Query())
             ->from('{{%retour_stats}}')
             ->select([
@@ -73,6 +73,7 @@ class ChartsController extends Controller
                 'COUNT(redirectSrcUrl) AS cnt'
             ])
             ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+            ->orderBy('hitLastTime ASC')
             ->groupBy('DAY(hitLastTime)')
             ->all();
         $handledStats = $stats;
