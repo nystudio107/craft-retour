@@ -114,7 +114,6 @@ class Statistics extends Component
      */
     public function incrementStatistics(string $url, $handled = false)
     {
-        $url = substr($url, 0, 255);
         $request = Craft::$app->getRequest();
         $referrer = $request->getReferrer();
         if ($referrer === null) {
@@ -125,13 +124,31 @@ class Statistics extends Component
             $url = UrlHelper::stripQueryString($url);
             $referrer = UrlHelper::stripQueryString($referrer);
         }
-        $statConfig = $this->getStatsConfig($url, $referrer, (int)$handled);
-        if ($statConfig !== false) {
-            // Record the updated statistics
-            $this->recordStatistics($statConfig);
-            // After incrementing a statistic, trim the retour_stats db table
-            $this->trimStatistics();
+        // Normalize the $url via the validator
+        $stats = new StatsModel([
+            'redirectSrcUrl' => $url,
+        ]);
+        $stats->validate();
+        // Find any existing retour_stats record
+        $statsConfig = (new Query())
+            ->from(['{{%retour_stats}}'])
+            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
+            ->one();
+        // If no record is found, initialize some values
+        if ($statsConfig === null) {
+            $stats->id = 0;
+            $stats->hitCount = 0;
         }
+        // Merge in the updated info
+        $stats->referrerUrl = $referrer;
+        $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
+        $stats->handledByRetour = $handled;
+        $stats->hitCount++;
+        $statConfig = $stats->getAttributes();
+        // Record the updated statistics
+        $this->saveStatistics($statConfig);
+        // After incrementing a statistic, trim the retour_stats db table
+        $this->trimStatistics();
     }
 
     /**
@@ -178,62 +195,36 @@ class Statistics extends Component
         }
     }
 
-    // Protected Methods
-    // =========================================================================
-
     /**
-     * @param string $url
-     * @param string $referrer
-     * @param int    $handled
-     *
-     * @return bool|array
+     * @param array $statsConfig
      */
-    protected function getStatsConfig(string $url, string $referrer, int $handled)
+    public function saveStatistics(array $statsConfig)
     {
-        // Normalize the $url via the validator
-        $stats = new StatsModel([
-            'redirectSrcUrl' => $url,
-        ]);
-        $stats->validate();
-        // Find any existing retour_stats record
-        $statsConfig = (new Query())
-            ->from(['{{%retour_stats}}'])
-            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
-            ->one();
-        if ($statsConfig === null) {
-            $statsConfig = [
-                'id' => 0,
-                'redirectSrcUrl' => $stats->redirectSrcUrl,
-                'hitCount' => 0,
-            ];
-        }
-        // Merge in the updated info
+        // Validate the model before saving it to the db
         $stats = new StatsModel($statsConfig);
-        $stats->referrerUrl = $referrer;
-        $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
-        $stats->handledByRetour = $handled;
-        $stats->hitCount++;
-        if ($result = $stats->validate()) {
-            $result = $stats->getAttributes();
+        if ($stats->validate() === false) {
+            Craft::error(
+                Craft::t(
+                    'retour',
+                    'Error validating statistics {id}: {errors}',
+                    ['id' => $stats->id, 'errors' => print_r($stats->getErrors(), true)]
+                ),
+                __METHOD__
+            );
+
+            return;
         }
-
-        return $result;
-    }
-
-    /**
-     * @param array $statConfig
-     */
-    protected function recordStatistics(array $statConfig)
-    {
+        // Get the validated model attributes and save them to the db
+        $statsConfig = $stats->getAttributes();
         $db = Craft::$app->getDb();
-        if ($statConfig['id'] !== 0) {
+        if ($statsConfig['id'] !== 0) {
             // Update the existing record
             try {
                 $db->createCommand()->update(
                     '{{%retour_stats}}',
-                    $statConfig,
+                    $statsConfig,
                     [
-                        'id' => $statConfig['id'],
+                        'id' => $statsConfig['id'],
                     ]
                 )->execute();
             } catch (Exception $e) {
@@ -244,11 +235,14 @@ class Statistics extends Component
             try {
                 $db->createCommand()->insert(
                     '{{%retour_stats}}',
-                    $statConfig
+                    $statsConfig
                 )->execute();
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
             }
         }
     }
+
+    // Protected Methods
+    // =========================================================================
 }

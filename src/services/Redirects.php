@@ -11,13 +11,14 @@
 
 namespace nystudio107\retour\services;
 
-use craft\db\Query;
-use craft\errors\SiteNotFoundException;
-use craft\helpers\Db;
 use nystudio107\retour\Retour;
+use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
 use Craft;
 use craft\base\Component;
+use craft\db\Query;
+use craft\errors\SiteNotFoundException;
+use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 
 use yii\base\ExitException;
@@ -241,7 +242,7 @@ class Redirects extends Component
 
                 // Do a regex match
                 case 'regexmatch':
-                    $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'] .'`i';
+                    $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
                     if (preg_match($matchRegEx, $url) === 1) {
                         $this->incrementRedirectHitCount($redirect);
                         // If we're not associated with an EntryID, handle capture group replacement
@@ -261,20 +262,18 @@ class Redirects extends Component
                 // Otherwise try to look up a plugin's method by and call it for the match
                 default:
                     $plugin = $redirectMatchType ? Craft::$app->getPlugins()->getPlugin($redirectMatchType) : null;
-                    if ($plugin) {
-                        if (method_exists($plugin, 'retourMatch')) {
-                            $args = [
-                                [
-                                    'redirect' => &$redirect,
-                                ],
-                            ];
-                            $result = \call_user_func_array([$plugin, 'retourMatch'], $args);
-                            if ($result) {
-                                $this->incrementRedirectHitCount($redirect);
-                                $this->saveRedirectToCache($url, $redirect);
+                    if ($plugin && method_exists($plugin, 'retourMatch')) {
+                        $args = [
+                            [
+                                'redirect' => &$redirect,
+                            ],
+                        ];
+                        $result = \call_user_func_array([$plugin, 'retourMatch'], $args);
+                        if ($result) {
+                            $this->incrementRedirectHitCount($redirect);
+                            $this->saveRedirectToCache($url, $redirect);
 
-                                return $redirect;
-                            }
+                            return $redirect;
                         }
                     }
                     break;
@@ -320,25 +319,58 @@ class Redirects extends Component
     /**
      * Increment the retour_static_redirects record
      *
-     * @param $redirect
+     * @param $redirectConfig
      */
-    public function incrementRedirectHitCount($redirect)
+    public function incrementRedirectHitCount($redirectConfig)
     {
-        if ($redirect !== null) {
-            $db = Craft::$app->getDb();
-            $redirect['hitCount']++;
-            $redirect['hitLastTime'] = Db::prepareDateForDb(new \DateTime());
-            // Update the db
+        if ($redirectConfig !== null) {
+            $redirectConfig['hitCount']++;
+            $redirectConfig['hitLastTime'] = Db::prepareDateForDb(new \DateTime());
+            $this->saveRedirect($redirectConfig);
+        }
+    }
+
+    /**
+     * @param array $redirectConfig
+     */
+    public function saveRedirect(array $redirectConfig)
+    {
+        // Validate the model before saving it to the db
+        $redirect = new StaticRedirectsModel($redirectConfig);
+        if ($redirect->validate() === false) {
+            Craft::error(
+                Craft::t(
+                    'retour',
+                    'Error validating redirect {id}: {errors}',
+                    ['id' => $redirect->id, 'errors' => print_r($redirect->getErrors(), true)]
+                ),
+                __METHOD__
+            );
+
+            return;
+        }
+        // Get the validated model attributes and save them to the db
+        $redirectConfig = $redirect->getAttributes();
+        $db = Craft::$app->getDb();
+        if ($redirectConfig['id'] !== 0) {
+            // Update the existing record
             try {
                 $db->createCommand()->update(
                     '{{%retour_static_redirects}}',
+                    $redirectConfig,
                     [
-                        'hitCount'    => $redirect['hitCount'],
-                        'hitLastTime' => $redirect['hitLastTime'],
-                    ],
-                    [
-                        'id' => $redirect['id'],
+                        'id' => $redirectConfig['id'],
                     ]
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        } else {
+            // Create a new record
+            try {
+                $db->createCommand()->insert(
+                    '{{%retour_static_redirects}}',
+                    $redirectConfig
                 )->execute();
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
