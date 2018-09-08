@@ -53,7 +53,7 @@ class ChartsController extends Controller
     {
         $this->permissionCheck('retour:dashboard');
         $data = [];
-        $whereQuery = 'BETWEEN (CURRENT_DATE() - INTERVAL 1 DAY) AND CURRENT_DATE()';
+        $days = 1;
         switch ($range) {
             case 'day':
                 $days = 1;
@@ -70,30 +70,26 @@ class ChartsController extends Controller
             ->from('{{%retour_stats}}')
             ->select([
                 '*',
-                'COUNT(redirectSrcUrl) AS cnt'
+                'COUNT(redirectSrcUrl) AS cnt',
+                'COUNT(handledByRetour = 1 or null) as handled_cnt'
             ])
             ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
             ->orderBy('hitLastTime ASC')
             ->groupBy('DAY(hitLastTime)')
             ->all();
-        $handledStats = $stats;
-        foreach ($handledStats as &$handledStat) {
-            if ($handledStat['handledByRetour'] != 1) {
-                $handledStat['cnt'] = 0;
-            }
-        }
-        if ($stats && $handledStats) {
+        if ($stats) {
             $data[] = [
                 'name' => '404 hits',
                 'data' => ArrayHelper::getColumn($stats, 'cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'redirectSrcUrl'),
+                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
             ];
             $data[] = [
                 'name' => 'Handled 404 hits',
-                'data' => ArrayHelper::getColumn($handledStats, 'cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'redirectSrcUrl'),
+                'data' => ArrayHelper::getColumn($stats, 'handled_cnt'),
+                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
             ];
         }
+        Craft::error($data);
 
         return $this->asJson($data);
     }
