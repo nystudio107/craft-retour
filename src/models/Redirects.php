@@ -36,7 +36,7 @@ class Redirects extends DbModel
     /**
      * @var int
      */
-    public $associatedElement;
+    public $associatedElementId;
 
     /**
      * @var string
@@ -86,6 +86,7 @@ class Redirects extends DbModel
             ['locale', DbStringValidator::class, 'max' => 12],
             ['locale', 'string'],
             ['locale', 'default', 'value' => ''],
+            ['associatedElementId', 'integer'],
             [
                 [
                     'redirectSrcUrl',

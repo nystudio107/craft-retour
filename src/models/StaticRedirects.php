@@ -36,7 +36,7 @@ class StaticRedirects extends DbModel
     /**
      * @var int
      */
-    public $associatedElement;
+    public $associatedElementId;
 
     /**
      * @var string
@@ -86,6 +86,18 @@ class StaticRedirects extends DbModel
             ['locale', DbStringValidator::class, 'max' => 12],
             ['locale', 'string'],
             ['locale', 'default', 'value' => ''],
+            ['associatedElementId', 'default', 'value' => 0],
+            ['associatedElementId', 'integer'],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectMatchType',
+                    'redirectDestUrl',
+                ],
+                'default',
+                'value' => ''
+            ],
             [
                 [
                     'redirectSrcUrl',
@@ -105,20 +117,10 @@ class StaticRedirects extends DbModel
                 ],
                 'string'
             ],
-            [
-                [
-                    'redirectSrcUrl',
-                    'redirectSrcUrlParsed',
-                    'redirectMatchType',
-                    'redirectDestUrl',
-                ],
-                'default',
-                'value' => ''
-            ],
             ['redirectHttpCode', 'integer'],
             ['redirectHttpCode', 'default', 'value' => 301],
-            ['hitCount', 'integer'],
             ['hitCount', 'default', 'value' => 0],
+            ['hitCount', 'integer'],
             ['hitLastTime', 'safe'],
         ];
     }
