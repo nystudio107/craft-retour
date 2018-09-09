@@ -104,15 +104,17 @@ class RedirectsController extends Controller
      * Edit the redirect
      *
      * @param int                       $redirectId
+     * @param string                    $defaultUrl
      * @param null|string               $siteHandle
      * @param null|StaticRedirectsModel $redirect
      *
      * @return Response
+     * @throws NotFoundHttpException
      * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
      */
     public function actionEditRedirect(
-        int $redirectId,
+        int $redirectId = 0,
+        string $defaultUrl = '',
         string $siteHandle = null,
         StaticRedirectsModel $redirect = null
     ): Response {
@@ -120,7 +122,10 @@ class RedirectsController extends Controller
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         // Load in the redirect
         if ($redirectId === 0) {
-            $redirect = new StaticRedirectsModel();
+            $redirect = new StaticRedirectsModel([
+                'id' => 0,
+                'redirectSrcUrl' => urldecode($defaultUrl),
+            ]);
         }
         if ($redirect === null) {
             $redirectConfig = Retour::$plugin->redirects->getRedirectById($redirectId);
@@ -184,6 +189,28 @@ class RedirectsController extends Controller
     }
 
     /**
+     * @param int $redirectId
+     *
+     * @return null|Response
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionDeleteRedirect(int $redirectId)
+    {
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
+        if (Retour::$plugin->redirects->deleteRedirectById($redirectId)) {
+            // Clear the caches and continue on
+            Retour::$plugin->clearAllCaches();
+            Craft::$app->getSession()->setNotice(Craft::t('app', 'Redirect deleted.'));
+
+            return $this->redirect('retour/redirects');
+        }
+        Craft::$app->getSession()->setError(Craft::t('app', "Couldn't delete redirect."));
+
+        return null;
+    }
+
+    /**
      * Save the redirect
      *
      * @return null|Response
@@ -201,6 +228,8 @@ class RedirectsController extends Controller
         if ($redirectConfig === null) {
             throw new NotFoundHttpException('Redirect not found');
         }
+        $redirectConfig['id'] = (int)$redirectConfig['id'];
+        $redirectConfig['redirectSrcUrlParsed'] = $redirectConfig['redirectSrcUrl'];
         $redirect = new StaticRedirectsModel($redirectConfig);
         // Make sure the redirect validates
         if (!$redirect->validate()) {

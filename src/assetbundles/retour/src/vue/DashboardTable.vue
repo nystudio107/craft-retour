@@ -99,11 +99,12 @@
                 `;
             },
             addUrlFormatter(value) {
-                if (value == 1) {
-                    return `
-                <a class="add icon" href="retour/add" title="Add"></a>
-                `;
+                if (value === '') {
+                    return '';
                 }
+                return `
+                <a class="add icon" href="add-redirect/${value}" title="Add"></a>
+                `;
                 return '';
             }
         }

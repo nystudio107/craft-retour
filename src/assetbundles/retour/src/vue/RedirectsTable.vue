@@ -102,21 +102,23 @@
                 <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
                 `;
             },
-            editUrlFormatter(value) {
+            srcUrlFormatter(value) {
+                if (value === '') {
+                    return '';
+                }
+                let id = 0;
+                [value, id] = value.split('|');
+                return `
+                <a class="go" href="edit-redirect/${id}" title="${value}">${value}</a>
+                `;
+            },
+            deleteRedirectFormatter(value) {
                 if (value === '') {
                     return '';
                 }
                 return `
-                <a class="go" href="retour/edit-redirect/1" title="${value}">${value}</a>
+                <a class="delete icon" href="delete-redirect/${value}" title="Delete"></a>
                 `;
-            },
-            deleteRedirectFormatter(value) {
-                if (value == 1) {
-                    return `
-                <a class="delete icon" href="retour/add" title="Delete"></a>
-                `;
-                }
-                return '';
             }
         }
     }

@@ -85,7 +85,10 @@ class TablesController extends Controller
         $stats = $query->all();
         // Add in the `addLink` field
         foreach ($stats as &$stat) {
-            $stat['addLink'] = !$stat['handledByRetour'];
+            $stat['addLink'] = '';
+            if (!$stat['handledByRetour']) {
+                $stat['addLink'] = urlencode($stat['redirectSrcUrl']);
+            }
         }
         // Format the data for the API
         if ($stats) {
@@ -152,14 +155,15 @@ class TablesController extends Controller
             $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
             $query->orWhere("`redirectDestUrl` LIKE '%{$filter}%'");
         }
-        $stats = $query->all();
+        $redirects = $query->all();
         // Add in the `deleteLink` field
-        foreach ($stats as &$stat) {
-            $stat['deleteLink'] = 1;
+        foreach ($redirects as &$redirect) {
+            $redirect['deleteLink'] = $redirect['id'];
+            $redirect['redirectSrcUrl'].="|{$redirect['id']}";
         }
         // Format the data for the API
-        if ($stats) {
-            $data['data'] = $stats;
+        if ($redirects) {
+            $data['data'] = $redirects;
             $query = (new Query())
                 ->from(['{{%retour_static_redirects}}']);
             if ($filter !== '') {
@@ -178,7 +182,6 @@ class TablesController extends Controller
                 'to' => $offset + ($count > $per_page ? $per_page : $count),
             ];
         }
-        Craft::error(print_r($data, true), __METHOD__);
 
         return $this->asJson($data);
     }

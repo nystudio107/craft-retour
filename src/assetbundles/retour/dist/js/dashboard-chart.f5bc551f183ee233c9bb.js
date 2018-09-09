@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           dashboard-chart.f5bc551f183ee233c9bb.js
  * @author         andrew@nystudio107.com
- * @build          Sun, Sep 9, 2018 5:37 PM ET
- * @release        0e9c7d14b0da6f0bf88a740f2651edaddffd2c6d [develop]
+ * @build          Sun, Sep 9, 2018 7:51 PM ET
+ * @release        1e1c0942054b25ba8f5e925d8943418b58d1dfb7 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

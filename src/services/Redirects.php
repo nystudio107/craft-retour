@@ -341,6 +341,8 @@ class Redirects extends Component
     }
 
     /**
+     * Return a redirect by id
+     *
      * @param int $id
      *
      * @return null|array The static redirect
@@ -354,6 +356,32 @@ class Redirects extends Component
             ->one();
 
         return $redirect;
+    }
+
+    /**
+     * Delete a redirect by id
+     *
+     * @param int $id
+     *
+     * @return int The result
+     */
+    public function deleteRedirectById(int $id): int
+    {
+        $db = Craft::$app->getDb();
+        // Delete a row from the db table
+        try {
+            $result = $db->createCommand()->delete(
+                '{{%retour_static_redirects}}',
+                [
+                    'id' => $id,
+                ]
+            )->execute();
+        } catch (Exception $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+            $result = 0;
+        }
+
+        return $result;
     }
 
     /**
@@ -392,7 +420,7 @@ class Redirects extends Component
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
         $db = Craft::$app->getDb();
-        if ($redirectConfig['id'] !== 0) {
+        if ((int)$redirectConfig['id'] !== 0) {
             // Update the existing record
             try {
                 $db->createCommand()->update(

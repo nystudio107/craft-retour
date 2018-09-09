@@ -392,12 +392,22 @@ class Retour extends Plugin
     {
         return [
             'retour' => 'retour/statistics/dashboard',
+
             'retour/redirects' => 'retour/redirects/redirects',
             'retour/redirects/<siteHandle:{handle}>' => 'retour/redirects/redirects',
+
             'retour/edit-redirect/<redirectId:\d+>' => 'retour/redirects/edit-redirect',
             'retour/edit-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
+
+            'retour/add-redirect' => 'retour/redirects/edit-redirect',
+            'retour/add-redirect/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
+            'retour/add-redirect/<siteHandle:{handle}>/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
+
+            'retour/delete-redirect/<redirectId:\d+>' => 'retour/redirects/delete-redirect',
+
             'retour/dashboard' => 'retour/statistics/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
+
             'retour/settings' => 'retour/settings/plugin-settings',
         ];
     }

@@ -6,7 +6,7 @@ export default [
         title: 'Legacy URL Pattern',
         titleClass: 'center',
         dataClass: 'center',
-        callback: 'editUrlFormatter'
+        callback: 'srcUrlFormatter'
 
     },
     {
