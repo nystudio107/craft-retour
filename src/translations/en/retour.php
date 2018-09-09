@@ -48,5 +48,10 @@ return [
     'Statistics to Store'                        => 'Statistics to Store',
     'Retour redirect caches'                     => 'Retour redirect caches',
     'Error validating statistics {id}: {errors}' => 'Error validating statistics {id}: {errors}',
-    'Error validating redirect {id}: {errors}'   => 'Error validating redirect {id}: {errors}'
+    'Error validating redirect {id}: {errors}'   => 'Error validating redirect {id}: {errors}',
+    ' Match'                                     => ' Match',
+    'Retour statistics cleared: {error}'         => 'Retour statistics cleared: {error}',
+    'Exact Match'                                => 'Exact Match',
+    'RegEx Match'                                => 'RegEx Match',
+    'Retour statistics cleared.'                 => 'Retour statistics cleared.'
 ];
