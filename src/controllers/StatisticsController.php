@@ -56,6 +56,6 @@ class StatisticsController extends Controller
             Craft::error($e->getMessage(), __METHOD__);
         }
 
-        return $this->redirectToPostedUrl();
+        return $this->redirect('retour/dashboard');
     }
 }
