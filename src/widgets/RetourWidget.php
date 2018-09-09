@@ -35,9 +35,9 @@ class RetourWidget extends Widget
     // =========================================================================
 
     /**
-     * @var string
+     * @var int
      */
-    public $message = 'Hello, world.';
+    public $numberOfDays = 30;
 
     // Static Methods
     // =========================================================================
@@ -47,7 +47,7 @@ class RetourWidget extends Widget
      */
     public static function displayName(): string
     {
-        return Craft::t('retour', 'Retour');
+        return Retour::$settings->pluginName;
     }
 
     /**
@@ -55,7 +55,7 @@ class RetourWidget extends Widget
      */
     public static function iconPath()
     {
-        return Craft::getAlias("@nystudio107/retour/assetbundles/retour/dist/img/Retour-icon.svg");
+        return Craft::getAlias("@nystudio107/retour/assetbundles/retour/dist/img/icon-mask.svg");
     }
 
     /**
@@ -63,7 +63,7 @@ class RetourWidget extends Widget
      */
     public static function maxColspan()
     {
-        return null;
+        return 1;
     }
 
     // Public Methods
@@ -78,8 +78,8 @@ class RetourWidget extends Widget
         $rules = array_merge(
             $rules,
             [
-                ['message', 'string'],
-                ['message', 'default', 'value' => 'Hello, world.'],
+                ['numberOfDays', 'integer', 'min' => 1],
+                ['numberOfDays', 'default', 'value' => 30],
             ]
         );
         return $rules;
@@ -90,12 +90,18 @@ class RetourWidget extends Widget
      */
     public function getSettingsHtml()
     {
-        return Craft::$app->getView()->renderTemplate(
-            'retour/_components/widgets/Retour_settings',
-            [
-                'widget' => $this
-            ]
-        );
+        try {
+            return Craft::$app->getView()->renderTemplate(
+                'retour/_components/widgets/Retour_settings',
+                [
+                    'widget' => $this,
+                ]
+            );
+        } catch (\Twig_Error_Loader $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        } catch (Exception $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
     }
 
     /**
@@ -113,7 +119,7 @@ class RetourWidget extends Widget
             return Craft::$app->getView()->renderTemplate(
                 'retour/_components/widgets/Retour_body',
                 [
-                    'message' => $this->message,
+                    'numberOfDays' => $this->numberOfDays,
                 ]
             );
         } catch (\Twig_Error_Loader $e) {

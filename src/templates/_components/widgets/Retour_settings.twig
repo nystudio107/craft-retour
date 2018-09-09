@@ -15,12 +15,10 @@
 
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("nystudio107\\retour\\assetbundles\\retour\\RetourAsset") %}
-
 {{ forms.textField({
-    label: 'Message',
-    instructions: 'Enter a message here.',
-    id: 'message',
-    name: 'message',
-    value: widget['message']})
-}}
+    label: 'Days',
+    instructions: 'Determines how many days of recent 404s to show.',
+    id: 'numberOfDays',
+    name: 'numberOfDays',
+    value: widget.numberOfDays
+}) }}

@@ -1,17 +1,10 @@
 <template>
-    <apexcharts width="100%" height="200px" type="area" :options="chartOptions" :series="series"></apexcharts>
+    <apexcharts width="100%" height="210px" type="donut" :options="chartOptions" :series="series"></apexcharts>
 </template>
 
 <script>
 
     const chartDataBaseUrl = '/retour/charts/widget/';
-
-    // Get the largest number from the passed in arrays
-    const largestNumber = (mainArray) => {
-        return mainArray.map(function(subArray) {
-            return Math.max.apply(null, subArray);
-        });
-    };
 
     // Configure the api endpoint
     const configureApi = (url) => {
@@ -43,7 +36,7 @@
         props: {
             title: String,
             subTitle: String,
-            days: Number,
+            days: String,
         },
         methods: {
             // Load in our chart data asynchronously
@@ -51,16 +44,8 @@
                 const axios = await import(/* webpackChunkName: "axios" */ 'axios');
                 const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
                 await queryApi(chartsAPI, this.days, (data) => {
-                    // Clone the chartOptions object, and replace the needed values
-                    const options = Object.assign({}, this.chartOptions);
-                    if (data[0] !== undefined) {
-                        options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
-                        options.labels = data[0]['labels'];
-                    }
-                    this.chartOptions = options;
-                    //this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
                     this.series = data;
-                })
+                });
             }
         },
         created: function() {
@@ -70,35 +55,16 @@
             return {
                 chartOptions: {
                     chart: {
-                        id: 'vuechart-example',
+                        id: 'vuechart-widget',
                         toolbar: {
                             show: false,
                         },
-                        sparkline: {
-                            enabled: true
-                        },
                     },
                     colors: ['#008FFB', '#DCE6EC'],
-                    stroke: {
-                        curve: 'straight',
-                        width: 3,
-                    },
-                    fill: {
-                        opacity: 0.2,
-                        gradient: {
-                            enabled: true
-                        }
-                    },
-                    xaxis: {
-                        crosshairs: {
-                            width: 1
-                        },
-                    },
-                    labels: [],
-                    yaxis: {
-                        min: 0,
-                        max: 0,
-                    },
+                    labels: [
+                        '404 hits',
+                        '404 hits handled'
+                    ],
                     title: {
                         text: this.title,
                         offsetX: 0,
@@ -108,7 +74,7 @@
                         }
                     },
                     subtitle: {
-                        text: this.subTitle,
+                        text: this.subTitle + ` ${this.days} days.`,
                         offsetX: 0,
                         style: {
                             fontSize: '14px',
@@ -116,12 +82,7 @@
                         }
                     }
                 },
-                series: [
-                    {
-                        name: 'placeholder',
-                        data: [0]
-                    }
-                ],
+                series: [50, 50],
             }
         },
     }

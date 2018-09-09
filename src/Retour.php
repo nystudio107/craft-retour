@@ -413,7 +413,7 @@ class Retour extends Plugin
             '/retour/tables/redirects' => 'retour/tables/redirects',
             // Charts
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
-            '/retour/charts/widget/<days:\d+>' => 'retour/charts/widget',
+            '/retour/charts/widget/<days>' => 'retour/charts/widget',
             // Make webpack async bundle loading work out of published AssetBundles
             '/cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
         ];

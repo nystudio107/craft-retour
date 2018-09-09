@@ -18,13 +18,14 @@
 {% from "retour/_includes/macros.twig" import includeJsModule %}
 
 {% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
-{% set iconUrl = baseAssetsUrl ~ '/img/Retour-icon.svg' %}
+{% set iconUrl = baseAssetsUrl ~ '/img/icon.svg' %}
 
 {% block content %}
     <div id="widget-content">
-        <div class="shadow">
-            <widget-chart title="404s by Month" sub-title="Discrete 404 URI hits in the last month" days="30">
-            </widget-chart>
+        <widget-chart title="404s hits" sub-title="Discrete 404s hits in the last" days="{{ numberOfDays }}">
+        </widget-chart>
+        <div style="float: right;">
+            <a class="go" href="/retour/dashboard">Dashboard</a>
         </div>
     </div>
 

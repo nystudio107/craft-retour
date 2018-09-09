@@ -58,9 +58,8 @@
                         options.labels = data[0]['labels'];
                     }
                     this.chartOptions = options;
-                    //this.chartOptions.yaxis.max = largestNumber([data[0]['data']])[0] * 3;
                     this.series = data;
-                })
+                });
             }
         },
         created: function() {
@@ -70,7 +69,7 @@
             return {
                 chartOptions: {
                     chart: {
-                        id: 'vuechart-example',
+                        id: 'vuechart-dashboard',
                         toolbar: {
                             show: false,
                         },
