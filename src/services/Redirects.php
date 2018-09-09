@@ -341,6 +341,22 @@ class Redirects extends Component
     }
 
     /**
+     * @param int $id
+     *
+     * @return null|array The static redirect
+     */
+    public function getRedirectById(int $id): array
+    {
+        // Query the db table
+        $redirect = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->where(['id' => $id])
+            ->one();
+
+        return $redirect;
+    }
+
+    /**
      * Increment the retour_static_redirects record
      *
      * @param $redirectConfig

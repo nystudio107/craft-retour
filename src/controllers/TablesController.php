@@ -11,6 +11,8 @@
 
 namespace nystudio107\retour\controllers;
 
+use nystudio107\retour\helpers\Permission as PermissionHelper;
+
 use Craft;
 use craft\db\Query;
 use craft\web\Controller;
@@ -57,7 +59,7 @@ class TablesController extends Controller
         int $per_page = 20,
         $filter = ''
     ): Response {
-        $this->permissionCheck('retour:dashboard');
+        PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
@@ -127,7 +129,7 @@ class TablesController extends Controller
         int $per_page = 20,
         $filter = ''
     ): Response {
-        $this->permissionCheck('retour:redirects');
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
         $data = [];
         $sortField = 'hitCount';
         $sortType = 'DESC';
@@ -183,20 +185,4 @@ class TablesController extends Controller
 
     // Protected Methods
     // =========================================================================
-
-    /**
-     * @param string $permission
-     *
-     * @throws ForbiddenHttpException
-     */
-    protected function permissionCheck(string $permission)
-    {
-        if (($currentUser = Craft::$app->getUser()->getIdentity()) === null) {
-            throw new ForbiddenHttpException("Your account has no identity.");
-        }
-
-        if (!$currentUser->can($permission)) {
-            throw new ForbiddenHttpException("Your account doesn't have permission to assign access this resource.");
-        }
-    }
 }

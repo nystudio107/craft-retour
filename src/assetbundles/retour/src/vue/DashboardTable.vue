@@ -64,7 +64,6 @@
                 this.moreParams = {
                     'filter': filterText
                 };
-                console.log('onFilterSet');
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             },
             onFilterReset () {

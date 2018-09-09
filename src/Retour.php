@@ -391,12 +391,14 @@ class Retour extends Plugin
     protected function customAdminCpRoutes(): array
     {
         return [
-            'retour' => 'retour/cp-nav/dashboard',
-            'retour/redirects' => 'retour/cp-nav/redirects',
-            'retour/redirects/<siteHandle:{handle}>' => 'retour/cp-nav/redirects',
-            'retour/dashboard' => 'retour/cp-nav/dashboard',
-            'retour/dashboard/<siteHandle:{handle}>' => 'retour/cp-nav/dashboard',
-            'retour/settings' => 'retour/cp-nav/plugin-settings',
+            'retour' => 'retour/statistics/dashboard',
+            'retour/redirects' => 'retour/redirects/redirects',
+            'retour/redirects/<siteHandle:{handle}>' => 'retour/redirects/redirects',
+            'retour/edit-redirect/<redirectId:\d+>' => 'retour/redirects/edit-redirect',
+            'retour/edit-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
+            'retour/dashboard' => 'retour/statistics/dashboard',
+            'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
+            'retour/settings' => 'retour/settings/plugin-settings',
         ];
     }
 

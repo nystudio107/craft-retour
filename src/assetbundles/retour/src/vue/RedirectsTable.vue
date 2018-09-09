@@ -107,7 +107,7 @@
                     return '';
                 }
                 return `
-                <a class="go" href="${value}" title="${value}">${value}</a>
+                <a class="go" href="retour/edit-redirect/1" title="${value}">${value}</a>
                 `;
             },
             deleteRedirectFormatter(value) {
