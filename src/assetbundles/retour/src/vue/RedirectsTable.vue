@@ -136,7 +136,7 @@
                 this.$refs.vuetable.changePage(page);
             },
             matchFormatter(value) {
-                let $label = '';
+                let $label = 'Pluing Match';
                 switch (value) {
                     case 'exactmatch':
                         $label = 'Exact Match';

@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\services;
 
+use craft\base\Plugin;
 use nystudio107\retour\Retour;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
@@ -287,6 +288,29 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+
+        return $result;
+    }
+
+    /**
+     * Returns the list of matching schemes
+     *
+     * @return  array
+     */
+    public function getMatchesList(): array
+    {
+        $result = [
+            'exactmatch' => Craft::t('retour', 'Exact Match'),
+            'regexmatch' => Craft::t('retour', 'RegEx Match'),
+        ];
+
+        // Add any plugins that offer the retourMatch() method
+        foreach (Craft::$app->getPlugins()->getAllPlugins() as $plugin) {
+            /** @var Plugin $plugin */
+            if (method_exists($plugin, 'retourMatch')) {
+                $result[$plugin->getHandle()] = $plugin->name.Craft::t('retour', ' Match');
+            }
+        }
 
         return $result;
     }
