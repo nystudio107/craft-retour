@@ -33,18 +33,9 @@ return [
     // Should the query string be stripped from all 404 URLs before their evaluation?
     'alwaysStripQueryString'   => false,
 
-    // How many static redirects to display in the Admin CP
-    'staticRedirectDisplayLimit'  => 100,
-
-    // How many dynamic redirects to display in the Admin CP
-    'dynamicRedirectDisplayLimit' => 100,
-
     // Should the query string be stripped from the saved statistics source URLs?
     'stripQueryStringFromStats'   => true,
 
     // How many stats should be stored
     'statsStoredLimit' => 1000,
-
-    // How many stats to display in the Admin CP
-    'statsDisplayLimit' => 1000,
 ];
