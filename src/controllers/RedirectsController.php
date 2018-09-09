@@ -229,7 +229,6 @@ class RedirectsController extends Controller
             throw new NotFoundHttpException('Redirect not found');
         }
         $redirectConfig['id'] = (int)$redirectConfig['id'];
-        $redirectConfig['redirectSrcUrlParsed'] = $redirectConfig['redirectSrcUrl'];
         $redirect = new StaticRedirectsModel($redirectConfig);
         // Make sure the redirect validates
         if (!$redirect->validate()) {

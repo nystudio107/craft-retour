@@ -12,6 +12,8 @@
 namespace nystudio107\retour\models;
 
 use nystudio107\retour\validators\DbStringValidator;
+use nystudio107\retour\validators\ParsedUriValidator;
+use nystudio107\retour\validators\UriValidator;
 
 /**
  * @author    nystudio107
@@ -87,6 +89,15 @@ class Redirects extends DbModel
             ['locale', 'string'],
             ['locale', 'default', 'value' => ''],
             ['associatedElementId', 'integer'],
+            ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl', 'parse' => false],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectDestUrl',
+                ],
+                UriValidator::class,
+            ],
             [
                 [
                     'redirectSrcUrl',
