@@ -1,0 +1,86 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Settings index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:settings" %}
+
+{% extends "_layouts/cp" %}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import configWarning %}
+
+{% block content %}
+
+    <input type="hidden" name="action" value="retour/settings/save-plugin-settings">
+    <input type="hidden" name="pluginHandle" value="retour">
+
+    {{ redirectInput("retour/settings") }}
+    {% namespace "settings" %}
+        {{ forms.textField({
+            label: "Plugin name"|t("retour"),
+            instructions: "The public-facing name of the plugin"|t("retour"),
+            id: "pluginName",
+            name: "pluginName",
+            value: settings.pluginName,
+            warning: configWarning("pluginName", "retour"),
+            errors: settings.getErrors("pluginName"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Create Entry Redirects"|t("retour"),
+            instructions: "Controls whether Retour automatically creates static redirects when an entry's URI changes."|t("retour"),
+            id: "createUriChangeRedirects",
+            name: "createUriChangeRedirects",
+            on: settings.createUriChangeRedirects,
+            warning: configWarning("createUriChangeRedirects", "retour"),
+            errors: settings.getErrors("createUriChangeRedirects"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Strip Query String from 404s"|t("retour"),
+            instructions: "Should the query string be stripped from all 404 URLs before their evaluation?"|t("retour"),
+            id: "alwaysStripQueryString",
+            name: "alwaysStripQueryString",
+            on: settings.alwaysStripQueryString,
+            warning: configWarning("alwaysStripQueryString", "retour"),
+            errors: settings.getErrors("alwaysStripQueryString"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Strip Query String from Statistics"|t("retour"),
+            instructions: "Should the query string be stripped from the saved statistics source URLs?"|t("retour"),
+            id: "stripQueryStringFromStats",
+            name: "stripQueryStringFromStats",
+            on: settings.stripQueryStringFromStats,
+            warning: configWarning("stripQueryStringFromStats", "retour"),
+            errors: settings.getErrors("stripQueryStringFromStats"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Statistics to Store"|t("retour"),
+            instructions: "How many unqie 404 statistics should be stored before they are trimmed."|t("seomatic"),
+            id: "statsStoredLimit",
+            name: "statsStoredLimit",
+            size: 7,
+            maxlength: 7,
+            value: settings.statsStoredLimit,
+            warning: configWarning("statsStoredLimit", "retour"),
+            errors: settings.getErrors("statsStoredLimit"),
+        }) }}
+
+    {% endnamespace %}
+
+    {# include our JavaScript modules #}
+    {{ parent() }}
+{% endblock %}

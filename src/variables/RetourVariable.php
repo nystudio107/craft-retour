@@ -2,7 +2,8 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
+ * Retour allows you to intelligently redirect legacy URLs, so that you don't
+ * lose SEO value when rebuilding & restructuring a website
  *
  * @link      https://nystudio107.com/
  * @copyright Copyright (c) 2018 nystudio107
@@ -11,8 +12,6 @@
 namespace nystudio107\retour\variables;
 
 use nystudio107\retour\Retour;
-
-use Craft;
 
 /**
  * @author    nystudio107
@@ -25,15 +24,22 @@ class RetourVariable
     // =========================================================================
 
     /**
-     * @param null $optional
-     * @return string
+     * Returns the list of matching schemes
+     *
+     * @return array
      */
-    public function exampleVariable($optional = null)
+    public function getMatchesList(): array
     {
-        $result = "And away we go to the Twig template...";
-        if ($optional) {
-            $result = "I'm feeling optional today...";
-        }
-        return $result;
+        return Retour::$plugin->redirects->getMatchesList();
+    }
+
+    /**
+     * Return the http status code
+     *
+     * @return int
+     */
+    public function getHttpStatus(): int
+    {
+        return http_response_code();
     }
 }

@@ -2,7 +2,8 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
+ * Retour allows you to intelligently redirect legacy URLs, so that you don't
+ * lose SEO value when rebuilding & restructuring a website
  *
  * @link      https://nystudio107.com/
  * @copyright Copyright (c) 2018 nystudio107
@@ -23,8 +24,18 @@
  */
 
 return [
+    // The public facing name of the plugin
+    'pluginName' => 'Retour',
 
-    // This controls blah blah blah
-    "someAttribute" => true,
+    // Controls whether Retour automatically creates static redirects when an entry's URI changes.
+    'createUriChangeRedirects' => true,
 
+    // Should the query string be stripped from all 404 URLs before their evaluation?
+    'alwaysStripQueryString'   => false,
+
+    // Should the query string be stripped from the saved statistics source URLs?
+    'stripQueryStringFromStats'   => true,
+
+    // How many stats should be stored
+    'statsStoredLimit' => 1000,
 ];

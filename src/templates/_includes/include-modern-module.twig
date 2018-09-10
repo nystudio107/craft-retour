@@ -1,0 +1,28 @@
+{% macro includeModernModule(jsModuleName) -%}
+    {% set hashLookup = {
+        
+        
+            
+            "dashboard": "/cpresources/retour/js/dashboard.6ee3fdd9bbbed0418a93.js",
+            
+        
+            
+            "redirects": "/cpresources/retour/js/redirects.9ffff75383adee4c9b9b.js",
+            
+        
+            
+            "styles": "/cpresources/retour/js/styles.3a3a2cb808c3773b9bde.js",
+            
+        
+            
+            "retour": "/cpresources/retour/js/retour.f6adc157a917a2cc861f.js",
+            
+        
+            
+            "widget": "/cpresources/retour/js/widget.8f490781d19160638c08.js",
+            
+        
+    } %}
+    {# Browsers with ES module support load this file. #}
+    <script type="module" src="{{ hashLookup[jsModuleName] }}"></script>
+{%- endmacro %}

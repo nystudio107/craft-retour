@@ -1,0 +1,11 @@
+{% extends "_layouts/cp" %}
+
+{% from "retour/_includes/macros.twig" import includeJsModule %}
+{% from "retour/_includes/macros.twig" import includeCssModule %}
+
+{% block head %}
+    {{ parent() }}
+    {{ includeCssModule("styles") }}
+    {% include "retour/_includes/safari-nomodule-fix.twig" %}
+    {{ includeJsModule("retour") }}
+{% endblock %}

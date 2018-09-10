@@ -1,0 +1,20 @@
+{% macro includeCssModule(cssModuleName) -%}
+    {% set hashLookup = {
+        
+        
+            
+        
+            
+        
+            
+            "styles": "/cpresources/retour/css/styles.e67cda2ff1da0a0f2b87.css",
+            
+        
+            
+        
+            
+        
+    } %}
+    <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+{%- endmacro includeCssModule %}

@@ -1,0 +1,112 @@
+<template>
+    <div class="py-4">
+        <vuetable-filter-bar></vuetable-filter-bar>
+        <div class="vuetable-pagination clearafter">
+            <vuetable-pagination-info ref="paginationInfoTop"
+            ></vuetable-pagination-info>
+            <vuetable-pagination ref="paginationTop"
+                                 @vuetable-pagination:change-page="onChangePage"
+            ></vuetable-pagination>
+        </div>
+        <vuetable ref="vuetable"
+                  api-url="/retour/tables/dashboard"
+                  :per-page="20"
+                  :fields="fields"
+                  :css="css"
+                  :append-params="moreParams"
+                  @vuetable:pagination-data="onPaginationData"
+        ></vuetable>
+        <div class="vuetable-pagination clearafter">
+            <vuetable-pagination-info ref="paginationInfo"
+            ></vuetable-pagination-info>
+            <vuetable-pagination ref="pagination"
+                                 @vuetable-pagination:change-page="onChangePage"
+            ></vuetable-pagination>
+        </div>
+    </div>
+</template>
+
+<script>
+    import FieldDefs from './DashboardFieldDefs.js'
+    // Our component exports
+    export default {
+        components: {
+            'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue'),
+            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ './VuetablePagination.vue'),
+            'vuetable-pagination-info': () => import(/* webpackChunkName: "vuetable-pagination-info" */ './VuetablePaginationInfo.vue'),
+            'vuetable-filter-bar': () => import(/* webpackChunkName: "vuetable-filter-bar" */ './VuetableFilterBar.vue'),
+        },
+        props: {},
+        data: function() {
+            return {
+                moreParams: {},
+                css: {
+                    tableClass: 'data fullwidth',
+                    ascendingIcon: 'ordered asc',
+                    descendingIcon: 'ordered desc'
+                },
+                sortOrder: [
+                    {
+                        field: 'hitCount',
+                        sortField: 'hitCount',
+                        direction: 'desc'
+                    }
+                ],
+                fields: FieldDefs,
+            }
+        },
+        mounted() {
+            this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
+            this.$events.$on('filter-reset', e => this.onFilterReset());
+        },
+        methods: {
+            onFilterSet (filterText) {
+                this.moreParams = {
+                    'filter': filterText
+                };
+                this.$events.fire('refresh-table', this.$refs.vuetable);
+            },
+            onFilterReset () {
+                this.moreParams = {};
+                this.$events.fire('refresh-table', this.$refs.vuetable);
+            },
+            onPaginationData (paginationData) {
+                this.$refs.paginationTop.setPaginationData(paginationData);
+                this.$refs.paginationInfoTop.setPaginationData(paginationData);
+
+                this.$refs.pagination.setPaginationData(paginationData);
+                this.$refs.paginationInfo.setPaginationData(paginationData);
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page);
+            },
+            urlFormatter(value) {
+                if (value === '') {
+                    return '';
+                }
+                return `
+                <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
+                `;
+            },
+            boolFormatter(value) {
+                if (value == 1) {
+                    return `
+                <span style="color: green;">&#x2714;</span>
+                `;
+                }
+                return `
+                <span style="color: red;">&#x2716;</span>
+                `;
+            },
+            addUrlFormatter(value) {
+                if (value === '') {
+                    return '';
+                }
+                return `
+                <a class="add icon" href="add-redirect/${value}" title="Add"></a>
+                `;
+                return '';
+            }
+        }
+    }
+</script>

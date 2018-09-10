@@ -13,8 +13,21 @@
  */
 #}
 
-{% set iconUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retourwidget/dist', true) ~ '/img/Retour-icon.svg' %}
+{% extends "retour/_layouts/widget-cp.twig" %}
 
-<img src="{{ iconUrl }}" height="64" width="64" />
+{% from "retour/_includes/macros.twig" import includeJsModule %}
 
-<p>{{ message }}</p>
+{% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
+{% set iconUrl = baseAssetsUrl ~ '/img/icon.svg' %}
+
+{% block content %}
+    <div id="widget-content">
+        <widget-chart title="404s hits" sub-title="Discrete 404s hits in the last" days="{{ numberOfDays }}">
+        </widget-chart>
+        <div style="float: right;">
+            <a class="go" href="retour/dashboard">Dashboard</a>
+        </div>
+    </div>
+
+    {{ includeJsModule("widget") }}
+{% endblock %}

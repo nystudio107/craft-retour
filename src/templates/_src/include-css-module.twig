@@ -1,0 +1,12 @@
+{% macro includeCssModule(cssModuleName) -%}
+    {% set hashLookup = {
+        <% var obj = htmlWebpackPlugin.files.chunks; %>
+        <% Object.keys(obj).forEach(function(key) { %>
+            <% if (obj[key].css != "") { %>
+            "<%= key %>": "<%= obj[key].css %>",
+            <% } %>
+        <% }); %>
+    } %}
+    <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+{%- endmacro includeCssModule %}

@@ -1,0 +1,54 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Redirects index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:redirects" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import includeJsModule %}
+
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+        <div class="retour-button-container">
+            <a href="{{ url('retour/export') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+        </div>
+        <div class="retour-button-container">
+            <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="retour/import-file">
+                <input type="file" name="file" id="retour-file" class="retour-inputfile" accept=".csv|text/*" onchange="this.form.submit();" />
+                <label class="btn" for="retour-file">Import CSV File</label>
+            </form>
+        </div>
+        <a href="{{ url('retour/add-redirect') }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="field readable">
+        </div>
+        <redirects-table>
+        </redirects-table>
+    </div>
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {{ includeJsModule("redirects") }}
+{% endblock %}

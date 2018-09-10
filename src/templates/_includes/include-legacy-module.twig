@@ -1,0 +1,29 @@
+{% macro includeLegacyModule(jsModuleName) -%}
+    {% set hashLookup = {
+        
+        
+            
+            "dashboard": "/cpresources/retour/js/dashboard-legacy.462a6ed6638ea8d1a0f7.js",
+            
+        
+            
+            "redirects": "/cpresources/retour/js/redirects-legacy.1a516e9fef238ca716a8.js",
+            
+        
+            
+            "styles": "/cpresources/retour/js/styles-legacy.e67cda2ff1da0a0f2b87.js",
+            
+        
+            
+            "retour": "/cpresources/retour/js/retour-legacy.d6869c6ea4f507873b1c.js",
+            
+        
+            
+            "widget": "/cpresources/retour/js/widget-legacy.5e8eca73c1bf707bc483.js",
+            
+        
+    } %}
+    {# Older browsers load this file (and module-supporting #}
+    {# browsers know *not* to load this file). #}
+    <script nomodule src="{{ hashLookup[jsModuleName] }}"></script>
+{%- endmacro %}

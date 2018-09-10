@@ -2,7 +2,8 @@
 /**
  * Retour plugin for Craft CMS 3.x
  *
- * Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
+ * Retour allows you to intelligently redirect legacy URLs, so that you don't
+ * lose SEO value when rebuilding & restructuring a website
  *
  * @link      https://nystudio107.com/
  * @copyright Copyright (c) 2018 nystudio107
@@ -10,25 +11,69 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
-use Craft;
-use craft\base\Model;
+use nystudio107\retour\validators\DbStringValidator;
+use nystudio107\retour\validators\ParsedUriValidator;
+use nystudio107\retour\validators\UriValidator;
 
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
  */
-class Redirects extends Model
+class Redirects extends DbModel
 {
     // Public Properties
     // =========================================================================
 
     /**
+     * @var int
+     */
+    public $id;
+
+    /**
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $locale;
+
+    /**
+     * @var int
+     */
+    public $associatedElementId;
+
+    /**
+     * @var string
+     */
+    public $redirectSrcUrl;
+
+    /**
+     * @var string
+     */
+    public $redirectSrcUrlParsed;
+
+    /**
+     * @var string
+     */
+    public $redirectMatchType;
+
+    /**
+     * @var string
+     */
+    public $redirectDestUrl;
+
+    /**
+     * @var int
+     */
+    public $redirectHttpCode;
+
+    /**
+     * @var int
+     */
+    public $hitCount;
+
+    /**
+     * @var string
+     */
+    public $hitLastTime;
 
     // Public Methods
     // =========================================================================
@@ -39,8 +84,54 @@ class Redirects extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['id', 'integer'],
+            ['locale', DbStringValidator::class, 'max' => 12],
+            ['locale', 'string'],
+            ['locale', 'default', 'value' => ''],
+            ['associatedElementId', 'integer'],
+            ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl', 'parse' => false],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectDestUrl',
+                ],
+                UriValidator::class,
+            ],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectMatchType',
+                    'redirectDestUrl',
+                ],
+                DbStringValidator::class,
+                'max' => 255
+            ],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectMatchType',
+                    'redirectDestUrl',
+                ],
+                'string'
+            ],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectMatchType',
+                    'redirectDestUrl',
+                ],
+                'default',
+                'value' => ''
+            ],
+            ['redirectHttpCode', 'integer'],
+            ['redirectHttpCode', 'default', 'value' => 301],
+            ['hitCount', 'integer'],
+            ['hitCount', 'default', 'value' => 0],
+            ['hitLastTime', 'safe'],
         ];
     }
 }
