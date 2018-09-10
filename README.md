@@ -20,13 +20,20 @@ Retour is the 404 redirect handling tool that the SEO experts at [Moz.com](https
 
 Like any software, this beta version of Retour may have bugs. Please report any problems you may find on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues), and we'll get them addressed quickly.
 
-Please note that this documentation is **not** finished yet.
+The following things are not finished yet for the beta
+
+* Redirects are not automatically created when entry slugs are renamed
+* Export CSV
+* Import CSV
+* This documentation
+
+There are entries on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues) that you can use to check on the status of the beta.
 
 ### Upgrading from Retour 1.x for Craft CMS 2.x
 
 Even though this version of Retour was entirely rewritten for Craft CMS 3, it was designed to use all of the same data used by the Craft CMS 2.x version of Retour.
 
-So upgrading should "just work".
+So any existing redirects and statistics will continue to be in place.
 
 ## Requirements
 
