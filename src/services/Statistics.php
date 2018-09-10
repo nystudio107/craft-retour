@@ -168,12 +168,11 @@ class Statistics extends Component
 
         if (!empty($limit)) {
             // Handle MySQL
-            if ($db->getIsMysql()) {
-                // As per https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
-                $affectedRows = 0;
-                try {
-                    $affectedRows = $db->createCommand(/** @lang mysql */
-                        "
+            // As per https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
+            $affectedRows = 0;
+            try {
+                $affectedRows = $db->createCommand(/** @lang mysql */
+                    "
                 DELETE FROM {$quotedTable}
                 WHERE id NOT IN (
                   SELECT id
@@ -185,19 +184,18 @@ class Statistics extends Component
                   ) foo
                 )
             "
-                    )->execute();
-                } catch (Exception $e) {
-                    Craft::error($e->getMessage(), __METHOD__);
-                }
-                Craft::info(
-                    Craft::t(
-                        'retour',
-                        'Trimmed {rows} from retour_stats table',
-                        ['rows' => $affectedRows]
-                    ),
-                    __METHOD__
-                );
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
             }
+            Craft::info(
+                Craft::t(
+                    'retour',
+                    'Trimmed {rows} from retour_stats table',
+                    ['rows' => $affectedRows]
+                ),
+                __METHOD__
+            );
         }
     }
 
