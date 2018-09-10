@@ -4,12 +4,12 @@
     "type": "craft-plugin",
     "version": "3.0.0-beta.1",
     "keywords": [
-        "craft",
-        "cms",
         "craftcms",
         "craft-plugin",
+        "retour",
         "redirect",
-        "retour"
+        "404",
+        "statistics"
     ],
     "support": {
         "docs": "https://github.com/nystudio107/retour/blob/v1/README.md",
