@@ -146,7 +146,7 @@ Only one record is saved per URL Pattern, so the database won't get clogged with
 
 If you'd like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
 
-![Screenshot](resources/screenshots/retour03.png)
+![Screenshot](resources/screenshots/retour-widget.png)
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
 

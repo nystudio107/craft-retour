@@ -4,17 +4,18 @@
     "type": "craft-plugin",
     "version": "3.0.0-beta.1",
     "keywords": [
-        "craft",
-        "cms",
         "craftcms",
         "craft-plugin",
-        "retour"
+        "retour",
+        "redirect",
+        "404",
+        "statistics"
     ],
     "support": {
-        "docs": "https://github.com/nystudio107/craft-retour/blob/master/README.md",
-        "issues": "https://github.com/nystudio107/craft-retour/issues"
+        "docs": "https://github.com/nystudio107/retour/blob/v1/README.md",
+        "issues": "https://github.com/nystudio107/retour/issues"
     },
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "nystudio107",
@@ -22,7 +23,8 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0"
+        "craftcms/cms": "^3.0.0",
+        "league/csv": "^8.2"
     },
     "autoload": {
         "psr-4": {
@@ -34,9 +36,10 @@
         "handle": "retour",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/retour/v1/CHANGELOG.md",
         "components": {
-            "retour": "nystudio107\\retour\\services\\Retour"
+            "redirects": "nystudio107\\retour\\services\\Redirects",
+            "statistics": "nystudio107\\retour\\services\\Statistics"
         },
         "class": "nystudio107\\retour\\Retour"
     }
