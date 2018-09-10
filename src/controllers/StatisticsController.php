@@ -11,8 +11,8 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 use nystudio107\retour\Retour;
+use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 

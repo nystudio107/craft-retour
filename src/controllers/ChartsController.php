@@ -121,7 +121,6 @@ class ChartsController extends Controller
                 (int)$handledStats
             ];
         }
-        Craft::error($data);
 
         return $this->asJson($data);
     }
