@@ -83,14 +83,14 @@ class Install extends Migration
                     'uid'         => $this->uid(),
 
                     'locale'               => $this->string(12)->defaultValue('match'),
-                    'associatedElement'    => $this->integer()->notNull(),
+                    'associatedElementId'  => $this->integer()->notNull(),
                     'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
                     'redirectMatchType'    => $this->string(255)->defaultValue('match'),
                     'redirectDestUrl'      => $this->string(255)->defaultValue(''),
                     'redirectHttpCode'     => $this->integer()->defaultValue(301),
                     'hitCount'             => $this->integer()->defaultValue(1),
-                    'hitLastTime'          => $this->dateTime()->notNull(),
+                    'hitLastTime'          => $this->dateTime(),
                 ]
             );
         }
@@ -107,14 +107,14 @@ class Install extends Migration
                     'uid'         => $this->uid(),
 
                     'locale'               => $this->string(12)->defaultValue('match'),
-                    'associatedElement'    => $this->integer()->notNull(),
+                    'associatedElementId'  => $this->integer()->notNull(),
                     'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
                     'redirectMatchType'    => $this->string(255)->defaultValue('match'),
                     'redirectDestUrl'      => $this->string(255)->defaultValue(''),
                     'redirectHttpCode'     => $this->integer()->defaultValue(301),
                     'hitCount'             => $this->integer()->defaultValue(1),
-                    'hitLastTime'          => $this->dateTime()->notNull(),
+                    'hitLastTime'          => $this->dateTime(),
                 ]
             );
         }
@@ -133,7 +133,7 @@ class Install extends Migration
                     'redirectSrcUrl'  => $this->string(255)->defaultValue(''),
                     'referrerUrl'     => $this->string(2000)->defaultValue(''),
                     'hitCount'        => $this->integer()->defaultValue(1),
-                    'hitLastTime'     => $this->dateTime()->notNull(),
+                    'hitLastTime'     => $this->dateTime(),
                     'handledByRetour' => $this->boolean()->defaultValue(false),
                 ]
             );
@@ -149,6 +149,16 @@ class Install extends Migration
     {
         $this->createIndex(
             $this->db->getIndexName(
+                '{{%retour_static_redirects}}',
+                'redirectSrcUrlParsed',
+                true
+            ),
+            '{{%retour_static_redirects}}',
+            'redirectSrcUrlParsed',
+            true
+        );
+        $this->createIndex(
+            $this->db->getIndexName(
                 '{{%retour_redirects}}',
                 'redirectSrcUrlParsed',
                 true
@@ -157,13 +167,6 @@ class Install extends Migration
             'redirectSrcUrlParsed',
             true
         );
-        // Additional commands depending on the db driver
-        switch ($this->driver) {
-            case DbConfig::DRIVER_MYSQL:
-                break;
-            case DbConfig::DRIVER_PGSQL:
-                break;
-        }
     }
 
     /**
@@ -171,6 +174,17 @@ class Install extends Migration
      */
     protected function addForeignKeys()
     {
+        $this->addForeignKey(
+            $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
+            '{{%retour_redirects}}',
+            'associatedElementId',
+            '{{%elements}}',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        /*
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
             '{{%retour_redirects}}',
@@ -190,6 +204,7 @@ class Install extends Migration
             'CASCADE',
             'CASCADE'
         );
+        */
     }
 
     /**
@@ -205,7 +220,7 @@ class Install extends Migration
     protected function removeTables()
     {
         $this->dropTableIfExists('{{%retour_redirects}}');
-
+        $this->dropTableIfExists('{{%retour_static_redirects}}');
         $this->dropTableIfExists('{{%retour_stats}}');
     }
 }
