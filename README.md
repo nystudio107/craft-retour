@@ -20,11 +20,12 @@ Retour is the 404 redirect handling tool that the SEO experts at [Moz.com](https
 
 Like any software, this beta version of Retour may have bugs. Please report any problems you may find on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues), and we'll get them addressed quickly.
 
-The following things are not finished yet for the beta
+The following things are not fully implemented for the beta:
 
 * Redirects are not automatically created when entry slugs are renamed
 * Export CSV
 * Import CSV
+* Dynamic redirects
 * This documentation
 
 There are entries on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues) that you can use to check on the status of the beta.
