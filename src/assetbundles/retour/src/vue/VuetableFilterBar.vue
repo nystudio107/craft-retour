@@ -1,9 +1,9 @@
 <template>
-    <div class="filter-bar ui basic segment grid">
+    <div class="filter-bar">
         <div class="ui form">
             <div class="inline field">
-                <label>Search for:</label>
-                <input type="text" v-model="filterText" class="three wide column" @keyup="doFilter" placeholder="">
+                <label class="text-grey-dark">Search for:</label>
+                <input type="text" v-model="filterText" class="text nicetext" @keyup="doFilter" placeholder="">
                 <button class="btn delete icon" @click="resetFilter">Reset</button>
             </div>
         </div>

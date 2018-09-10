@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~axios-legacy.f0f94b93fb6d8160f0b0.js
  * @author         andrew@nystudio107.com
- * @build          Sun, Sep 9, 2018 7:51 PM ET
- * @release        1e1c0942054b25ba8f5e925d8943418b58d1dfb7 [develop]
+ * @build          Mon, Sep 10, 2018 2:59 AM ET
+ * @release        633c086ba17de9d15bc2f19bcd45d6be80faaac5 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

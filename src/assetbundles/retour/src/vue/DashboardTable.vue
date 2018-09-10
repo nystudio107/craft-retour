@@ -1,7 +1,7 @@
 <template>
     <div class="py-4">
         <vuetable-filter-bar></vuetable-filter-bar>
-        <div class="vuetable-pagination">
+        <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
             <vuetable-pagination ref="paginationTop"
@@ -16,7 +16,7 @@
                   :append-params="moreParams"
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
-        <div class="vuetable-pagination">
+        <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfo"
             ></vuetable-pagination-info>
             <vuetable-pagination ref="pagination"

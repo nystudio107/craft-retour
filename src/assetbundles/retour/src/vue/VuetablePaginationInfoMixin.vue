@@ -5,7 +5,7 @@ export default {
       type: Object,
       default() {
         return {
-          infoClass: 'left floated left aligned six wide column'
+          infoClass: 'left floated left py-5 text-grey-dark'
         }
       }
     },
