@@ -48,6 +48,14 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Retour.
 
+**N.B.** Since this is a beta, you'll need to have your `composer.json` look like this:
+```json
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "require": {
+        "nystudio107/craft-retour": "^3.0.0-beta.1",
+```
+
 You can also install Retour via the **Plugin Store** in the Craft AdminCP.
 
 ## Retour Overview
