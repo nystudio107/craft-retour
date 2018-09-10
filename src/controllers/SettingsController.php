@@ -70,7 +70,7 @@ class SettingsController extends Controller
             Craft::error($e->getMessage(), __METHOD__);
         }
         $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
-            '@nystudio107/seomatic/assetbundles/seomatic/dist',
+            '@nystudio107/retour/assetbundles/retour/dist',
             true
         );
         // Basic variables
