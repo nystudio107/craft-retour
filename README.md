@@ -10,12 +10,6 @@ Related: [Retour for Craft 2.x](https://github.com/nystudio107/retour)
 
 **Note**: _The license fee for this plugin is $59.00 via the Craft Plugin Store._
 
-## Used By
-
-![Screenshot](resources/img/moz-logo-blue.png)![Screenshot](resources/img/craft-cms-logo.png)
-
-Retour is the 404 redirect handling tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on.
-
 ## Beta Notes
 
 Like any software, this beta version of Retour may have bugs. Please report any problems you may find on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues), and we'll get them addressed quickly.
