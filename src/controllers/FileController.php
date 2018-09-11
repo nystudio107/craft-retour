@@ -11,6 +11,8 @@
 
 namespace nystudio107\retour\controllers;
 
+use craft\db\Query;
+use League\Csv\Writer;
 use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourImportAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
@@ -38,6 +40,23 @@ class FileController extends Controller
     // =========================================================================
 
     const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+
+    const REDIRECTS_CSV_FIELDS = [
+        'redirectSrcUrl' => 'Legacy URL Pattern',
+        'redirectDestUrl' => 'Redirect To',
+        'redirectMatchType' => 'Match Type',
+        'redirectHttpCode' => 'HTTP Status',
+        'hitCount' => 'Hits',
+        'hitLastTime' => 'Last Hit',
+    ];
+
+    const STATISTICS_CSV_FIELDS = [
+        'redirectSrcUrl' => '404 File Not Found URL',
+        'referrerUrl' => 'Last Referrer URL',
+        'hitCount' => 'Hits',
+        'hitLastTime' => 'Last Hit',
+        'handledByRetour' => 'Handled',
+    ];
 
     // Protected Properties
     // =========================================================================
@@ -139,7 +158,7 @@ class FileController extends Controller
         // The CSV file
         $file = UploadedFile::getInstanceByName('file');
         if ($file !== null) {
-            $filename = Craft::$app->getPath()->getTempPath() . DIRECTORY_SEPARATOR . uniqid($file->name, true);
+            $filename = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.uniqid($file->name, true);
             $file->saveAs($filename, false);
             $csv = Reader::createFromPath($file->tempName);
             $headers = $csv->fetchOne(0);
@@ -150,5 +169,51 @@ class FileController extends Controller
 
         // Render the template
         return $this->renderTemplate('retour/import/index', $variables);
+    }
+
+    /**
+     * Export the statistics table as a CSV file
+     *
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionExportStatistics()
+    {
+        PermissionHelper::controllerPermissionCheck('retour:statistics');
+        $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::STATISTICS_CSV_FIELDS);
+    }
+
+    /**
+     * Export the statistics table as a CSV file
+     *
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionExportRedirects()
+    {
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
+        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::REDIRECTS_CSV_FIELDS);
+    }
+
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * @param string $filename
+     * @param string $table
+     * @param array  $columns
+     */
+    protected function exportCsvFile(string $filename, string $table, array $columns)
+    {
+        // Query the db table
+        $data = (new Query())
+            ->from([$table])
+            ->select(array_keys($columns))
+            ->orderBy('hitCount DESC')
+            ->all();
+        // Create our CSV file writer
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        $csv->insertOne(array_values($columns));
+        $csv->insertAll($data);
+        $csv->output($filename.'.csv');
+        exit(0);
     }
 }
