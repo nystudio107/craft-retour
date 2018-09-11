@@ -13,6 +13,7 @@
                   :per-page="20"
                   :fields="fields"
                   :css="css"
+                  :sort-order="sortOrder"
                   :append-params="moreParams"
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
@@ -41,9 +42,9 @@
             return {
                 moreParams: {},
                 css: {
-                    tableClass: 'data fullwidth',
-                    ascendingIcon: 'ordered asc',
-                    descendingIcon: 'ordered desc'
+                    tableClass: 'data fullwidth retour-dashboard',
+                    ascendingIcon: 'menubtn retour-menubtn-asc',
+                    descendingIcon: 'menubtn retour-menubtn-desc'
                 },
                 sortOrder: [
                     {

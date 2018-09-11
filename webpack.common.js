@@ -13,7 +13,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 // config files
 const pkg = require('./package.json');
@@ -216,6 +217,7 @@ const baseConfig = {
         }
     },
     plugins: [
+        new WebpackNotifierPlugin({title: 'Webpack', excludeWarnings: true, alwaysNotify: true}),
         new VueLoaderPlugin(),
     ]
 };

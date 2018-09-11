@@ -13,6 +13,7 @@
                   :per-page="20"
                   :fields="fields"
                   :css="css"
+                  :sort-order="sortOrder"
                   :append-params="moreParams"
                   @vuetable:pagination-data="onPaginationData"
         ></vuetable>
@@ -41,9 +42,9 @@
             return {
                 moreParams: {},
                 css: {
-                    tableClass: 'data fullwidth',
-                    ascendingIcon: 'ordered asc',
-                    descendingIcon: 'ordered desc'
+                    tableClass: 'data fullwidth retour-redirects',
+                    ascendingIcon: 'menubtn retour-menubtn-asc',
+                    descendingIcon: 'menubtn retour-menubtn-desc'
                 },
                 sortOrder: [
                     {
@@ -82,17 +83,17 @@
                 this.$refs.vuetable.changePage(page);
             },
             matchFormatter(value) {
-                let $label = 'Pluing Match';
+                let label = 'Pluing Match';
                 switch (value) {
                     case 'exactmatch':
-                        $label = 'Exact Match';
+                        label = 'Exact Match';
                         break;
                     case 'regexmatch':
-                        $label = 'RegEx Match';
+                        label = 'RegEx Match';
                         break;
                 }
 
-                return $label;
+                return label;
             },
             urlFormatter(value) {
                 if (value === '') {

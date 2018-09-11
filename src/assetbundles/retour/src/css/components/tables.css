@@ -11,11 +11,19 @@ table.vuetable {
   overflow: hidden;
 }
 
+.retour-menubtn-asc::after {
+  content: 'downangle';
+}
+
+.retour-menubtn-desc::after {
+  content: 'upangle';
+}
+
 /**
  * Dashboard chart
  */
 
-th.vuetable-th-redirectSrcUrl {
+table.retour-dashboard th.vuetable-th-redirectSrcUrl {
   width: 34%!important;
 }
 
@@ -24,7 +32,7 @@ th.vuetable-th-referrerUrl {
 }
 
 th.vuetable-th-hitCount {
-  width: 6%!important;
+  width: 8%!important;
   text-align: right!important;
 }
 
@@ -33,23 +41,27 @@ th.vuetable-th-hitLastTime {
 }
 
 th.vuetable-th-handledByRetour {
-  width: 6%!important;
+  width: 12%!important;
 }
 
 th.vuetable-th-addLink {
-  width: 5%!important;
+  width: 3%!important;
 }
 
 /**
  * Redirects chart
  */
 
+table.retour-redirects th.vuetable-th-redirectSrcUrl {
+  width: 27%!important;
+}
+
 th.vuetable-th-redirectDestUrl {
-  width: 25%!important;
+  width: 27%!important;
 }
 
 th.vuetable-th-redirectMatchType {
-  width: 15%!important;
+  width: 13%!important;
 }
 
 th.vuetable-th-redirectHttpCode {

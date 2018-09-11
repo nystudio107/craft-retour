@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           confetti.c0450ee8c2b8fb9c9be6.js
  * @author         andrew@nystudio107.com
- * @build          Tue, Sep 11, 2018 1:14 AM ET
- * @release        cddb1d3334a6aa28a61055948acb787b1b4bf423 [develop]
+ * @build          Tue, Sep 11, 2018 9:45 PM ET
+ * @release        7b62fa8837e3677e0c2774d48eff310ccf867932 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

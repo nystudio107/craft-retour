@@ -28,7 +28,7 @@ export default [
     {
         name: 'redirectHttpCode',
         sortField: 'redirectHttpCode',
-        title: 'HTTP Status',
+        title: 'Status',
         titleClass: 'text-left',
         dataClass: 'text-left',
     },

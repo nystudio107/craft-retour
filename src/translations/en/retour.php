@@ -73,5 +73,6 @@ return [
     'Redirect settings saved.' => 'Redirect settings saved.',
     'How many unqie 404 statistics should be stored before they are trimmed.' => 'How many unqie 404 statistics should be stored before they are trimmed.',
     'Redirect deleted.' => 'Redirect deleted.',
-    'Import CSV File' => 'Import CSV File'
+    'Import CSV File' => 'Import CSV File',
+    'How many unique 404 statistics should be stored before they are trimmed.' => 'How many unique 404 statistics should be stored before they are trimmed.'
 ];
