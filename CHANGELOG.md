@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.0.0-beta.5 - 2018-09-12
+### Added
+
+### Changed
+
 ## 3.0.0-beta.4 - 2018-09-11
 ### Added
 * Added sorting icons to the Dashboard and Redirects tables
