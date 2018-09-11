@@ -143,7 +143,7 @@ The first row of data in the CSV file should be the headings for the columns.
 
 Choose the fields to import into Retour from the CSV file by dragging them in the appropriate order. Click on the `x` to delete an unused field.
 
-The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive).
+The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.
 
 ### Settings
 
