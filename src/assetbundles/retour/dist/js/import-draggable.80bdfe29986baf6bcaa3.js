@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           import-draggable.80bdfe29986baf6bcaa3.js
  * @author         andrew@nystudio107.com
- * @build          Tue, Sep 11, 2018 3:21 PM ET
- * @release        1b7b726e1bdc97c189203580e3c0c1d5f847950b [develop]
+ * @build          Tue, Sep 11, 2018 9:45 PM ET
+ * @release        7b62fa8837e3677e0c2774d48eff310ccf867932 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
