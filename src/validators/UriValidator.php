@@ -47,6 +47,7 @@ class UriValidator extends Validator
         // Make sure there is a leading /
         $value = $model->$attribute;
         $value = '/'.ltrim($value, '/');
+        $value = preg_replace("/\r|\n/", '', $value);
         $model->$attribute = $value;
     }
 }
