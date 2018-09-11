@@ -20,6 +20,10 @@
 {% import "_includes/forms" as forms %}
 {% from "retour/_includes/macros.twig" import includeJsModule %}
 
+{% block actionButton %}
+    <input type="submit" class="btn submit" value="{{ 'Import'|t('app') }}">
+{% endblock %}
+
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
@@ -34,7 +38,7 @@
         name: "filename",
         value: filename,
     }) }}
-    
+
     <div id="cp-nav-content">
         <div class="field readable">
             <div class="heading">
