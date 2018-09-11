@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.0.0-beta.3 - 2018-09-10
+### Added
+* Added sorting icons to the Dashboard and Redirects tables
+
+### Changed
+* Better columns widths for the Redirects table
+* Fixed the sorting by Handled in the Dashboard table
 
 ## 3.0.0-beta.3 - 2018-09-10
 ### Added
