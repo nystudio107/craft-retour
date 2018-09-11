@@ -13,7 +13,6 @@ namespace nystudio107\retour\controllers;
 
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 
-use Craft;
 use craft\db\Query;
 use craft\helpers\ArrayHelper;
 use craft\web\Controller;
@@ -121,7 +120,6 @@ class ChartsController extends Controller
                 (int)$handledStats
             ];
         }
-        Craft::error($data);
 
         return $this->asJson($data);
     }

@@ -67,5 +67,11 @@ return [
     'Select whether the redirect should be permanent or temporary.'                                                                                                                                                             => 'Select whether the redirect should be permanent or temporary.',
     'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.'  => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.',
     'Edit Redirect'                                                                                                                                                                                                             => 'Edit Redirect',
-    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.'
+    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.',
+    'Redirects imported from CSV file.' => 'Redirects imported from CSV file.',
+    'Couldn\'t delete redirect.' => 'Couldn\'t delete redirect.',
+    'Redirect settings saved.' => 'Redirect settings saved.',
+    'How many unqie 404 statistics should be stored before they are trimmed.' => 'How many unqie 404 statistics should be stored before they are trimmed.',
+    'Redirect deleted.' => 'Redirect deleted.',
+    'Import CSV File' => 'Import CSV File'
 ];

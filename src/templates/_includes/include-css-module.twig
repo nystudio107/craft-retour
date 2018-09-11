@@ -7,7 +7,9 @@
             
         
             
-            "styles": "/cpresources/retour/css/styles.e67cda2ff1da0a0f2b87.css",
+        
+            
+            "styles": "/cpresources/retour/css/styles.1e8d04a73d27819eceaa.css",
             
         
             
@@ -15,6 +17,5 @@
             
         
     } %}
-    <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+    <link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}" />
 {%- endmacro includeCssModule %}

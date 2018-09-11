@@ -76,7 +76,7 @@ class RedirectsController extends Controller
         );
         // Enabled sites
         MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
-        $variables['controllerHandle'] = 'dashboard';
+        $variables['controllerHandle'] = 'redirects';
 
         // Basic variables
         $variables['fullPageForm'] = false;
@@ -159,7 +159,7 @@ class RedirectsController extends Controller
         );
         // Enabled sites
         MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
-        $variables['controllerHandle'] = 'dashboard';
+        $variables['controllerHandle'] = 'redirects';
 
         // Basic variables
         $variables['fullPageForm'] = true;
@@ -201,11 +201,11 @@ class RedirectsController extends Controller
         if (Retour::$plugin->redirects->deleteRedirectById($redirectId)) {
             // Clear the caches and continue on
             Retour::$plugin->clearAllCaches();
-            Craft::$app->getSession()->setNotice(Craft::t('app', 'Redirect deleted.'));
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect deleted.'));
 
             return $this->redirect('retour/redirects');
         }
-        Craft::$app->getSession()->setError(Craft::t('app', "Couldn't delete redirect."));
+        Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete redirect."));
 
         return null;
     }
@@ -245,7 +245,7 @@ class RedirectsController extends Controller
         Retour::$plugin->redirects->saveRedirect($redirectConfig);
         // Clear the caches and continue on
         Retour::$plugin->clearAllCaches();
-        Craft::$app->getSession()->setNotice(Craft::t('app', 'Redirect settings saved.'));
+        Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect settings saved.'));
 
         return $this->redirectToPostedUrl();
     }

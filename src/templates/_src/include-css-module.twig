@@ -7,6 +7,5 @@
             <% } %>
         <% }); %>
     } %}
-    <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+    <link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}" />
 {%- endmacro includeCssModule %}
