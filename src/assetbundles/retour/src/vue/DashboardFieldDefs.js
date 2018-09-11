@@ -33,7 +33,7 @@ export default [
     },
     {
         name: 'handledByRetour',
-        sortField: 'hitLastTime',
+        sortField: 'handledByRetour',
         title: 'Handled',
         titleClass: 'text-center',
         dataClass: 'text-center',
