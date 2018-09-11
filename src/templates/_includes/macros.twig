@@ -7,9 +7,10 @@
     {%- endif -%}
 {%- endmacro %}
 
-{% macro includeCssModule(cssModuleName) -%}
+{% macro includeCssModule(cssModuleName, async) -%}
+    {% set async = async ?? false %}
     {% from "retour/_includes/include-css-module.twig" import includeCssModule %}
-    {{ includeCssModule(cssModuleName) }}
+    {{ includeCssModule(cssModuleName, async) }}
 {%- endmacro includeCssModule %}
 
 {% macro includeJsModule(jsModuleName) -%}
