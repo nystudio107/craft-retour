@@ -420,6 +420,18 @@ class Redirects extends Component
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
         $db = Craft::$app->getDb();
+        // See if a redirect exists with this source URL already
+        if ((int)$redirectConfig['id'] === 0) {
+            // Query the db table
+            $redirect = (new Query())
+                ->from(['{{%retour_static_redirects}}'])
+                ->where(['redirectSrcUrlParsed' => $redirectConfig['redirectSrcUrlParsed']])
+                ->one();
+            // If it exists, update it rather than having duplicates
+            if (!empty($redirect)) {
+                $redirectConfig['id'] = $redirect['id'];
+            }
+        }
         if ((int)$redirectConfig['id'] !== 0) {
             // Update the existing record
             try {

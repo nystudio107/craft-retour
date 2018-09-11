@@ -88,8 +88,19 @@ class Redirects extends DbModel
             ['locale', DbStringValidator::class, 'max' => 12],
             ['locale', 'string'],
             ['locale', 'default', 'value' => ''],
+            ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
-            ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl', 'parse' => false],
+            [
+                [
+                    'redirectSrcUrl',
+                    'redirectSrcUrlParsed',
+                    'redirectDestUrl',
+                ],
+                'default',
+                'value' => ''
+            ],
+            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
+            ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl'],
             [
                 [
                     'redirectSrcUrl',
@@ -117,20 +128,10 @@ class Redirects extends DbModel
                 ],
                 'string'
             ],
-            [
-                [
-                    'redirectSrcUrl',
-                    'redirectSrcUrlParsed',
-                    'redirectMatchType',
-                    'redirectDestUrl',
-                ],
-                'default',
-                'value' => ''
-            ],
             ['redirectHttpCode', 'integer'],
             ['redirectHttpCode', 'default', 'value' => 301],
-            ['hitCount', 'integer'],
             ['hitCount', 'default', 'value' => 0],
+            ['hitCount', 'integer'],
             ['hitLastTime', 'safe'],
         ];
     }

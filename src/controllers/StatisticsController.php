@@ -75,7 +75,7 @@ class StatisticsController extends Controller
         );
         // Enabled sites
         MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
-        $variables['controllerHandle'] = 'dashboard';
+        $variables['controllerHandle'] = 'statistics';
 
         // Basic variables
         $variables['fullPageForm'] = false;

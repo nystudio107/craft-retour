@@ -94,12 +94,12 @@ class StaticRedirects extends DbModel
                 [
                     'redirectSrcUrl',
                     'redirectSrcUrlParsed',
-                    'redirectMatchType',
                     'redirectDestUrl',
                 ],
                 'default',
                 'value' => ''
             ],
+            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
             ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl'],
             [
                 [
