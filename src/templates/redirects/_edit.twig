@@ -35,7 +35,19 @@
             name: "id",
             value: redirect.id,
         }) }}
-
+    
+        {{ forms.hidden({
+            id: "hitCount",
+            name: "hitCount",
+            value: redirect.hitCount,
+        }) }}
+    
+        {{ forms.hidden({
+            id: "hitLastTime",
+            name: "hitLastTime",
+            value: redirect.hitLastTime,
+        }) }}
+        
         <div class="field first">
             <div class="heading">
                 <div class="instructions"><p>{{ "Retour will look for 404 (Not Found) URLs that match the Legacy URL Pattern below, and redirect them to Destination URL." |t |raw}}</p></div>
