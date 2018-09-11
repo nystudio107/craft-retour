@@ -18,7 +18,6 @@ The following things are not fully implemented for the beta:
 
 * Redirects are not automatically created when entry slugs are renamed
 * Export CSV
-* Import CSV
 * Dynamic redirects
 * This documentation
 
@@ -134,6 +133,18 @@ Static Redirects are useful when the Legacy URL Patterns and the new URL pattern
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on RegEx matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
 
+#### Importing Redirects from a CSV File
+
+Retour allows you to import redirects from a CSV file, with a GUI that allows you to choose how to map the data:
+
+![Screenshot](resources/screenshots/retour-import-csv.png)
+
+The first row of data in the CSV file should be the headings for the columns.
+
+Choose the fields to import into Retour from the CSV file by dragging them in the appropriate order. Click on the `x` to delete an unused field.
+
+The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive).
+
 ### Settings
 
 ## Using Retour
@@ -148,7 +159,6 @@ Only one record is saved per URL Pattern, so the database won't get clogged with
 
 If you'd like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
 
-![Screenshot](resources/screenshots/retour-widget.png)
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
 
