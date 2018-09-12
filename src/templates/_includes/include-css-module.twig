@@ -1,4 +1,5 @@
-{% macro includeCssModule(cssModuleName) -%}
+{% macro includeCssModule(cssModuleName, async) -%}
+    {% set async = async ?? false %}
     {% set hashLookup = {
         
         
@@ -9,7 +10,7 @@
             
         
             
-            "styles": "/cpresources/retour/css/styles.7c445d9298e420be247a.css",
+            "styles": "/cpresources/retour/css/styles.fe92c9dc5ae1b1684a8d.css",
             
         
             
@@ -17,5 +18,10 @@
             
         
     } %}
-    <link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}" />
+    {% if async %}
+        <link rel="preload" href="{{ hashLookup[cssModuleName] }}" as="style" onload="this.rel='stylesheet'" />
+        <noscript><link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}"></noscript>
+    {% else %}
+        <link rel="stylesheet" href="{{ hashLookup[cssModuleName] }}" />
+    {% endif %}
 {%- endmacro includeCssModule %}

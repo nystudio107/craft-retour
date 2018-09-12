@@ -44,10 +44,13 @@ class UriValidator extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
-        // Make sure there is a leading /
-        $value = $model->$attribute;
-        $value = '/'.ltrim($value, '/');
-        $value = preg_replace("/\r|\n/", '', $value);
-        $model->$attribute = $value;
+        $redirectMatchType = 'redirectMatchType';
+        if (!empty($model->$redirectMatchType) && $model->$redirectMatchType === 'exactmatch') {
+            // Make sure there is a leading /
+            $value = $model->$attribute;
+            $value = '/'.ltrim($value, '/');
+            $value = preg_replace("/\r|\n/", '', $value);
+            $model->$attribute = $value;
+        }
     }
 }
