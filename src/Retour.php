@@ -245,6 +245,8 @@ class Retour extends Plugin
                     'Elements::EVENT_BEFORE_SAVE_ELEMENT',
                     __METHOD__
                 );
+                if (!$event->isNew && self::$settings->createUriChangeRedirects) {
+                }
             }
         );
         // Handler: Elements::EVENT_AFTER_SAVE_ELEMENT
@@ -256,6 +258,8 @@ class Retour extends Plugin
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
                 );
+                if (!$event->isNew && self::$settings->createUriChangeRedirects) {
+                }
             }
         );
         // Handler: Plugins::EVENT_AFTER_LOAD_PLUGINS
