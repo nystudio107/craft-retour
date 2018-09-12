@@ -10,16 +10,6 @@ Related: [Retour for Craft 2.x](https://github.com/nystudio107/retour)
 
 **Note**: _The license fee for this plugin is $59.00 via the Craft Plugin Store._
 
-## Beta Notes
-
-Like any software, this beta version of Retour may have bugs. Please report any problems you may find on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues), and we'll get them addressed quickly.
-
-The following things are not fully implemented for the beta:
-
-* This documentation
-
-There are entries on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues) that you can use to check on the status of the beta.
-
 ### Upgrading from Retour 1.x for Craft CMS 2.x
 
 Even though this version of Retour was entirely rewritten for Craft CMS 3, it was designed to use all of the same data used by the Craft CMS 2.x version of Retour.
@@ -44,21 +34,13 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Retour.
 
-**N.B.** Since this is a beta, you'll need to have your `composer.json` look like this:
-```json
-    "minimum-stability": "beta",
-    "prefer-stable": true,
-    "require": {
-        "nystudio107/craft-retour": "^3.0.0-beta.1",
-```
-
 You can also install Retour via the **Plugin Store** in the Craft AdminCP.
 
 ## Retour Overview
 
 Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website.
 
-In addition to supporting traditional exact and RegEx matching of URL patterns, Retour also has a Retour Redirect FieldType that you can add to your entries. This allows you to have dynamic entry redirects that have access to the data in your entries when matching URL patterns.
+In addition to supporting traditional exact and RegEx matching of URL patterns, Retour also has a Retour Redirect FieldType that you can add to your entries. This allows you to have dynamic redirects that have access to the data in your entries when matching URL patterns.
 
 Retour will also automatically create a redirect for you if you change an entry's slug, or move an entry around in a Structure.
 
@@ -77,7 +59,7 @@ If you have just a few static redirects, then your best bet is to put them in yo
 Retour solves these problems:
 
 1. Retour only attempts to do a redirect after the web server has already thrown a 404 exception.  Once a redirect mapping is successfully determined, it also caches the result for speedy resolution of the next redirect request.
-2. Retour also gives you the ability to do Dynamic Entry Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
+2. Retour also gives you the ability to do Dynamic Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
 3. It provides an easy to use GUI that the client can use from Craft's AdminCP, and keeps statistics on the 404 hits (and misses)
 
 ### A Word about .htaccess
@@ -117,18 +99,40 @@ People using the Apache webserver are familiar with the `.htaccess` file, and ma
 
 As you can see, avoiding the use of `.htaccess` completely is best if at all possible, and especially avoid it for `RewriteRule` directives, such as 404 rewrites.
 
+You can read more in the [Stop using .htaccess files! No, really.](https://nystudio107.com/blog/stop-using-htaccess-files-no-really) article.
+
 ## Configuring Retour
 
 ### Static Redirects
 
+![Screenshot](resources/screenshots/retour-redirects.png)
+
+The **Retour->Redirects** page lists all of your static redirects. You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
+
+Clicking on the `x` next to a static redirect will delete it.
+
 #### Manually Creating Static Redirects
 
-Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic.  You can create them by clicking on **Retour->Redirects** and then clicking on the ** New Redirect** button.
+Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic. You can create them by clicking on **Retour->Redirects** and then clicking on the **New Static Redirect** button.
+
+![Screenshot](resources/screenshots/retour-edit-redirect.png)
 
 * **Legacy URL Pattern** - Enter the URL pattern that Retour should match. This matches against the path, the part of the URL after the domain name. e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`
 * **Destination URL** - Enter the destination URL that should be redirected to. This can either be a fully qualified URL or a relative URL. e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on RegEx matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
+
+#### Automatic Slug Redirects
+
+If you rename an Entry's `slug` (or any other Element with URLs), Retour will automatically create a static redirect for you to keep traffic going to the right place.  It will also automatically create a static redirect if you move an entry around in a Structure.
+
+It will appear listed under the "Static Redirects" section like any other static redirect.
+
+The **Create Entry Redirects** setting in **Retour->Settings** allows you to enable or disable this feature.
+
+#### Exporting Redirects to a CSV File
+
+The **Export CSV File** button on the **Retour->Redirects** page allows you to export all of your redirects to a CSV file for external processing or archival purposes.
 
 #### Importing Redirects from a CSV File
 
@@ -142,22 +146,97 @@ Choose the fields to import into Retour from the CSV file by dragging them in th
 
 The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.
 
+#### Redirect Loop Prevention
+
+Retour will automatically prevent the creation of a "redirect loop". If you create a new redirect that's destination URL is the same as the source URL of an existing redirect, it will remove the older redirect.
+
 ### Settings
 
+The **Retour->Settings** page allows you to configure various site-wide settings for Retour:
+
+![Screenshot](resources/screenshots/retour-settings.png)
+
+* **Plugin name** - The public-facing name of the plugin
+* **Create Entry Redirects** - Controls whether Retour automatically creates static redirects when an entry's URI changes.
+* **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
+* **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
+* **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
+                            
 ## Using Retour
 
 ### Retour Statistics
 
-Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Statistics**.  
+Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Dashboard**.  
+
+![Screenshot](resources/screenshots/retour-dashboard.png)
+
+You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
 
 Only one record is saved per URL Pattern, so the database won't get clogged with a ton of records.
+
+The charts show you how many directs happened during the last month, week, and day, including how many were handled by Retour.
+
+The **Handled** column will display an `√` if the last 404 hit to this URL was handled by Retour, and an `x` if it was not.
+
+Clicking on the `+` next to an unhandled 404 will create a new Static Redirect with the 404's URL set as the source.
+
+#### Exporting Statistics to a CSV File
+
+The **Export CSV File** button on the **Retour->Statistics** page allows you to export all of your statistics to a CSV file for external processing or archival purposes.
 
 ### Retour Widget
 
 If you'd like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
 
+![Screenshot](resources/screenshots/retour-widget.png)
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
+
+## Developer Info
+
+### Custom Match Functions via Plugin
+
+Retour allows you to implement a custom matching function via plugin, if the Exact and RegEx matching are not sufficient for your purposes.
+
+In your main plugin class file, simply add this function:
+
+    /**
+     * retourMatch gives your plugin a chance to use whatever custom logic is needed for URL redirection.  You are passed
+     * in an array that contains the details of the redirect.  Do whatever matching logic, then return true if is a
+     * matched, false if it is not.
+     *
+     * You can alter the 'redirectDestUrl' to change what URL they should be redirected to, as well as the 'redirectHttpCode'
+     * to change the type of redirect.  None of the changes made are saved in the database.
+     *
+     * @param mixed An array of arguments that define the redirect
+     *            $args = array(
+     *                'redirect' => array(
+     *                    'id' => the id of the redirect record in the retour_redirects table
+     *                    'associatedElementId' => the id of the entry if this is a Dynamic Entry Redirect; 0 otherwise
+     *                    'redirectSrcUrl' => the legacy URL as entered by the user
+     *                    'redirectSrcUrlParsed' => the redirectSrcUrl after it has been parsed as a micro template for {variables}
+     *                        via renderObjectTemplate().  This is typically what you would want to match against.
+     *                    'redirectMatchType' => the type of match; this will be set to your plugin's ClassHandle
+     *                    'redirectDestUrl' => the destination URL for the entry this redirect is associated with, or the
+     *                        destination URL that was manually entered by the user
+     *                    'redirectHttpCode' => the redirect HTTP code (typically 301 or 302)
+     *                    'hitCount' => the number of times this redirect has been matched, and the redirect done in the browser
+     *                    'hitLastTime' => the date and time of the when this redirect was matched
+     *                    'locale' => the locale of this redirect
+     *                )
+     *            );
+     * @return bool Return true if it's a match, false otherwise
+     */
+    public function retourMatch($args)
+    {
+        return true;
+    }
+
+Your plugin will then appear in the list of Pattern Match Types that can be chosen from via Retour->Redirects or via the Retour Redirect FieldType.
+
+### Utility Functions
+
+`craft.retour.getHttpStatus` in your templates will return the HTTP Status code for the current template, so you can display a special message for people who end up on a page via a `301` or `302` redirect.
 
 ## Retour Roadmap
 

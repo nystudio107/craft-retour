@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.0 - 2018-09-12
+### Added
+* Finalized documentation
+
 ## 3.0.0-beta.6 - 2018-09-12
 ### Added
 * Automatically created redirects for elements that have their URI changed
