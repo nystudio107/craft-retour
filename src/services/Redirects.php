@@ -247,7 +247,7 @@ class Redirects extends Component
                     if (preg_match($matchRegEx, $url) === 1) {
                         $this->incrementRedirectHitCount($redirect);
                         // If we're not associated with an EntryID, handle capture group replacement
-                        if ($redirect['associatedElementId'] === 0) {
+                        if ((int)$redirect['associatedElementId'] === 0) {
                             $redirect['redirectDestUrl'] = preg_replace(
                                 $matchRegEx,
                                 $redirect['redirectDestUrl'],
