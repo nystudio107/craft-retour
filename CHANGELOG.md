@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+* Fix a type coersion issue which caused RegEx capture groups to not work
 
 ## 3.0.0-beta.5 - 2018-09-11
 ### Changed
