@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\validators;
 
+use craft\helpers\UrlHelper;
 use yii\validators\Validator;
 
 /**
@@ -44,13 +45,21 @@ class UriValidator extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
+        $value = $model->$attribute;
         $redirectMatchType = 'redirectMatchType';
-        if (!empty($model->$redirectMatchType) && $model->$redirectMatchType === 'exactmatch') {
-            // Make sure there is a leading /
-            $value = $model->$attribute;
-            $value = '/'.ltrim($value, '/');
-            $value = preg_replace("/\r|\n/", '', $value);
-            $model->$attribute = $value;
+        // Always remove whitespace
+        $value = preg_replace("/\r|\n/", '', $value);
+        $model->$attribute = $value;
+        // Only do any kind of validation for exact match redirects
+        if ($model->$redirectMatchType !== 'exactmatch') {
+            return;
         }
+        // Don't mess with URLs that are already full URLs
+        if (UrlHelper::isFullUrl($value)) {
+            return;
+        }
+        // Make sure there is a leading /
+        $value = '/'.ltrim($value, '/');
+        $model->$attribute = $value;
     }
 }
