@@ -97,7 +97,10 @@ class FileController extends Controller
             if (isset($columns[3], $headers[$columns[3]])) {
                 $redirectConfig['redirectHttpCode'] = $row[$headers[$columns[3]]] ?? null;
             }
+            Craft::debug('Importing row: '.print_r($redirectConfig, true), __METHOD__);
             Retour::$plugin->redirects->saveRedirect($redirectConfig);
+
+            return true;
         });
 
         @unlink($filename);
