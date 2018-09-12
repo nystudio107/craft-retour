@@ -58,7 +58,7 @@ You can also install Retour via the **Plugin Store** in the Craft AdminCP.
 
 Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website.
 
-In addition to supporting traditional exact and RegEx matching of URL patterns, Retour also has a Retour Redirect FieldType that you can add to your entries. This allows you to have dynamic entry redirects that have access to the data in your entries when matching URL patterns.
+In addition to supporting traditional exact and RegEx matching of URL patterns, Retour also has a Retour Redirect FieldType that you can add to your entries. This allows you to have dynamic redirects that have access to the data in your entries when matching URL patterns.
 
 Retour will also automatically create a redirect for you if you change an entry's slug, or move an entry around in a Structure.
 
@@ -77,7 +77,7 @@ If you have just a few static redirects, then your best bet is to put them in yo
 Retour solves these problems:
 
 1. Retour only attempts to do a redirect after the web server has already thrown a 404 exception.  Once a redirect mapping is successfully determined, it also caches the result for speedy resolution of the next redirect request.
-2. Retour also gives you the ability to do Dynamic Entry Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
+2. Retour also gives you the ability to do Dynamic Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
 3. It provides an easy to use GUI that the client can use from Craft's AdminCP, and keeps statistics on the 404 hits (and misses)
 
 ### A Word about .htaccess
