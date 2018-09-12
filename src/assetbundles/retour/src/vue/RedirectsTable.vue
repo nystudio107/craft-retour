@@ -118,7 +118,7 @@
                     return '';
                 }
                 return `
-                <a class="delete icon" href="delete-redirect/${value}" title="Delete"></a>
+                <a class="delete icon" href="/retour/delete-redirect/${value}" title="Delete"></a>
                 `;
             }
         }
