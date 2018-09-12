@@ -117,6 +117,8 @@ People using the Apache webserver are familiar with the `.htaccess` file, and ma
 
 As you can see, avoiding the use of `.htaccess` completely is best if at all possible, and especially avoid it for `RewriteRule` directives, such as 404 rewrites.
 
+You can read more in the [Stop using .htaccess files! No, really.](https://nystudio107.com/blog/stop-using-htaccess-files-no-really) article.
+
 ## Configuring Retour
 
 ### Static Redirects
@@ -129,6 +131,10 @@ Static Redirects are useful when the Legacy URL Patterns and the new URL pattern
 * **Destination URL** - Enter the destination URL that should be redirected to. This can either be a fully qualified URL or a relative URL. e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on RegEx matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
+
+#### Exporting Redirects to a CSV File
+
+The **Export CSV File** button on the **Retour->Redirects** page allows you to export all of your redirects to a CSV file for external processing or archival purposes.
 
 #### Importing Redirects from a CSV File
 
@@ -144,6 +150,10 @@ The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensi
 
 ### Settings
 
+The **Retour->Settings** page allows you to configure various site-wide settings for Retour:
+
+* **Legacy URL Pattern** - Enter the URL pattern that Retour should match. This matches against the path, the part of the URL after the domain name. e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`
+
 ## Using Retour
 
 ### Retour Statistics
@@ -152,10 +162,15 @@ Retour keeps track of every 404 your website receives.  You can view them by cli
 
 Only one record is saved per URL Pattern, so the database won't get clogged with a ton of records.
 
+#### Exporting Statistics to a CSV File
+
+The **Export CSV File** button on the **Retour->Statistics** page allows you to export all of your statistics to a CSV file for external processing or archival purposes.
+
 ### Retour Widget
 
 If you'd like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
 
+![Screenshot](resources/screenshots/retour-widget.png)
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
 
