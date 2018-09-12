@@ -86,7 +86,7 @@ class TablesController extends Controller
         foreach ($stats as &$stat) {
             $stat['addLink'] = '';
             if (!$stat['handledByRetour']) {
-                $stat['addLink'] = urlencode($stat['redirectSrcUrl']);
+                $stat['addLink'] = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
             }
         }
         // Format the data for the API
