@@ -1,9 +1,9 @@
 # Retour Changelog
 
-## 3.0.0-beta.5 - 2018-09-12
-### Added
-
+## 3.0.0-beta.5 - 2018-09-11
 ### Changed
+* Fixed the `+` link on the Statistics page
+* Only validate URIs if the type is `exactmatch`
 
 ## 3.0.0-beta.4 - 2018-09-11
 ### Added

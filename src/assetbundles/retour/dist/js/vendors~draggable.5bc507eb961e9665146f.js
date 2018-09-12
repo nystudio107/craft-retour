@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~draggable.5bc507eb961e9665146f.js
  * @author         andrew@nystudio107.com
- * @build          Tue, Sep 11, 2018 10:45 PM ET
- * @release        21e7441978d91fd186aa8e7a535528daadfc2d53 [develop]
+ * @build          Wed, Sep 12, 2018 12:07 AM ET
+ * @release        1e2814de9c0401359549beeecf132bdc04cee8de [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
