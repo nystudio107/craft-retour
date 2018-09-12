@@ -10,16 +10,6 @@ Related: [Retour for Craft 2.x](https://github.com/nystudio107/retour)
 
 **Note**: _The license fee for this plugin is $59.00 via the Craft Plugin Store._
 
-## Beta Notes
-
-Like any software, this beta version of Retour may have bugs. Please report any problems you may find on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues), and we'll get them addressed quickly.
-
-The following things are not fully implemented for the beta:
-
-* This documentation
-
-There are entries on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues) that you can use to check on the status of the beta.
-
 ### Upgrading from Retour 1.x for Craft CMS 2.x
 
 Even though this version of Retour was entirely rewritten for Craft CMS 3, it was designed to use all of the same data used by the Craft CMS 2.x version of Retour.
@@ -43,14 +33,6 @@ To install the plugin, follow these instructions.
         composer require nystudio107/craft-retour
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Retour.
-
-**N.B.** Since this is a beta, you'll need to have your `composer.json` look like this:
-```json
-    "minimum-stability": "beta",
-    "prefer-stable": true,
-    "require": {
-        "nystudio107/craft-retour": "^3.0.0-beta.1",
-```
 
 You can also install Retour via the **Plugin Store** in the Craft AdminCP.
 
@@ -123,14 +105,30 @@ You can read more in the [Stop using .htaccess files! No, really.](https://nystu
 
 ### Static Redirects
 
+![Screenshot](resources/screenshots/retour-redirects.png)
+
+The **Retour->Redirects** page lists all of your static redirects. You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
+
+Clicking on the `x` next to a static redirect will delete it.
+
 #### Manually Creating Static Redirects
 
-Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic.  You can create them by clicking on **Retour->Redirects** and then clicking on the ** New Redirect** button.
+Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic. You can create them by clicking on **Retour->Redirects** and then clicking on the **New Static Redirect** button.
+
+![Screenshot](resources/screenshots/retour-edit-redirect.png)
 
 * **Legacy URL Pattern** - Enter the URL pattern that Retour should match. This matches against the path, the part of the URL after the domain name. e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`
 * **Destination URL** - Enter the destination URL that should be redirected to. This can either be a fully qualified URL or a relative URL. e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on RegEx matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
+
+#### Automatic Slug Redirects
+
+If you rename an Entry's `slug` (or any other Element with URLs), Retour will automatically create a static redirect for you to keep traffic going to the right place.  It will also automatically create a static redirect if you move an entry around in a Structure.
+
+It will appear listed under the "Static Redirects" section like any other static redirect.
+
+The **Create Entry Redirects** setting in **Retour->Settings** allows you to enable or disable this feature.
 
 #### Exporting Redirects to a CSV File
 
@@ -148,19 +146,39 @@ Choose the fields to import into Retour from the CSV file by dragging them in th
 
 The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.
 
+#### Redirect Loop Prevention
+
+Retour will automatically prevent the creation of a "redirect loop". If you create a new redirect that's destination URL is the same as the source URL of an existing redirect, it will remove the older redirect.
+
 ### Settings
 
 The **Retour->Settings** page allows you to configure various site-wide settings for Retour:
 
-* **Legacy URL Pattern** - Enter the URL pattern that Retour should match. This matches against the path, the part of the URL after the domain name. e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`
+![Screenshot](resources/screenshots/retour-settings.png)
 
+* **Plugin name** - The public-facing name of the plugin
+* **Create Entry Redirects** - Controls whether Retour automatically creates static redirects when an entry's URI changes.
+* **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
+* **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
+* **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
+                            
 ## Using Retour
 
 ### Retour Statistics
 
-Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Statistics**.  
+Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Dashboard**.  
+
+![Screenshot](resources/screenshots/retour-dashboard.png)
+
+You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
 
 Only one record is saved per URL Pattern, so the database won't get clogged with a ton of records.
+
+The charts show you how many directs happened during the last month, week, and day, including how many were handled by Retour.
+
+The **Handled** column will display an `√` if the last 404 hit to this URL was handled by Retour, and an `x` if it was not.
+
+Clicking on the `+` next to an unhandled 404 will create a new Static Redirect with the 404's URL set as the source.
 
 #### Exporting Statistics to a CSV File
 
