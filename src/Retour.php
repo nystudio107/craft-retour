@@ -19,6 +19,7 @@ use nystudio107\retour\widgets\RetourWidget;
 
 use Craft;
 use craft\base\Plugin;
+use craft\events\ElementEvent;
 use craft\events\ExceptionEvent;
 use craft\events\PluginEvent;
 use craft\events\RegisterCacheOptionsEvent;
@@ -26,6 +27,7 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
 use craft\helpers\UrlHelper;
+use craft\services\Elements;
 use craft\services\Dashboard;
 use craft\services\Plugins;
 use craft\services\UserPermissions;
@@ -234,6 +236,28 @@ class Retour extends Plugin
                 $variable->set('retour', RetourVariable::class);
             }
         );
+        // Handler: Elements::EVENT_BEFORE_SAVE_ELEMENT
+        Event::on(
+            Elements::class,
+            Elements::EVENT_BEFORE_SAVE_ELEMENT,
+            function (ElementEvent $event) {
+                Craft::debug(
+                    'Elements::EVENT_BEFORE_SAVE_ELEMENT',
+                    __METHOD__
+                );
+            }
+        );
+        // Handler: Elements::EVENT_AFTER_SAVE_ELEMENT
+        Event::on(
+            Elements::class,
+            Elements::EVENT_AFTER_SAVE_ELEMENT,
+            function (ElementEvent $event) {
+                Craft::debug(
+                    'Elements::EVENT_AFTER_SAVE_ELEMENT',
+                    __METHOD__
+                );
+            }
+        );
         // Handler: Plugins::EVENT_AFTER_LOAD_PLUGINS
         Event::on(
             Plugins::class,
@@ -400,8 +424,7 @@ class Retour extends Plugin
             'retour/edit-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/add-redirect' => 'retour/redirects/edit-redirect',
-            'retour/add-redirect/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
-            'retour/add-redirect/<siteHandle:{handle}>/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
+            'retour/add-redirect/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/delete-redirect/<redirectId:\d+>' => 'retour/redirects/delete-redirect',
 
