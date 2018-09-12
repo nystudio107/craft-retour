@@ -16,9 +16,6 @@ Like any software, this beta version of Retour may have bugs. Please report any 
 
 The following things are not fully implemented for the beta:
 
-* Redirects are not automatically created when entry slugs are renamed
-* Export CSV
-* Dynamic redirects
 * This documentation
 
 There are entries on the [Retour Issues page](https://github.com/nystudio107/craft-retour/issues) that you can use to check on the status of the beta.

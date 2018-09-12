@@ -247,7 +247,7 @@ class Redirects extends Component
                     if (preg_match($matchRegEx, $url) === 1) {
                         $this->incrementRedirectHitCount($redirect);
                         // If we're not associated with an EntryID, handle capture group replacement
-                        if ($redirect['associatedElementId'] === 0) {
+                        if ((int)$redirect['associatedElementId'] === 0) {
                             $redirect['redirectDestUrl'] = preg_replace(
                                 $matchRegEx,
                                 $redirect['redirectDestUrl'],
@@ -347,12 +347,30 @@ class Redirects extends Component
      *
      * @return null|array The static redirect
      */
-    public function getRedirectById(int $id): array
+    public function getRedirectById(int $id)
     {
         // Query the db table
         $redirect = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->where(['id' => $id])
+            ->one();
+
+        return $redirect;
+    }
+
+    /**
+     * Return a redirect by redirectSrcUrl
+     *
+     * @param string $redirectSrcUrl
+     *
+     * @return array
+     */
+    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl)
+    {
+        // Query the db table
+        $redirect = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->where(['redirectSrcUrl' => $redirectSrcUrl])
             ->one();
 
         return $redirect;
@@ -433,6 +451,14 @@ class Redirects extends Component
             }
         }
         if ((int)$redirectConfig['id'] !== 0) {
+            Craft::debug(
+                Craft::t(
+                    'retour',
+                    'Updating existing redirect: {redirect}',
+                    ['redirect' => print_r($redirectConfig, true)]
+                ),
+                __METHOD__
+            );
             // Update the existing record
             try {
                 $db->createCommand()->update(
@@ -446,11 +472,40 @@ class Redirects extends Component
                 Craft::error($e->getMessage(), __METHOD__);
             }
         } else {
+            Craft::debug(
+                Craft::t(
+                    'retour',
+                    'Creating new redirect: {redirect}',
+                    ['redirect' => print_r($redirectConfig, true)]
+                ),
+                __METHOD__
+            );
             // Create a new record
             try {
                 $db->createCommand()->insert(
                     '{{%retour_static_redirects}}',
                     $redirectConfig
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
+        // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
+        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl($redirectConfig['redirectDestUrl']);
+        if ($testRedirectConfig !== null) {
+            Craft::debug(
+                Craft::t(
+                    'retour',
+                    'Deleting redirect to prevent a loop: {redirect}',
+                    ['redirect' => print_r($testRedirectConfig, true)]
+                ),
+                __METHOD__
+            );
+            // Delete the redirect that has a redirectSrcUrl the same as this record's redirectDestUrl
+            try {
+                $db->createCommand()->delete(
+                    '{{%retour_static_redirects}}',
+                    ['id' => $testRedirectConfig['id']]
                 )->execute();
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);

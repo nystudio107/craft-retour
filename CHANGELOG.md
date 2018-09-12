@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 3.0.0-beta.6 - 2018-09-12
+### Added
+* Automatically created redirects for elements that have their URI changed
+* Redirect loop prevention by eliminating old redirects where the source url matches the new redirect's destination url
+
+### Changed
+* Fixed a type coercion issue which caused RegEx capture groups to not work
+* Fixed an issue with the `+` button to add redirects not having the correct URL
+* Fix the URI validator such that full URLs are not affected
+
 ## 3.0.0-beta.5 - 2018-09-11
 ### Changed
 * Fixed the `+` link on the Statistics page
