@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use craft\base\Element;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
@@ -48,7 +49,7 @@ use yii\web\HttpException;
  * @package   Retour
  * @since     3.0.0
  *
- * @property  Redirects $redirects
+ * @property  Redirects  $redirects
  * @property  Statistics $statistics
  */
 class Retour extends Plugin
@@ -83,6 +84,12 @@ class Retour extends Plugin
      * @var string
      */
     public $schemaVersion = '3.0.0';
+
+
+    /**
+     * @var array The URIs for the element before it was saved
+     */
+    public $oldElementUris = [];
 
     // Public Methods
     // =========================================================================
@@ -245,7 +252,21 @@ class Retour extends Plugin
                     'Elements::EVENT_BEFORE_SAVE_ELEMENT',
                     __METHOD__
                 );
+                /** @var Element $element */
+                $element = $event->element;
                 if (!$event->isNew && self::$settings->createUriChangeRedirects) {
+                    if ($element !== null && $element->getUrl() !== null) {
+                        // We want the already saved representation of this element, not the one we are passed
+                        /** @var Element $oldElement */
+                        $oldElement = Craft::$app->getElements()->getElementById($element->id);
+                        if ($oldElement !== null) {
+                            // Stash the old URLs by element id, and do so only once,
+                            // in case we are called more than once per request
+                            if (empty($this->oldElementUris[$oldElement->id])) {
+                                $this->oldElementUris[$oldElement->id] = $this->getAllElementUris($oldElement);
+                            }
+                        }
+                    }
                 }
             }
         );
@@ -258,7 +279,10 @@ class Retour extends Plugin
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
                 );
-                if (!$event->isNew && self::$settings->createUriChangeRedirects) {
+                /** @var Element $element */
+                $element = $event->element;
+                if (!$event->isNew && self::$settings->createUriChangeRedirects && $element->getUrl() !== null) {
+                    $this->handleElementUriChange($element);
                 }
             }
         );
@@ -409,6 +433,68 @@ class Retour extends Plugin
     protected function createSettingsModel()
     {
         return new Settings();
+    }
+
+    /**
+     * @param Element $element
+     */
+    protected function handleElementUriChange(Element $element)
+    {
+        $uris = $this->getAllElementUris($element);
+        $oldElementUris = $this->oldElementUris[$element->id];
+        foreach ($uris as $siteId => $newUri) {
+            if (!empty($oldElementUris[$siteId])) {
+                $oldUri = $oldElementUris[$siteId];
+                Craft::debug(
+                    Craft::t(
+                        'retour',
+                        'Comparing old: {oldUri} to new: {newUri}',
+                        ['oldUri' => print_r($oldUri, true), 'newUri' => print_r($newUri, true)]
+                    ),
+                    __METHOD__
+                );
+                if (strcmp($oldUri, $newUri) !== 0) {
+                    $redirectConfig = [
+                        'id' => 0,
+                        'redirectMatchType' => 'exactmatch',
+                        'redirectHttpCode' => 301,
+                        'redirectSrcUrl' => $oldUri,
+                        'redirectDestUrl' => $newUri
+                    ];
+                    Retour::$plugin->redirects->saveRedirect($redirectConfig);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the URIs for each site for the element
+     *
+     * @param Element $element
+     *
+     * @return array
+     */
+    protected function getAllElementUris(Element $element): array
+    {
+        $uris = [];
+        $sites = Craft::$app->getSites()->getAllSites();
+        foreach ($sites as $site) {
+            $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
+            if ($uri !== null) {
+                $uris[$site->id] = $uri;
+            }
+        }
+
+        Craft::debug(
+            Craft::t(
+                'retour',
+                'Getting Element URIs: {uris}',
+                ['uris' => print_r($uris, true)]
+            ),
+            __METHOD__
+        );
+
+        return $uris;
     }
 
     /**
