@@ -74,6 +74,11 @@ class FileController extends Controller
     public function actionImportCsvColumns()
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
+        // If your CSV document was created or is read on a Macintosh computer,
+        // add the following lines before using the library to help PHP detect line ending in Mac OS X
+        if (!ini_get('auto_detect_line_endings')) {
+            ini_set('auto_detect_line_endings', '1');
+        }
         $this->requirePostRequest();
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
@@ -121,6 +126,11 @@ class FileController extends Controller
     {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
+        // If your CSV document was created or is read on a Macintosh computer,
+        // add the following lines before using the library to help PHP detect line ending in Mac OS X
+        if (!ini_get('auto_detect_line_endings')) {
+            ini_set('auto_detect_line_endings', '1');
+        }
         // Get the site to edit
         $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
         $pluginName = Retour::$settings->pluginName;
@@ -206,6 +216,11 @@ class FileController extends Controller
      */
     protected function exportCsvFile(string $filename, string $table, array $columns)
     {
+        // If your CSV document was created or is read on a Macintosh computer,
+        // add the following lines before using the library to help PHP detect line ending in Mac OS X
+        if (!ini_get('auto_detect_line_endings')) {
+            ini_set('auto_detect_line_endings', '1');
+        }
         // Query the db table
         $data = (new Query())
             ->from([$table])
