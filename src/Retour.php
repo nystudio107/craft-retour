@@ -572,16 +572,11 @@ class Retour extends Plugin
             'retour:dashboard' => [
                 'label' => Craft::t('retour', 'Dashboard'),
             ],
-            'retour:settings' => [
-                'label' => Craft::t('retour', 'Settings'),
-            ],
             'retour:redirects' => [
                 'label' => Craft::t('retour', 'Redirects'),
-                'nested' => [
-                    'retour:redirects:general' => [
-                        'label' => Craft::t('retour', 'General'),
-                    ],
-                ],
+            ],
+            'retour:settings' => [
+                'label' => Craft::t('retour', 'Settings'),
             ],
         ];
     }

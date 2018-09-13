@@ -40,9 +40,11 @@ You can also install Retour via the **Plugin Store** in the Craft AdminCP.
 
 Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website.
 
-In addition to supporting traditional exact and RegEx matching of URL patterns, Retour also has a Retour Redirect FieldType that you can add to your entries. This allows you to have dynamic redirects that have access to the data in your entries when matching URL patterns.
+In addition to supporting traditional exact and RegEx matching of URL patterns, Retour allows you to have dynamic redirects that have access to the data in your entries when matching URL patterns.
 
 Retour will also automatically create a redirect for you if you change an entry's slug, or move an entry around in a Structure.
+
+Unlike other redirect plugins or utilizing `.htaccess` to do redirects, Retour does not add overhead to each request for each redirect you have in place.
 
 Retour is written to be performant. There is no impact on your website's performance until a 404 exception happens; and even then the resulting matching happens with minimal impact.
 
@@ -102,6 +104,18 @@ As you can see, avoiding the use of `.htaccess` completely is best if at all pos
 You can read more in the [Stop using .htaccess files! No, really.](https://nystudio107.com/blog/stop-using-htaccess-files-no-really) article.
 
 ## Configuring Retour
+
+## Permissions
+
+If you are using Craft CMS "Pro" edition, Retour provides permissions that can be used to grant access to users based on their User Group. These are set in **Settings->Users->User Groups**:
+
+![Screenshot](resources/screenshots/retour-permissions.png)
+
+* **Dashboard** - whether the user group has access to view the Retour Dashboard
+* **Redirects** - whether the user group has access to viewing and changing Retour Redirects
+* **Settings** - whether the user has access to viewing and changing the Retour Settings
+
+You should also grant them the **Access Retour** permission under **General** permissions.
 
 ### Static Redirects
 
@@ -232,7 +246,7 @@ In your main plugin class file, simply add this function:
         return true;
     }
 
-Your plugin will then appear in the list of Pattern Match Types that can be chosen from via Retour->Redirects or via the Retour Redirect FieldType.
+Your plugin will then appear in the list of Pattern Match Types that can be chosen from via **Retour->Redirects**.
 
 ### Utility Functions
 
