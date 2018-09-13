@@ -104,7 +104,7 @@
                     return '';
                 }
                 return `
-                <a class="add icon" href="/retour/add-redirect?defaultUrl=${value}" title="Add"></a>
+                <a class="add icon" href="${value}" title="Add"></a>
                 `;
                 return '';
             }

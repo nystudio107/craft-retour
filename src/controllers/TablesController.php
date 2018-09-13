@@ -14,6 +14,7 @@ namespace nystudio107\retour\controllers;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 
 use craft\db\Query;
+use craft\helpers\UrlHelper;
 use craft\web\Controller;
 
 use yii\web\ForbiddenHttpException;
@@ -86,7 +87,8 @@ class TablesController extends Controller
         foreach ($stats as &$stat) {
             $stat['addLink'] = '';
             if (!$stat['handledByRetour']) {
-                $stat['addLink'] = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect/'.$encodedUrl);
             }
         }
         // Format the data for the API
@@ -157,8 +159,8 @@ class TablesController extends Controller
         $redirects = $query->all();
         // Add in the `deleteLink` field
         foreach ($redirects as &$redirect) {
-            $redirect['deleteLink'] = $redirect['id'];
-            $redirect['redirectSrcUrl'].="|{$redirect['id']}";
+            $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
+            $redirect['redirectSrcUrl'].= '|'.UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
         // Format the data for the API
         if ($redirects) {
