@@ -363,7 +363,7 @@ class Redirects extends Component
      *
      * @param string $redirectSrcUrl
      *
-     * @return array
+     * @return null|array
      */
     public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl)
     {
@@ -407,12 +407,36 @@ class Redirects extends Component
      *
      * @param $redirectConfig
      */
-    public function incrementRedirectHitCount($redirectConfig)
+    public function incrementRedirectHitCount(&$redirectConfig)
     {
         if ($redirectConfig !== null) {
+            $db = Craft::$app->getDb();
             $redirectConfig['hitCount']++;
             $redirectConfig['hitLastTime'] = Db::prepareDateForDb(new \DateTime());
-            $this->saveRedirect($redirectConfig);
+            Craft::debug(
+                Craft::t(
+                    'retour',
+                    'Incrementing statistics for: {redirect}',
+                    ['redirect' => print_r($redirectConfig, true)]
+                ),
+                __METHOD__
+            );
+            // Update the existing record
+            try {
+                $rowsAffected = $db->createCommand()->update(
+                    '{{%retour_static_redirects}}',
+                    [
+                        'hitCount' => $redirectConfig['hitCount'],
+                        'hitLastTime' => $redirectConfig['hitLastTime'],
+                    ],
+                    [
+                        'id' => $redirectConfig['id'],
+                    ]
+                )->execute();
+                Craft::debug('Rows affected: '.$rowsAffected, __METHOD__);
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
         }
     }
 
