@@ -107,10 +107,10 @@
                 if (value === '') {
                     return '';
                 }
-                let id = 0;
-                [value, id] = value.split('|');
+                let link = '';
+                [value, link] = value.split('|');
                 return `
-                <a class="go" href="edit-redirect/${id}" title="${value}">${value}</a>
+                <a class="go" href="${link}" title="${value}">${value}</a>
                 `;
             },
             deleteRedirectFormatter(value) {
@@ -118,7 +118,7 @@
                     return '';
                 }
                 return `
-                <a class="delete icon" href="/retour/delete-redirect/${value}" title="Delete"></a>
+                <a class="delete icon" href="${value}" title="Delete"></a>
                 `;
             }
         }
