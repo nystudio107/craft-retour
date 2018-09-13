@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.2 - 2018-09-12
+### Changed
+* Fixed issues with the `+` and `x` URLs in the AdminCP not working as intended
+
 ## 3.0.1 - 2018-09-12
 ### Changed
 * Fixed the CSV importer to it imports more than just the first entry in the CSV
