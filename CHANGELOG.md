@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.0.4 - 2018-09-13
+### Changed
+* Fixed an issue where RegEx redirects would have the Destination URL overwritten by the parsed result after a hit
+* Fixed an issue where cached resolved redirects would not increment statistics
+
 ## 3.0.3 - 2018-09-13
 ### Added
 * Added documentation for User Group based Permissions in Retour
