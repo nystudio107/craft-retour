@@ -9,12 +9,14 @@ const glob = require("glob-all");
 const path = require('path');
 const git = require('git-rev-sync');
 const moment = require('moment');
+
 // webpack plugins
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
-const whitelister = require('purgecss-whitelister')
+const whitelister = require('purgecss-whitelister');
+
 // config files
 const pkg = require('./package.json');
 const common = require('./webpack.common.js');
@@ -108,6 +110,9 @@ module.exports = [
     merge(
         common.legacyConfig,
         {
+            output: {
+                filename: path.join('./js', '[name]-legacy.[chunkhash].js'),
+            },
             mode: 'production',
             devtool: 'source-map',
             optimization: configureOptimization(LEGACY_CONFIG),
@@ -124,6 +129,9 @@ module.exports = [
     merge(
         common.modernConfig,
         {
+            output: {
+                filename: path.join('./js', '[name].[chunkhash].js'),
+            },
             mode: 'production',
             devtool: 'source-map',
             optimization: configureOptimization(MODERN_CONFIG),

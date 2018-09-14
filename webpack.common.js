@@ -1,5 +1,4 @@
 // webpack.common.js - common webpack config
-
 const CSS_CONFIG = 'css';
 const LEGACY_CONFIG = 'legacy';
 const MODERN_CONFIG = 'modern';
@@ -7,6 +6,7 @@ const MODERN_CONFIG = 'modern';
 // node modules
 const path = require('path');
 const merge = require('webpack-merge');
+
 // webpack plugins
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -224,9 +224,6 @@ const baseConfig = {
 
 // Legacy webpack config
 const legacyConfig = {
-    output: {
-        filename: path.join('./js', '[name]-legacy.[chunkhash].js'),
-    },
     module: {
         rules: [
             configureBabelLoader(Object.values(pkg.babelConfig.legacyBrowsers)),
@@ -261,9 +258,6 @@ const legacyConfig = {
 
 // Modern webpack config
 const modernConfig = {
-    output: {
-        filename: path.join('./js', '[name].[chunkhash].js'),
-    },
     module: {
         rules: [
             configureBabelLoader(Object.values(pkg.babelConfig.modernBrowsers)),
