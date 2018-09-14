@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.5 - 2018-09-14
+### Changed
+* Fixed an error with multi-site when an element existed on one site, but not the main site
+
 ## 3.0.4 - 2018-09-13
 ### Changed
 * Fixed an issue where RegEx redirects would have the Destination URL overwritten by the parsed result after a hit
