@@ -441,27 +441,29 @@ class Retour extends Plugin
     protected function handleElementUriChange(Element $element)
     {
         $uris = $this->getAllElementUris($element);
-        $oldElementUris = $this->oldElementUris[$element->id];
-        foreach ($uris as $siteId => $newUri) {
-            if (!empty($oldElementUris[$siteId])) {
-                $oldUri = $oldElementUris[$siteId];
-                Craft::debug(
-                    Craft::t(
-                        'retour',
-                        'Comparing old: {oldUri} to new: {newUri}',
-                        ['oldUri' => print_r($oldUri, true), 'newUri' => print_r($newUri, true)]
-                    ),
-                    __METHOD__
-                );
-                if (strcmp($oldUri, $newUri) !== 0) {
-                    $redirectConfig = [
-                        'id' => 0,
-                        'redirectMatchType' => 'exactmatch',
-                        'redirectHttpCode' => 301,
-                        'redirectSrcUrl' => $oldUri,
-                        'redirectDestUrl' => $newUri
-                    ];
-                    Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        if (!empty($this->oldElementUris[$element->id])) {
+            $oldElementUris = $this->oldElementUris[$element->id];
+            foreach ($uris as $siteId => $newUri) {
+                if (!empty($oldElementUris[$siteId])) {
+                    $oldUri = $oldElementUris[$siteId];
+                    Craft::debug(
+                        Craft::t(
+                            'retour',
+                            'Comparing old: {oldUri} to new: {newUri}',
+                            ['oldUri' => print_r($oldUri, true), 'newUri' => print_r($newUri, true)]
+                        ),
+                        __METHOD__
+                    );
+                    if (strcmp($oldUri, $newUri) !== 0) {
+                        $redirectConfig = [
+                            'id' => 0,
+                            'redirectMatchType' => 'exactmatch',
+                            'redirectHttpCode' => 301,
+                            'redirectSrcUrl' => $oldUri,
+                            'redirectDestUrl' => $newUri
+                        ];
+                        Retour::$plugin->redirects->saveRedirect($redirectConfig);
+                    }
                 }
             }
         }
