@@ -1,35 +1,21 @@
 <?php
-/**
- * Retour plugin for Craft CMS 3.x
- *
- * Retour allows you to intelligently redirect legacy URLs, so that you don't
- * lose SEO value when rebuilding & restructuring a website
- *
- * @link      https://nystudio107.com/
- * @copyright Copyright (c) 2018 nystudio107
- */
 
 namespace nystudio107\retour\controllers;
+
+use nystudio107\retour\assetbundles\retour\RetourAsset;
 
 use Craft;
 use craft\web\Controller;
 
 use yii\web\Response;
 
-/**
- * @author    nystudio107
- * @package   Retour
- * @since     3.0.0
- */
-class CpNavController extends Controller
+class ManifestController extends Controller
 {
     // Protected Properties
     // =========================================================================
 
     /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
+     * @var    bool|array
      */
     protected $allowAnonymous = [
         'resource'
@@ -48,8 +34,9 @@ class CpNavController extends Controller
      */
     public function actionResource(string $resourceType = '', string $fileName = ''): Response
     {
+        $bundle = new RetourAsset();
         $baseAssetsUrl = Craft::$app->assetManager->getPublishedUrl(
-            '@nystudio107/retour/assetbundles/retour/dist',
+            $bundle->sourcePath,
             true
         );
         $url = "{$baseAssetsUrl}/{$resourceType}/{$fileName}";

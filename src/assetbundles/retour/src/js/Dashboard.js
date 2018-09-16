@@ -1,3 +1,4 @@
+
 // Dashboard main
 const main = async () => {
     // Async load the vue module

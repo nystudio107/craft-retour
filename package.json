@@ -5,9 +5,8 @@
     "copyright": "nystudio107",
     "main": "index.js",
     "scripts": {
-        "start:dev": "webpack-dev-server --config webpack.dev.js",
-        "dev": "webpack --config webpack.dev.js --progress --hide-modules",
-        "watch": "webpack --config webpack.dev.js --progress --watch --hide-modules",
+        "dev": "webpack-dev-server --config webpack.dev.js --progress --hide-modules",
+        "watch": "webpack --config webpack.dev.js --watch --progress --hide-modules",
         "build": "webpack --config webpack.prod.js"
     },
     "repository": {
@@ -29,6 +28,7 @@
         "dist": {
             "base": "./src/assetbundles/retour/dist/",
             "public": "/cpresources/retour/",
+            "devPublic": "http://192.168.10.10:8080",
             "clean": [
                 "./js",
                 "./css"
@@ -36,17 +36,7 @@
         },
         "copyFiles": [],
         "manifest": {
-            "basePath": "",
-            "template": {
-                "twigCss": "./src/templates/_src/include-css-module.twig",
-                "twigModern": "./src/templates/_src/include-modern-module.twig",
-                "twigLegacy": "./src/templates/_src/include-legacy-module.twig"
-            },
-            "filename": {
-                "twigCss": "./src/templates/_includes/include-css-module.twig",
-                "twigModern": "./src/templates/_includes/include-modern-module.twig",
-                "twigLegacy": "./src/templates/_includes/include-legacy-module.twig"
-            }
+            "basePath": ""
         },
         "templates": "./src/templates/"
     },

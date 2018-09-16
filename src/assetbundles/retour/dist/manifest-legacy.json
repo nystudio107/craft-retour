@@ -36,7 +36,5 @@
   "vendors~apexcharts.js.map": "/cpresources/retour/js/vendors~apexcharts-legacy.e708404f6f83efb22eb4.js.map",
   "vendors~draggable.js": "/cpresources/retour/js/vendors~draggable-legacy.7b30cfa3ae3e860b2686.js",
   "vendors~draggable.js.map": "/cpresources/retour/js/vendors~draggable-legacy.7b30cfa3ae3e860b2686.js.map",
-  "css/styles.79474347ce5ae1fc7c0d.css.map": "/cpresources/retour/css/styles.79474347ce5ae1fc7c0d.css.map",
-  "../../../templates/_includes/include-legacy-module.twig": "/cpresources/retour/../../../templates/_includes/include-legacy-module.twig",
-  "../../../templates/_includes/include-css-module.twig": "/cpresources/retour/../../../templates/_includes/include-css-module.twig"
+  "css/styles.79474347ce5ae1fc7c0d.css.map": "/cpresources/retour/css/styles.79474347ce5ae1fc7c0d.css.map"
 }

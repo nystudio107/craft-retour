@@ -12,6 +12,7 @@ const moment = require('moment');
 
 // webpack plugins
 const merge = require('webpack-merge');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
@@ -69,6 +70,15 @@ const configurePurgeCss = () => {
     };
 };
 
+// Configure clean webpack
+const configureCleanWebpack = () => {
+    return {
+        root: path.resolve(__dirname, pkg.paths.dist.base),
+        verbose: true,
+        dry: false
+    };
+};
+
 // Configure optimization
 const configureOptimization = (buildType) => {
     if (buildType === LEGACY_CONFIG) {
@@ -117,6 +127,9 @@ module.exports = [
             devtool: 'source-map',
             optimization: configureOptimization(LEGACY_CONFIG),
             plugins: [
+                new CleanWebpackPlugin(pkg.paths.dist.clean,
+                    configureCleanWebpack()
+                    ),
                 new PurgecssPlugin(
                     configurePurgeCss()
                 ),

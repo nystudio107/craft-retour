@@ -8,12 +8,10 @@ const path = require('path');
 const merge = require('webpack-merge');
 
 // webpack plugins
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 // config files
@@ -105,29 +103,6 @@ const configurePostcssLoader = (buildType) => {
     }
 };
 
-// CSS loader
-const configureCssLoader = (buildType) => {
-    if (buildType === LEGACY_CONFIG) {
-        return {
-            test: /\.css$/,
-            use: [
-                'vue-style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                    }
-                }
-            ]
-        };
-    }
-    if (buildType === MODERN_CONFIG) {
-        return {
-            test: /\.css$/,
-            loader: 'ignore-loader'
-        };
-    }
-};
-
 // Manifest
 const configureManifest = (fileName) => {
     return {
@@ -138,34 +113,6 @@ const configureManifest = (fileName) => {
             return file;
         },
     };
-};
-
-// HtmlWebpackPlugin twig manifest macros
-const configureHtmlWebpack = (buildType) => {
-    if (buildType === LEGACY_CONFIG) {
-        return {
-            inject: false,
-            hash: false,
-            template: path.resolve(__dirname, pkg.paths.manifest.template.twigLegacy),
-            filename: path.resolve(__dirname, pkg.paths.manifest.filename.twigLegacy),
-        };
-    }
-    if (buildType === MODERN_CONFIG) {
-        return {
-            inject: false,
-            hash: false,
-            template: path.resolve(__dirname, pkg.paths.manifest.template.twigModern),
-            filename: path.resolve(__dirname, pkg.paths.manifest.filename.twigModern),
-        };
-    }
-    if (buildType === CSS_CONFIG) {
-        return {
-            inject: false,
-            hash: false,
-            template: path.resolve(__dirname, pkg.paths.manifest.template.twigCss),
-            filename: path.resolve(__dirname, pkg.paths.manifest.filename.twigCss),
-        };
-    }
 };
 
 // Entries from package.json
@@ -232,11 +179,6 @@ const legacyConfig = {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(pkg.paths.dist.clean, {
-            root: path.resolve(__dirname, pkg.paths.dist.base),
-            verbose: true,
-            dry: false
-        }),
         new MiniCssExtractPlugin({
             path: path.resolve(__dirname, pkg.paths.dist.base),
             filename: path.join('./css', '[name].[chunkhash].css'),
@@ -246,12 +188,6 @@ const legacyConfig = {
         ),
         new ManifestPlugin(
             configureManifest('manifest-legacy.json')
-        ),
-        new HtmlWebpackPlugin(
-            configureHtmlWebpack(LEGACY_CONFIG)
-        ),
-        new HtmlWebpackPlugin(
-            configureHtmlWebpack(CSS_CONFIG)
         ),
     ]
 };
@@ -267,9 +203,6 @@ const modernConfig = {
     plugins: [
         new ManifestPlugin(
             configureManifest('manifest.json')
-        ),
-        new HtmlWebpackPlugin(
-            configureHtmlWebpack(MODERN_CONFIG)
         ),
     ]
 };

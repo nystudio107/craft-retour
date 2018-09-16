@@ -3,8 +3,8 @@
   "styles.js.map": "/cpresources/retour/js/styles.6ef7b12ab51b179810d5.js.map",
   "vendors~confetti~vue.js": "/cpresources/retour/js/vendors~confetti~vue.a50dc4024cc84cf14552.js",
   "vendors~confetti~vue.js.map": "/cpresources/retour/js/vendors~confetti~vue.a50dc4024cc84cf14552.js.map",
-  "dashboard.js": "/cpresources/retour/js/dashboard.66dfb269ddbef4138c0a.js",
-  "dashboard.js.map": "/cpresources/retour/js/dashboard.66dfb269ddbef4138c0a.js.map",
+  "dashboard.js": "/cpresources/retour/js/dashboard.46665494849cd1a18771.js",
+  "dashboard.js.map": "/cpresources/retour/js/dashboard.46665494849cd1a18771.js.map",
   "import.js": "/cpresources/retour/js/import.df27b54e2eafca5fde00.js",
   "import.js.map": "/cpresources/retour/js/import.df27b54e2eafca5fde00.js.map",
   "redirects.js": "/cpresources/retour/js/redirects.4e2f56321d5d9ba8af4e.js",
@@ -34,6 +34,5 @@
   "vendors~apexcharts.js": "/cpresources/retour/js/vendors~apexcharts.fd4be3dfdf14e5f5b7d6.js",
   "vendors~apexcharts.js.map": "/cpresources/retour/js/vendors~apexcharts.fd4be3dfdf14e5f5b7d6.js.map",
   "vendors~draggable.js": "/cpresources/retour/js/vendors~draggable.5bc507eb961e9665146f.js",
-  "vendors~draggable.js.map": "/cpresources/retour/js/vendors~draggable.5bc507eb961e9665146f.js.map",
-  "../../../templates/_includes/include-modern-module.twig": "/cpresources/retour/../../../templates/_includes/include-modern-module.twig"
+  "vendors~draggable.js.map": "/cpresources/retour/js/vendors~draggable.5bc507eb961e9665146f.js.map"
 }

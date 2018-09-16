@@ -1,8 +1,5 @@
-{% from "retour/_includes/macros.twig" import includeJsModule %}
-{% from "retour/_includes/macros.twig" import includeCssModule %}
-
 {% block head %}
-    {% include "retour/_includes/safari-nomodule-fix.twig" %}
+    {{ craft.retour.includeSafariNomoduleFix() }}
 {% endblock %}
 
 {% block content %}

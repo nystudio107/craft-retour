@@ -18,7 +18,7 @@ use nystudio107\retour\Retour;
  * @package   Retour
  * @since     3.0.0
  */
-class RetourVariable
+class RetourVariable extends ManifestVariable
 {
     // Public Methods
     // =========================================================================
