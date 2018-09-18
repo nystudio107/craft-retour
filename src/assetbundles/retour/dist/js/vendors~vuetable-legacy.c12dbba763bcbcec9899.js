@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vendors~vuetable-legacy.c12dbba763bcbcec9899.js
  * @author         andrew@nystudio107.com
- * @build          Sun, Sep 16, 2018 6:38 PM ET
- * @release        4586d286c66287566a8d8fccf97881fb1e0a029e [develop]
+ * @build          Tue, Sep 18, 2018 9:56 PM ET
+ * @release        0f1ac62ca22d08a8412d4c96b6e185a846c99bd8 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
