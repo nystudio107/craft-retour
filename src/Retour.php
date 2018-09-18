@@ -516,7 +516,7 @@ class Retour extends Plugin
             'retour/edit-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/add-redirect' => 'retour/redirects/edit-redirect',
-            'retour/add-redirect/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
+            'retour/add-redirect/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/delete-redirect/<redirectId:\d+>' => 'retour/redirects/delete-redirect',
             'retour/delete-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/delete-redirect',
@@ -543,7 +543,7 @@ class Retour extends Plugin
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
             '/retour/charts/widget/<days>' => 'retour/charts/widget',
             // Make webpack async bundle loading work out of published AssetBundles
-            '/cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/cp-nav/resource',
+            '/cpresources/retour/<resourceType:{handle}>/<fileName>' => 'retour/manifest/resource',
         ];
     }
 

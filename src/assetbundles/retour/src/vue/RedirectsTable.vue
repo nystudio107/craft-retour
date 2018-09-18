@@ -108,7 +108,7 @@
                     return '';
                 }
                 let link = '';
-                [value, link] = value.split('|');
+                [value, link] = value.split('|||');
                 return `
                 <a class="go" href="${link}" title="${value}">${value}</a>
                 `;

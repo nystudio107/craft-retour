@@ -88,7 +88,9 @@ class TablesController extends Controller
             $stat['addLink'] = '';
             if (!$stat['handledByRetour']) {
                 $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
-                $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect/'.$encodedUrl);
+                $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
+                    'defaultUrl' => $encodedUrl
+                ]);
             }
         }
         // Format the data for the API
@@ -160,7 +162,7 @@ class TablesController extends Controller
         // Add in the `deleteLink` field
         foreach ($redirects as &$redirect) {
             $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
-            $redirect['redirectSrcUrl'].= '|'.UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
+            $redirect['redirectSrcUrl'].= '|||'.UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
         // Format the data for the API
         if ($redirects) {

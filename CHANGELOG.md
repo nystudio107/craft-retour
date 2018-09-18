@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.0.6 - 2018-09-18
+### Changed
+* Fixed an issue when creating new redirects on a Postgres database
+* Fixed a cosmetic issue where RegEx's with a `|` in them were not displayed correctly in the table
+* Fixed an issue where the `+` add button didn't work right on some configurations
+
 ## 3.0.5 - 2018-09-14
 ### Changed
 * Fixed an error with multi-site when an element existed on one site, but not the main site

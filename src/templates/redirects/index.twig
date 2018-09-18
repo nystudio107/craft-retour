@@ -18,7 +18,6 @@
 {% extends "retour/_layouts/retour-cp.twig" %}
 
 {% import "_includes/forms" as forms %}
-{% from "retour/_includes/macros.twig" import includeJsModule %}
 
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
@@ -50,5 +49,5 @@
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}
-    {{ includeJsModule("redirects") }}
+    {{ craft.retour.includeJsModule("redirects.js", true) }}
 {% endblock %}

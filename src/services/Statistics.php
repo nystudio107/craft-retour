@@ -235,6 +235,7 @@ class Statistics extends Component
                 Craft::error($e->getMessage(), __METHOD__);
             }
         } else {
+            unset($statsConfig['id']);
             // Create a new record
             try {
                 $db->createCommand()->insert(

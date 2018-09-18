@@ -15,8 +15,6 @@
 
 {% extends "retour/_layouts/widget-cp.twig" %}
 
-{% from "retour/_includes/macros.twig" import includeJsModule %}
-
 {% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
 {% set iconUrl = baseAssetsUrl ~ '/img/icon.svg' %}
 
@@ -29,5 +27,5 @@
         </div>
     </div>
 
-    {{ includeJsModule("widget") }}
+    {{ craft.retour.includeJsModule("widget.js", false) }}
 {% endblock %}
