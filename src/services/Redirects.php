@@ -504,6 +504,7 @@ class Redirects extends Component
                 ),
                 __METHOD__
             );
+            unset($redirectConfig['id']);
             // Create a new record
             try {
                 $db->createCommand()->insert(
