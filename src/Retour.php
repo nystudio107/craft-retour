@@ -516,7 +516,7 @@ class Retour extends Plugin
             'retour/edit-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/add-redirect' => 'retour/redirects/edit-redirect',
-            'retour/add-redirect/<defaultUrl:(.*)>' => 'retour/redirects/edit-redirect',
+            'retour/add-redirect/<siteHandle:{handle}>' => 'retour/redirects/edit-redirect',
 
             'retour/delete-redirect/<redirectId:\d+>' => 'retour/redirects/delete-redirect',
             'retour/delete-redirect/<redirectId:\d+>/<siteHandle:{handle}>' => 'retour/redirects/delete-redirect',
