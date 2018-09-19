@@ -62,6 +62,11 @@ class Settings extends Model
     public $statsStoredLimit = 1000;
 
     /**
+     * @var bool Whether the Statistics should be trimmed after each new statistic is recorded
+     */
+    public $automaticallyTrimStatistics = true;
+
+    /**
      * @var int How many stats to display in the Admin CP
      */
     public $statsDisplayLimit = 1000;

@@ -151,7 +151,9 @@ class Statistics extends Component
         // Record the updated statistics
         $this->saveStatistics($statsConfig);
         // After incrementing a statistic, trim the retour_stats db table
-        $this->trimStatistics();
+        if (Retour::$settings->automaticallyTrimStatistics) {
+            $this->trimStatistics();
+        }
     }
 
     /**

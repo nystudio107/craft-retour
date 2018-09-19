@@ -38,4 +38,7 @@ return [
 
     // How many stats should be stored
     'statsStoredLimit' => 1000,
+
+    // Whether the Statistics should be trimmed after each new statistic is recorded
+    'automaticallyTrimStatistics' => true,
 ];

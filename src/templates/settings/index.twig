@@ -78,6 +78,16 @@
             warning: configWarning("statsStoredLimit", "retour"),
             errors: settings.getErrors("statsStoredLimit"),
         }) }}
+    
+        {{ forms.lightswitchField({
+            label: "Automatically Trim Statistics"|t("retour"),
+            instructions: "Whether the Statistics should be trimmed after each new statistic is recorded"|t("retour"),
+            id: "automaticallyTrimStatistics",
+            name: "automaticallyTrimStatistics",
+            on: settings.automaticallyTrimStatistics,
+            warning: configWarning("automaticallyTrimStatistics", "retour"),
+            errors: settings.getErrors("automaticallyTrimStatistics"),
+        }) }}
 
     {% endnamespace %}
 
