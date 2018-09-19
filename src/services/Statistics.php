@@ -158,18 +158,20 @@ class Statistics extends Component
      * Trim the retour_stats db table based on the statsStoredLimit config.php
      * setting
      *
-     * @return void
+     * @param int|null $limit
+     *
+     * @return int
      */
-    public function trimStatistics()
+    public function trimStatistics(int $limit = null): int
     {
+        $affectedRows = 0;
         $db = Craft::$app->getDb();
         $quotedTable = $db->quoteTableName('{{%retour_stats}}');
-        $limit = Retour::$settings->statsStoredLimit;
+        $limit = $limit ?? Retour::$settings->statsStoredLimit;
 
-        if (!empty($limit)) {
+        if ($limit !== null) {
             // Handle MySQL
             // As per https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
-            $affectedRows = 0;
             try {
                 $affectedRows = $db->createCommand(/** @lang mysql */
                     "
@@ -197,6 +199,8 @@ class Statistics extends Component
                 __METHOD__
             );
         }
+
+        return $affectedRows;
     }
 
     /**
