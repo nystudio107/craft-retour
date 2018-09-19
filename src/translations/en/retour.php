@@ -74,5 +74,14 @@ return [
     'How many unqie 404 statistics should be stored before they are trimmed.' => 'How many unqie 404 statistics should be stored before they are trimmed.',
     'Redirect deleted.' => 'Redirect deleted.',
     'Import CSV File' => 'Import CSV File',
-    'How many unique 404 statistics should be stored before they are trimmed.' => 'How many unique 404 statistics should be stored before they are trimmed.'
+    'How many unique 404 statistics should be stored before they are trimmed.' => 'How many unique 404 statistics should be stored before they are trimmed.',
+    'Getting Element URIs: {uris}' => 'Getting Element URIs: {uris}',
+    'Incrementing statistics for: {redirect}' => 'Incrementing statistics for: {redirect}',
+    'Deleting redirect to prevent a loop: {redirect}' => 'Deleting redirect to prevent a loop: {redirect}',
+    'Automatically Trim Statistics' => 'Automatically Trim Statistics',
+    'Creating new redirect: {redirect}' => 'Creating new redirect: {redirect}',
+    'Whether the Statistics should be trimmed after each new statistic is recorded' => 'Whether the Statistics should be trimmed after each new statistic is recorded',
+    'Updating existing redirect: {redirect}' => 'Updating existing redirect: {redirect}',
+    'Comparing old: {oldUri} to new: {newUri}' => 'Comparing old: {oldUri} to new: {newUri}',
+    'Trimming statistics' => 'Trimming statistics'
 ];

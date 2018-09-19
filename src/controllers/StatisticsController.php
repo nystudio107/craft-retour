@@ -58,6 +58,8 @@ class StatisticsController extends Controller
     {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
+        // Trim the statistics
+        Retour::$plugin->statistics->trimStatistics();
         // Get the site to edit
         $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
         $pluginName = Retour::$settings->pluginName;

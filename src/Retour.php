@@ -107,6 +107,11 @@ class Retour extends Plugin
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
             : null;
+        // Handle any console commands
+        $request = Craft::$app->getRequest();
+        if ($request->getIsConsoleRequest()) {
+            $this->controllerNamespace = 'nystudio107\retour\console\controllers';
+        }
         // Install our event listeners
         $this->installEventListeners();
         // Log that Retour has been loaded

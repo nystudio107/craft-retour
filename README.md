@@ -175,7 +175,8 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 * **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
-                            
+* **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the AdminCP, or you run the `retour/stats/trim` console command (see below).
+   
 ## Using Retour
 
 ### Retour Statistics
@@ -247,6 +248,30 @@ In your main plugin class file, simply add this function:
     }
 
 Your plugin will then appear in the list of Pattern Match Types that can be chosen from via **Retour->Redirects**.
+
+### Console Command
+
+Retour has a built-in `retour/stats/trim` console command that allows you to manually trim the Statistics database table:
+
+```bash
+vagrant@homestead ~/sites/craft3 $ ./craft retour/stats/trim
+Trimming statistics
+Trimmed 0 from retour_stats table
+```
+
+This will trim the `retour_stats` table so that it has only the number of statistics in the table as you've specified via the **Statistics to Store** Setting.
+
+When the `retour_stats` table is trimmed, it sorts the statistics by the **Last Hit** time, and only trims the oldest statistics.
+
+Normally this is done automatically when a new statistic is recored, but for high traffic sites that are constantly hit by bots, you might want to do it manually at regular intervals.
+
+You can also pass in an optional `--limit` to override the **Statistics to Store** Setting, and trim to a specified number of statistics:
+
+```bash
+vagrant@homestead ~/sites/craft3 $ ./craft retour/stats/trim --limit=1
+Trimming statistics
+Trimmed 2 from retour_stats table
+```
 
 ### Utility Functions
 

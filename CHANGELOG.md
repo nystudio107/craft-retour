@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.0.7 - 2018-09-19
+### Added
+* Added a `retour/stats/trim` console command to manually trim the statistics table
+
+### Changed
+* Added an **Automatically Trim Statistics** option (defaults to `true`) in Settings and `config.php`
+
 ## 3.0.6 - 2018-09-18
 ### Changed
 * Fixed an issue when creating new redirects on a Postgres database
