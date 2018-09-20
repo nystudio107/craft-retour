@@ -6,6 +6,7 @@ use craft\helpers\FileHelper;
 use craft\helpers\Json as JsonHelper;
 
 use Craft;
+use craft\helpers\UrlHelper;
 use yii\caching\TagDependency;
 
 /**
@@ -133,7 +134,7 @@ EOT;
         while ($manifest === null) {
             $manifestPath = $isHot
                 ? $config['devServer']['manifestPath']
-                : $config['basePath'];
+                : $config['server']['manifestPath'];
             $manifest = self::getManifestFile($config['manifest'][$type], $manifestPath);
             // If the manigest isn't found, and it was hot, fall back on non-hot
             if ($manifest === null) {
@@ -148,14 +149,14 @@ EOT;
         $prefix = $isHot
             ? $config['devServer']['publicPath']
             : $config['server']['publicPath'];
-        if ($prefix !== '') {
-            $module = rtrim($prefix, '/').'/'.ltrim($module, '/');
+        if (!UrlHelper::isFullUrl($module)) {
+            $module = self::combinePaths($prefix, $module);
         }
 
         return $module;
     }
 
-    // Public Static Methods
+    // Protected Static Methods
     // =========================================================================
 
     /**
@@ -167,9 +168,7 @@ EOT;
     protected static function getManifestFile(string $name, string $path)
     {
         // Normalize the path, and use it for the cache key
-        if ($path !== '') {
-            $path = rtrim($path, '/').'/'.ltrim($name, '/');
-        }
+        $path = self::combinePaths($path, $name);
         // Return the memoized manifest if it exists
         if (!empty(self::$manifests[$path])) {
             return self::$manifests[$path];
@@ -204,5 +203,39 @@ EOT;
         self::$manifests[$path] = $manifest;
 
         return $manifest;
+    }
+
+
+    /**
+     * Combined the passed in paths, whether file system or URL
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    protected static function combinePaths(string ...$paths): string
+    {
+        $last_key = \count($paths) - 1;
+        array_walk($paths, function (&$val, $key) use ($last_key) {
+            switch ($key) {
+                case 0:
+                    $val = rtrim($val, '/ ');
+                    break;
+                case $last_key:
+                    $val = ltrim($val, '/ ');
+                    break;
+                default:
+                    $val = trim($val, '/ ');
+                    break;
+            }
+        });
+
+        $first = array_shift($paths);
+        $last = array_pop($paths);
+        $paths = array_filter($paths);
+        array_unshift($paths, $first);
+        $paths[] = $last;
+
+        return implode('/', $paths);
     }
 }

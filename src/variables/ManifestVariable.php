@@ -14,8 +14,8 @@ class ManifestVariable
     // =========================================================================
 
     protected static $config = [
-        // File system path
-        'basePath'     => '',
+        // If `devMode` is on, use webpack-dev-server to all for HMR (hot module reloading)
+        'useDevServer' => true,
         // Manifest names
         'manifest'     => [
             'legacy' => 'manifest-legacy.json',
@@ -23,14 +23,13 @@ class ManifestVariable
         ],
         // Public server config
         'server'       => [
+            'manifestPath' => '',
             'publicPath' => '/',
         ],
-        // If `devMode` is on, use webpack-dev-server to all for HMR (hot module reloading)
-        'useDevServer' => true,
         // webpack-dev-server config
         'devServer'    => [
             'manifestPath' => 'http://127.0.0.1:8080',
-            'publicPath' => '',
+            'publicPath' => '/',
         ],
     ];
 
@@ -43,7 +42,7 @@ class ManifestVariable
     public function __construct()
     {
         $bundle = new RetourAsset();
-        self::$config['basePath'] = Craft::getAlias($bundle->sourcePath);
+        self::$config['server']['manifestPath'] = Craft::getAlias($bundle->sourcePath);
     }
 
     /**
