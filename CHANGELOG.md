@@ -3,6 +3,7 @@
 ## 3.0.8 - 2018-09-20
 ### Changed
 * Fixed a regression that caused you to be unable to click on a redirect to edit it
+* Added automatic manifest cache invalidation
 
 ## 3.0.7 - 2018-09-19
 ### Added

@@ -41,6 +41,7 @@ class ManifestVariable
      */
     public function __construct()
     {
+        ManifestHelper::invalidateCaches();
         $bundle = new RetourAsset();
         self::$config['server']['manifestPath'] = Craft::getAlias($bundle->sourcePath);
     }
