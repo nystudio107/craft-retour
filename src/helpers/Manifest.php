@@ -159,10 +159,10 @@ EOT;
     /**
      * Invalidate all of the manifest caches
      */
-    public function invalidateCaches()
+    public static function invalidateCaches()
     {
         $cache = Craft::$app->getCache();
-        TagDependency::invalidate($cache, $this::CACHE_TAG);
+        TagDependency::invalidate($cache, self::CACHE_TAG);
         Craft::info('All manifest caches cleared', __METHOD__);
     }
 
