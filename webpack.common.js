@@ -1,5 +1,4 @@
 // webpack.common.js - common webpack config
-const CSS_CONFIG = 'css';
 const LEGACY_CONFIG = 'legacy';
 const MODERN_CONFIG = 'modern';
 
@@ -35,9 +34,9 @@ const configureBabelLoader = (browserList) => {
             options: {
                 presets: [
                     [
-                        'env', {
+                        '@babel/preset-env', {
                         modules: false,
-                        useBuiltIns: true,
+                        useBuiltIns: 'entry',
                         targets: {
                             browsers: browserList,
                         },
@@ -45,10 +44,9 @@ const configureBabelLoader = (browserList) => {
                     ],
                 ],
                 plugins: [
-                    'syntax-dynamic-import',
+                    '@babel/syntax-dynamic-import',
                     [
-                        "transform-runtime", {
-                        "polyfill": false,
+                        "@babel/transform-runtime", {
                         "regenerator": true
                     }
                     ]

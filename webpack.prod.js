@@ -1,5 +1,4 @@
 // webpack.prod.js - production builds
-
 const LEGACY_CONFIG = 'legacy';
 const MODERN_CONFIG = 'modern';
 
@@ -13,7 +12,7 @@ const moment = require('moment');
 // webpack plugins
 const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const whitelister = require('purgecss-whitelister');
@@ -79,16 +78,23 @@ const configureCleanWebpack = () => {
     };
 };
 
+// Configure terser
+const configureTerser = () => {
+    return {
+        cache: true,
+        parallel: true,
+        sourceMap: true
+    };
+};
+
 // Configure optimization
 const configureOptimization = (buildType) => {
     if (buildType === LEGACY_CONFIG) {
         return {
             minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    sourceMap: true
-                }),
+                new TerserPlugin(
+                    configureTerser()
+                ),
                 new OptimizeCSSAssetsPlugin({
                     cssProcessorOptions: {
                         map: {
@@ -105,11 +111,9 @@ const configureOptimization = (buildType) => {
     if (buildType === MODERN_CONFIG) {
         return {
             minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    sourceMap: true
-                }),
+                new TerserPlugin(
+                    configureTerser()
+                ),
             ]
         };
     }
@@ -129,7 +133,7 @@ module.exports = [
             plugins: [
                 new CleanWebpackPlugin(pkg.paths.dist.clean,
                     configureCleanWebpack()
-                    ),
+                ),
                 new PurgecssPlugin(
                     configurePurgeCss()
                 ),
