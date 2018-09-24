@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           vue-events.c9a1132e957dad5d55b2.js
  * @author         andrew@nystudio107.com
- * @build          Thu, Sep 20, 2018 11:05 PM ET
- * @release        f4787495ab977d5700342b118172f8a434906f90 [develop]
+ * @build          Mon, Sep 24, 2018 11:03 PM ET
+ * @release        19fdb6eec433aaa47471758e1068f4295a6caecb [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
