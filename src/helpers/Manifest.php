@@ -1,13 +1,23 @@
 <?php
+/**
+ * Twigpack plugin for Craft CMS 3.x
+ *
+ * Twigpack is the conduit between Twig and webpack, with manifest.json &
+ * webpack-dev-server HMR support
+ *
+ * @link      https://nystudio107.com/
+ * @copyright Copyright (c) 2018 nystudio107
+ */
 
 namespace nystudio107\retour\helpers;
 
-use craft\helpers\FileHelper;
-use craft\helpers\Json as JsonHelper;
-
 use Craft;
+use craft\helpers\Json as JsonHelper;
 use craft\helpers\UrlHelper;
+
+use yii\base\Exception;
 use yii\caching\TagDependency;
+use yii\web\NotFoundHttpException;
 
 /**
  * @author    nystudio107
@@ -16,7 +26,6 @@ use yii\caching\TagDependency;
  */
 class Manifest
 {
-
     // Constants
     // =========================================================================
 
@@ -31,7 +40,7 @@ class Manifest
     /**
      * @var array
      */
-    protected static $manifests;
+    protected static $files;
 
     // Public Static Methods
     // =========================================================================
@@ -42,6 +51,7 @@ class Manifest
      * @param bool   $async
      *
      * @return null|string
+     * @throws NotFoundHttpException
      */
     public static function getCssModuleTags(array $config, string $moduleName, bool $async)
     {
@@ -66,6 +76,7 @@ class Manifest
      * @param bool   $async
      *
      * @return null|string
+     * @throws NotFoundHttpException
      */
     public static function getJsModuleTags(array $config, string $moduleName, bool $async)
     {
@@ -119,41 +130,98 @@ EOT;
     }
 
     /**
+     * Return the URI to a module
+     *
      * @param array  $config
      * @param string $moduleName
      * @param string $type
      *
      * @return null|string
+     * @throws NotFoundHttpException
      */
     public static function getModule(array $config, string $moduleName, string $type = 'modern')
     {
+        $module = null;
+        // Determine whether we should use the devServer for HMR or not
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $isHot = ($devMode && $config['useDevServer']);
+        // Get the manifest file
+        $manifest = self::getManifestFile($config, $isHot, $type);
+        if ($manifest !== null) {
+            $module = $manifest[$moduleName];
+            $prefix = $isHot
+                ? $config['devServer']['publicPath']
+                : $config['server']['publicPath'];
+            // If the module isn't a full URL, prefix it
+            if (!UrlHelper::isAbsoluteUrl($module)) {
+                $module = self::combinePaths($prefix, $module);
+            }
+            // Make sure it's a full URL
+            if (!UrlHelper::isAbsoluteUrl($module)) {
+                try {
+                    $module = UrlHelper::siteUrl($module);
+                } catch (Exception $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                }
+            }
+        }
+
+        return $module;
+    }
+
+    /**
+     * Return a JSON-decoded manifest file
+     *
+     * @param array  $config
+     * @param bool   $isHot
+     * @param string $type
+     *
+     * @return null|array
+     * @throws NotFoundHttpException
+     */
+    public static function getManifestFile(array $config, bool &$isHot, string $type = 'modern')
+    {
         $manifest = null;
         // Try to get the manifest
         while ($manifest === null) {
             $manifestPath = $isHot
                 ? $config['devServer']['manifestPath']
                 : $config['server']['manifestPath'];
-            $manifest = self::getManifestFile($config['manifest'][$type], $manifestPath);
-            // If the manigest isn't found, and it was hot, fall back on non-hot
+            // Normalize the path
+            $path = self::combinePaths($manifestPath, $config['manifest'][$type]);
+            $manifest = self::getJsonFileFromUri($path);
+            // If the manifest isn't found, and it was hot, fall back on non-hot
             if ($manifest === null) {
+                Craft::error(
+                    Craft::t(
+                        'retour',
+                        'Manifest file not found at: {manifestPath}',
+                        ['manifestPath' => $manifestPath]
+                    ),
+                    __METHOD__
+                );
                 if ($isHot) {
+                    // Try again, but not with home module replacement
                     $isHot = false;
                 } else {
+                    $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
+                    if ($devMode) {
+                        // We couldn't find a manifest; throw an error
+                        throw new NotFoundHttpException(
+                            Craft::t(
+                                'retour',
+                                'Manifest file not found at: {manifestPath}',
+                                ['manifestPath' => $manifestPath]
+                            )
+                        );
+                    }
+
                     return null;
                 }
             }
         }
-        $module = $manifest[$moduleName];
-        $prefix = $isHot
-            ? $config['devServer']['publicPath']
-            : $config['server']['publicPath'];
-        if (!UrlHelper::isFullUrl($module)) {
-            $module = self::combinePaths($prefix, $module);
-        }
 
-        return $module;
+        return $manifest;
     }
 
     /**
@@ -170,18 +238,38 @@ EOT;
     // =========================================================================
 
     /**
-     * @param string $name
+     * Return the contents of a file from a URI path
+     *
      * @param string $path
      *
      * @return mixed
      */
-    protected static function getManifestFile(string $name, string $path)
+    protected static function getJsonFileFromUri(string $path)
     {
-        // Normalize the path, and use it for the cache key
-        $path = self::combinePaths($path, $name);
+        // Make sure it's a full URL
+        if (!UrlHelper::isAbsoluteUrl($path) && !is_file($path)) {
+            try {
+                $path = UrlHelper::siteUrl($path);
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
+
+        return self::getJsonFileContents($path);
+    }
+
+    /**
+     * Return the contents of a file from the passed in path
+     *
+     * @param string $path
+     *
+     * @return mixed
+     */
+    protected static function getJsonFileContents(string $path)
+    {
         // Return the memoized manifest if it exists
-        if (!empty(self::$manifests[$path])) {
-            return self::$manifests[$path];
+        if (!empty(self::$files[$path])) {
+            return self::$files[$path];
         }
         // Create the dependency tags
         $dependency = new TagDependency([
@@ -190,13 +278,13 @@ EOT;
                 self::CACHE_TAG.$path,
             ],
         ]);
-        // Set the cache duraction based on devMode
+        // Set the cache duration based on devMode
         $cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? self::DEVMODE_CACHE_DURATION
             : null;
         // Get the result from the cache, or parse the file
         $cache = Craft::$app->getCache();
-        $manifest = $cache->getOrSet(
+        $file = $cache->getOrSet(
             self::CACHE_KEY.$path,
             function () use ($path) {
                 $result = null;
@@ -210,11 +298,10 @@ EOT;
             $cacheDuration,
             $dependency
         );
-        self::$manifests[$path] = $manifest;
+        self::$files[$path] = $file;
 
-        return $manifest;
+        return $file;
     }
-
 
     /**
      * Combined the passed in paths, whether file system or URL
