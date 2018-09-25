@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.9 - 2018-09-24
+### Changed
+* Modernized package.json and webpack build
+
 ## 3.0.8 - 2018-09-20
 ### Changed
 * Fixed a regression that caused you to be unable to click on a redirect to edit it

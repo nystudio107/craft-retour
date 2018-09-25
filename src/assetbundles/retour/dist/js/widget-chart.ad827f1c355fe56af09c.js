@@ -2,8 +2,8 @@
  * @project        nystudio107
  * @name           widget-chart.ad827f1c355fe56af09c.js
  * @author         andrew@nystudio107.com
- * @build          Thu, Sep 20, 2018 11:05 PM ET
- * @release        f4787495ab977d5700342b118172f8a434906f90 [develop]
+ * @build          Tue, Sep 25, 2018 3:21 AM ET
+ * @release        418f5cda1bc31ed08126cd2c97ba78fb8230325b [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

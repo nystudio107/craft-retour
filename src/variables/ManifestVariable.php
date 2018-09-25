@@ -23,7 +23,7 @@ class ManifestVariable
         ],
         // Public server config
         'server'       => [
-            'manifestPath' => '',
+            'manifestPath' => '/',
             'publicPath' => '/',
         ],
         // webpack-dev-server config
@@ -47,12 +47,14 @@ class ManifestVariable
     }
 
     /**
-     * @param string $moduleName
-     * @param bool   $async
+     * @param string     $moduleName
+     * @param bool       $async
+     * @param null|array $config
      *
-     * @return \Twig_Markup
+     * @return null|\Twig_Markup
+     * @throws \yii\web\NotFoundHttpException
      */
-    public function includeCssModule(string $moduleName, bool $async = false): \Twig_Markup
+    public function includeCssModule(string $moduleName, bool $async = false, $config = null)
     {
         return Template::raw(
             ManifestHelper::getCssModuleTags(self::$config, $moduleName, $async)
@@ -60,12 +62,14 @@ class ManifestVariable
     }
 
     /**
-     * @param string $moduleName
-     * @param bool   $async
+     * @param string     $moduleName
+     * @param bool       $async
+     * @param null|array $config
      *
-     * @return \Twig_Markup
+     * @return null|\Twig_Markup
+     * @throws \yii\web\NotFoundHttpException
      */
-    public function includeJsModule(string $moduleName, bool $async = false): \Twig_Markup
+    public function includeJsModule(string $moduleName, bool $async = false, $config = null)
     {
         return Template::raw(
             ManifestHelper::getJsModuleTags(self::$config, $moduleName, $async)
@@ -73,9 +77,28 @@ class ManifestVariable
     }
 
     /**
-     * @return \Twig_Markup
+     * Return the URI to a module
+     *
+     * @param string $moduleName
+     * @param string $type
+     * @param null   $config
+     *
+     * @return null|\Twig_Markup
+     * @throws \yii\web\NotFoundHttpException
      */
-    public function includeSafariNomoduleFix(): \Twig_Markup
+    public function getModuleUri(string $moduleName, string $type = 'modern', $config = null)
+    {
+        return Template::raw(
+            ManifestHelper::getModule(self::$config, $moduleName, $type)
+        );
+    }
+
+    /**
+     * Include the Safari 10.1 nomodule fix JavaScript
+     *
+     * @return null|\Twig_Markup
+     */
+    public function includeSafariNomoduleFix()
     {
         return Template::raw(
             ManifestHelper::getSafariNomoduleFix()

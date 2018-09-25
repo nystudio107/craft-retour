@@ -14,7 +14,7 @@ const pkg = require('./package.json');
 const common = require('./webpack.common.js');
 
 // Configure the webpack-dev-server
-const configureDevServer = () => {
+const configureDevServer = (buildType) => {
     return {
         contentBase: './web',
         host: '0.0.0.0',
@@ -44,7 +44,7 @@ module.exports = [
             },
             mode: 'development',
             devtool: 'inline-source-map',
-            devServer: configureDevServer(),
+            devServer: configureDevServer(LEGACY_CONFIG),
         }
     ),
     merge(
@@ -56,7 +56,7 @@ module.exports = [
             },
             mode: 'development',
             devtool: 'inline-source-map',
-            devServer: configureDevServer(),
+            devServer: configureDevServer(MODERN_CONFIG),
             plugins: [
                 new webpack.HotModuleReplacementPlugin()
             ],
