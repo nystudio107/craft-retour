@@ -45,6 +45,9 @@ module.exports = [
             mode: 'development',
             devtool: 'inline-source-map',
             devServer: configureDevServer(LEGACY_CONFIG),
+            plugins: [
+                new webpack.HotModuleReplacementPlugin()
+            ],
         }
     ),
     merge(
