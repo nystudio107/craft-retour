@@ -1849,12 +1849,6 @@ d@1:
   dependencies:
     es5-ext "^0.10.9"
 
-datatables@^1.10.18:
-  version "1.10.18"
-  resolved "https://registry.yarnpkg.com/datatables/-/datatables-1.10.18.tgz#fee16e82aa70b17c5faf1a6954ac68f404f33a70"
-  dependencies:
-    jquery ">=1.7"
-
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
@@ -3130,10 +3124,6 @@ isobject@^2.0.0:
 isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
-
-jquery@>=1.7:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.9:
   version "2.4.9"
@@ -5652,7 +5642,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-apexcharts@^1.1.0:
+vue-apexcharts@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.1.1.tgz#95f4d0ad5896310a1305a2c4e35f2cc24312967c"
   dependencies:
@@ -5708,7 +5698,7 @@ vuedraggable@^2.16.0:
   dependencies:
     sortablejs "^1.7.0"
 
-vuetable-2@^1.7.0:
+vuetable-2@^1.7.5:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/vuetable-2/-/vuetable-2-1.7.5.tgz#7528c817279ccb774d9e26a169f1d19695b77310"
   dependencies:

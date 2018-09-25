@@ -134,13 +134,12 @@
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
         "axios": "^0.18.0",
-        "datatables": "^1.10.18",
         "tailwindcss": "^0.6.6",
         "vue": "^2.5.17",
-        "vue-apexcharts": "^1.1.0",
+        "vue-apexcharts": "^1.1.1",
         "vue-confetti": "^0.4.2",
         "vue-events": "^3.1.0",
         "vuedraggable": "^2.16.0",
-        "vuetable-2": "^1.7.0"
+        "vuetable-2": "^1.7.5"
     }
 }
