@@ -115,6 +115,7 @@ const configurePostcssLoader = (buildType) => {
             ]
         };
     }
+    // Don't generate CSS for the modern config in production
     if (buildType === MODERN_CONFIG) {
         return {
             test: /\.(pcss|css)$/,

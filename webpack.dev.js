@@ -35,30 +35,11 @@ const configureDevServer = (buildType) => {
 
 // Postcss loader
 const configurePostcssLoader = (buildType) => {
+    // Don't generate CSS for the legacy config in development
     if (buildType === LEGACY_CONFIG) {
         return {
             test: /\.(pcss|css)$/,
-            use: [
-                {
-                    loader: 'style-loader',
-                },
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 2,
-                        sourceMap: true
-                    }
-                },
-                {
-                    loader: 'resolve-url-loader'
-                },
-                {
-                    loader: 'postcss-loader',
-                    options: {
-                        sourceMap: true
-                    }
-                }
-            ]
+            loader: 'ignore-loader'
         };
     }
     if (buildType === MODERN_CONFIG) {
