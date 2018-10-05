@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.11 - 2018-10-05
+### Changed
+* Fixed an issue where the search function wouldn't work in the AdminCP if you were using Postgres
+
 ## 3.0.10 - 2018-10-05
 ### Changed
 * Updated build process
