@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.10 - 2018-10-05
+### Changed
+* Updated build process
+
 ## 3.0.9 - 2018-09-24
 ### Changed
 * Modernized package.json and webpack build
