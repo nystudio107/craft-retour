@@ -79,8 +79,8 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
         if ($filter !== '') {
-            $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-            $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
+            $query->where(['like', 'redirectSrcUrl', $filter]);
+            $query->orWhere(['like', 'referrerUrl', $filter]);
         }
         $stats = $query->all();
         // Add in the `addLink` field
@@ -99,8 +99,8 @@ class TablesController extends Controller
             $query = (new Query())
                 ->from(['{{%retour_stats}}']);
             if ($filter !== '') {
-                $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-                $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
+                $query->where(['like', 'redirectSrcUrl', $filter]);
+                $query->orWhere(['like', 'referrerUrl', $filter]);
             }
             $count = $query->count();
             $data['links']['pagination'] = [
@@ -155,8 +155,8 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
         if ($filter !== '') {
-            $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-            $query->orWhere("`redirectDestUrl` LIKE '%{$filter}%'");
+            $query->where(['like', 'redirectSrcUrl', $filter]);
+            $query->orWhere(['like', 'redirectDestUrl', $filter]);
         }
         $redirects = $query->all();
         // Add in the `deleteLink` field
@@ -170,8 +170,8 @@ class TablesController extends Controller
             $query = (new Query())
                 ->from(['{{%retour_static_redirects}}']);
             if ($filter !== '') {
-                $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-                $query->orWhere("`redirectDestUrl` LIKE '%{$filter}%'");
+                $query->where(['like', 'redirectSrcUrl', $filter]);
+                $query->orWhere(['like', 'redirectDestUrl', $filter]);
             }
             $count = $query->count();
             $data['links']['pagination'] = [
