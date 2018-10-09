@@ -12,8 +12,8 @@
         "statistics"
     ],
     "support": {
-        "docs": "https://github.com/nystudio107/retour/blob/v1/README.md",
-        "issues": "https://github.com/nystudio107/retour/issues"
+        "docs": "https://github.com/nystudio107/craft-retour/blob/v1/README.md",
+        "issues": "https://github.com/nystudio107/craft-retour/issues"
     },
     "license": "proprietary",
     "authors": [
@@ -36,7 +36,7 @@
         "handle": "retour",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/retour/v1/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v1/CHANGELOG.md",
         "components": {
             "redirects": "nystudio107\\retour\\services\\Redirects",
             "statistics": "nystudio107\\retour\\services\\Statistics"
