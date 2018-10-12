@@ -221,7 +221,7 @@ class RedirectsController extends Controller
      */
     public function actionSaveRedirect()
     {
-        PermissionHelper::controllerPermissionCheck('retour:settings');
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->requirePostRequest();
         /** @var StaticRedirectsModel $redirect */
         $redirectConfig = Craft::$app->getRequest()->getRequiredBodyParam('redirectConfig');
