@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vendors~apexcharts-legacy.74a88c5db6fd00ea46f3.js
  * @author         Andrew Welch
- * @build          Sat, Oct 13, 2018 11:52 AM ET
- * @release        1553af24a920de287c70f958b73705321630bced [develop]
+ * @build          Sat, Oct 13, 2018 12:51 PM ET
+ * @release        9cbe8fa0990db4019b623a34030e40f1cf796113 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
