@@ -28,7 +28,11 @@
 </template>
 
 <script>
-    import FieldDefs from './RedirectsFieldDefs.js'
+    import Vue from 'vue';
+    import FieldDefs from './RedirectsFieldDefs.js';
+    import LegacyUrl from './LegacyUrl.vue';
+
+    Vue.component('legacy-url', LegacyUrl);
     // Our component exports
     export default {
         components: {
@@ -101,16 +105,6 @@
                 }
                 return `
                 <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
-                `;
-            },
-            srcUrlFormatter(value) {
-                if (value === '') {
-                    return '';
-                }
-                let link = '';
-                [value, link] = value.split('|||');
-                return `
-                <a class="go" href="${link}" title="${value}">${value}</a>
                 `;
             },
             deleteRedirectFormatter(value) {

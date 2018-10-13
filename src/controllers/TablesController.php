@@ -162,7 +162,7 @@ class TablesController extends Controller
         // Add in the `deleteLink` field
         foreach ($redirects as &$redirect) {
             $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
-            $redirect['redirectSrcUrl'].= '|||'.UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
+            $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
         // Format the data for the API
         if ($redirects) {
