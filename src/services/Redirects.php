@@ -373,7 +373,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
         if ($limit) {
             $query->limit($limit);
         }
