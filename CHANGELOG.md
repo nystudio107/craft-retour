@@ -1,10 +1,11 @@
 # Retour Changelog
 
-## 3.0.11 - 2018-10-09
+## 3.0.11 - 2018-10-13
 ### Changed
 * Fixed an issue where the search function wouldn't work in the AdminCP if you were using Postgres
 * Fixed incorrect links to the documentation
 * Fixed an issue where a user with the proper permissions could not save a new redirect
+* Fixed the build process so it will no longer look for `devServer` on installs
 
 ## 3.0.10 - 2018-10-05
 ### Changed
