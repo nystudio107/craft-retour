@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.0.11 - 2018-10-13
+### Added
+* Added **Remote IP** to the Dashboard statistics, with a link to look up a geo-location
+
 ### Changed
 * Fixed an issue where the search function wouldn't work in the AdminCP if you were using Postgres
 * Fixed incorrect links to the documentation
