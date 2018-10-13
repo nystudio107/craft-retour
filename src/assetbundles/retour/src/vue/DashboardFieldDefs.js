@@ -18,6 +18,14 @@ export default [
         callback: 'urlFormatter'
     },
     {
+        name: 'remoteIp',
+        sortField: 'remoteIp',
+        title: 'Remote IP',
+        titleClass: 'center',
+        dataClass: 'center',
+        callback: 'ipFormatter'
+    },
+    {
         name: 'hitCount',
         sortField: 'hitCount',
         title: 'Hits',

@@ -83,18 +83,21 @@ class TablesController extends Controller
             $query->orWhere(['like', 'referrerUrl', $filter]);
         }
         $stats = $query->all();
-        // Add in the `addLink` field
-        foreach ($stats as &$stat) {
-            $stat['addLink'] = '';
-            if (!$stat['handledByRetour']) {
-                $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
-                $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
-                    'defaultUrl' => $encodedUrl
-                ]);
-            }
-        }
-        // Format the data for the API
         if ($stats) {
+            // Add in the `addLink` field
+            foreach ($stats as &$stat) {
+                if (empty($stat['remoteIp'])) {
+                    $stat['remoteIp'] = '';
+                }
+                $stat['addLink'] = '';
+                if (!$stat['handledByRetour']) {
+                    $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                    $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
+                        'defaultUrl' => $encodedUrl
+                    ]);
+                }
+            }
+            // Format the data for the API
             $data['data'] = $stats;
             $query = (new Query())
                 ->from(['{{%retour_stats}}']);

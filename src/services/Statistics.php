@@ -114,11 +114,14 @@ class Statistics extends Component
      */
     public function incrementStatistics(string $url, $handled = false)
     {
+        $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
-        $referrer = $request->getReferrer();
-        if ($referrer === null) {
-            $referrer = '';
+        if (!$request->isConsoleRequest) {
+            $referrer = $request->getReferrer();
+            $remoteIp = $request->getRemoteIP();
         }
+        $referrer = $referrer ?? '';
+        $remoteIp = $remoteIp ?? '';
         // Strip the query string if `stripQueryStringFromStats` is set
         if (Retour::$settings->stripQueryStringFromStats) {
             $url = UrlHelper::stripQueryString($url);
@@ -144,6 +147,7 @@ class Statistics extends Component
         }
         // Merge in the updated info
         $stats->referrerUrl = $referrer;
+        $stats->remoteIp = $remoteIp;
         $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
         $stats->handledByRetour = (int)$handled;
         $stats->hitCount++;

@@ -132,6 +132,7 @@ class Install extends Migration
 
                     'redirectSrcUrl'  => $this->string(255)->defaultValue(''),
                     'referrerUrl'     => $this->string(2000)->defaultValue(''),
+                    'remoteIp'        => $this->string(45)->defaultValue(''),
                     'hitCount'        => $this->integer()->defaultValue(1),
                     'hitLastTime'     => $this->dateTime(),
                     'handledByRetour' => $this->boolean()->defaultValue(false),

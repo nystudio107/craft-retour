@@ -39,6 +39,11 @@ class Stats extends DbModel
     public $referrerUrl;
 
     /**
+     * @var string
+     */
+    public $remoteIp;
+
+    /**
      * @var int
      */
     public $hitCount;
@@ -69,6 +74,9 @@ class Stats extends DbModel
             ['referrerUrl', DbStringValidator::class, 'max' => 2000],
             ['referrerUrl', 'string'],
             ['referrerUrl', 'default', 'value' => ''],
+            ['remoteIp', DbStringValidator::class, 'max' => 45],
+            ['remoteIp', 'string'],
+            ['remoteIp', 'default', 'value' => ''],
             ['hitCount', 'integer'],
             ['hitCount', 'default', 'value' => 0],
             ['hitLastTime', 'safe'],
