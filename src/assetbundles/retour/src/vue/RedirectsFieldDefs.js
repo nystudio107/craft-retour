@@ -1,13 +1,11 @@
 // Field definitions for RedirectsTable.vue
 export default [
     {
-        name: 'redirectSrcUrl',
+        name: '__component:legacy-url',
         sortField: 'redirectSrcUrl',
         title: 'Legacy URL Pattern',
         titleClass: 'center',
         dataClass: 'center',
-        callback: 'srcUrlFormatter'
-
     },
     {
         name: 'redirectDestUrl',

@@ -28,7 +28,11 @@ table.retour-dashboard th.vuetable-th-redirectSrcUrl {
 }
 
 th.vuetable-th-referrerUrl {
-  width: 34%!important;
+  width: 20%!important;
+}
+
+th.vuetable-th-remoteIp {
+  width: 14%!important;
 }
 
 th.vuetable-th-hitCount {

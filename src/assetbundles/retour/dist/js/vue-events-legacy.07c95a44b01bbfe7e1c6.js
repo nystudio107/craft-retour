@@ -1,9 +1,9 @@
 /*!
- * @project        nystudio107
+ * @project        Retour
  * @name           vue-events-legacy.07c95a44b01bbfe7e1c6.js
- * @author         andrew@nystudio107.com
- * @build          Sat, Sep 29, 2018 6:20 PM ET
- * @release        110c5938fb1b7aa5e773439b1e6818ed6469dfce [develop]
+ * @author         Andrew Welch
+ * @build          Sat, Oct 13, 2018 12:51 PM ET
+ * @release        9cbe8fa0990db4019b623a34030e40f1cf796113 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */

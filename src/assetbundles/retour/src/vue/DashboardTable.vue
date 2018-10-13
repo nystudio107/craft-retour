@@ -89,6 +89,14 @@
                 <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
                 `;
             },
+            ipFormatter(value) {
+                if (value === '') {
+                    return '';
+                }
+                return `
+                <a class="go" href="https://www.ipaddressguide.com/ip-geolocation?ip=${value}" title="Lookup ${value}" target="_blank" rel="noopener">${value}</a>
+                `;
+            },
             boolFormatter(value) {
                 if (value == 1) {
                     return `

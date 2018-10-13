@@ -79,28 +79,31 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
         if ($filter !== '') {
-            $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-            $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
+            $query->where(['like', 'redirectSrcUrl', $filter]);
+            $query->orWhere(['like', 'referrerUrl', $filter]);
         }
         $stats = $query->all();
-        // Add in the `addLink` field
-        foreach ($stats as &$stat) {
-            $stat['addLink'] = '';
-            if (!$stat['handledByRetour']) {
-                $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
-                $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
-                    'defaultUrl' => $encodedUrl
-                ]);
-            }
-        }
-        // Format the data for the API
         if ($stats) {
+            // Add in the `addLink` field
+            foreach ($stats as &$stat) {
+                if (empty($stat['remoteIp'])) {
+                    $stat['remoteIp'] = '';
+                }
+                $stat['addLink'] = '';
+                if (!$stat['handledByRetour']) {
+                    $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                    $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
+                        'defaultUrl' => $encodedUrl
+                    ]);
+                }
+            }
+            // Format the data for the API
             $data['data'] = $stats;
             $query = (new Query())
                 ->from(['{{%retour_stats}}']);
             if ($filter !== '') {
-                $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-                $query->orWhere("`referrerUrl` LIKE '%{$filter}%'");
+                $query->where(['like', 'redirectSrcUrl', $filter]);
+                $query->orWhere(['like', 'referrerUrl', $filter]);
             }
             $count = $query->count();
             $data['links']['pagination'] = [
@@ -155,14 +158,14 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
         if ($filter !== '') {
-            $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-            $query->orWhere("`redirectDestUrl` LIKE '%{$filter}%'");
+            $query->where(['like', 'redirectSrcUrl', $filter]);
+            $query->orWhere(['like', 'redirectDestUrl', $filter]);
         }
         $redirects = $query->all();
         // Add in the `deleteLink` field
         foreach ($redirects as &$redirect) {
             $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
-            $redirect['redirectSrcUrl'].= '|||'.UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
+            $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
         // Format the data for the API
         if ($redirects) {
@@ -170,8 +173,8 @@ class TablesController extends Controller
             $query = (new Query())
                 ->from(['{{%retour_static_redirects}}']);
             if ($filter !== '') {
-                $query->where("`redirectSrcUrl` LIKE '%{$filter}%'");
-                $query->orWhere("`redirectDestUrl` LIKE '%{$filter}%'");
+                $query->where(['like', 'redirectSrcUrl', $filter]);
+                $query->orWhere(['like', 'redirectDestUrl', $filter]);
             }
             $count = $query->count();
             $data['links']['pagination'] = [
