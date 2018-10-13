@@ -118,7 +118,9 @@ class Statistics extends Component
         $request = Craft::$app->getRequest();
         if (!$request->isConsoleRequest) {
             $referrer = $request->getReferrer();
-            $remoteIp = $request->getRemoteIP();
+            if (Retour::$settings->recordRemoteIp) {
+                $remoteIp = $request->getRemoteIP();
+            }
         }
         $referrer = $referrer ?? '';
         $remoteIp = $remoteIp ?? '';

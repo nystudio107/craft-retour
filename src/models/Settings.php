@@ -42,6 +42,11 @@ class Settings extends Model
     public $alwaysStripQueryString = false;
 
     /**
+     * @var bool Should the anonymous ip address of the client causing a 404 be recorded?
+     */
+    public $recordRemoteIp = true;
+
+    /**
      * @var int How many static redirects to display in the Admin CP
      */
     public $staticRedirectDisplayLimit = 100;
@@ -87,6 +92,7 @@ class Settings extends Model
                     'createUriChangeRedirects',
                     'alwaysStripQueryString',
                     'stripQueryStringFromStats',
+                    'recordRemoteIp',
                 ],
                 'boolean'
             ],
