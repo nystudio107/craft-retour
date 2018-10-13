@@ -85,11 +85,14 @@ class StaticRedirects extends DbModel
     {
         return [
             ['id', 'integer'],
+            ['locale', 'default', 'value' => 'en-US'],
             ['locale', DbStringValidator::class, 'max' => 12],
             ['locale', 'string'],
-            ['locale', 'default', 'value' => ''],
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
+            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
+            ['redirectMatchType', DbStringValidator::class, 'max' => 16],
+            ['redirectMatchType', 'string'],
             [
                 [
                     'redirectSrcUrl',
@@ -99,7 +102,6 @@ class StaticRedirects extends DbModel
                 'default',
                 'value' => ''
             ],
-            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
             ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl'],
             [
                 [
@@ -113,7 +115,6 @@ class StaticRedirects extends DbModel
                 [
                     'redirectSrcUrl',
                     'redirectSrcUrlParsed',
-                    'redirectMatchType',
                     'redirectDestUrl',
                 ],
                 DbStringValidator::class,
@@ -123,7 +124,6 @@ class StaticRedirects extends DbModel
                 [
                     'redirectSrcUrl',
                     'redirectSrcUrlParsed',
-                    'redirectMatchType',
                     'redirectDestUrl',
                 ],
                 'string'
