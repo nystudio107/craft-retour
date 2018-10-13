@@ -18,12 +18,12 @@ class m181013_171315_truncate_match_type extends Migration
         $this->alterColumn(
             '{{%retour_redirects}}',
             'redirectMatchType',
-            $this->string(16)->defaultValue('exactmatch')
+            $this->string(32)->defaultValue('exactmatch')
         );
         $this->alterColumn(
             '{{%retour_static_redirects}}',
             'redirectMatchType',
-            $this->string(16)->defaultValue('exactmatch')
+            $this->string(32)->defaultValue('exactmatch')
         );
     }
 
