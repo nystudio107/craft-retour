@@ -43,7 +43,7 @@
             "templates": "./src/templates/"
         },
         "urls": {
-            "publicPath": "/cpresources/imageoptimize/"
+            "publicPath": "/cpresources/retour/"
         },
         "vars": {
             "cssName": "styles"
