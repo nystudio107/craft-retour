@@ -15,7 +15,7 @@ class ManifestVariable
 
     protected static $config = [
         // If `devMode` is on, use webpack-dev-server to all for HMR (hot module reloading)
-        'useDevServer' => true,
+        'useDevServer' => false,
         // Manifest names
         'manifest'     => [
             'legacy' => 'manifest-legacy.json',
