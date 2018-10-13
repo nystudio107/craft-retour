@@ -53,6 +53,11 @@ class Redirects extends DbModel
     /**
      * @var string
      */
+    public $redirectSrcMatch;
+
+    /**
+     * @var string
+     */
     public $redirectMatchType;
 
     /**
@@ -90,8 +95,11 @@ class Redirects extends DbModel
             ['locale', 'string'],
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
+            ['redirectSrcMatch', 'default', 'value' => 'pathonly'],
+            ['redirectSrcMatch', DbStringValidator::class, 'max' => 32],
+            ['redirectSrcMatch', 'string'],
             ['redirectMatchType', 'default', 'value' => 'exactmatch'],
-            ['redirectMatchType', DbStringValidator::class, 'max' => 16],
+            ['redirectMatchType', DbStringValidator::class, 'max' => 32],
             ['redirectMatchType', 'string'],
             [
                 [

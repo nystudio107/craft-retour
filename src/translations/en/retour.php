@@ -87,5 +87,13 @@ return [
     'Error updating statistics for {id} {url}' => 'Error updating statistics for {id} {url}',
     'Dynamic Redirect Display' => 'Dynamic Redirect Display',
     'Static Redirect Display' => 'Static Redirect Display',
-    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.'
+    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.',
+    'Legacy URL Match Type' => 'Legacy URL Match Type',
+    'Full URL' => 'Full URL',
+    'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`' => 'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`',
+    'Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`' => 'Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`',
+    'Path Only' => 'Path Only',
+    'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)?' => 'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)?',
+    'Not handled-> full URL: {fullUrl}, path only: {pathOnly}' => 'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
+    '404 full URL: {fullUrl}, 404 path only: {pathOnly}' => '404 full URL: {fullUrl}, 404 path only: {pathOnly}'
 ];
