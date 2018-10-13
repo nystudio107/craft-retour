@@ -3,6 +3,7 @@
 ## 3.0.11 - 2018-10-13
 ### Added
 * Added **Remote IP** to the Dashboard statistics, with a link to look up a geo-location
+* Added config setting for **Record Remote IP**
 
 ### Changed
 * Fixed an issue where the search function wouldn't work in the AdminCP if you were using Postgres

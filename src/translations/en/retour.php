@@ -74,4 +74,18 @@ return [
     'Comparing old: {oldUri} to new: {newUri}' => 'Comparing old: {oldUri} to new: {newUri}',
     'Trimming statistics' => 'Trimming statistics',
     'Manifest file not found at: {manifestPath}' => 'Manifest file not found at: {manifestPath}',
+    'Retour CP Section body goes here' => 'Retour CP Section body goes here',
+    'Click Me!' => 'Click Me!',
+    'Should the anonymous ip address of the client causing a 404 be recorded?' => 'Should the anonymous ip address of the client causing a 404 be recorded?',
+    'Module does not exist in the manifest: {moduleName}' => 'Module does not exist in the manifest: {moduleName}',
+    'Redirect cache miss for site {siteId}, url {url}' => 'Redirect cache miss for site {siteId}, url {url}',
+    'Record Remote IP' => 'Record Remote IP',
+    'Plugin Settings' => 'Plugin Settings',
+    'How many unqie 404 statistics should be stored before they are trimmed.' => 'How many unqie 404 statistics should be stored before they are trimmed.',
+    'Statistics Display' => 'Statistics Display',
+    'General' => 'General',
+    'Error updating statistics for {id} {url}' => 'Error updating statistics for {id} {url}',
+    'Dynamic Redirect Display' => 'Dynamic Redirect Display',
+    'Static Redirect Display' => 'Static Redirect Display',
+    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.'
 ];
