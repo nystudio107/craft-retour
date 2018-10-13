@@ -4943,7 +4943,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-scss-parser@qodesmith/scss-parser:
+"scss-parser@github:qodesmith/scss-parser":
   version "1.0.0"
   resolved "https://codeload.github.com/qodesmith/scss-parser/tar.gz/6fc86ce46b722b16639712ba8ed90706fa2871dc"
   dependencies:
@@ -5692,7 +5692,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-apexcharts@^1.1.1:
+vue-apexcharts@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.2.1.tgz#631e585576a481a484602309b06f1f7b8f2aad36"
 
