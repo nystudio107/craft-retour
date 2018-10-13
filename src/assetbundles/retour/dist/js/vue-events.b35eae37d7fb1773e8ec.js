@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vue-events.b35eae37d7fb1773e8ec.js
  * @author         Andrew Welch
- * @build          Sat, Oct 13, 2018 4:30 AM ET
- * @release        e73ea4c476deaafe210a51ecd267f53584746b88 [develop]
+ * @build          Sat, Oct 13, 2018 4:54 AM ET
+ * @release        8e31b0b9fc59f4502e56e49a4f1b6b64b777e62d [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
