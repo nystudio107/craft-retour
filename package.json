@@ -148,6 +148,7 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
+        "apexcharts": "^2.1.4",
         "axios": "^0.18.0",
         "tailwindcss": "^0.6.6",
         "vue": "^2.5.17",
