@@ -3,6 +3,7 @@
 ## 3.0.12 - 2018-10-14
 ### Added
 * Added the ability to redirect based on **Path Only** or **Full URL**, to allow for site-specific redirects
+* Added **Legacy URL Match Type** and **Remote IP** to the import and export fields
 
 ### Changed
 * Trimmed the database tables to be more storage space efficient
