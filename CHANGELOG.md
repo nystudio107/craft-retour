@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.0.12 - 2018-10-14
+### Added
+* Added the ability to redirect based on **Path Only** or **Full URL**, to allow for site-specific redirects
+* Added **Legacy URL Match Type** and **Remote IP** to the import and export fields
+
+### Changed
+* Trimmed the database tables to be more storage space efficient
+
 ## 3.0.11 - 2018-10-13
 ### Added
 * Added **Remote IP** to the Dashboard statistics, with a link to look up a geo-location

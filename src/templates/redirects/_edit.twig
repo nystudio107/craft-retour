@@ -55,7 +55,7 @@
 
         {{ forms.textField({
             label: "Legacy URL Pattern"|t("retour"),
-            instructions: "Enter the URL pattern that Retour should match.  This matches against the path, the part of the URL after the domain name.  e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`"|t("retour"),
+            instructions: "Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`"|t("retour"),
             id: "redirectSrcUrl",
             name: "redirectSrcUrl",
             class: 'nicetext',
@@ -66,9 +66,22 @@
             errors: redirect.getErrors("redirectSrcUrl"),
         }) }}
 
+        {{ forms.selectField({
+            label: "Legacy URL Match Type"|t("retour"),
+            instructions: "Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)?"|t("retour"),
+            id: "redirectSrcMatch",
+            name: "redirectSrcMatch",
+            value: redirect.redirectSrcMatch,
+            options: {
+                "pathonly": "Path Only"|t("retour"),
+                "fullurl": "Full URL"|t("retour"),
+            },
+            errors: redirect.getErrors("redirectSrcMatch"),
+        }) }}
+
         {{ forms.textField({
             label: "Destination URL"|t("retour"),
-            instructions: "Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`"|t("retour"),
+            instructions: "Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`"|t("retour"),
             id: "redirectDestUrl",
             name: "redirectDestUrl",
             class: 'nicetext',

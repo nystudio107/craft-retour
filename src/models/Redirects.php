@@ -53,6 +53,11 @@ class Redirects extends DbModel
     /**
      * @var string
      */
+    public $redirectSrcMatch;
+
+    /**
+     * @var string
+     */
     public $redirectMatchType;
 
     /**
@@ -85,11 +90,17 @@ class Redirects extends DbModel
     {
         return [
             ['id', 'integer'],
+            ['locale', 'default', 'value' => 'en-US'],
             ['locale', DbStringValidator::class, 'max' => 12],
             ['locale', 'string'],
-            ['locale', 'default', 'value' => ''],
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
+            ['redirectSrcMatch', 'default', 'value' => 'pathonly'],
+            ['redirectSrcMatch', DbStringValidator::class, 'max' => 32],
+            ['redirectSrcMatch', 'string'],
+            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
+            ['redirectMatchType', DbStringValidator::class, 'max' => 32],
+            ['redirectMatchType', 'string'],
             [
                 [
                     'redirectSrcUrl',
@@ -99,7 +110,6 @@ class Redirects extends DbModel
                 'default',
                 'value' => ''
             ],
-            ['redirectMatchType', 'default', 'value' => 'exactmatch'],
             ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl'],
             [
                 [
@@ -123,7 +133,6 @@ class Redirects extends DbModel
                 [
                     'redirectSrcUrl',
                     'redirectSrcUrlParsed',
-                    'redirectMatchType',
                     'redirectDestUrl',
                 ],
                 'string'

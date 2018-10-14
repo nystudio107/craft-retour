@@ -43,6 +43,7 @@ class FileController extends Controller
 
     const REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl' => 'Legacy URL Pattern',
+        'redirectSrcMatch' => 'Legacy URL Match Type',
         'redirectDestUrl' => 'Redirect To',
         'redirectMatchType' => 'Match Type',
         'redirectHttpCode' => 'HTTP Status',
@@ -53,6 +54,7 @@ class FileController extends Controller
     const STATISTICS_CSV_FIELDS = [
         'redirectSrcUrl' => '404 File Not Found URL',
         'referrerUrl' => 'Last Referrer URL',
+        'remoteIp' => 'Remote IP',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
         'handledByRetour' => 'Handled',

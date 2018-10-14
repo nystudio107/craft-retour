@@ -27,6 +27,8 @@ use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
 
+/** @noinspection MissingPropertyAnnotationsInspection */
+
 /**
  * @author    nystudio107
  * @package   Retour
@@ -69,51 +71,69 @@ class Redirects extends Component
         if ($request->getIsSiteRequest() && !$request->getIsLivePreview() && !$request->getIsConsoleRequest()) {
             // See if we should redirect
             try {
-                $url = urldecode($request->getUrl());
+                $fullUrl = urldecode($request->getAbsoluteUrl());
+                $pathOnly = urldecode($request->getUrl());
             } catch (InvalidConfigException $e) {
                 Craft::error(
                     $e->getMessage(),
                     __METHOD__
                 );
-                $url = '';
+                $pathOnly = '';
+                $fullUrl = '';
             }
             // Strip the query string if `alwaysStripQueryString` is set
             if (Retour::$settings->alwaysStripQueryString) {
-                $url = UrlHelper::stripQueryString($url);
+                $fullUrl = UrlHelper::stripQueryString($fullUrl);
+                $pathOnly = UrlHelper::stripQueryString($pathOnly);
             }
             Craft::info(
                 Craft::t(
                     'retour',
-                    '404 URL: {url}',
-                    ['url' => $url]
+                    '404 full URL: {fullUrl}, 404 path only: {pathOnly}',
+                    ['fullUrl' => $fullUrl, 'pathOnly' => $pathOnly]
                 ),
                 __METHOD__
             );
             // Redirect if we find a match, otherwise let Craft handle it
-            $redirect = $this->findRedirectMatch($url);
-            if (!$this->doRedirect($url, $redirect) && !Retour::$settings->alwaysStripQueryString) {
+            $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+            if (!$this->doRedirect($fullUrl, $pathOnly, $redirect) && !Retour::$settings->alwaysStripQueryString) {
                 // Try it again without the query string
-                $url = UrlHelper::stripQueryString($url);
-                $redirect = $this->findRedirectMatch($url);
-                $this->doRedirect($url, $redirect);
+                $fullUrl = UrlHelper::stripQueryString($fullUrl);
+                $pathOnly = UrlHelper::stripQueryString($pathOnly);
+                $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                $this->doRedirect($fullUrl, $pathOnly, $redirect);
             }
             // Increment the stats
-            Retour::$plugin->statistics->incrementStatistics($url, false);
+            Retour::$plugin->statistics->incrementStatistics($pathOnly, false);
         }
     }
 
     /**
      * Do the redirect
      *
-     * @param string     $url
+     * @param string     $fullUrl
+     * @param string     $pathOnly
      * @param null|array $redirect
      *
      * @return bool false if not redirected
      */
-    public function doRedirect(string $url, $redirect): bool
+    public function doRedirect(string $fullUrl, string $pathOnly, $redirect): bool
     {
         $response = Craft::$app->getResponse();
         if ($redirect !== null) {
+            // Figure out what type of source matching was done
+            $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
+            switch ($redirectSrcMatch) {
+                case 'pathonly':
+                    $url = $pathOnly;
+                    break;
+                case 'fullurl':
+                    $url = $fullUrl;
+                    break;
+                default:
+                    $url = $pathOnly;
+                    break;
+            }
             $dest = $redirect['redirectDestUrl'];
             $status = $redirect['redirectHttpCode'];
             Craft::info(
@@ -139,24 +159,34 @@ class Redirects extends Component
     }
 
     /**
-     * @param string $url
+     * @param string $fullUrl
+     * @param string $pathOnly
      *
      * @return array|null
      */
-    public function findRedirectMatch(string $url)
+    public function findRedirectMatch(string $fullUrl, string $pathOnly)
     {
-        // Try getting the redirect from the cache first
-        $redirect = $this->getRedirectFromCache($url);
+        // Try getting the full URL redirect from the cache
+        $redirect = $this->getRedirectFromCache($fullUrl);
         if ($redirect) {
             $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($url, $redirect);
+            $this->saveRedirectToCache($fullUrl, $redirect);
+
+            return $redirect;
+        }
+
+        // Try getting the path only redirect from the cache
+        $redirect = $this->getRedirectFromCache($pathOnly);
+        if ($redirect) {
+            $this->incrementRedirectHitCount($redirect);
+            $this->saveRedirectToCache($pathOnly, $redirect);
 
             return $redirect;
         }
 
         // Resolve static redirects
         $redirects = $this->getAllStaticRedirects();
-        $redirect = $this->resolveRedirect($url, $redirects);
+        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects);
         if ($redirect) {
             return $redirect;
         }
@@ -220,16 +250,30 @@ class Redirects extends Component
     }
 
     /**
-     * @param string $url
+     * @param string $fullUrl
+     * @param string $pathOnly
      * @param array  $redirects
      *
      * @return array|null
      */
-    public function resolveRedirect(string $url, array $redirects)
+    public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects)
     {
         $result = null;
         foreach ($redirects as $redirect) {
-            $redirectMatchType = $redirect['redirectMatchType'] ?? null;
+            // Figure out what type of source matching to do
+            $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
+            switch ($redirectSrcMatch) {
+                case 'pathonly':
+                    $url = $pathOnly;
+                    break;
+                case 'fullurl':
+                    $url = $fullUrl;
+                    break;
+                default:
+                    $url = $pathOnly;
+                    break;
+            }
+            $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
             switch ($redirectMatchType) {
                 // Do a straight up match
                 case 'exactmatch':
@@ -283,8 +327,8 @@ class Redirects extends Component
         Craft::info(
             Craft::t(
                 'retour',
-                'Not handled: {url}',
-                ['url' => $url]
+                'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
+                ['fullUrl' => $fullUrl, 'pathOnly' => $pathOnly]
             ),
             __METHOD__
         );
@@ -329,7 +373,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
         if ($limit) {
             $query->limit($limit);
         }

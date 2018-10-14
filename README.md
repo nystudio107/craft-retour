@@ -131,8 +131,9 @@ Static Redirects are useful when the Legacy URL Patterns and the new URL pattern
 
 ![Screenshot](resources/screenshots/retour-edit-redirect.png)
 
-* **Legacy URL Pattern** - Enter the URL pattern that Retour should match. This matches against the path, the part of the URL after the domain name. e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`
-* **Destination URL** - Enter the destination URL that should be redirected to. This can either be a fully qualified URL or a relative URL. e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`
+* **Legacy URL Pattern** - Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`
+* **Legacy URL Match Type** - Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)
+* **Destination URL** - Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on RegEx matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
 
@@ -174,6 +175,7 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 * **Create Entry Redirects** - Controls whether Retour automatically creates static redirects when an entry's URI changes.
 * **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
+* **Record Remote IP** - Should the anonymous ip address of the client causing a 404 be recorded?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
 * **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the AdminCP, or you run the `retour/stats/trim` console command (see below).
    
