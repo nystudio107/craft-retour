@@ -15,16 +15,41 @@ class m181013_171315_truncate_match_type extends Migration
      */
     public function safeUp()
     {
-        $this->alterColumn(
-            '{{%retour_redirects}}',
-            'redirectMatchType',
-            $this->string(32)->defaultValue('exactmatch')
-        );
-        $this->alterColumn(
-            '{{%retour_static_redirects}}',
-            'redirectMatchType',
-            $this->string(32)->defaultValue('exactmatch')
-        );
+        // https://github.com/yiisoft/yii2/issues/4492
+        if ($this->db->getIsPgsql()) {
+            $this->alterColumn(
+                '{{%retour_redirects}}',
+                'redirectMatchType',
+                $this->string(32)
+            );
+            $this->alterColumn(
+                '{{%retour_redirects}}',
+                'redirectMatchType',
+                "SET DEFAULT 'exactmatch'"
+            );
+            $this->alterColumn(
+                '{{%retour_static_redirects}}',
+                'redirectMatchType',
+                $this->string(32)
+            );
+            $this->alterColumn(
+                '{{%retour_static_redirects}}',
+                'redirectMatchType',
+                "SET DEFAULT 'exactmatch'"
+            );
+        }
+        if ($this->db->getIsMysql()) {
+            $this->alterColumn(
+                '{{%retour_redirects}}',
+                'redirectMatchType',
+                $this->string(32)->defaultValue('exactmatch')
+            );
+            $this->alterColumn(
+                '{{%retour_static_redirects}}',
+                'redirectMatchType',
+                $this->string(32)->defaultValue('exactmatch')
+            );
+        }
     }
 
     /**
@@ -33,6 +58,7 @@ class m181013_171315_truncate_match_type extends Migration
     public function safeDown()
     {
         echo "m181013_171315_truncate_match_type cannot be reverted.\n";
+
         return false;
     }
 }
