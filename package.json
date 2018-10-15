@@ -90,7 +90,7 @@
                 "./src/assetbundles/retour/src/vue/**/*.{vue,html}"
             ],
             "whitelist": [
-                "./src/assetbundles/retour/src/css/components/tables.css"
+                "./src/assetbundles/retour/src/css/components/**/*.{css,pcss}"
             ],
             "whitelistPatterns": [],
             "extensions": [
