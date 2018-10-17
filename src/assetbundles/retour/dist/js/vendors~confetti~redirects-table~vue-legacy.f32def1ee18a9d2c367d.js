@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vendors~confetti~redirects-table~vue-legacy.f32def1ee18a9d2c367d.js
  * @author         Andrew Welch
- * @build          Wed, Oct 17, 2018 8:54 PM ET
- * @release        d3629df31e9d13557bff64a31806ee7e3ba3828d [develop]
+ * @build          Wed, Oct 17, 2018 9:08 PM ET
+ * @release        4736af890b0a8a1246f9f40350d1c5e27c787715 [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
