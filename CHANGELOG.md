@@ -4,6 +4,7 @@
 ### Changed
 * Fixed an issue where the charts wouldn't generate properly if you were using MySQL 5.7 or later
 * Fixed an issue with the charts not generating properly if you were using Postgres
+* Fixed a padding issue with the widget chart
 
 ## 3.0.12 - 2018-10-14
 ### Added
