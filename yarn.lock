@@ -1001,15 +1001,15 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
 autoprefixer@^9.1.5:
-  version "9.1.5"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.1.5.tgz#8675fd8d1c0d43069f3b19a2c316f3524e4f6671"
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.2.1.tgz#1f2f1179ceed4711b7ab064dbd5c3f9e83d9dc62"
   dependencies:
-    browserslist "^4.1.0"
-    caniuse-lite "^1.0.30000884"
+    browserslist "^4.2.1"
+    caniuse-lite "^1.0.30000892"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
-    postcss "^7.0.2"
-    postcss-value-parser "^3.2.3"
+    postcss "^7.0.5"
+    postcss-value-parser "^3.3.1"
 
 axios@^0.15.3:
   version "0.15.3"
@@ -1255,7 +1255,7 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@^4.0.0, browserslist@^4.1.0:
+browserslist@^4.0.0, browserslist@^4.1.0, browserslist@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.2.1.tgz#257a24c879d1cd4016348eee5c25de683260b21d"
   dependencies:
@@ -1373,9 +1373,9 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000884, caniuse-lite@^1.0.30000890:
-  version "1.0.30000890"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000890.tgz#86a18ffcc65d79ec6a437e985761b8bf1c4efeaf"
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000890, caniuse-lite@^1.0.30000892:
+  version "1.0.30000892"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000892.tgz#344d2b51ee3ff5977537da4aa449c90eec40b759"
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -3857,8 +3857,8 @@ negotiator@0.6.1:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
 neo-async@^2.5.0:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.2.tgz#489105ce7bc54e709d736b195f82135048c50fcc"
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
 
 next-tick@1:
   version "1.0.0"
@@ -4708,7 +4708,7 @@ postcss-unique-selectors@^4.0.1:
     postcss "^7.0.0"
     uniqs "^2.0.0"
 
-postcss-value-parser@^3.0.0, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
+postcss-value-parser@^3.0.0, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0, postcss-value-parser@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
 
@@ -4729,7 +4729,7 @@ postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.11, postcss@^6.0.14, postcss@^6.0.2
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.2:
+postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.2, postcss@^7.0.5:
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.5.tgz#70e6443e36a6d520b0fd4e7593fcca3635ee9f55"
   dependencies:
@@ -5714,8 +5714,8 @@ terser-webpack-plugin@^1.1.0:
     worker-farm "^1.5.2"
 
 terser@^3.8.1:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-3.10.0.tgz#6ae15dafecbd02c9788d5f36d27fca32196b533a"
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-3.10.1.tgz#59c8cf87262d59e018ded4df30f834b602b1e232"
   dependencies:
     commander "~2.17.1"
     source-map "~0.6.1"
@@ -5729,8 +5729,8 @@ through2@^2.0.0:
     xtend "~4.0.1"
 
 thunky@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.0.2.tgz#a862e018e3fb1ea2ec3fce5d55605cf57f247371"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.0.3.tgz#f5df732453407b09191dae73e2a8cc73f381a826"
 
 timers-browserify@^2.0.4:
   version "2.0.10"
@@ -5987,8 +5987,8 @@ vm-browserify@0.0.4:
     indexof "0.0.1"
 
 vue-apexcharts@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.2.1.tgz#631e585576a481a484602309b06f1f7b8f2aad36"
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vue-apexcharts/-/vue-apexcharts-1.2.2.tgz#98726d46081c50fc7c4b2a4818565a7d665ad625"
 
 vue-confetti@^0.4.2:
   version "0.4.2"
@@ -6074,8 +6074,8 @@ wbuf@^1.1.0, wbuf@^1.7.2:
     minimalistic-assert "^1.0.0"
 
 webpack-bundle-analyzer@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.2.tgz#22f19ea6d1b5a15fd7a90baae0bc0f39bd1e4d48"
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.3.tgz#dbc7fff8f52058b6714a20fddf309d0790e3e0a0"
   dependencies:
     acorn "^5.7.3"
     bfj "^6.1.1"
@@ -6198,8 +6198,8 @@ webpack-sources@^1.1.0, webpack-sources@^1.2.0, webpack-sources@^1.3.0:
     source-map "~0.6.1"
 
 webpack@^4.19.1:
-  version "4.20.2"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.20.2.tgz#89f6486b6bb276a91b0823453d377501fc625b5a"
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.21.0.tgz#bd03605c0f48c0d4aaaef78ead2769485e5afd92"
   dependencies:
     "@webassemblyjs/ast" "1.7.8"
     "@webassemblyjs/helper-module-context" "1.7.8"
