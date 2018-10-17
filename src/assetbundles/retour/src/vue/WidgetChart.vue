@@ -1,5 +1,5 @@
 <template>
-    <apexcharts width="100%" height="210px" type="donut" :options="chartOptions" :series="series"></apexcharts>
+    <apexcharts width="100%" height="200px" type="donut" :options="chartOptions" :series="series"></apexcharts>
 </template>
 
 <script>
@@ -64,22 +64,6 @@
                         '404 hits',
                         '404 hits handled'
                     ],
-                    title: {
-                        text: this.title,
-                        offsetX: 0,
-                        style: {
-                            fontSize: '24px',
-                            cssClass: 'apexcharts-yaxis-title'
-                        }
-                    },
-                    subtitle: {
-                        text: this.subTitle + ` ${this.days} days.`,
-                        offsetX: 0,
-                        style: {
-                            fontSize: '14px',
-                            cssClass: 'apexcharts-yaxis-title'
-                        }
-                    }
                 },
                 series: [50, 50],
             }
