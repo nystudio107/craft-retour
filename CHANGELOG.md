@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.13 - 2018-10-17
+### Changed
+* Fixed an issue where the charts wouldn't generate properly if you were using MySQL 5.7 or later
+
 ## 3.0.12 - 2018-10-14
 ### Added
 * Added the ability to redirect based on **Path Only** or **Full URL**, to allow for site-specific redirects
