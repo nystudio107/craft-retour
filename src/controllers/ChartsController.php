@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\controllers;
 
+use Craft;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 
 use craft\db\Query;
@@ -66,28 +67,47 @@ class ChartsController extends Controller
                 $days = 30;
                 break;
         }
-        // Query the db
-        $stats = (new Query())
-            ->from('{{%retour_stats}}')
-            ->select([
-                "DATE_FORMAT(hitLastTime, '%Y-%m-%d') AS date_formatted",
-                'COUNT(redirectSrcUrl) AS cnt',
-                'COUNT(handledByRetour = 1 or null) as handled_cnt'
-            ])
-            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
-            ->orderBy('date_formatted ASC')
-            ->groupBy('date_formatted')
-            ->all();
+        // Different dbs do it different ways
+        $stats = null;
+        $db = Craft::$app->getDb();
+        if ($db->getIsMysql()) {
+            // Query the db
+            $stats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->select([
+                    "DATE_FORMAT(hitLastTime, '%Y-%m-%d') AS date_formatted",
+                    'COUNT(redirectSrcUrl) AS cnt',
+                    'COUNT(handledByRetour = 1 or null) as handled_cnt',
+                ])
+                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+                ->orderBy('date_formatted ASC')
+                ->groupBy('date_formatted')
+                ->all();
+        }
+        if ($db->getIsPgsql()) {
+            // Query the db
+            $stats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->select([
+                    "to_char(\"hitLastTime\", 'yyyy-mm-dd') AS date_formatted",
+                    "COUNT(\"redirectSrcUrl\") AS cnt",
+                    "COUNT(CASE WHEN \"handledByRetour\" = true THEN 1 END) as handled_cnt",
+                ])
+                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )")
+                ->orderBy('date_formatted ASC')
+                ->groupBy('date_formatted')
+                ->all();
+        }
         if ($stats) {
             $data[] = [
                 'name' => '404 hits',
-                'data' => ArrayHelper::getColumn($stats, 'cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'date_formatted'),
+                'data' => array_merge(['0'], ArrayHelper::getColumn($stats, 'cnt')),
+                'labels' => array_merge(['-'], ArrayHelper::getColumn($stats, 'date_formatted')),
             ];
             $data[] = [
                 'name' => 'Handled 404 hits',
-                'data' => ArrayHelper::getColumn($stats, 'handled_cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'date_formatted'),
+                'data' => array_merge(['0'], ArrayHelper::getColumn($stats, 'handled_cnt')),
+                'labels' => array_merge(['-'], ArrayHelper::getColumn($stats, 'date_formatted')),
             ];
         }
 
@@ -117,7 +137,7 @@ class ChartsController extends Controller
         if ($stats) {
             $data = [
                 (int)$stats,
-                (int)$handledStats
+                (int)$handledStats,
             ];
         }
 
