@@ -70,24 +70,24 @@ class ChartsController extends Controller
         $stats = (new Query())
             ->from('{{%retour_stats}}')
             ->select([
-                '*',
+                "DATE_FORMAT(hitLastTime, '%Y-%m-%d') AS date_formatted",
                 'COUNT(redirectSrcUrl) AS cnt',
                 'COUNT(handledByRetour = 1 or null) as handled_cnt'
             ])
             ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
-            ->orderBy('hitLastTime ASC')
-            ->groupBy('DAY(hitLastTime)')
+            ->orderBy('date_formatted ASC')
+            ->groupBy('date_formatted')
             ->all();
         if ($stats) {
             $data[] = [
                 'name' => '404 hits',
                 'data' => ArrayHelper::getColumn($stats, 'cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
+                'labels' => ArrayHelper::getColumn($stats, 'date_formatted'),
             ];
             $data[] = [
                 'name' => 'Handled 404 hits',
                 'data' => ArrayHelper::getColumn($stats, 'handled_cnt'),
-                'labels' => ArrayHelper::getColumn($stats, 'hitLastTime'),
+                'labels' => ArrayHelper::getColumn($stats, 'date_formatted'),
             ];
         }
 
