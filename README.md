@@ -197,6 +197,10 @@ The **Handled** column will display an `√` if the last 404 hit to this URL was
 
 Clicking on the `+` next to an unhandled 404 will create a new Static Redirect with the 404's URL set as the source.
 
+![Screenshot](resources/screenshots/retour-not-found-detail.png)
+
+Hovering over the **404 File Not Found URL** will give you more detailed information on the 404 that occurred.
+
 #### Exporting Statistics to a CSV File
 
 The **Export CSV File** button on the **Retour->Statistics** page allows you to export all of your statistics to a CSV file for external processing or archival purposes.
