@@ -125,12 +125,15 @@ The **Retour->Redirects** page lists all of your static redirects. You can sort 
 
 Clicking on the `x` next to a static redirect will delete it.
 
+The circle status on the left of each redirect indicates whether the redirect is enabled or not
+
 #### Manually Creating Static Redirects
 
 Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic. You can create them by clicking on **Retour->Redirects** and then clicking on the **New Static Redirect** button.
 
 ![Screenshot](resources/screenshots/retour-edit-redirect.png)
 
+* **Enabled** - Should this redirect be processed? Sometimes it is convenient to temporarily disable a redirect rather than outright delete it
 * **Legacy URL Pattern** - Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`
 * **Legacy URL Match Type** - Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)
 * **Destination URL** - Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`
@@ -174,6 +177,7 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 * **Plugin name** - The public-facing name of the plugin
 * **Create Entry Redirects** - Controls whether Retour automatically creates static redirects when an entry's URI changes.
 * **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
+* **Preserve Query String** - Should the query string be preserved and passed along to the redirected URL?
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
 * **Record Remote IP** - Should the anonymous ip address of the client causing a 404 be recorded?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
