@@ -11,12 +11,12 @@
 
 namespace nystudio107\retour\services;
 
-use craft\base\Plugin;
 use nystudio107\retour\Retour;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
 use Craft;
 use craft\base\Component;
+use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
@@ -26,6 +26,7 @@ use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
+use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -135,6 +136,10 @@ class Redirects extends Component
                     break;
             }
             $dest = $redirect['redirectDestUrl'];
+            if (Retour::$settings->preserveQueryString) {
+                $request = Craft::$app->getRequest();
+                $dest .= '?' . $request->getQueryString();
+            }
             $status = $redirect['redirectHttpCode'];
             Craft::info(
                 Craft::t(
