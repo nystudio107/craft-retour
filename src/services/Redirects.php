@@ -267,66 +267,69 @@ class Redirects extends Component
         foreach ($redirects as $redirect) {
             // Figure out what type of source matching to do
             $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
-            switch ($redirectSrcMatch) {
-                case 'pathonly':
-                    $url = $pathOnly;
-                    break;
-                case 'fullurl':
-                    $url = $fullUrl;
-                    break;
-                default:
-                    $url = $pathOnly;
-                    break;
-            }
-            $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
-            switch ($redirectMatchType) {
-                // Do a straight up match
-                case 'exactmatch':
-                    if (strcasecmp($redirect['redirectSrcUrlParsed'], $url) === 0) {
-                        $this->incrementRedirectHitCount($redirect);
-                        $this->saveRedirectToCache($url, $redirect);
-
-                        return $redirect;
-                    }
-                    break;
-
-                // Do a regex match
-                case 'regexmatch':
-                    $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
-                    if (preg_match($matchRegEx, $url) === 1) {
-                        $this->incrementRedirectHitCount($redirect);
-                        // If we're not associated with an EntryID, handle capture group replacement
-                        if ((int)$redirect['associatedElementId'] === 0) {
-                            $redirect['redirectDestUrl'] = preg_replace(
-                                $matchRegEx,
-                                $redirect['redirectDestUrl'],
-                                $url
-                            );
-                        }
-                        $this->saveRedirectToCache($url, $redirect);
-
-                        return $redirect;
-                    }
-                    break;
-
-                // Otherwise try to look up a plugin's method by and call it for the match
-                default:
-                    $plugin = $redirectMatchType ? Craft::$app->getPlugins()->getPlugin($redirectMatchType) : null;
-                    if ($plugin && method_exists($plugin, 'retourMatch')) {
-                        $args = [
-                            [
-                                'redirect' => &$redirect,
-                            ],
-                        ];
-                        $result = \call_user_func_array([$plugin, 'retourMatch'], $args);
-                        if ($result) {
+            $redirectEnabled = (bool)$redirect['enabled'];
+            if ($redirectEnabled === true) {
+                switch ($redirectSrcMatch) {
+                    case 'pathonly':
+                        $url = $pathOnly;
+                        break;
+                    case 'fullurl':
+                        $url = $fullUrl;
+                        break;
+                    default:
+                        $url = $pathOnly;
+                        break;
+                }
+                $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
+                switch ($redirectMatchType) {
+                    // Do a straight up match
+                    case 'exactmatch':
+                        if (strcasecmp($redirect['redirectSrcUrlParsed'], $url) === 0) {
                             $this->incrementRedirectHitCount($redirect);
                             $this->saveRedirectToCache($url, $redirect);
 
                             return $redirect;
                         }
-                    }
-                    break;
+                        break;
+
+                    // Do a regex match
+                    case 'regexmatch':
+                        $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
+                        if (preg_match($matchRegEx, $url) === 1) {
+                            $this->incrementRedirectHitCount($redirect);
+                            // If we're not associated with an EntryID, handle capture group replacement
+                            if ((int)$redirect['associatedElementId'] === 0) {
+                                $redirect['redirectDestUrl'] = preg_replace(
+                                    $matchRegEx,
+                                    $redirect['redirectDestUrl'],
+                                    $url
+                                );
+                            }
+                            $this->saveRedirectToCache($url, $redirect);
+
+                            return $redirect;
+                        }
+                        break;
+
+                    // Otherwise try to look up a plugin's method by and call it for the match
+                    default:
+                        $plugin = $redirectMatchType ? Craft::$app->getPlugins()->getPlugin($redirectMatchType) : null;
+                        if ($plugin && method_exists($plugin, 'retourMatch')) {
+                            $args = [
+                                [
+                                    'redirect' => &$redirect,
+                                ],
+                            ];
+                            $result = \call_user_func_array([$plugin, 'retourMatch'], $args);
+                            if ($result) {
+                                $this->incrementRedirectHitCount($redirect);
+                                $this->saveRedirectToCache($url, $redirect);
+
+                                return $redirect;
+                            }
+                        }
+                        break;
+                }
             }
         }
         Craft::info(

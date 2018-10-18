@@ -84,6 +84,7 @@ class Install extends Migration
 
                     'locale' => $this->string(12)->defaultValue('en-US'),
                     'associatedElementId' => $this->integer()->notNull(),
+                    'enabled' => $this->boolean()->defaultValue(true),
                     'redirectSrcUrl' => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
                     'redirectSrcMatch' => $this->string(32)->defaultValue('pathonly'),
@@ -109,6 +110,7 @@ class Install extends Migration
 
                     'locale' => $this->string(12)->defaultValue('en-US'),
                     'associatedElementId' => $this->integer()->notNull(),
+                    'enabled' => $this->boolean()->defaultValue(true),
                     'redirectSrcUrl' => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
                     'redirectSrcMatch' => $this->string(32)->defaultValue('pathonly'),
