@@ -22,6 +22,7 @@ use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 
 use yii\db\Exception;
+use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -109,8 +110,8 @@ class Statistics extends Component
     /**
      * Increment the retour_stats record
      *
-     * @param string $url The 404 url
-     * @param bool   $handled
+     * @param string             $url The 404 url
+     * @param bool               $handled
      */
     public function incrementStatistics(string $url, $handled = false)
     {
@@ -121,9 +122,19 @@ class Statistics extends Component
             if (Retour::$settings->recordRemoteIp) {
                 $remoteIp = $request->getRemoteIP();
             }
+            $userAgent = $request->getUserAgent();
+            if (Retour::$currentException !== null) {
+                $exceptionMessage = Retour::$currentException->getMessage();
+                $exceptionFilePath = Retour::$currentException->getFile();
+                $exceptionFileLine = Retour::$currentException->getLine();
+            }
         }
         $referrer = $referrer ?? '';
         $remoteIp = $remoteIp ?? '';
+        $userAgent = $userAgent ?? '';
+        $exceptionMessage = $exceptionMessage ?? '';
+        $exceptionFilePath = $exceptionFilePath ?? '';
+        $exceptionFileLine = $exceptionFileLine ?? 0;
         // Strip the query string if `stripQueryStringFromStats` is set
         if (Retour::$settings->stripQueryStringFromStats) {
             $url = UrlHelper::stripQueryString($url);
@@ -150,6 +161,10 @@ class Statistics extends Component
         // Merge in the updated info
         $stats->referrerUrl = $referrer;
         $stats->remoteIp = $remoteIp;
+        $stats->userAgent = $userAgent;
+        $stats->exceptionMessage = $exceptionMessage;
+        $stats->exceptionFilePath = $exceptionFilePath;
+        $stats->exceptionFileLine = (int)$exceptionFileLine;
         $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
         $stats->handledByRetour = (int)$handled;
         $stats->hitCount++;

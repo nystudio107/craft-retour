@@ -86,9 +86,6 @@ class TablesController extends Controller
         if ($stats) {
             // Add in the `addLink` field
             foreach ($stats as &$stat) {
-                if (empty($stat['remoteIp'])) {
-                    $stat['remoteIp'] = '';
-                }
                 $stat['addLink'] = '';
                 if (!$stat['handledByRetour']) {
                     $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));

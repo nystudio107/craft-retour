@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a :href="rowData.editLink" class="go" :title="linkTitle">{{ rowData.redirectSrcUrl }}</a>
+        <a :href="rowData.redirectSrcUrl" class="go" :title="linkTitle">{{ rowData.redirectSrcUrl }}</a>
     </div>
 </template>
 
@@ -19,7 +19,10 @@
             linkTitle: function() {
                 let title = '';
 
-                title += this.rowData.redirectSrcUrl;
+                title += ('User Agent: ' + this.rowData.userAgent + "\n\n");
+                title += ('Message: ' + this.rowData.exceptionMessage + "\n\n");
+                title += ('File Path: ' + this.rowData.exceptionFilePath + "\n\n");
+                title += ('Line No.: ' + this.rowData.exceptionFileLine);
 
                 return title;
             }

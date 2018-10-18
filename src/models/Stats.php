@@ -44,6 +44,26 @@ class Stats extends DbModel
     public $remoteIp;
 
     /**
+     * @var string
+     */
+    public $userAgent;
+
+    /**
+     * @var string
+     */
+    public $exceptionMessage;
+
+    /**
+     * @var string
+     */
+    public $exceptionFilePath;
+
+    /**
+     * @var int
+     */
+    public $exceptionFileLine;
+
+    /**
      * @var int
      */
     public $hitCount;
@@ -68,9 +88,37 @@ class Stats extends DbModel
     {
         return [
             ['id', 'integer'],
-            ['redirectSrcUrl', DbStringValidator::class, 'max' => 255],
-            ['redirectSrcUrl', 'string'],
-            ['redirectSrcUrl', 'default', 'value' => ''],
+            [
+                [
+                    'redirectSrcUrl',
+                    'userAgent',
+                    'exceptionMessage',
+                    'exceptionFilePath',
+                ],
+                DbStringValidator::class,
+                'max' => 255
+            ],
+            [
+                [
+                    'redirectSrcUrl',
+                    'userAgent',
+                    'exceptionMessage',
+                    'exceptionFilePath',
+                ],
+                'string'
+            ],
+            [
+                [
+                    'redirectSrcUrl',
+                    'userAgent',
+                    'exceptionMessage',
+                    'exceptionFilePath',
+                ],
+                'default',
+                'value' => ''
+            ],
+            ['exceptionFileLine', 'integer'],
+            ['exceptionFileLine', 'default', 'value' => 0],
             ['referrerUrl', DbStringValidator::class, 'max' => 2000],
             ['referrerUrl', 'string'],
             ['referrerUrl', 'default', 'value' => ''],

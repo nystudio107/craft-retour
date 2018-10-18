@@ -1,13 +1,11 @@
 // Field definitions for DashboardTable.vue
 export default [
     {
-        name: 'redirectSrcUrl',
+        name: '__component:file-not-found-url',
         sortField: 'redirectSrcUrl',
         title: '404 File Not Found URL',
         titleClass: 'center',
         dataClass: 'center',
-        callback: 'urlFormatter'
-
     },
     {
         name: 'referrerUrl',

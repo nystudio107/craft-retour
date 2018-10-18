@@ -11,7 +11,6 @@
 
 namespace nystudio107\retour;
 
-use craft\base\Element;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
@@ -19,6 +18,7 @@ use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
 
 use Craft;
+use craft\base\Element;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
 use craft\events\ExceptionEvent;
@@ -77,13 +77,18 @@ class Retour extends Plugin
      */
     public static $cacheDuration;
 
+    /**
+     * @var HttpException
+     */
+    public static $currentException;
+
     // Public Properties
     // =========================================================================
 
     /**
      * @var string
      */
-    public $schemaVersion = '3.0.2';
+    public $schemaVersion = '3.0.3';
 
 
     /**
@@ -417,6 +422,7 @@ class Retour extends Plugin
                 }
                 // If this is a 404 error, see if we can handle it
                 if ($exception instanceof HttpException && $exception->statusCode === 404) {
+                    self::$currentException = $exception;
                     Retour::$plugin->redirects->handle404();
                 }
             }
