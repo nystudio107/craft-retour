@@ -43,7 +43,7 @@ class Redirects extends DbModel
     /**
      * @var bool
      */
-    public $enabled;
+    public $enabled = true;
 
     /**
      * @var string
