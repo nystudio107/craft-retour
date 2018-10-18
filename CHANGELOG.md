@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.0.14 - 2018-10-18
+## Added
+* Added the recording of the **User Agent**, **Message**, **File Name**, and **Line No.** for each 404 exception via hovering over the 404 URL
+* Added a **Preserve Query String** option to the Settings to allow the query string be preserved and passed along to the redirected URL
+
+### Changed
+*  
+
 ## 3.0.13 - 2018-10-17
 ### Changed
 * Fixed an issue where the charts wouldn't generate properly if you were using MySQL 5.7 or later
