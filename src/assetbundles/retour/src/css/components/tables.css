@@ -57,11 +57,11 @@ th.vuetable-th-addLink {
  */
 
 table.retour-redirects th.vuetable-th-redirectSrcUrl {
-  width: 27%!important;
+  width: 30%!important;
 }
 
 th.vuetable-th-redirectDestUrl {
-  width: 27%!important;
+  width: 24%!important;
 }
 
 th.vuetable-th-redirectMatchType {

@@ -52,7 +52,16 @@
                 <div class="instructions"><p>{{ "Retour will look for 404 (Not Found) URLs that match the Legacy URL Pattern below, and redirect them to Destination URL." |t |raw}}</p></div>
             </div>
         </div>
-
+    
+        {{ forms.lightswitchField({
+            label: "Enabled"|t("retour"),
+            instructions: "Should this redirect be processed?"|t("retour"),
+            id: "enabled",
+            name: "enabled",
+            on: redirect.enabled,
+            errors: redirect.getErrors("enabled"),
+        }) }}
+    
         {{ forms.textField({
             label: "Legacy URL Pattern"|t("retour"),
             instructions: "Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`"|t("retour"),

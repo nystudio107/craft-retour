@@ -42,6 +42,11 @@ class Settings extends Model
     public $alwaysStripQueryString = false;
 
     /**
+     * @var bool Should the query string be preserved and passed along to the redirected URL?
+     */
+    public $preserveQueryString = false;
+
+    /**
      * @var bool Should the anonymous ip address of the client causing a 404 be recorded?
      */
     public $recordRemoteIp = true;
@@ -91,6 +96,7 @@ class Settings extends Model
                 [
                     'createUriChangeRedirects',
                     'alwaysStripQueryString',
+                    'preserveQueryString',
                     'stripQueryStringFromStats',
                     'recordRemoteIp',
                 ],

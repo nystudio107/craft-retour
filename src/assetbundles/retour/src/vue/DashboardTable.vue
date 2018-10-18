@@ -28,7 +28,11 @@
 </template>
 
 <script>
-    import FieldDefs from './DashboardFieldDefs.js'
+    import Vue from 'vue';
+    import FieldDefs from './DashboardFieldDefs.js';
+    import FileNotFoundUrl from './FileNotFoundUrl.vue';
+
+    Vue.component('file-not-found-url', FileNotFoundUrl);
     // Our component exports
     export default {
         components: {

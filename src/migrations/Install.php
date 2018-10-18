@@ -77,21 +77,22 @@ class Install extends Migration
             $this->createTable(
                 '{{%retour_redirects}}',
                 [
-                    'id'          => $this->primaryKey(),
+                    'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid'         => $this->uid(),
+                    'uid' => $this->uid(),
 
-                    'locale'               => $this->string(12)->defaultValue('en-US'),
-                    'associatedElementId'  => $this->integer()->notNull(),
-                    'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
+                    'locale' => $this->string(12)->defaultValue('en-US'),
+                    'associatedElementId' => $this->integer()->notNull(),
+                    'enabled' => $this->boolean()->defaultValue(true),
+                    'redirectSrcUrl' => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
-                    'redirectSrcMatch'     => $this->string(32)->defaultValue('pathonly'),
-                    'redirectMatchType'    => $this->string(32)->defaultValue('exactmatch'),
-                    'redirectDestUrl'      => $this->string(255)->defaultValue(''),
-                    'redirectHttpCode'     => $this->integer()->defaultValue(301),
-                    'hitCount'             => $this->integer()->defaultValue(1),
-                    'hitLastTime'          => $this->dateTime(),
+                    'redirectSrcMatch' => $this->string(32)->defaultValue('pathonly'),
+                    'redirectMatchType' => $this->string(32)->defaultValue('exactmatch'),
+                    'redirectDestUrl' => $this->string(255)->defaultValue(''),
+                    'redirectHttpCode' => $this->integer()->defaultValue(301),
+                    'hitCount' => $this->integer()->defaultValue(1),
+                    'hitLastTime' => $this->dateTime(),
                 ]
             );
         }
@@ -102,21 +103,22 @@ class Install extends Migration
             $this->createTable(
                 '{{%retour_static_redirects}}',
                 [
-                    'id'          => $this->primaryKey(),
+                    'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid'         => $this->uid(),
+                    'uid' => $this->uid(),
 
-                    'locale'               => $this->string(12)->defaultValue('en-US'),
-                    'associatedElementId'  => $this->integer()->notNull(),
-                    'redirectSrcUrl'       => $this->string(255)->defaultValue(''),
+                    'locale' => $this->string(12)->defaultValue('en-US'),
+                    'associatedElementId' => $this->integer()->notNull(),
+                    'enabled' => $this->boolean()->defaultValue(true),
+                    'redirectSrcUrl' => $this->string(255)->defaultValue(''),
                     'redirectSrcUrlParsed' => $this->string(255)->defaultValue(''),
-                    'redirectSrcMatch'     => $this->string(32)->defaultValue('pathonly'),
-                    'redirectMatchType'    => $this->string(32)->defaultValue('exactmatch'),
-                    'redirectDestUrl'      => $this->string(255)->defaultValue(''),
-                    'redirectHttpCode'     => $this->integer()->defaultValue(301),
-                    'hitCount'             => $this->integer()->defaultValue(1),
-                    'hitLastTime'          => $this->dateTime(),
+                    'redirectSrcMatch' => $this->string(32)->defaultValue('pathonly'),
+                    'redirectMatchType' => $this->string(32)->defaultValue('exactmatch'),
+                    'redirectDestUrl' => $this->string(255)->defaultValue(''),
+                    'redirectHttpCode' => $this->integer()->defaultValue(301),
+                    'hitCount' => $this->integer()->defaultValue(1),
+                    'hitLastTime' => $this->dateTime(),
                 ]
             );
         }
@@ -127,16 +129,20 @@ class Install extends Migration
             $this->createTable(
                 '{{%retour_stats}}',
                 [
-                    'id'          => $this->primaryKey(),
+                    'id' => $this->primaryKey(),
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid'         => $this->uid(),
+                    'uid' => $this->uid(),
 
-                    'redirectSrcUrl'  => $this->string(255)->defaultValue(''),
-                    'referrerUrl'     => $this->string(2000)->defaultValue(''),
-                    'remoteIp'        => $this->string(45)->defaultValue(''),
-                    'hitCount'        => $this->integer()->defaultValue(1),
-                    'hitLastTime'     => $this->dateTime(),
+                    'redirectSrcUrl' => $this->string(255)->defaultValue(''),
+                    'referrerUrl' => $this->string(2000)->defaultValue(''),
+                    'remoteIp' => $this->string(45)->defaultValue(''),
+                    'userAgent' => $this->string(255)->defaultValue(''),
+                    'exceptionMessage' => $this->string(255)->defaultValue(''),
+                    'exceptionFilePath' => $this->string(255)->defaultValue(''),
+                    'exceptionFileLine' => $this->integer()->defaultValue(0),
+                    'hitCount' => $this->integer()->defaultValue(1),
+                    'hitLastTime' => $this->dateTime(),
                     'handledByRetour' => $this->boolean()->defaultValue(false),
                 ]
             );
@@ -186,7 +192,6 @@ class Install extends Migration
             'CASCADE',
             'CASCADE'
         );
-
         /*
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),

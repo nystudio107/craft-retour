@@ -41,6 +41,11 @@ class Redirects extends DbModel
     public $associatedElementId;
 
     /**
+     * @var bool
+     */
+    public $enabled;
+
+    /**
      * @var string
      */
     public $redirectSrcUrl;
@@ -95,6 +100,7 @@ class Redirects extends DbModel
             ['locale', 'string'],
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
+            ['enabled', 'boolean'],
             ['redirectSrcMatch', 'default', 'value' => 'pathonly'],
             ['redirectSrcMatch', DbStringValidator::class, 'max' => 32],
             ['redirectSrcMatch', 'string'],
