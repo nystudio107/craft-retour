@@ -95,5 +95,9 @@ return [
     'Path Only' => 'Path Only',
     'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)?' => 'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)?',
     'Not handled-> full URL: {fullUrl}, path only: {pathOnly}' => 'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
-    '404 full URL: {fullUrl}, 404 path only: {pathOnly}' => '404 full URL: {fullUrl}, 404 path only: {pathOnly}'
+    '404 full URL: {fullUrl}, 404 path only: {pathOnly}' => '404 full URL: {fullUrl}, 404 path only: {pathOnly}',
+    'Should the query string be preserved and passed along to the redirected URL?' => 'Should the query string be preserved and passed along to the redirected URL?',
+    'Preserve Query String' => 'Preserve Query String',
+    'Enabled' => 'Enabled',
+    'Should this redirect be processed?' => 'Should this redirect be processed?'
 ];
