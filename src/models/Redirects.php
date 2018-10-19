@@ -15,6 +15,8 @@ use nystudio107\retour\validators\DbStringValidator;
 use nystudio107\retour\validators\ParsedUriValidator;
 use nystudio107\retour\validators\UriValidator;
 
+use yii\behaviors\AttributeTypecastBehavior;
+
 /**
  * @author    nystudio107
  * @package   Retour
@@ -148,6 +150,19 @@ class Redirects extends DbModel
             ['hitCount', 'default', 'value' => 0],
             ['hitCount', 'integer'],
             ['hitLastTime', 'safe'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'typecast' => [
+                'class' => AttributeTypecastBehavior::class,
+                // 'attributeTypes' will be composed automatically according to `rules()`
+            ],
         ];
     }
 }

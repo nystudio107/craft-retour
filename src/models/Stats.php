@@ -13,6 +13,8 @@ namespace nystudio107\retour\models;
 
 use nystudio107\retour\validators\DbStringValidator;
 
+use yii\behaviors\AttributeTypecastBehavior;
+
 /**
  * @author    nystudio107
  * @package   Retour
@@ -130,6 +132,19 @@ class Stats extends DbModel
             ['hitLastTime', 'safe'],
             ['handledByRetour', 'integer', 'min' => 0, 'max' => 1],
             ['handledByRetour', 'default', 'value' => 0],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'typecast' => [
+                'class' => AttributeTypecastBehavior::class,
+                // 'attributeTypes' will be composed automatically according to `rules()`
+            ],
         ];
     }
 }
