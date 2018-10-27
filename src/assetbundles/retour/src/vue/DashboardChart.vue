@@ -55,9 +55,9 @@
                     if (data[0] !== undefined) {
                         options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
                         options.labels = data[0]['labels'];
+                        this.chartOptions = options;
+                        this.series = data;
                     }
-                    this.chartOptions = options;
-                    this.series = data;
                 });
             }
         },
