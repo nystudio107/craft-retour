@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vuetable-filter-bar.3497984a6996e9617b8c.js
  * @author         Andrew Welch
- * @build          Thu, Oct 18, 2018 3:37 PM ET
- * @release        01c17d517f1e05e37165d14f1d2a19491aa17c06 [develop]
+ * @build          Sun, Oct 28, 2018 1:42 AM ET
+ * @release        220f0e865879605a77e458aa3f5bb31624f8b15f [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
