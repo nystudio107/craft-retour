@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           redirects-table.bc6c020f505d1ea56e62.js
  * @author         Andrew Welch
- * @build          Sun, Oct 28, 2018 1:42 AM ET
- * @release        220f0e865879605a77e458aa3f5bb31624f8b15f [develop]
+ * @build          Mon, Oct 29, 2018 9:50 PM ET
+ * @release        221b1a4fc4bf8f8662c99926c81ef29ca7f17b5a [develop]
  * @copyright      Copyright (c) 2018 nystudio107
  *
  */
