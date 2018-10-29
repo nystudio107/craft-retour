@@ -2,6 +2,7 @@
 
 ## 3.0.15 - 2018.10.27
 ### Changed
+* Handle a Retour return status > 400 to render the actual error template
 * Fixed a console error in the Dashboard if no data was returned for a chart
 * Updated the build system
 
