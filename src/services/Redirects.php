@@ -24,6 +24,7 @@ use craft\helpers\UrlHelper;
 
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
+use yii\base\InvalidRouteException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
 use yii\web\HttpException;
@@ -151,7 +152,20 @@ class Redirects extends Component
             );
             // Increment the stats
             Retour::$plugin->statistics->incrementStatistics($url, true);
-            // Redirect the request away
+            // Handle a Retour return status > 400 to render the actual error template
+            if ($status >= 400) {
+                Retour::$currentException->statusCode = $status;
+                $errorHandler = Craft::$app->getErrorHandler();
+                $errorHandler->exception = Retour::$currentException;
+                try {
+                    $response = Craft::$app->runAction('templates/render-error');
+                } catch (InvalidRouteException $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                } catch (\yii\console\Exception $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                }
+            }
+            // Redirect the request away;
             $response->redirect($dest, $status)->send();
             try {
                 Craft::$app->end();
