@@ -11,7 +11,10 @@
 
     export default {
         mounted: function() {
-            this.$confetti.start();
+            this.$confetti.start({
+                shape: 'rect',
+                colors: ['DodgerBlue', 'OliveDrab', 'Gold', 'pink', 'SlateBlue', 'lightblue', 'Violet', 'PaleGreen', 'SteelBlue', 'SandyBrown', 'Chocolate', 'Crimson']
+            });
             setTimeout(() => {
                 this.$confetti.stop();
             }, 5000);

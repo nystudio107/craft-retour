@@ -14,7 +14,7 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 
 // config files
 const pkg = require('./package.json');
-
+const settings = require('./webpack.settings.js');
 
 // Configure Babel loader
 const configureBabelLoader = (browserList) => {
@@ -36,9 +36,9 @@ const configureBabelLoader = (browserList) => {
                     ],
                 ],
                 plugins: [
-                    '@babel/syntax-dynamic-import',
+                    '@babel/plugin-syntax-dynamic-import',
                     [
-                        "@babel/transform-runtime", {
+                        "@babel/plugin-transform-runtime", {
                         "regenerator": true
                     }
                     ]
@@ -48,24 +48,28 @@ const configureBabelLoader = (browserList) => {
     };
 };
 
-// Configure Entries from package.json
+// Configure Entries
 const configureEntries = () => {
     let entries = {};
-    for (const [key, value] of Object.entries(pkg.project.entries)) {
-        entries[key] = path.resolve(__dirname, pkg.project.paths.src.js + value);
+    for (const [key, value] of Object.entries(settings.entries)) {
+        entries[key] = path.resolve(__dirname, settings.paths.src.js + value);
     }
 
     return entries;
 };
 
-// Configure Image loader
-const configureImageLoader = () => {
+// Configure Font loader
+const configureFontLoader = () => {
     return {
-        test: /\.png|jpe?g|gif|svg$/,
-        loader: 'file-loader',
-        options: {
-            name: 'images/[name].[hash].[ext]'
-        }
+        test: /\.(ttf|eot|woff2?)$/i,
+        use: [
+            {
+                loader: 'file-loader',
+                options: {
+                    name: 'fonts/[name].[ext]'
+                }
+            }
+        ]
     };
 };
 
@@ -73,7 +77,7 @@ const configureImageLoader = () => {
 const configureManifest = (fileName) => {
     return {
         fileName: fileName,
-        basePath: pkg.project.manifestConfig.basePath,
+        basePath: settings.manifestConfig.basePath,
         map: (file) => {
             file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
             return file;
@@ -94,16 +98,17 @@ const baseConfig = {
     name: pkg.name,
     entry: configureEntries(),
     output: {
-        path: path.resolve(__dirname, pkg.project.paths.dist.base),
-        publicPath: pkg.project.urls.publicPath
+        path: path.resolve(__dirname, settings.paths.dist.base),
+        publicPath: settings.urls.publicPath
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
+            'vue$': 'vue/dist/vue.esm.js'
         }
     },
     module: {
         rules: [
+            configureFontLoader(),
             configureVueLoader(),
         ],
     },
@@ -117,13 +122,12 @@ const baseConfig = {
 const legacyConfig = {
     module: {
         rules: [
-            configureBabelLoader(Object.values(pkg.project.babelConfig.legacyBrowsers)),
-            configureImageLoader(),
+            configureBabelLoader(Object.values(pkg.browserslist.legacyBrowsers)),
         ],
     },
     plugins: [
         new CopyWebpackPlugin(
-            pkg.project.copyWebpackConfig
+            settings.copyWebpackConfig
         ),
         new ManifestPlugin(
             configureManifest('manifest-legacy.json')
@@ -135,7 +139,7 @@ const legacyConfig = {
 const modernConfig = {
     module: {
         rules: [
-            configureBabelLoader(Object.values(pkg.project.babelConfig.modernBrowsers)),
+            configureBabelLoader(Object.values(pkg.browserslist.modernBrowsers)),
         ],
     },
     plugins: [

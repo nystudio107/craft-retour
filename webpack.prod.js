@@ -13,6 +13,7 @@ const webpack = require('webpack');
 // webpack plugins
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
@@ -20,8 +21,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WhitelisterPlugin = require('purgecss-whitelister');
 
 // config files
-const pkg = require('./package.json');
 const common = require('./webpack.common.js');
+const pkg = require('./package.json');
+const settings = require('./webpack.settings.js');
 
 // Custom PurgeCSS extractor for Tailwind that allows special characters in
 // class names.
@@ -38,12 +40,12 @@ const configureBanner = () => {
     return {
         banner: [
             '/*!',
-            ' * @project        ' + pkg.project.name,
+            ' * @project        ' + settings.name,
             ' * @name           ' + '[filebase]',
             ' * @author         ' + pkg.author.name,
             ' * @build          ' + moment().format('llll') + ' ET',
             ' * @release        ' + git.long() + ' [' + git.branch() + ']',
-            ' * @copyright      Copyright (c) ' + moment().format('YYYY') + ' ' + pkg.project.copyright,
+            ' * @copyright      Copyright (c) ' + moment().format('YYYY') + ' ' + settings.copyright,
             ' *',
             ' */',
             ''
@@ -71,10 +73,62 @@ const configureBundleAnalyzer = (buildType) => {
 // Configure Clean webpack
 const configureCleanWebpack = () => {
     return {
-        root: path.resolve(__dirname, pkg.project.paths.dist.base),
+        root: path.resolve(__dirname, settings.paths.dist.base),
         verbose: true,
         dry: false
     };
+};
+
+// Configure Image loader
+const configureImageLoader = (buildType) => {
+    if (buildType === LEGACY_CONFIG) {
+        return {
+            test: /\.(png|jpe?g|gif|svg|webp)$/i,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'img/[name].[hash].[ext]'
+                    }
+                }
+            ]
+        };
+    }
+    if (buildType === MODERN_CONFIG) {
+        return {
+            test: /\.(png|jpe?g|gif|svg|webp)$/i,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'img/[name].[hash].[ext]'
+                    }
+                },
+                {
+                    loader: 'img-loader',
+                    options: {
+                        plugins: [
+                            require('imagemin-gifsicle')({
+                                interlaced: true,
+                            }),
+                            require('imagemin-mozjpeg')({
+                                progressive: true,
+                                arithmetic: false,
+                            }),
+                            require('imagemin-optipng')({
+                                optimizationLevel: 5,
+                            }),
+                            require('imagemin-svgo')({
+                                plugins: [
+                                    {convertPathData: false},
+                                ]
+                            }),
+                        ]
+                    }
+                }
+            ]
+        };
+    }
 };
 
 // Configure optimization
@@ -86,7 +140,7 @@ const configureOptimization = (buildType) => {
                     default: false,
                     common: false,
                     styles: {
-                        name: pkg.project.vars.cssName,
+                        name: settings.vars.cssName,
                         test: /\.(pcss|css|vue)$/,
                         chunks: 'all',
                         enforce: true
@@ -160,18 +214,20 @@ const configurePostcssLoader = (buildType) => {
 const configurePurgeCss = () => {
     let paths = [];
     // Configure whitelist paths
-    for (const [key, value] of Object.entries(pkg.project.purgeCssConfig.paths)) {
+    for (const [key, value] of Object.entries(settings.purgeCssConfig.paths)) {
         paths.push(path.join(__dirname, value));
     }
 
     return {
         paths: glob.sync(paths),
-        whitelist: WhitelisterPlugin(pkg.project.purgeCssConfig.whitelist),
-        whitelistPatterns: pkg.project.purgeCssConfig.whitelistPatterns,
-        extractors: [{
-            extractor: TailwindExtractor,
-            extensions: pkg.project.purgeCssConfig.extensions
-        }]
+        whitelist: WhitelisterPlugin(settings.purgeCssConfig.whitelist),
+        whitelistPatterns: settings.purgeCssConfig.whitelistPatterns,
+        extractors: [
+            {
+                extractor: TailwindExtractor,
+                extensions: settings.purgeCssConfig.extensions
+            }
+        ]
     };
 };
 
@@ -198,14 +254,15 @@ module.exports = [
             module: {
                 rules: [
                     configurePostcssLoader(LEGACY_CONFIG),
+                    configureImageLoader(LEGACY_CONFIG),
                 ],
             },
             plugins: [
-                new CleanWebpackPlugin(pkg.project.paths.dist.clean,
+                new CleanWebpackPlugin(settings.paths.dist.clean,
                     configureCleanWebpack()
                 ),
                 new MiniCssExtractPlugin({
-                    path: path.resolve(__dirname, pkg.project.paths.dist.base),
+                    path: path.resolve(__dirname, settings.paths.dist.base),
                     filename: path.join('./css', '[name].[chunkhash].css'),
                 }),
                 new PurgecssPlugin(
@@ -232,6 +289,7 @@ module.exports = [
             module: {
                 rules: [
                     configurePostcssLoader(MODERN_CONFIG),
+                    configureImageLoader(MODERN_CONFIG),
                 ],
             },
             plugins: [
@@ -239,6 +297,7 @@ module.exports = [
                 new webpack.BannerPlugin(
                     configureBanner()
                 ),
+                new ImageminWebpWebpackPlugin(),
                 new BundleAnalyzerPlugin(
                     configureBundleAnalyzer(MODERN_CONFIG),
                 ),

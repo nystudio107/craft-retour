@@ -223,6 +223,25 @@ If you'd like to see an overview of the Retour Statistics in your dashboard, you
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
 
+## Troubleshooting
+
+### Retour AdminCP Pages Are Blank
+
+If the Retour AdminCP pages are blank, check your JavaScript console. Most likely, the Retour JavaScript & CSS resources are not loading.
+
+This is typically due to an Nginx config setup that has rules for matching files that end in `.js` and `.css`, and applying an `expires` header to them.
+
+The way Nginx works, the first rule that it finds a match for in a `location` block is the one that is used; no other rules get processed. So we can solve this by adding a block like this to the Nginx config:
+
+```
+    location ^~ /cpresources {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+``` 
+This will cause Nginx look for any URIs that are prefixed with `/cpresources` and try the URI first. If it does not exist, then it routes through Craft's `index.php` so that cpresources can be accessed.
+
+See the [Nginx-Craft](https://github.com/nystudio107/nginx-craft/) repo for more information on Nginx.
+
 ## Developer Info
 
 ### Custom Match Functions via Plugin

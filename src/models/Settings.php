@@ -11,10 +11,9 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
-use Craft;
 use craft\base\Model;
+
+use yii\behaviors\AttributeTypecastBehavior;
 
 /**
  * @author    nystudio107
@@ -110,6 +109,19 @@ class Settings extends Model
             ['statsStoredLimit', 'default', 'value' => 1000],
             ['statsDisplayLimit', 'integer', 'min' => 1],
             ['statsDisplayLimit', 'default', 'value' => 1000],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'typecast' => [
+                'class' => AttributeTypecastBehavior::class,
+                // 'attributeTypes' will be composed automatically according to `rules()`
+            ],
         ];
     }
 }

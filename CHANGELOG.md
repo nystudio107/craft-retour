@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.0.15 - 2018.10.29
+### Changed
+* Handle a Retour return status > 400 to render the actual error template
+* Fixed a console error in the Dashboard if no data was returned for a chart
+* Updated the build system
+
 ## 3.0.14 - 2018-10-18
 ## Added
 * Added the recording of the **User Agent**, **Message**, **File Name**, and **Line No.** for each 404 exception via hovering over the 404 URL
