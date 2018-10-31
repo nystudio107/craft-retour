@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.16 - 2018.10.30
+### Changed
+* Fixed an issue with `trimStatistics()` if you're using Postgres
+
 ## 3.0.15 - 2018.10.29
 ### Changed
 * Handle a Retour return status > 400 to render the actual error template
