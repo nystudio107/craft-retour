@@ -21,13 +21,14 @@ const configureDevServer = () => {
         contentBase: path.resolve(__dirname, settings.paths.templates),
         host: settings.devServerConfig.host(),
         port: settings.devServerConfig.port(),
+        https: !!parseInt(settings.devServerConfig.https()),
         quiet: true,
         hot: true,
         hotOnly: true,
         overlay: true,
         stats: 'errors-only',
         watchOptions: {
-            poll: settings.devServerConfig.poll()
+            poll: !!parseInt(settings.devServerConfig.poll()),
         },
         headers: {
             'Access-Control-Allow-Origin': '*'
@@ -36,7 +37,7 @@ const configureDevServer = () => {
         before: (app, server) => {
             const watcher = sane(path.join(__dirname, settings.paths.templates), {
                 glob: ['**/*'],
-                poll: settings.devServerConfig.poll(),
+                poll: !!parseInt(settings.devServerConfig.poll()),
             });
             watcher.on('change', function(filePath, root, stat) {
                 console.log('  File modified:', filePath);
