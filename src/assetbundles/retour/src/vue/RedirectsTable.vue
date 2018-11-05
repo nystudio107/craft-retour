@@ -31,15 +31,19 @@
     import Vue from 'vue';
     import FieldDefs from './RedirectsFieldDefs.js';
     import LegacyUrl from './LegacyUrl.vue';
+    import VueTable from 'vuetable-2/src/components/Vuetable.vue';
+    import VueTablePagination from './VuetablePagination.vue';
+    import VueTablePaginationInfo from './VuetablePaginationInfo.vue';
+    import VueTableFilterBar from './VuetableFilterBar.vue';
 
     Vue.component('legacy-url', LegacyUrl);
     // Our component exports
     export default {
         components: {
-            'vuetable': () => import(/* webpackChunkName: "vuetable" */ 'vuetable-2/src/components/Vuetable.vue'),
-            'vuetable-pagination': () => import(/* webpackChunkName: "vuetable-pagination" */ './VuetablePagination.vue'),
-            'vuetable-pagination-info': () => import(/* webpackChunkName: "vuetable-pagination-info" */ './VuetablePaginationInfo.vue'),
-            'vuetable-filter-bar': () => import(/* webpackChunkName: "vuetable-filter-bar" */ './VuetableFilterBar.vue'),
+            'vuetable': VueTable,
+            'vuetable-pagination': VueTablePagination,
+            'vuetable-pagination-info': VueTablePaginationInfo,
+            'vuetable-filter-bar': VueTableFilterBar,
         },
         props: {},
         data: function() {

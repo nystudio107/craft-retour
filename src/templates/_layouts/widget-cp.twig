@@ -1,5 +1,6 @@
 {% block head %}
-    {{ craft.retour.includeSafariNomoduleFix() }}
+    {{ craft.retour.includeJsModule("vendor.js", false) }}
+    {{ craft.retour.includeJsModule("retour.js", false) }}
 {% endblock %}
 
 {% block content %}

@@ -25,7 +25,7 @@ module.exports = {
         templates: "./src/templates/"
     },
     urls: {
-        publicPath: "/cpresources/retour/"
+        publicPath: ""
     },
     vars: {
         cssName: "styles"

@@ -1,7 +1,3 @@
-// webpack.common.js - common webpack config
-const LEGACY_CONFIG = 'legacy';
-const MODERN_CONFIG = 'modern';
-
 // node modules
 const path = require('path');
 const merge = require('webpack-merge');
@@ -9,7 +5,7 @@ const merge = require('webpack-merge');
 // webpack plugins
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 // config files
@@ -27,22 +23,14 @@ const configureBabelLoader = (browserList) => {
                 presets: [
                     [
                         '@babel/preset-env', {
-                        modules: false,
-                        useBuiltIns: 'entry',
+                        useBuiltIns: 'usage',
                         targets: {
                             browsers: browserList,
                         },
                     }
                     ],
                 ],
-                plugins: [
-                    '@babel/plugin-syntax-dynamic-import',
-                    [
-                        "@babel/plugin-transform-runtime", {
-                        "regenerator": true
-                    }
-                    ]
-                ],
+                plugins: [],
             },
         },
     };
@@ -101,11 +89,6 @@ const baseConfig = {
         path: path.resolve(__dirname, settings.paths.dist.base),
         publicPath: settings.urls.publicPath
     },
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        }
-    },
     module: {
         rules: [
             configureFontLoader(),
@@ -130,20 +113,6 @@ const legacyConfig = {
             settings.copyWebpackConfig
         ),
         new ManifestPlugin(
-            configureManifest('manifest-legacy.json')
-        ),
-    ]
-};
-
-// Modern webpack config
-const modernConfig = {
-    module: {
-        rules: [
-            configureBabelLoader(Object.values(pkg.browserslist.modernBrowsers)),
-        ],
-    },
-    plugins: [
-        new ManifestPlugin(
             configureManifest('manifest.json')
         ),
     ]
@@ -154,10 +123,6 @@ const modernConfig = {
 module.exports = {
     'legacyConfig': merge(
         legacyConfig,
-        baseConfig,
-    ),
-    'modernConfig': merge(
-        modernConfig,
         baseConfig,
     ),
 };

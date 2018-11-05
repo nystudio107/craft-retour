@@ -3,6 +3,7 @@
 {% block head %}
     {{ parent() }}
     {{ craft.retour.includeCssModule("styles.css") }}
-    {{ craft.retour.includeSafariNomoduleFix() }}
-    {{ craft.retour.includeJsModule("retour.js", true) }}
+    {{ craft.retour.includeCssModule("vendor.css") }}
+    {{ craft.retour.includeJsModule("vendor.js", false) }}
+    {{ craft.retour.includeJsModule("retour.js", false) }}
 {% endblock %}

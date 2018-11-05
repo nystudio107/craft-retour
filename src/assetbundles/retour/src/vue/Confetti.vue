@@ -4,8 +4,8 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import VueConfetti from 'vue-confetti'
+    import Vue from 'vue';
+    import VueConfetti from 'vue-confetti';
 
     Vue.use(VueConfetti);
 
