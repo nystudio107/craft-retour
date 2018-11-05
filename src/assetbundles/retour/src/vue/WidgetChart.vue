@@ -4,6 +4,8 @@
 
 <script>
 
+    import Axios from 'axios';
+
     const chartDataBaseUrl = '/retour/charts/widget/';
 
     // Configure the api endpoint
@@ -30,7 +32,7 @@
     // Our component exports
     export default {
         components: {
-            'apexcharts': () => import(/* webpackChunkName: "apexcharts" */ 'vue-apexcharts')
+            'apexcharts': Axios,
         },
         props: {
             title: String,
@@ -40,8 +42,7 @@
         methods: {
             // Load in our chart data asynchronously
             getSeriesData: async function() {
-                const axios = await import(/* webpackChunkName: "axios" */ 'axios');
-                const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
+                const chartsAPI = Axios.create(configureApi(chartDataBaseUrl));
                 await queryApi(chartsAPI, this.days, (data) => {
                     this.series = data;
                 });

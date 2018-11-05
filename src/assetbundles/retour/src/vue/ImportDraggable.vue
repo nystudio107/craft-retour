@@ -44,10 +44,12 @@
 </template>
 
 <script>
+    import Draggable from 'vuedraggable';
+
     // Our component exports
     export default {
         components: {
-            'draggable': () => import(/* webpackChunkName: "draggable" */ 'vuedraggable')
+            'draggable': Draggable,
         },
         computed: {
             extraFields: function () {

@@ -3,6 +3,8 @@
 </template>
 
 <script>
+    import Axios from 'axios';
+    import ApexCharts from 'vue-apexcharts';
 
     const chartDataBaseUrl = '/retour/charts/dashboard/';
 
@@ -37,7 +39,7 @@
     // Our component exports
     export default {
         components: {
-            'apexcharts': () => import(/* webpackChunkName: "apexcharts" */ 'vue-apexcharts')
+            'apexcharts': ApexCharts,
         },
         props: {
             title: String,
@@ -47,8 +49,7 @@
         methods: {
             // Load in our chart data asynchronously
             getSeriesData: async function() {
-                const axios = await import(/* webpackChunkName: "axios" */ 'axios');
-                const chartsAPI = axios.create(configureApi(chartDataBaseUrl));
+                const chartsAPI = Axios.create(configureApi(chartDataBaseUrl));
                 await queryApi(chartsAPI, this.range, (data) => {
                     // Clone the chartOptions object, and replace the needed values
                     const options = Object.assign({}, this.chartOptions);

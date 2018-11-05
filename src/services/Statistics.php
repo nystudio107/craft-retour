@@ -193,23 +193,42 @@ class Statistics extends Component
         $limit = $limit ?? Retour::$settings->statsStoredLimit;
 
         if ($limit !== null) {
-            // Handle MySQL
-            // As per https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
+            //  https://stackoverflow.com/questions/578867/sql-query-delete-all-records-from-the-table-except-latest-n
             try {
-                $affectedRows = $db->createCommand(/** @lang mysql */
-                    "
-                DELETE FROM {$quotedTable}
-                WHERE id NOT IN (
-                  SELECT id
-                  FROM (
-                    SELECT id
-                    FROM {$quotedTable}
-                    ORDER BY hitLastTime DESC
-                    LIMIT {$limit}
-                  ) foo
-                )
-            "
-                )->execute();
+                if ($db->getIsMysql()) {
+                    // Handle MySQL
+                    $affectedRows = $db->createCommand(/** @lang mysql */
+                        "
+                        DELETE FROM {$quotedTable}
+                        WHERE id NOT IN (
+                          SELECT id
+                          FROM (
+                            SELECT id
+                            FROM {$quotedTable}
+                            ORDER BY hitLastTime DESC
+                            LIMIT {$limit}
+                          ) foo
+                        )
+                        "
+                    )->execute();
+                }
+                if ($db->getIsPgsql()) {
+                    // Handle Postgres
+                    $affectedRows = $db->createCommand(/** @lang mysql */
+                        "
+                        DELETE FROM {$quotedTable}
+                        WHERE id NOT IN (
+                          SELECT id
+                          FROM (
+                            SELECT id
+                            FROM {$quotedTable}
+                            ORDER BY \"hitLastTime\" DESC
+                            LIMIT {$limit}
+                          ) foo
+                        )
+                        "
+                    )->execute();
+                }
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
             }

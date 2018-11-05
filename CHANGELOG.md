@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.0.16 - 2018.11.04
+### Changed
+* Fixed an issue with `trimStatistics()` if you're using Postgres
+* Retooled the JavaScript build system to be more compatible with edge case server setups
+
 ## 3.0.15 - 2018.10.29
 ### Changed
 * Handle a Retour return status > 400 to render the actual error template

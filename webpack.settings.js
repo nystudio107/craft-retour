@@ -25,7 +25,7 @@ module.exports = {
         templates: "./src/templates/"
     },
     urls: {
-        publicPath: "/cpresources/retour/"
+        publicPath: ""
     },
     vars: {
         cssName: "styles"
@@ -43,6 +43,7 @@ module.exports = {
         public: () => process.env.DEVSERVER_PUBLIC || "http://localhost:8080",
         host: () => process.env.DEVSERVER_HOST || "localhost",
         poll: () => process.env.DEVSERVER_POLL || false,
+        port: () => process.env.DEVSERVER_PORT || 8080,
     },
     manifestConfig: {
         basePath: ""
