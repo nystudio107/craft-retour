@@ -5,6 +5,7 @@
 <script>
 
     import Axios from 'axios';
+    import ApexCharts from 'vue-apexcharts';
 
     const chartDataBaseUrl = '/retour/charts/widget/';
 
@@ -32,7 +33,7 @@
     // Our component exports
     export default {
         components: {
-            'apexcharts': Axios,
+            'apexcharts': ApexCharts,
         },
         props: {
             title: String,
