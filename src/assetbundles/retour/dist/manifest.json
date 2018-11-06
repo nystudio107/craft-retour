@@ -16,5 +16,6 @@
   "widget.js": "js/widget.js",
   "widget.js.map": "js/widget.js.map",
   "css/styles.css.map": "css/styles.css.map",
-  "css/vendor.css.map": "css/vendor.css.map"
+  "css/vendor.css.map": "css/vendor.css.map",
+  "img/Retour-icon.svg": "img/Retour-icon.svg"
 }
