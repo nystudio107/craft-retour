@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.0.17 - 2018.11.05
+### Changed
+* Fix missing welcome icon
+
 ## 3.0.16 - 2018.11.04
 ### Changed
 * Fixed an issue with `trimStatistics()` if you're using Postgres
