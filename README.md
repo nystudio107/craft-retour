@@ -40,7 +40,7 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Retour.
 
-You can also install Retour via the **Plugin Store** in the Craft AdminCP.
+You can also install Retour via the **Plugin Store** in the Craft Control Panel.
 
 ## Retour Overview
 
@@ -68,7 +68,7 @@ Retour solves these problems:
 
 1. Retour only attempts to do a redirect after the web server has already thrown a 404 exception.  Once a redirect mapping is successfully determined, it also caches the result for speedy resolution of the next redirect request.
 2. Retour also gives you the ability to do Dynamic Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
-3. It provides an easy to use GUI that the client can use from Craft's AdminCP, and keeps statistics on the 404 hits (and misses)
+3. It provides an easy to use GUI that the client can use from Craft's Control Panel, and keeps statistics on the 404 hits (and misses)
 
 ### A Word about .htaccess
 
@@ -187,7 +187,7 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
 * **Record Remote IP** - Should the anonymous ip address of the client causing a 404 be recorded?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
-* **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the AdminCP, or you run the `retour/stats/trim` console command (see below).
+* **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the Control Panel, or you run the `retour/stats/trim` console command (see below).
    
 ## Using Retour
 

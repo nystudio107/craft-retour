@@ -211,7 +211,7 @@ class Retour extends Plugin
             if ($request->getIsSiteRequest() && !$request->getIsConsoleRequest()) {
                 $this->installSiteEventListeners();
             }
-            // Install only for non-console AdminCP requests
+            // Install only for non-console Control Panel requests
             if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                 $this->installCpEventListeners();
             }
@@ -307,7 +307,7 @@ class Retour extends Plugin
                 if ($request->getIsSiteRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleSiteRequest();
                 }
-                // Respond to AdminCP requests
+                // Respond to Control Panel requests
                 if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleAdminCpRequest();
                 }
@@ -329,7 +329,7 @@ class Retour extends Plugin
                     'UrlManager::EVENT_REGISTER_SITE_URL_RULES',
                     __METHOD__
                 );
-                // Register our AdminCP routes
+                // Register our Control Panel routes
                 $event->rules = array_merge(
                     $event->rules,
                     $this->customFrontendRoutes()
@@ -339,7 +339,7 @@ class Retour extends Plugin
     }
 
     /**
-     * Install site event listeners for AdminCP requests only
+     * Install site event listeners for Control Panel requests only
      */
     protected function installCpEventListeners()
     {
@@ -360,7 +360,7 @@ class Retour extends Plugin
                     'UrlManager::EVENT_REGISTER_CP_URL_RULES',
                     __METHOD__
                 );
-                // Register our AdminCP routes
+                // Register our Control Panel routes
                 $event->rules = array_merge(
                     $event->rules,
                     $this->customAdminCpRoutes()
@@ -389,7 +389,7 @@ class Retour extends Plugin
                     'ClearCaches::EVENT_REGISTER_CACHE_OPTIONS',
                     __METHOD__
                 );
-                // Register our AdminCP routes
+                // Register our Control Panel routes
                 $event->options = array_merge(
                     $event->options,
                     $this->customAdminCpCacheOptions()
@@ -430,7 +430,7 @@ class Retour extends Plugin
     }
 
     /**
-     * Handle AdminCP requests. We do it only after we receive the event
+     * Handle Control Panel requests. We do it only after we receive the event
      * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
      * before our event listeners kick in
      */
@@ -511,7 +511,7 @@ class Retour extends Plugin
     }
 
     /**
-     * Return the custom AdminCP routes
+     * Return the custom Control Panel routes
      *
      * @return array
      */
@@ -557,7 +557,7 @@ class Retour extends Plugin
     }
 
     /**
-     * Returns the custom AdminCP cache options.
+     * Returns the custom Control Panel cache options.
      *
      * @return array
      */
@@ -573,7 +573,7 @@ class Retour extends Plugin
     }
 
     /**
-     * Returns the custom AdminCP user permissions.
+     * Returns the custom Control Panel user permissions.
      *
      * @return array
      */

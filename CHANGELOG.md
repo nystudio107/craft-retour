@@ -41,7 +41,7 @@
 * Added config setting for **Record Remote IP**
 
 ### Changed
-* Fixed an issue where the search function wouldn't work in the AdminCP if you were using Postgres
+* Fixed an issue where the search function wouldn't work in the Control Panel if you were using Postgres
 * Fixed incorrect links to the documentation
 * Fixed an issue where a user with the proper permissions could not save a new redirect
 * Fixed the build process so it will no longer look for `devServer` on installs
@@ -90,7 +90,7 @@
 
 ## 3.0.2 - 2018-09-12
 ### Changed
-* Fixed issues with the `+` and `x` URLs in the AdminCP not working as intended
+* Fixed issues with the `+` and `x` URLs in the Control Panel not working as intended
 
 ## 3.0.1 - 2018-09-12
 ### Changed
