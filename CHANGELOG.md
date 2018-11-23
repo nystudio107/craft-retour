@@ -3,6 +3,7 @@
 ## 3.0.18 - 2018.11.23
 ### Changed
 * Fixed an issue with the charts controller for the Widget charts on Postgres
+* Fixed an issue in Statistics.php with Postgres
 
 ## 3.0.17 - 2018.11.05
 ### Changed
