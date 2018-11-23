@@ -51,12 +51,12 @@ class Settings extends Model
     public $recordRemoteIp = true;
 
     /**
-     * @var int How many static redirects to display in the Admin CP
+     * @var int How many static redirects to display in the Control Panel
      */
     public $staticRedirectDisplayLimit = 100;
 
     /**
-     * @var int How many dynamic redirects to display in the Admin CP
+     * @var int How many dynamic redirects to display in the Control Panel
      */
     public $dynamicRedirectDisplayLimit = 100;
 
@@ -76,7 +76,7 @@ class Settings extends Model
     public $automaticallyTrimStatistics = true;
 
     /**
-     * @var int How many stats to display in the Admin CP
+     * @var int How many stats to display in the Control Panel
      */
     public $statsDisplayLimit = 1000;
 

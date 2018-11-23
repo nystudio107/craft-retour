@@ -124,16 +124,34 @@ class ChartsController extends Controller
     public function actionWidget($days = 1): Response
     {
         $data = [];
-        // Query the db
-        $stats = (new Query())
-            ->from('{{%retour_stats}}')
-            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
-            ->count();
-        $handledStats = (new Query())
-            ->from('{{%retour_stats}}')
-            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
-            ->andWhere('handledByRetour is TRUE')
-            ->count();
+        // Different dbs do it different ways
+        $stats = null;
+        $handledStats = null;
+        $db = Craft::$app->getDb();
+        if ($db->getIsMysql()) {
+            // Query the db
+            $stats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+                ->count();
+            $handledStats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+                ->andWhere('handledByRetour is TRUE')
+                ->count();
+        }
+        if ($db->getIsPgsql()) {
+            // Query the db
+            $stats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )")
+                ->count();
+            $handledStats = (new Query())
+                ->from('{{%retour_stats}}')
+                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )")
+                ->andWhere('"handledByRetour" = TRUE')
+                ->count();
+        }
         if ($stats) {
             $data = [
                 (int)$stats,
