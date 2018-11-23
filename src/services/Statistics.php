@@ -78,13 +78,26 @@ class Statistics extends Component
     {
         // Ensure is an int
         $handledInt = (int)$handled;
-        // Query the db table
-        $stats = (new Query())
-            ->from(['{{%retour_stats}}'])
-            ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
-            ->andWhere("handledByRetour = {$handledInt}")
-            ->orderBy('hitLastTime DESC')
-            ->all();
+        $stats = [];
+        $db = Craft::$app->getDb();
+        if ($db->getIsMysql()) {
+            // Query the db table
+            $stats = (new Query())
+                ->from(['{{%retour_stats}}'])
+                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+                ->andWhere("handledByRetour = {$handledInt}")
+                ->orderBy('hitLastTime DESC')
+                ->all();
+        }
+        if ($db->getIsPgsql()) {
+            // Query the db table
+            $stats = (new Query())
+                ->from(['{{%retour_stats}}'])
+                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )")
+                ->andWhere(['handledByRetour' => $handledInt])
+                ->orderBy('hitLastTime DESC')
+                ->all();
+        }
 
         return $stats;
     }
