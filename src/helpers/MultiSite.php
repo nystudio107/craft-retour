@@ -54,14 +54,16 @@ class MultiSite
             // Make sure the $siteId they are trying to edit is in our array of editable sites
             if (!\in_array($siteId, $variables['enabledSiteIds'], false)) {
                 if (!empty($variables['enabledSiteIds'])) {
-                    $siteId = reset($variables['enabledSiteIds']);
+                    if ($siteId !== 0) {
+                        $siteId = reset($variables['enabledSiteIds']);
+                    }
                 } else {
                     self::requirePermission('editSite:'.$siteId);
                 }
             }
         }
         // Set the currentSiteId and currentSiteHandle
-        $variables['currentSiteId'] = empty($siteId) ? Craft::$app->getSites()->currentSite->id : $siteId;
+        $variables['currentSiteId'] = empty($siteId) ? 0 : $siteId;
         $variables['currentSiteHandle'] = empty($siteHandle)
             ? Craft::$app->getSites()->currentSite->handle
             : $siteHandle;
@@ -73,10 +75,17 @@ class MultiSite
         );
 
         if ($variables['showSites']) {
-            $variables['sitesMenuLabel'] = Craft::t(
-                'site',
-                $sites->getSiteById((int)$variables['currentSiteId'])->name
-            );
+            if ($variables['currentSiteId'] === 0) {
+                $variables['sitesMenuLabel'] = Craft::t(
+                    'retour',
+                    'Global'
+                );
+            } else {
+                $variables['sitesMenuLabel'] = Craft::t(
+                    'site',
+                    $sites->getSiteById((int)$variables['currentSiteId'])->name
+                );
+            }
         } else {
             $variables['sitesMenuLabel'] = '';
         }
@@ -100,7 +109,7 @@ class MultiSite
             }
             $siteId = $site->id;
         } else {
-            $siteId = Craft::$app->getSites()->currentSite->id;
+            $siteId = 0;
         }
 
         return $siteId;

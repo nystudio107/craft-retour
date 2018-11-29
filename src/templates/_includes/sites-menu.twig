@@ -4,12 +4,24 @@
 {% set params = [] %}
 
 {# @TODO: enable when multi-site support is in #}
-{% set showSites = false %}
 
 {% if showSites %}
     <div id="sites-btn" class="btn menubtn" data-icon="world">{{ sitesMenuLabel }}</div>
-    
     <div class="menu">
+        <ul class="padded">
+            <li>
+                {% if currentSiteId == 0 %}
+                    <a class="sel">
+                        <div class="status enabled"></div>{{ "Global"|t('retour') }}
+                    </a>
+                {% else %}
+                    {% set url = url(baseUrl, params) %}
+                    <a href="{{ url }}">
+                        <div class="status enabled"></div>{{ "Global"|t('site') }}
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
         {% set siteGroups = craft.app.sites.getAllGroups() %}
         {% for group in siteGroups %}
             {% set groupSiteIds = group.getSiteIds()|intersect(siteIds) %}
