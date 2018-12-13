@@ -82,7 +82,7 @@ class Install extends Migration
                     'dateUpdated' => $this->dateTime()->notNull(),
                     'uid' => $this->uid(),
 
-                    'locale' => $this->string(12)->defaultValue('en-US'),
+                    'siteId' => $this->integer()->null()->defaultValue(null),
                     'associatedElementId' => $this->integer()->notNull(),
                     'enabled' => $this->boolean()->defaultValue(true),
                     'redirectSrcUrl' => $this->string(255)->defaultValue(''),
@@ -108,7 +108,7 @@ class Install extends Migration
                     'dateUpdated' => $this->dateTime()->notNull(),
                     'uid' => $this->uid(),
 
-                    'locale' => $this->string(12)->defaultValue('en-US'),
+                    'siteId' => $this->integer()->null()->defaultValue(null),
                     'associatedElementId' => $this->integer()->notNull(),
                     'enabled' => $this->boolean()->defaultValue(true),
                     'redirectSrcUrl' => $this->string(255)->defaultValue(''),
@@ -134,6 +134,7 @@ class Install extends Migration
                     'dateUpdated' => $this->dateTime()->notNull(),
                     'uid' => $this->uid(),
 
+                    'siteId' => $this->integer()->null()->defaultValue(null),
                     'redirectSrcUrl' => $this->string(255)->defaultValue(''),
                     'referrerUrl' => $this->string(2000)->defaultValue(''),
                     'remoteIp' => $this->string(45)->defaultValue(''),
@@ -166,6 +167,7 @@ class Install extends Migration
             'redirectSrcUrlParsed',
             true
         );
+
         $this->createIndex(
             $this->db->getIndexName(
                 '{{%retour_redirects}}',
@@ -176,6 +178,41 @@ class Install extends Migration
             'redirectSrcUrlParsed',
             true
         );
+
+        $this->createIndex(
+            $this->db->getIndexName(
+                '{{%retour_redirects}}',
+                'siteId',
+                false
+            ),
+            '{{%retour_redirects}}',
+            'siteId',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(
+                '{{%retour_static_redirects}}',
+                'siteId',
+                false
+            ),
+            '{{%retour_static_redirects}}',
+            'siteId',
+            false
+        );
+
+
+        $this->createIndex(
+            $this->db->getIndexName(
+                '{{%retour_stats}}',
+                'siteId',
+                false
+            ),
+            '{{%retour_stats}}',
+            'siteId',
+            false
+        );
+
     }
 
     /**
@@ -192,10 +229,20 @@ class Install extends Migration
             'CASCADE',
             'CASCADE'
         );
-        /*
+
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
             '{{%retour_redirects}}',
+            'siteId',
+            '{{%sites}}',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
+            '{{%retour_static_redirects}}',
             'siteId',
             '{{%sites}}',
             'id',
@@ -212,7 +259,6 @@ class Install extends Migration
             'CASCADE',
             'CASCADE'
         );
-        */
     }
 
     /**
