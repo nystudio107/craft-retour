@@ -12,12 +12,12 @@
             <li>
                 {% if currentSiteId == 0 %}
                     <a class="sel">
-                        <div class="status enabled"></div>{{ "Global"|t('retour') }}
+                        <div class="status enabled"></div>{{ "All Sites"|t('retour') }}
                     </a>
                 {% else %}
                     {% set url = url(baseUrl, params) %}
                     <a href="{{ url }}">
-                        <div class="status enabled"></div>{{ "Global"|t('site') }}
+                        <div class="status enabled"></div>{{ "All Sites"|t('site') }}
                     </a>
                 {% endif %}
             </li>

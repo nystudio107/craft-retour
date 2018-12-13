@@ -78,7 +78,7 @@ class MultiSite
             if ($variables['currentSiteId'] === 0) {
                 $variables['sitesMenuLabel'] = Craft::t(
                     'retour',
-                    'Global'
+                    'All Sites'
                 );
             } else {
                 $variables['sitesMenuLabel'] = Craft::t(
