@@ -221,20 +221,10 @@ class Install extends Migration
     protected function addForeignKeys()
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
+            $this->db->getForeignKeyName('{{%retour_redirects}}', 'associatedElementId'),
             '{{%retour_redirects}}',
             'associatedElementId',
             '{{%elements}}',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
-            '{{%retour_redirects}}',
-            'siteId',
-            '{{%sites}}',
             'id',
             'CASCADE',
             'CASCADE'

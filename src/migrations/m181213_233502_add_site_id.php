@@ -111,16 +111,6 @@ class m181213_233502_add_site_id extends Migration
     protected function addForeignKeys()
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_redirects}}', 'siteId'),
-            '{{%retour_redirects}}',
-            'siteId',
-            '{{%sites}}',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
             '{{%retour_static_redirects}}',
             'siteId',
