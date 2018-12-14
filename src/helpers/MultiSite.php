@@ -87,6 +87,7 @@ class MultiSite
                 );
             }
         } else {
+            $variables['currentSiteId'] = 0;
             $variables['sitesMenuLabel'] = '';
         }
     }

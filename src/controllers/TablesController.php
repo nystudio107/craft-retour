@@ -49,6 +49,7 @@ class TablesController extends Controller
      * @param int    $page
      * @param int    $per_page
      * @param string $filter
+     * @param null   $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException
@@ -57,7 +58,8 @@ class TablesController extends Controller
         string $sort = 'hitCount|desc',
         int $page = 1,
         int $per_page = 20,
-        $filter = ''
+        $filter = '',
+        $siteId = 0
     ): Response {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
@@ -78,6 +80,9 @@ class TablesController extends Controller
             ->offset($offset)
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
+        if ((int)$siteId !== 0) {
+            $query->where(['siteId' => $siteId]);
+        }
         if ($filter !== '') {
             $query->where(['like', 'redirectSrcUrl', $filter]);
             $query->orWhere(['like', 'referrerUrl', $filter]);
@@ -125,6 +130,7 @@ class TablesController extends Controller
      * @param int    $page
      * @param int    $per_page
      * @param string $filter
+     * @param null   $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException
@@ -133,7 +139,8 @@ class TablesController extends Controller
         string $sort = 'hitCount|desc',
         int $page = 1,
         int $per_page = 20,
-        $filter = ''
+        $filter = '',
+        $siteId = 0
     ): Response {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $data = [];
@@ -154,6 +161,9 @@ class TablesController extends Controller
             ->offset($offset)
             ->limit($per_page)
             ->orderBy("{$sortField} {$sortType}");
+        if ((int)$siteId !== 0) {
+            $query->where(['siteId' => $siteId]);
+        }
         if ($filter !== '') {
             $query->where(['like', 'redirectSrcUrl', $filter]);
             $query->orWhere(['like', 'redirectDestUrl', $filter]);
