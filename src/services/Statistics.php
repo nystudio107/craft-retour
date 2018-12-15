@@ -130,6 +130,7 @@ class Statistics extends Component
     {
         $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
+        $siteId = Craft::$app->getSites()->currentSite->id;
         if (!$request->isConsoleRequest) {
             $referrer = $request->getReferrer();
             if (Retour::$settings->recordRemoteIp) {
@@ -172,6 +173,7 @@ class Statistics extends Component
             $stats->hitCount = $statsConfig['hitCount'];
         }
         // Merge in the updated info
+        $stats->siteId = $siteId;
         $stats->referrerUrl = $referrer;
         $stats->remoteIp = $remoteIp;
         $stats->userAgent = $userAgent;
