@@ -47,11 +47,12 @@ class ChartsController extends Controller
      * The Dashboard chart
      *
      * @param string $range
+     * @param int    $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException
      */
-    public function actionDashboard(string $range = 'day'): Response
+    public function actionDashboard(string $range = 'day', int $siteId = 0): Response
     {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
@@ -72,31 +73,39 @@ class ChartsController extends Controller
         $db = Craft::$app->getDb();
         if ($db->getIsMysql()) {
             // Query the db
-            $stats = (new Query())
+            $query = (new Query())
                 ->from('{{%retour_stats}}')
                 ->select([
                     "DATE_FORMAT(hitLastTime, '%Y-%m-%d') AS date_formatted",
                     'COUNT(redirectSrcUrl) AS cnt',
                     'COUNT(handledByRetour = 1 or null) as handled_cnt',
                 ])
-                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )")
+                ->where("hitLastTime >= ( CURDATE() - INTERVAL '{$days}' DAY )");
+            if ((int)$siteId !== 0) {
+                $query->andWhere(['siteId' => $siteId]);
+            }
+            $query
                 ->orderBy('date_formatted ASC')
-                ->groupBy('date_formatted')
-                ->all();
+                ->groupBy('date_formatted');
+            $stats = $query->all();
         }
         if ($db->getIsPgsql()) {
             // Query the db
-            $stats = (new Query())
+            $query = (new Query())
                 ->from('{{%retour_stats}}')
                 ->select([
                     "to_char(\"hitLastTime\", 'yyyy-mm-dd') AS date_formatted",
                     "COUNT(\"redirectSrcUrl\") AS cnt",
                     "COUNT(CASE WHEN \"handledByRetour\" = true THEN 1 END) as handled_cnt",
                 ])
-                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )")
+                ->where("\"hitLastTime\" >= ( CURRENT_TIMESTAMP - INTERVAL '{$days} days' )");
+            if ((int)$siteId !== 0) {
+                $query->andWhere(['siteId' => $siteId]);
+            }
+            $query
                 ->orderBy('date_formatted ASC')
-                ->groupBy('date_formatted')
-                ->all();
+                ->groupBy('date_formatted');
+            $stats = $query->all();
         }
         if ($stats) {
             $data[] = [

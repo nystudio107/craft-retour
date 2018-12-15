@@ -552,6 +552,7 @@ class Retour extends Plugin
             '/retour/tables/redirects' => 'retour/tables/redirects',
             // Charts
             '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
+            '/retour/charts/dashboard/<range:{handle}>/<siteId:\d+>' => 'retour/charts/dashboard',
             '/retour/charts/widget/<days>' => 'retour/charts/widget',
         ];
     }

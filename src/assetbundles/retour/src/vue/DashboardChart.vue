@@ -45,12 +45,20 @@
             title: String,
             subTitle: String,
             range: String,
+            siteId: {
+                type: Number,
+                default: 0,
+            }
         },
         methods: {
             // Load in our chart data asynchronously
             getSeriesData: async function() {
                 const chartsAPI = Axios.create(configureApi(chartDataBaseUrl));
-                await queryApi(chartsAPI, this.range, (data) => {
+                let uri = this.range;
+                if (this.siteId !== 0) {
+                    uri += '/' + this.siteId;
+                }
+                await queryApi(chartsAPI, uri, (data) => {
                     // Clone the chartOptions object, and replace the needed values
                     const options = Object.assign({}, this.chartOptions);
                     if (data[0] !== undefined) {
