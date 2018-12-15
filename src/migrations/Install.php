@@ -212,7 +212,6 @@ class Install extends Migration
             'siteId',
             false
         );
-
     }
 
     /**
