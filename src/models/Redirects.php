@@ -33,9 +33,9 @@ class Redirects extends DbModel
     public $id;
 
     /**
-     * @var string
+     * @var null|int
      */
-    public $locale;
+    public $siteId;
 
     /**
      * @var int
@@ -97,9 +97,8 @@ class Redirects extends DbModel
     {
         return [
             ['id', 'integer'],
-            ['locale', 'default', 'value' => 'en-US'],
-            ['locale', DbStringValidator::class, 'max' => 12],
-            ['locale', 'string'],
+            ['siteId', 'integer'],
+            ['siteId', 'default', 'value' => null],
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
             ['enabled', 'boolean'],
