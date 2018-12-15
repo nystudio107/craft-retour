@@ -92,7 +92,6 @@ class m181213_233502_add_site_id extends Migration
             false
         );
 
-
         $this->createIndex(
             $this->db->getIndexName(
                 '{{%retour_stats}}',
