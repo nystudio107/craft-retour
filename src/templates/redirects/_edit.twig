@@ -19,10 +19,6 @@
 
 {% import "_includes/forms" as forms %}
 
-{% block contextMenu %}
-    {% include "retour/_includes/sites-menu.twig" %}
-{% endblock %}
-
 {% block content %}
     <input type="hidden" name="action" value="retour/redirects/save-redirect">
     {{ csrfInput() }}
@@ -60,6 +56,16 @@
             name: "enabled",
             on: redirect.enabled,
             errors: redirect.getErrors("enabled"),
+        }) }}
+    
+        {{ forms.selectField({
+            label: "Sites"|t("retour"),
+            instructions: "What sites should this redirect be active for."|t("retour"),
+            id: "siteId",
+            name: "siteId",
+            value: redirect.siteId,
+            options: sitesMenu,
+            errors: redirect.getErrors("siteId"),
         }) }}
     
         {{ forms.textField({
@@ -123,7 +129,7 @@
                 "410": "410 - Gone"|t("retour"),
             },
             errors: redirect.getErrors("redirectHttpCode"),
-    }) }}
+        }) }}
     {% endnamespace %}
     {# include our JavaScript modules #}
     {{ parent() }}

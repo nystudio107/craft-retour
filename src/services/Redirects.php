@@ -527,6 +527,10 @@ class Redirects extends Component
         }
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
+        // 0 for a siteId needs to be converted to null
+        if (empty($redirectConfig['siteId']) || $redirectConfig['siteId'] == 0) {
+            $redirectConfig['siteId'] = null;
+        }
         $db = Craft::$app->getDb();
         // See if a redirect exists with this source URL already
         if ((int)$redirectConfig['id'] === 0) {

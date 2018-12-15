@@ -29,6 +29,35 @@ class MultiSite
 
     // Public Static Methods
     // =========================================================================
+
+    /**
+     * @param array $variables
+     */
+    public static function setSitesMenuVariables(array &$variables)
+    {
+        // Set defaults based on the section settings
+        $variables['sitesMenu'] = [
+            0 => Craft::t(
+                'retour',
+                'All Sites'
+            ),
+        ];
+        // Enabled sites
+        $sites = Craft::$app->getSites();
+        if (Craft::$app->getIsMultiSite()) {
+
+            /** @var Site $site */
+            foreach ($sites->getAllGroups() as $group) {
+                $groupSites = $sites->getSitesByGroupId($group->id);
+                $variables['sitesMenu'][$group->name]
+                    = ['optgroup' => $group->name];
+                foreach ($groupSites as $groupSite) {
+                    $variables['sitesMenu'][$groupSite->id] = $groupSite->name;
+                }
+            }
+        }
+    }
+
     /**
      * @param string $siteHandle
      * @param        $siteId

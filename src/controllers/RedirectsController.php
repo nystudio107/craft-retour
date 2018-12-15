@@ -142,6 +142,7 @@ class RedirectsController extends Controller
             }
             $redirect = new StaticRedirectsModel($redirectConfig);
         }
+        $redirect->validate();
         // Get the site to edit
         $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
         $pluginName = Retour::$settings->pluginName;
@@ -157,8 +158,8 @@ class RedirectsController extends Controller
             '@nystudio107/retour/assetbundles/retour/dist',
             true
         );
-        // Enabled sites
-        MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
+        // Sites menu
+        MultiSiteHelper::setSitesMenuVariables($variables);
         $variables['controllerHandle'] = 'redirects';
 
         // Basic variables
