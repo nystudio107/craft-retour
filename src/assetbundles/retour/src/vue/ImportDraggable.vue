@@ -88,6 +88,7 @@
                     group: 'fields'
                 },
                 fieldsArray: [
+                    'Site ID',
                     'Legacy URL Pattern',
                     'Redirect To',
                     'Match Type',
