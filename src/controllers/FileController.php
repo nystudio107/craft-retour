@@ -44,10 +44,10 @@ class FileController extends Controller
     const EXPORT_REDIRECTS_CSV_FIELDS = [
         'siteId' => 'Site ID',
         'redirectSrcUrl' => 'Legacy URL Pattern',
-        'redirectSrcMatch' => 'Legacy URL Match Type',
         'redirectDestUrl' => 'Redirect To',
         'redirectMatchType' => 'Match Type',
         'redirectHttpCode' => 'HTTP Status',
+        'redirectSrcMatch' => 'Legacy URL Match Type',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
     ];
