@@ -19,13 +19,13 @@ class m181213_233502_add_site_id extends Migration
         if ($this->db->columnExists('{{%retour_redirects}}', 'locale')) {
             $this->dropColumn(
                 '{{%retour_redirects}}',
-                'enabled'
+                'locale'
             );
         }
         if ($this->db->columnExists('{{%retour_static_redirects}}', 'locale')) {
             $this->dropColumn(
                 '{{%retour_static_redirects}}',
-                'enabled'
+                'locale'
             );
         }
         // Add in the siteId columns
