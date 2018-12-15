@@ -15,9 +15,7 @@
  * @since     3.0.0
  */
 return [
-    '404 URL: {url}' => '404 URL: {url}',
     'Cached redirect hit for {url}' => 'Cached redirect hit for {url}',
-    'Not handled: {url}' => 'Not handled: {url}',
     'Create Entry Redirects' => 'Create Entry Redirects',
     'Trimmed {rows} from retour_stats table' => 'Trimmed {rows} from retour_stats table',
     'Cached redirect saved for {url}' => 'Cached redirect saved for {url}',
@@ -47,9 +45,7 @@ return [
     'Retour statistics cleared.' => 'Retour statistics cleared.',
     'Legacy URL Pattern' => 'Legacy URL Pattern',
     'Couldn\'t load redirect id {id}' => 'Couldn\'t load redirect id {id}',
-    'Enter the URL pattern that Retour should match.  This matches against the path, the part of the URL after the domain name.  e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`' => 'Enter the URL pattern that Retour should match.  This matches against the path, the part of the URL after the domain name.  e.g.: Exact Match: `/recipes/` or RegEx Match: `.*RecipeID=(.*)`',
     'Redirect Type' => 'Redirect Type',
-    'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`' => 'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or RegEx Match: `/new-recipes/$1`',
     '410 - Gone' => '410 - Gone',
     'Match Type' => 'Match Type',
     '301 - Permanent' => '301 - Permanent',
@@ -74,20 +70,9 @@ return [
     'Comparing old: {oldUri} to new: {newUri}' => 'Comparing old: {oldUri} to new: {newUri}',
     'Trimming statistics' => 'Trimming statistics',
     'Manifest file not found at: {manifestPath}' => 'Manifest file not found at: {manifestPath}',
-    'Retour CP Section body goes here' => 'Retour CP Section body goes here',
-    'Click Me!' => 'Click Me!',
     'Should the anonymous ip address of the client causing a 404 be recorded?' => 'Should the anonymous ip address of the client causing a 404 be recorded?',
     'Module does not exist in the manifest: {moduleName}' => 'Module does not exist in the manifest: {moduleName}',
-    'Redirect cache miss for site {siteId}, url {url}' => 'Redirect cache miss for site {siteId}, url {url}',
     'Record Remote IP' => 'Record Remote IP',
-    'Plugin Settings' => 'Plugin Settings',
-    'How many unqie 404 statistics should be stored before they are trimmed.' => 'How many unqie 404 statistics should be stored before they are trimmed.',
-    'Statistics Display' => 'Statistics Display',
-    'General' => 'General',
-    'Error updating statistics for {id} {url}' => 'Error updating statistics for {id} {url}',
-    'Dynamic Redirect Display' => 'Dynamic Redirect Display',
-    'Static Redirect Display' => 'Static Redirect Display',
-    'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.' => 'What type of matching should be done with the Legacy URL Pattern.  Details on RegEx matching can be found at [regexr.com/](http://regexr.com/).  If a plugin provides a custom matching function, you can select it here.',
     'Legacy URL Match Type' => 'Legacy URL Match Type',
     'Full URL' => 'Full URL',
     'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`' => 'Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`',
@@ -99,5 +84,7 @@ return [
     'Should the query string be preserved and passed along to the redirected URL?' => 'Should the query string be preserved and passed along to the redirected URL?',
     'Preserve Query String' => 'Preserve Query String',
     'Enabled' => 'Enabled',
-    'Should this redirect be processed?' => 'Should this redirect be processed?'
+    'Should this redirect be processed?' => 'Should this redirect be processed?',
+    'All Sites' => 'All Sites',
+    'Global' => 'Global'
 ];
