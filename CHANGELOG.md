@@ -1,7 +1,8 @@
 # Retour Changelog
 
-## 3.0.19 - 2018.11.29
+## 3.1.0 - 2018.12.17
 ### Added
+* Added live refresh of the Dashboard data
 
 ### Changed
 
