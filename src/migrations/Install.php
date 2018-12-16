@@ -161,22 +161,22 @@ class Install extends Migration
             $this->db->getIndexName(
                 '{{%retour_static_redirects}}',
                 'redirectSrcUrlParsed',
-                true
+                false
             ),
             '{{%retour_static_redirects}}',
             'redirectSrcUrlParsed',
-            true
+            false
         );
 
         $this->createIndex(
             $this->db->getIndexName(
                 '{{%retour_redirects}}',
                 'redirectSrcUrlParsed',
-                true
+                false
             ),
             '{{%retour_redirects}}',
             'redirectSrcUrlParsed',
-            true
+            false
         );
 
         $this->createIndex(
