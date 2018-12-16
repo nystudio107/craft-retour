@@ -42,32 +42,32 @@ class FileController extends Controller
     const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
     const EXPORT_REDIRECTS_CSV_FIELDS = [
-        'siteId' => 'Site ID',
         'redirectSrcUrl' => 'Legacy URL Pattern',
         'redirectDestUrl' => 'Redirect To',
         'redirectMatchType' => 'Match Type',
         'redirectHttpCode' => 'HTTP Status',
+        'siteId' => 'Site ID',
         'redirectSrcMatch' => 'Legacy URL Match Type',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
     ];
 
     const EXPORT_STATISTICS_CSV_FIELDS = [
-        'siteId' => 'Site ID',
         'redirectSrcUrl' => '404 File Not Found URL',
         'referrerUrl' => 'Last Referrer URL',
         'remoteIp' => 'Remote IP',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
         'handledByRetour' => 'Handled',
+        'siteId' => 'Site ID',
     ];
 
     const IMPORT_REDIRECTS_CSV_FIELDS = [
-        'siteId',
         'redirectSrcUrl',
         'redirectDestUrl',
         'redirectMatchType',
         'redirectHttpCode',
+        'siteId',
     ];
 
     // Protected Properties
