@@ -36,7 +36,7 @@
                 <label class="btn" for="retour-file">Import CSV File</label>
             </form>
         </div>
-        <a href="{{ cpUrl('retour/add-redirect') }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
+        <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
     </div>
 {% endblock %}
 
@@ -44,7 +44,7 @@
     <div id="cp-nav-content">
         <div class="field readable">
         </div>
-        <redirects-table>
+        <redirects-table site-id="{{ currentSiteId }}">
         </redirects-table>
     </div>
     {# include our JavaScript modules #}

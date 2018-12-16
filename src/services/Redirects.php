@@ -431,12 +431,13 @@ class Redirects extends Component
      *
      * @return null|array
      */
-    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl)
+    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl, int $siteId = null)
     {
         // Query the db table
         $redirect = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->where(['redirectSrcUrl' => $redirectSrcUrl])
+            ->andWhere(['siteId' => $siteId])
             ->one();
 
         return $redirect;
@@ -528,7 +529,7 @@ class Redirects extends Component
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
         // 0 for a siteId needs to be converted to null
-        if (empty($redirectConfig['siteId']) || $redirectConfig['siteId'] == 0) {
+        if (empty($redirectConfig['siteId']) || (int)$redirectConfig['siteId'] === 0) {
             $redirectConfig['siteId'] = null;
         }
         $db = Craft::$app->getDb();
@@ -538,6 +539,7 @@ class Redirects extends Component
             $redirect = (new Query())
                 ->from(['{{%retour_static_redirects}}'])
                 ->where(['redirectSrcUrlParsed' => $redirectConfig['redirectSrcUrlParsed']])
+                ->andWhere(['siteId' => $redirectConfig['siteId']])
                 ->one();
             // If it exists, update it rather than having duplicates
             if (!empty($redirect)) {
@@ -586,7 +588,10 @@ class Redirects extends Component
             }
         }
         // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
-        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl($redirectConfig['redirectDestUrl']);
+        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl(
+            $redirectConfig['redirectDestUrl'],
+            $redirectConfig['siteid']
+        );
         if ($testRedirectConfig !== null) {
             Craft::debug(
                 Craft::t(
