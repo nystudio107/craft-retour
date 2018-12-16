@@ -70,8 +70,14 @@
                 });
             }
         },
-        created: function() {
+        created () {
             this.getSeriesData();
+        },
+        mounted() {
+            // Live refresh the data
+            setInterval(() => {
+                this.getSeriesData();
+            }, 3000);
         },
         data: function() {
             return {

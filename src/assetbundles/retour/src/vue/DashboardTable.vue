@@ -74,6 +74,10 @@
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
             this.$events.$on('filter-reset', e => this.onFilterReset());
+            // Live refresh the data
+            setInterval(() => {
+                this.$refs.vuetable.refresh();
+            }, 3000);
         },
         methods: {
             onFilterSet (filterText) {
