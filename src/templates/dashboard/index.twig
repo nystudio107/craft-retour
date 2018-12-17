@@ -59,7 +59,7 @@
                             title="404s by Month"
                             sub-title="Discrete 404 URI hits in the last month"
                             range="month"
-                            site-id="{{ currentSiteId }}"
+                            :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
                 </div>
@@ -70,7 +70,7 @@
                             title="404s by Week"
                             sub-title="Discrete 404 URI hits in the last week"
                             range="week"
-                            site-id="{{ currentSiteId }}"
+                            :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
                 </div>
@@ -81,13 +81,13 @@
                             title="404s by Day"
                             sub-title="Discrete 404 URI hits in the last day"
                             range="day"
-                            site-id="{{ currentSiteId }}"
+                            :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
                 </div>
             </div>
         </div>
-        <dashboard-table site-id="{{ currentSiteId }}">
+        <dashboard-table :site-id="{{ currentSiteId }}">
         </dashboard-table>
 
     </div>
