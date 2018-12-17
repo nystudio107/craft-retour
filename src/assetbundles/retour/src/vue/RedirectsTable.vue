@@ -45,10 +45,17 @@
             'vuetable-pagination-info': VueTablePaginationInfo,
             'vuetable-filter-bar': VueTableFilterBar,
         },
-        props: {},
+        props: {
+            siteId: {
+                type: Number,
+                default: 0,
+            }
+        },
         data: function() {
             return {
-                moreParams: {},
+                moreParams: {
+                    'siteId': this.siteId,
+                },
                 css: {
                     tableClass: 'data fullwidth retour-redirects',
                     ascendingIcon: 'menubtn retour-menubtn-asc',
@@ -71,13 +78,16 @@
         methods: {
             onFilterSet (filterText) {
                 this.moreParams = {
-                    'filter': filterText
+                    'filter': filterText,
+                    'siteId': this.siteId,
                 };
                 console.log('onFilterSet');
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             },
             onFilterReset () {
-                this.moreParams = {};
+                this.moreParams = {
+                    'siteId': this.siteId,
+                };
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             },
             onPaginationData (paginationData) {

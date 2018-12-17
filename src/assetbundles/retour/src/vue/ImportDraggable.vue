@@ -92,6 +92,7 @@
                     'Redirect To',
                     'Match Type',
                     'HTTP Status',
+                    'Site ID',
                 ]
             }
         },

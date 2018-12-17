@@ -31,6 +31,11 @@ class Stats extends DbModel
     public $id;
 
     /**
+     * @var null|int
+     */
+    public $siteId;
+
+    /**
      * @var string
      */
     public $redirectSrcUrl;
@@ -90,6 +95,8 @@ class Stats extends DbModel
     {
         return [
             ['id', 'integer'],
+            ['siteId', 'integer'],
+            ['siteId', 'default', 'value' => null],
             [
                 [
                     'redirectSrcUrl',

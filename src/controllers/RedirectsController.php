@@ -105,7 +105,7 @@ class RedirectsController extends Controller
      *
      * @param int                       $redirectId
      * @param string                    $defaultUrl
-     * @param null|string               $siteHandle
+     * @param int                       $siteId
      * @param null|StaticRedirectsModel $redirect
      *
      * @return Response
@@ -115,7 +115,7 @@ class RedirectsController extends Controller
     public function actionEditRedirect(
         int $redirectId = 0,
         string $defaultUrl = '',
-        string $siteHandle = null,
+        int $siteId = 0,
         StaticRedirectsModel $redirect = null
     ): Response {
         $variables = [];
@@ -124,6 +124,7 @@ class RedirectsController extends Controller
         if ($redirectId === 0) {
             $redirect = new StaticRedirectsModel([
                 'id' => 0,
+                'siteId' => $siteId,
                 'redirectSrcUrl' => urldecode($defaultUrl),
             ]);
         }
@@ -142,8 +143,7 @@ class RedirectsController extends Controller
             }
             $redirect = new StaticRedirectsModel($redirectConfig);
         }
-        // Get the site to edit
-        $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
+        $redirect->validate();
         $pluginName = Retour::$settings->pluginName;
         $templateTitle = Craft::t('retour', 'Edit Redirect');
         $view = Craft::$app->getView();
@@ -157,8 +157,8 @@ class RedirectsController extends Controller
             '@nystudio107/retour/assetbundles/retour/dist',
             true
         );
-        // Enabled sites
-        MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
+        // Sites menu
+        MultiSiteHelper::setSitesMenuVariables($variables);
         $variables['controllerHandle'] = 'redirects';
 
         // Basic variables

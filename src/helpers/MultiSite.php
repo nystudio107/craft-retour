@@ -29,6 +29,35 @@ class MultiSite
 
     // Public Static Methods
     // =========================================================================
+
+    /**
+     * @param array $variables
+     */
+    public static function setSitesMenuVariables(array &$variables)
+    {
+        // Set defaults based on the section settings
+        $variables['sitesMenu'] = [
+            0 => Craft::t(
+                'retour',
+                'All Sites'
+            ),
+        ];
+        // Enabled sites
+        $sites = Craft::$app->getSites();
+        if (Craft::$app->getIsMultiSite()) {
+
+            /** @var Site $site */
+            foreach ($sites->getAllGroups() as $group) {
+                $groupSites = $sites->getSitesByGroupId($group->id);
+                $variables['sitesMenu'][$group->name]
+                    = ['optgroup' => $group->name];
+                foreach ($groupSites as $groupSite) {
+                    $variables['sitesMenu'][$groupSite->id] = $groupSite->name;
+                }
+            }
+        }
+    }
+
     /**
      * @param string $siteHandle
      * @param        $siteId
@@ -54,14 +83,16 @@ class MultiSite
             // Make sure the $siteId they are trying to edit is in our array of editable sites
             if (!\in_array($siteId, $variables['enabledSiteIds'], false)) {
                 if (!empty($variables['enabledSiteIds'])) {
-                    $siteId = reset($variables['enabledSiteIds']);
+                    if ($siteId !== 0) {
+                        $siteId = reset($variables['enabledSiteIds']);
+                    }
                 } else {
                     self::requirePermission('editSite:'.$siteId);
                 }
             }
         }
         // Set the currentSiteId and currentSiteHandle
-        $variables['currentSiteId'] = empty($siteId) ? Craft::$app->getSites()->currentSite->id : $siteId;
+        $variables['currentSiteId'] = empty($siteId) ? 0 : $siteId;
         $variables['currentSiteHandle'] = empty($siteHandle)
             ? Craft::$app->getSites()->currentSite->handle
             : $siteHandle;
@@ -73,11 +104,19 @@ class MultiSite
         );
 
         if ($variables['showSites']) {
-            $variables['sitesMenuLabel'] = Craft::t(
-                'site',
-                $sites->getSiteById((int)$variables['currentSiteId'])->name
-            );
+            if ($variables['currentSiteId'] === 0) {
+                $variables['sitesMenuLabel'] = Craft::t(
+                    'retour',
+                    'All Sites'
+                );
+            } else {
+                $variables['sitesMenuLabel'] = Craft::t(
+                    'site',
+                    $sites->getSiteById((int)$variables['currentSiteId'])->name
+                );
+            }
         } else {
+            $variables['currentSiteId'] = 0;
             $variables['sitesMenuLabel'] = '';
         }
     }
@@ -100,7 +139,7 @@ class MultiSite
             }
             $siteId = $site->id;
         } else {
-            $siteId = Craft::$app->getSites()->currentSite->id;
+            $siteId = 0;
         }
 
         return $siteId;

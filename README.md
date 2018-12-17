@@ -48,7 +48,7 @@ Retour allows you to intelligently redirect legacy URLs, so that you don't lose 
 
 In addition to supporting traditional exact and RegEx matching of URL patterns, Retour allows you to have dynamic redirects that have access to the data in your entries when matching URL patterns.
 
-Retour will also automatically create a redirect for you if you change an entry's slug, or move an entry around in a Structure.
+Retour offers true multi-site capability, allowing you to have redirects that affect only certain sites, as well as all sites. Retour will also automatically create a redirect for you if you change an entry's slug, or move an entry around in a Structure.
 
 Unlike other redirect plugins or utilizing `.htaccess` to do redirects, Retour does not add overhead to each request for each redirect you have in place.
 
@@ -137,9 +137,12 @@ The circle status on the left of each redirect indicates whether the redirect is
 
 Static Redirects are useful when the Legacy URL Patterns and the new URL patterns are deterministic. You can create them by clicking on **Retour->Redirects** and then clicking on the **New Static Redirect** button.
 
+If you're using Craft to host [multiple sites](https://docs.craftcms.com/v3/sites.html) you can view the redirects for **All Sites** or an individual site using the Sites menu at the top of the page.
+
 ![Screenshot](resources/screenshots/retour-edit-redirect.png)
 
 * **Enabled** - Should this redirect be processed? Sometimes it is convenient to temporarily disable a redirect rather than outright delete it
+* **Sites** - By default, the redirects you create affect **All Sites**. If you're using Craft to host [multiple sites](https://docs.craftcms.com/v3/sites.html) you can also create redirects that only take effect for specific sites
 * **Legacy URL Pattern** - Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`
 * **Legacy URL Match Type** - Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/new-recipes/`)
 * **Destination URL** - Enter the destination URL that should be redirected to.  This can either be a fully qualified URL or a relative URL.  e.g.: Exact Match: `/new-recipes/` or `http://example.com/new-recipes/`, or RegEx Match: `/new-recipes/$1`
@@ -196,6 +199,8 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Dashboard**.  
 
 ![Screenshot](resources/screenshots/retour-dashboard.png)
+
+If you're using Craft to host [multiple sites](https://docs.craftcms.com/v3/sites.html) you can view the statistics for **All Sites** or an individual site using the Sites menu at the top of the page.
 
 You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
 

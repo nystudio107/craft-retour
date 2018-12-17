@@ -41,23 +41,33 @@ class FileController extends Controller
 
     const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
-    const REDIRECTS_CSV_FIELDS = [
+    const EXPORT_REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl' => 'Legacy URL Pattern',
-        'redirectSrcMatch' => 'Legacy URL Match Type',
         'redirectDestUrl' => 'Redirect To',
         'redirectMatchType' => 'Match Type',
         'redirectHttpCode' => 'HTTP Status',
+        'siteId' => 'Site ID',
+        'redirectSrcMatch' => 'Legacy URL Match Type',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
     ];
 
-    const STATISTICS_CSV_FIELDS = [
+    const EXPORT_STATISTICS_CSV_FIELDS = [
         'redirectSrcUrl' => '404 File Not Found URL',
         'referrerUrl' => 'Last Referrer URL',
         'remoteIp' => 'Remote IP',
         'hitCount' => 'Hits',
         'hitLastTime' => 'Last Hit',
         'handledByRetour' => 'Handled',
+        'siteId' => 'Site ID',
+    ];
+
+    const IMPORT_REDIRECTS_CSV_FIELDS = [
+        'redirectSrcUrl',
+        'redirectDestUrl',
+        'redirectMatchType',
+        'redirectHttpCode',
+        'siteId',
     ];
 
     // Protected Properties
@@ -92,17 +102,14 @@ class FileController extends Controller
             $redirectConfig = [
                 'id' => 0,
             ];
-            if (isset($columns[0], $headers[$columns[0]])) {
-                $redirectConfig['redirectSrcUrl'] = $row[$headers[$columns[0]]] ?? null;
-            }
-            if (isset($columns[1], $headers[$columns[1]])) {
-                $redirectConfig['redirectDestUrl'] = $row[$headers[$columns[1]]] ?? null;
-            }
-            if (isset($columns[2], $headers[$columns[2]])) {
-                $redirectConfig['redirectMatchType'] = $row[$headers[$columns[2]]] ?? null;
-            }
-            if (isset($columns[3], $headers[$columns[3]])) {
-                $redirectConfig['redirectHttpCode'] = $row[$headers[$columns[3]]] ?? null;
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
             }
             Craft::debug('Importing row: '.print_r($redirectConfig, true), __METHOD__);
             Retour::$plugin->redirects->saveRedirect($redirectConfig);
@@ -194,7 +201,7 @@ class FileController extends Controller
     public function actionExportStatistics()
     {
         PermissionHelper::controllerPermissionCheck('retour:statistics');
-        $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::STATISTICS_CSV_FIELDS);
+        $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::EXPORT_STATISTICS_CSV_FIELDS);
     }
 
     /**
@@ -205,7 +212,7 @@ class FileController extends Controller
     public function actionExportRedirects()
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
-        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::REDIRECTS_CSV_FIELDS);
+        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::EXPORT_REDIRECTS_CSV_FIELDS);
     }
 
     // Public Methods

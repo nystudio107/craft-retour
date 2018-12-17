@@ -185,26 +185,30 @@ class Redirects extends Component
      */
     public function findRedirectMatch(string $fullUrl, string $pathOnly)
     {
+        // Get the current site
+        $siteId = null;
+        $currentSite = Craft::$app->getSites()->currentSite;
+        if ($currentSite) {
+            $siteId = $currentSite->id;
+        }
         // Try getting the full URL redirect from the cache
-        $redirect = $this->getRedirectFromCache($fullUrl);
+        $redirect = $this->getRedirectFromCache($fullUrl, $siteId);
         if ($redirect) {
             $this->incrementRedirectHitCount($redirect);
             $this->saveRedirectToCache($fullUrl, $redirect);
 
             return $redirect;
         }
-
         // Try getting the path only redirect from the cache
-        $redirect = $this->getRedirectFromCache($pathOnly);
+        $redirect = $this->getRedirectFromCache($pathOnly, $siteId);
         if ($redirect) {
             $this->incrementRedirectHitCount($redirect);
             $this->saveRedirectToCache($pathOnly, $redirect);
 
             return $redirect;
         }
-
         // Resolve static redirects
-        $redirects = $this->getAllStaticRedirects();
+        $redirects = $this->getAllStaticRedirects(null, $siteId);
         $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects);
         if ($redirect) {
             return $redirect;
@@ -214,14 +218,15 @@ class Redirects extends Component
     }
 
     /**
-     * @param $url
+     * @param          $url
+     * @param int|null $siteId
      *
      * @return bool|array
      */
-    public function getRedirectFromCache($url)
+    public function getRedirectFromCache($url, int $siteId = 0)
     {
         $cache = Craft::$app->getCache();
-        $cacheKey = $this::CACHE_KEY.md5($url);
+        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
         $redirect = $cache->get($cacheKey);
         Craft::info(
             Craft::t(
@@ -241,7 +246,6 @@ class Redirects extends Component
      */
     public function saveRedirectToCache($url, $redirect)
     {
-        $cacheKey = $this::CACHE_KEY.md5($url);
         $cache = Craft::$app->getCache();
         // Get the current site id
         $sites = Craft::$app->getSites();
@@ -250,6 +254,7 @@ class Redirects extends Component
         } catch (SiteNotFoundException $e) {
             $siteId = 1;
         }
+        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
         // Create the dependency tags
         $dependency = new TagDependency([
             'tags' => [
@@ -383,10 +388,11 @@ class Redirects extends Component
 
     /**
      * @param null|int $limit
+     * @param int|null $siteId
      *
      * @return array All of the statistics
      */
-    public function getAllStaticRedirects($limit = null): array
+    public function getAllStaticRedirects($limit = null, int $siteId = null): array
     {
         // Cache it in our class; no need to fetch it more than once
         if ($this->cachedStaticRedirects !== null) {
@@ -396,6 +402,11 @@ class Redirects extends Component
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
         if ($limit) {
             $query->limit($limit);
         }
@@ -431,12 +442,13 @@ class Redirects extends Component
      *
      * @return null|array
      */
-    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl)
+    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl, int $siteId = null)
     {
         // Query the db table
         $redirect = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->where(['redirectSrcUrl' => $redirectSrcUrl])
+            ->andWhere(['siteId' => $siteId])
             ->one();
 
         return $redirect;
@@ -527,6 +539,10 @@ class Redirects extends Component
         }
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
+        // 0 for a siteId needs to be converted to null
+        if (empty($redirectConfig['siteId']) || (int)$redirectConfig['siteId'] === 0) {
+            $redirectConfig['siteId'] = null;
+        }
         $db = Craft::$app->getDb();
         // See if a redirect exists with this source URL already
         if ((int)$redirectConfig['id'] === 0) {
@@ -534,6 +550,7 @@ class Redirects extends Component
             $redirect = (new Query())
                 ->from(['{{%retour_static_redirects}}'])
                 ->where(['redirectSrcUrlParsed' => $redirectConfig['redirectSrcUrlParsed']])
+                ->andWhere(['siteId' => $redirectConfig['siteId']])
                 ->one();
             // If it exists, update it rather than having duplicates
             if (!empty($redirect)) {
@@ -582,7 +599,10 @@ class Redirects extends Component
             }
         }
         // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
-        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl($redirectConfig['redirectDestUrl']);
+        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl(
+            $redirectConfig['redirectDestUrl'],
+            $redirectConfig['siteId']
+        );
         if ($testRedirectConfig !== null) {
             Craft::debug(
                 Craft::t(
