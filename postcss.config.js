@@ -4,4 +4,4 @@ module.exports = {
         require('postcss-preset-env'),
         require('tailwindcss')('./tailwind.config.js')
     ]
-}
+};
