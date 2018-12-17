@@ -5,8 +5,6 @@
 * Added the ability to have true multi-site capabilities, with redirects that only affect specific sites
 * Added live refresh of the Dashboard data
 
-### Changed
-
 ## 3.0.18 - 2018.11.23
 ### Changed
 * Fixed an issue with the charts controller for the Widget charts on Postgres
