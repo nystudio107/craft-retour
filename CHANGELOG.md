@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.1.1 - 2018.12.19
+### Changed
+* For multi-site setups, auto-create slug redirects for the element's site only
+* Fixed a minor JavaScript issue visible only in `webpack-dev-server`
+* Updated the PostCSS build packages & config
+
 ## 3.1.0 - 2018.12.17
 ### Added
 * Added the ability to have true multi-site capabilities, with redirects that only affect specific sites
