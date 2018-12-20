@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.1 - 2018.12.17
+## 3.1.1 - 2018.12.19
 ### Changed
 * For multi-site setups, auto-create slug redirects for the element's site only
 * Fixed a minor JavaScript issue visible only in `webpack-dev-server`
