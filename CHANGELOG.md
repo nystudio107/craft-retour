@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.2 - 2018.12.22
+### Changed
+* Register cache options for every type of request
+
 ## 3.1.1 - 2018.12.19
 ### Changed
 * For multi-site setups, auto-create slug redirects for the element's site only
