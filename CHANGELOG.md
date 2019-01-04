@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 3.1.2 - 2018.12.22
+## 3.1.2 - 2018.01.03
 ### Changed
 * Register cache options for every type of request
+* Added `beforeSaveRedirect` and `beforeSaveRedirect` events for plugin/module or [Webhooks](https://github.com/craftcms/webhooks) plugin use
 
 ## 3.1.1 - 2018.12.19
 ### Changed
