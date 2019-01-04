@@ -216,6 +216,22 @@ class Retour extends Plugin
                 $this->installCpEventListeners();
             }
         }
+        // Handler: ClearCaches::EVENT_REGISTER_CACHE_OPTIONS
+        Event::on(
+            ClearCaches::class,
+            ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
+            function (RegisterCacheOptionsEvent $event) {
+                Craft::debug(
+                    'ClearCaches::EVENT_REGISTER_CACHE_OPTIONS',
+                    __METHOD__
+                );
+                // Register our Control Panel routes
+                $event->options = array_merge(
+                    $event->options,
+                    $this->customAdminCpCacheOptions()
+                );
+            }
+        );
         // Handler: EVENT_AFTER_INSTALL_PLUGIN
         Event::on(
             Plugins::class,
@@ -378,22 +394,6 @@ class Retour extends Plugin
                 );
                 // Register our custom permissions
                 $event->permissions[Craft::t('retour', 'Retour')] = $this->customAdminCpPermissions();
-            }
-        );
-        // Handler: ClearCaches::EVENT_REGISTER_CACHE_OPTIONS
-        Event::on(
-            ClearCaches::class,
-            ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
-            function (RegisterCacheOptionsEvent $event) {
-                Craft::debug(
-                    'ClearCaches::EVENT_REGISTER_CACHE_OPTIONS',
-                    __METHOD__
-                );
-                // Register our Control Panel routes
-                $event->options = array_merge(
-                    $event->options,
-                    $this->customAdminCpCacheOptions()
-                );
             }
         );
     }
