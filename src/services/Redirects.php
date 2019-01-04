@@ -12,6 +12,7 @@
 namespace nystudio107\retour\services;
 
 use nystudio107\retour\Retour;
+use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
 use Craft;
@@ -44,6 +45,41 @@ class Redirects extends Component
     const CACHE_KEY = 'retour_redirect_';
 
     const GLOBAL_REDIRECTS_CACHE_TAG = 'retour_redirects';
+
+    /**
+     * @event RedirectEvent The event that is triggered before the redirect is saved
+     * You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved.
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\RedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_BEFORE_SAVE_REDIRECT,
+     *     function(RedirectEvent $event) {
+     *         // potentially set $event->isValid;
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_BEFORE_SAVE_REDIRECT = 'beforeSaveRedirect';
+
+    /**
+     * @event RedirectEvent The event that is triggered after the redirect is saved
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\RedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_AFTER_SAVE_REDIRECT,
+     *     function(RedirectEvent $event) {
+     *         // the redirect was saved
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_AFTER_SAVE_REDIRECT = 'afterSaveRedirect';
 
     // Protected Properties
     // =========================================================================
@@ -543,6 +579,7 @@ class Redirects extends Component
         if (empty($redirectConfig['siteId']) || (int)$redirectConfig['siteId'] === 0) {
             $redirectConfig['siteId'] = null;
         }
+        // Throw an event to before saving the redirect
         $db = Craft::$app->getDb();
         // See if a redirect exists with this source URL already
         if ((int)$redirectConfig['id'] === 0) {
@@ -557,7 +594,21 @@ class Redirects extends Component
                 $redirectConfig['id'] = $redirect['id'];
             }
         }
-        if ((int)$redirectConfig['id'] !== 0) {
+        // Trigger a 'beforeSaveRedirect' event
+        $isNew = (int)$redirectConfig['id'] === 0;
+        $event = new RedirectEvent([
+            'isNew' => $isNew,
+            'legacyUrl' => $redirectConfig['redirectSrcUrlParsed'],
+            'destinationUrl' => $redirectConfig['redirectDestUrl'],
+            'matchType' => $redirectConfig['redirectSrcMatch'],
+            'redirectType' => $redirectConfig['redirectHttpCode'],
+        ]);
+        $this->trigger(self::EVENT_BEFORE_SAVE_REDIRECT, $event);
+        if (!$event->isValid) {
+            return;
+        }
+        // See if this is an existing redirect
+        if (!$isNew) {
             Craft::debug(
                 Craft::t(
                     'retour',
@@ -622,6 +673,8 @@ class Redirects extends Component
                 Craft::error($e->getMessage(), __METHOD__);
             }
         }
+        // Trigger a 'afterSaveRedirect' event
+        $this->trigger(self::EVENT_AFTER_SAVE_REDIRECT, $event);
     }
 
     /**
