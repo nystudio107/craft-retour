@@ -76,7 +76,11 @@
             this.$events.$on('filter-reset', e => this.onFilterReset());
             // Live refresh the data
             setInterval(() => {
-                this.$refs.vuetable.refresh();
+                if ((typeof this.$refs.pagination !== 'undefined') && (this.$refs.pagination.isOnFirstPage)) {
+                    if (typeof this.$refs.vuetable !== 'undefined') {
+                        this.$refs.vuetable.refresh();
+                    }
+                }
             }, 3000);
         },
         methods: {
