@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.3 - 2018.01.10
+### Changed
+* Fixed an issue where the live reload of 404 data would cause the pagination to reset to viewing the first page
+
 ## 3.1.2 - 2018.01.03
 ### Changed
 * Register cache options for every type of request
