@@ -84,6 +84,7 @@ class StatisticsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
+        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -91,7 +92,7 @@ class StatisticsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/dashboard'),
+                'url' => UrlHelper::cpUrl('retour/dashboard'.$siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
