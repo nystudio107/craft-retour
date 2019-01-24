@@ -164,6 +164,7 @@ class FileController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
+        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -171,7 +172,7 @@ class FileController extends Controller
             ],
             [
                 'label' => 'Redirects',
-                'url' => UrlHelper::cpUrl('retour/redirects'),
+                'url' => UrlHelper::cpUrl('retour/redirects'.$siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - Redirects - {$templateTitle}";

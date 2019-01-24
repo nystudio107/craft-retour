@@ -83,6 +83,7 @@ class RedirectsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
+        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -90,7 +91,7 @@ class RedirectsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/redirects'),
+                'url' => UrlHelper::cpUrl('retour/redirects'.$siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
