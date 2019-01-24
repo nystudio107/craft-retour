@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.5 - 2018.01.23
+### Changed
+* Updated the semver on `league/csv` to `^8.2|^9.1`
+
 ## 3.1.4 - 2018.01.18
 ### Changed
 * Fixed the breadcrumbs in the CP to respect the currently selected site
