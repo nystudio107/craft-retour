@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.6 - 2018.02.04
+### Changed
+* Reverted the semver on `league/csv` back to `^8.2` due to incompatible APIs
+* Fixed an issue with a missing Dashboard icon
+
 ## 3.1.5 - 2018.01.23
 ### Changed
 * Updated the semver on `league/csv` to `^8.2|^9.1`
