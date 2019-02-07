@@ -52,5 +52,4 @@ class RetourVariable extends ManifestVariable
     {
         return Retour::$craft31;
     }
-
 }
