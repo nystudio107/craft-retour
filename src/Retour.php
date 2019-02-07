@@ -82,6 +82,11 @@ class Retour extends Plugin
      */
     public static $currentException;
 
+    /**
+     * @var bool
+     */
+    public static $craft31 = false;
+
     // Public Properties
     // =========================================================================
 
@@ -108,6 +113,7 @@ class Retour extends Plugin
         self::$plugin = $this;
         // Initialize properties
         self::$settings = $this->getSettings();
+        self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
         $this->name = self::$settings->pluginName;
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
