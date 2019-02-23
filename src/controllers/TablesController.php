@@ -103,6 +103,9 @@ class TablesController extends Controller
             $data['data'] = $stats;
             $query = (new Query())
                 ->from(['{{%retour_stats}}']);
+            if ((int)$siteId !== 0) {
+                $query->where(['siteId' => $siteId]);
+            }
             if ($filter !== '') {
                 $query->where(['like', 'redirectSrcUrl', $filter]);
                 $query->orWhere(['like', 'referrerUrl', $filter]);
@@ -179,6 +182,9 @@ class TablesController extends Controller
             $data['data'] = $redirects;
             $query = (new Query())
                 ->from(['{{%retour_static_redirects}}']);
+            if ((int)$siteId !== 0) {
+                $query->where(['siteId' => $siteId]);
+            }
             if ($filter !== '') {
                 $query->where(['like', 'redirectSrcUrl', $filter]);
                 $query->orWhere(['like', 'redirectDestUrl', $filter]);
