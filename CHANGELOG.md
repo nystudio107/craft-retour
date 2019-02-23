@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.7 - 2018.02.23
+### Changed
+* Fixed an issue with pagination of statistics and redirects when limiting them to a specific site
+
 ## 3.1.6 - 2018.02.04
 ### Changed
 * Reverted the semver on `league/csv` back to `^8.2` due to incompatible APIs
