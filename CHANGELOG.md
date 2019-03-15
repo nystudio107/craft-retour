@@ -3,6 +3,7 @@
 ## 3.1.7 - 2018.02.23
 ### Changed
 * Fixed an issue with pagination of statistics and redirects when limiting them to a specific site
+* Don't allow editing of the plugin settings if `allowAdminChanges` is false
 
 ## 3.1.6 - 2018.02.04
 ### Changed
