@@ -166,7 +166,12 @@ class Retour extends Plugin
                 'url' => 'retour/redirects',
             ];
         }
-        if ($currentUser->can('retour:settings')) {
+        $editableSettings = true;
+        $general = Craft::$app->getConfig()->getGeneral();
+        if (self::$craft31 && !$general->allowAdminChanges) {
+            $editableSettings = false;
+        }
+        if ($currentUser->can('retour:settings') && $editableSettings) {
             $subNavs['settings'] = [
                 'label' => 'Settings',
                 'url' => 'retour/settings',
