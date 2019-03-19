@@ -134,7 +134,7 @@ class Statistics extends Component
         if (!$request->isConsoleRequest) {
             $referrer = $request->getReferrer();
             if (Retour::$settings->recordRemoteIp) {
-                $remoteIp = $request->getRemoteIP();
+                $remoteIp = $request->getUserIP();
             }
             $userAgent = $request->getUserAgent();
             if (Retour::$currentException !== null) {
