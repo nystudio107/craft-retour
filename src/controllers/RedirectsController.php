@@ -244,6 +244,20 @@ class RedirectsController extends Controller
         // Save the redirect
         $redirectConfig = $redirect->getAttributes();
         Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        // Handle the case where the redirect wasn't saved because it'd create a redirect loop
+        $testRedirectConfig = Retour::$plugin->redirects->getRedirectByRedirectSrcUrl(
+            $redirectConfig['redirectSrcUrl'],
+            $redirectConfig['siteId']
+        );
+        if ($testRedirectConfig === null) {
+            Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings because it'd create a redirect loop."));
+            // Send the redirect back to the template
+            Craft::$app->getUrlManager()->setRouteParams([
+                'redirect' => $redirect,
+            ]);
+
+            return null;
+        }
         // Clear the caches and continue on
         Retour::$plugin->clearAllCaches();
         Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect settings saved.'));
