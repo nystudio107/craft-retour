@@ -86,5 +86,11 @@ return [
     'Enabled' => 'Enabled',
     'Should this redirect be processed?' => 'Should this redirect be processed?',
     'All Sites' => 'All Sites',
-    'Global' => 'Global'
+    'Global' => 'Global',
+    'Site' => 'Site',
+    'What sites should this redirect be active for.' => 'What sites should this redirect be active for.',
+    'Webperf Data Samples to Store' => 'Webperf Data Samples to Store',
+    'Include User Timing Beacons' => 'Include User Timing Beacons',
+    'Automatically Trim Data Samples' => 'Automatically Trim Data Samples',
+    'Sites' => 'Sites'
 ];

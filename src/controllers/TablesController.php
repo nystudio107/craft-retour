@@ -103,6 +103,9 @@ class TablesController extends Controller
             $data['data'] = $stats;
             $query = (new Query())
                 ->from(['{{%retour_stats}}']);
+            if ((int)$siteId !== 0) {
+                $query->where(['siteId' => $siteId]);
+            }
             if ($filter !== '') {
                 $query->where(['like', 'redirectSrcUrl', $filter]);
                 $query->orWhere(['like', 'referrerUrl', $filter]);
@@ -169,8 +172,14 @@ class TablesController extends Controller
             $query->orWhere(['like', 'redirectDestUrl', $filter]);
         }
         $redirects = $query->all();
-        // Add in the `deleteLink` field
+        // Add in the `deleteLink` field and clean up the redirects
         foreach ($redirects as &$redirect) {
+            // Make sure the destination URL is not a regex
+            if ($redirect['redirectMatchType'] !== 'exactmatch') {
+                if (preg_match("/\$\d+/", $redirect['redirectDestUrl'])) {
+                    $redirect['redirectDestUrl'] = '';
+                }
+            }
             $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
             $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
@@ -179,6 +188,9 @@ class TablesController extends Controller
             $data['data'] = $redirects;
             $query = (new Query())
                 ->from(['{{%retour_static_redirects}}']);
+            if ((int)$siteId !== 0) {
+                $query->where(['siteId' => $siteId]);
+            }
             if ($filter !== '') {
                 $query->where(['like', 'redirectSrcUrl', $filter]);
                 $query->orWhere(['like', 'redirectDestUrl', $filter]);

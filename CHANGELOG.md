@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.7 - 2018.03.20
+### Changed
+* Fixed an issue with pagination of statistics and redirects when limiting them to a specific site
+* Don't allow editing of the plugin settings if `allowAdminChanges` is false
+* Record the user IP instead of Proxy IP
+* Disable "Redirect To" link when there is a token in the destination url
+* Display an error when a redirect is not saved because it'd create a redirect loop
+
 ## 3.1.6 - 2018.02.04
 ### Changed
 * Reverted the semver on `league/csv` back to `^8.2` due to incompatible APIs

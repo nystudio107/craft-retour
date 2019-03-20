@@ -175,7 +175,9 @@ class Redirects extends Component
             $dest = $redirect['redirectDestUrl'];
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
-                $dest .= '?' . $request->getQueryString();
+                if (!empty($request->getQueryString())) {
+                    $dest .= '?' . $request->getQueryString();
+                }
             }
             $status = $redirect['redirectHttpCode'];
             Craft::info(
@@ -474,18 +476,24 @@ class Redirects extends Component
     /**
      * Return a redirect by redirectSrcUrl
      *
-     * @param string $redirectSrcUrl
+     * @param string   $redirectSrcUrl
+     * @param int|null $siteId
      *
      * @return null|array
      */
     public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl, int $siteId = null)
     {
         // Query the db table
-        $redirect = (new Query())
+        $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->where(['redirectSrcUrl' => $redirectSrcUrl])
-            ->andWhere(['siteId' => $siteId])
-            ->one();
+            ;
+        if ($siteId) {
+            $query
+                ->andWhere(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+        $redirect = $query->one();
 
         return $redirect;
     }
