@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.8 - 2018.04.01
+### Changed
+* If Preserve Query String is on, make sure the path `p=` isn't part of it
+
 ## 3.1.7 - 2018.03.20
 ### Changed
 * Fixed an issue with pagination of statistics and redirects when limiting them to a specific site
