@@ -293,7 +293,9 @@ class Statistics extends Component
                     ]
                 )->execute();
             } catch (Exception $e) {
-                Craft::error($e->getMessage(), __METHOD__);
+                // We don't log this error on purpose, because it's just a stats
+                // update, and deadlock errors can potentially occur
+                // Craft::error($e->getMessage(), __METHOD__);
             }
         } else {
             unset($statsConfig['id']);
