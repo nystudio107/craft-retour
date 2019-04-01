@@ -3,6 +3,7 @@
 ## 3.1.8 - 2018.04.01
 ### Changed
 * If Preserve Query String is on, make sure the path `p=` isn't part of it
+* Don't log stats update errors, because it's pointless, and can report meaningless deadlock errors
 
 ## 3.1.7 - 2018.03.20
 ### Changed
