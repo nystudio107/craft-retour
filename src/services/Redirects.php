@@ -175,8 +175,8 @@ class Redirects extends Component
             $dest = $redirect['redirectDestUrl'];
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
-                if (!empty($request->getQueryString())) {
-                    $dest .= '?' . $request->getQueryString();
+                if (!empty($request->getQueryStringWithoutPath())) {
+                    $dest .= '?' . $request->getQueryStringWithoutPath();
                 }
             }
             $status = $redirect['redirectHttpCode'];
