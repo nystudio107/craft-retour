@@ -108,7 +108,26 @@
             warning: configWarning("automaticallyTrimStatistics", "retour"),
             errors: settings.getErrors("automaticallyTrimStatistics"),
         }) }}
-
+        {{ forms.editableTableField({
+            label: "Exclude Patterns"|t("retour"),
+            instructions: "[Regular expressions](https://regexr.com/) to match URLs that should be excluded from Retour."|t("retour"),
+            id: 'excludePatterns',
+            name: 'excludePatterns',
+            required: false,
+            defaultValues: {
+                pattern: "",
+            },
+            cols: {
+                pattern: {
+                    heading: "RegEx pattern to exclude"|t("retour"),
+                    type: "singleline",
+                    width: "100%",
+                    code: true,
+                },
+            },
+            rows: settings.excludePatterns,
+            errors: settings.getErrors("excludePatterns"),
+        }) }}
     {% endnamespace %}
 
     {# include our JavaScript modules #}

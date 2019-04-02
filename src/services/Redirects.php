@@ -132,17 +132,19 @@ class Redirects extends Component
                 ),
                 __METHOD__
             );
-            // Redirect if we find a match, otherwise let Craft handle it
-            $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
-            if (!$this->doRedirect($fullUrl, $pathOnly, $redirect) && !Retour::$settings->alwaysStripQueryString) {
-                // Try it again without the query string
-                $fullUrl = UrlHelper::stripQueryString($fullUrl);
-                $pathOnly = UrlHelper::stripQueryString($pathOnly);
+            if (!$this->excludeUri($pathOnly)) {
+                // Redirect if we find a match, otherwise let Craft handle it
                 $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
-                $this->doRedirect($fullUrl, $pathOnly, $redirect);
+                if (!$this->doRedirect($fullUrl, $pathOnly, $redirect) && !Retour::$settings->alwaysStripQueryString) {
+                    // Try it again without the query string
+                    $fullUrl = UrlHelper::stripQueryString($fullUrl);
+                    $pathOnly = UrlHelper::stripQueryString($pathOnly);
+                    $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                    $this->doRedirect($fullUrl, $pathOnly, $redirect);
+                }
+                // Increment the stats
+                Retour::$plugin->statistics->incrementStatistics($pathOnly, false);
             }
-            // Increment the stats
-            Retour::$plugin->statistics->incrementStatistics($pathOnly, false);
         }
     }
 
@@ -175,8 +177,8 @@ class Redirects extends Component
             $dest = $redirect['redirectDestUrl'];
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
-                if (!empty($request->getQueryString())) {
-                    $dest .= '?' . $request->getQueryString();
+                if (!empty($request->getQueryStringWithoutPath())) {
+                    $dest .= '?' . $request->getQueryStringWithoutPath();
                 }
             }
             $status = $redirect['redirectHttpCode'];
@@ -699,5 +701,23 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    /**
+     * @param $uri
+     *
+     * @return bool
+     */
+    public function excludeUri($uri): bool
+    {
+        $uri = '/'.ltrim($uri, '/');
+        foreach (Retour::$settings->excludePatterns as $excludePattern) {
+            $pattern = '`'.$excludePattern['pattern'].'`i';
+            if (preg_match($pattern, $uri) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

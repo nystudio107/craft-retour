@@ -477,9 +477,9 @@ class Retour extends Plugin
                         __METHOD__
                     );
                     // Handle the siteId
-                    $siteId = null;
+                    $redirectSiteId = null;
                     if (Craft::$app->getIsMultiSite()) {
-                        $siteId = $element->siteId;
+                        $redirectSiteId = $siteId;
                     }
                     // Make sure the URIs are not the same
                     if (strcmp($oldUri, $newUri) !== 0) {
@@ -489,7 +489,7 @@ class Retour extends Plugin
                             'redirectHttpCode' => 301,
                             'redirectSrcUrl' => $oldUri,
                             'redirectDestUrl' => $newUri,
-                            'siteId' => $siteId,
+                            'siteId' => $redirectSiteId,
                         ];
                         Retour::$plugin->redirects->saveRedirect($redirectConfig);
                     }
