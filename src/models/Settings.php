@@ -12,6 +12,7 @@
 namespace nystudio107\retour\models;
 
 use craft\base\Model;
+use craft\validators\ArrayValidator;
 
 use yii\behaviors\AttributeTypecastBehavior;
 
@@ -80,6 +81,12 @@ class Settings extends Model
      */
     public $statsDisplayLimit = 1000;
 
+    /**
+     * @var array [Regular expressions](https://regexr.com/) to match URLs to exclude from Retour
+     */
+    public $excludePatterns = [
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -109,6 +116,7 @@ class Settings extends Model
             ['statsStoredLimit', 'default', 'value' => 1000],
             ['statsDisplayLimit', 'integer', 'min' => 1],
             ['statsDisplayLimit', 'default', 'value' => 1000],
+            ['excludePatterns', ArrayValidator::class],
         ];
     }
 

@@ -44,4 +44,8 @@ return [
 
     // Whether the Statistics should be trimmed after each new statistic is recorded
     'automaticallyTrimStatistics' => true,
+
+     // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
+    'excludePatterns' => [
+    ],
 ];
