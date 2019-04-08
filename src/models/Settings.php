@@ -11,7 +11,10 @@
 
 namespace nystudio107\retour\models;
 
+use nystudio107\retour\Retour;
+
 use craft\base\Model;
+use craft\behaviors\EnvAttributeParserBehavior;
 use craft\validators\ArrayValidator;
 
 use yii\behaviors\AttributeTypecastBehavior;
@@ -125,11 +128,22 @@ class Settings extends Model
      */
     public function behaviors()
     {
-        return [
+        $craft31Behaviors = [];
+        if (Retour::$craft31) {
+            $craft31Behaviors = [
+                'parser' => [
+                    'class' => EnvAttributeParserBehavior::class,
+                    'attributes' => [
+                    ],
+                ]
+            ];
+        }
+
+        return array_merge($craft31Behaviors, [
             'typecast' => [
                 'class' => AttributeTypecastBehavior::class,
                 // 'attributeTypes' will be composed automatically according to `rules()`
             ],
-        ];
+        ]);
     }
 }
