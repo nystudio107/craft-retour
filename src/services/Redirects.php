@@ -711,10 +711,12 @@ class Redirects extends Component
     public function excludeUri($uri): bool
     {
         $uri = '/'.ltrim($uri, '/');
-        foreach (Retour::$settings->excludePatterns as $excludePattern) {
-            $pattern = '`'.$excludePattern['pattern'].'`i';
-            if (preg_match($pattern, $uri) === 1) {
-                return true;
+        if (!empty(Retour::$settings->excludePatterns)) {
+            foreach (Retour::$settings->excludePatterns as $excludePattern) {
+                $pattern = '`'.$excludePattern['pattern'].'`i';
+                if (preg_match($pattern, $uri) === 1) {
+                    return true;
+                }
             }
         }
 
