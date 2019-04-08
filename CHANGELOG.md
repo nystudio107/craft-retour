@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.9 - 2018.04.09
+### Changed
+* Fixed an issue where an empty **Exclude Patterns** table and the use of Project Config on Craft 3.1 or later could cause an exception to be thrown when a 404 is thrown
+
 ## 3.1.8 - 2018.04.02
 ### Added
 * Added the ability to exclude URIs from Retour completely via a series of RegEx
