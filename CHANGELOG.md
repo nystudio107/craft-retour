@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.10 - 2018.04.14
+### Changed
+* Make sure the URL we redirect to is a full URL, and is based on the defined `siteUrl`
+
 ## 3.1.9 - 2018.04.09
 ### Changed
 * Fixed an issue where an empty **Exclude Patterns** table and the use of Project Config on Craft 3.1 or later could cause an exception to be thrown when a 404 is thrown
