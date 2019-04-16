@@ -74,10 +74,10 @@
             this.getSeriesData();
         },
         mounted() {
-            // Live refresh the data
-            setInterval(() => {
-                this.getSeriesData();
-            }, 3000);
+            // Live refresh the data -- disabled, causes more problems then helps
+            // setInterval(() => {
+            //     this.getSeriesData();
+            // }, 3000);
         },
         data: function() {
             return {

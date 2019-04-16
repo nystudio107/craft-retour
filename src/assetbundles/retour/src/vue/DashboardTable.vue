@@ -74,14 +74,14 @@
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
             this.$events.$on('filter-reset', e => this.onFilterReset());
-            // Live refresh the data
-            setInterval(() => {
-                if ((typeof this.$refs.pagination !== 'undefined') && (this.$refs.pagination.isOnFirstPage)) {
-                    if (typeof this.$refs.vuetable !== 'undefined') {
-                        this.$refs.vuetable.refresh();
-                    }
-                }
-            }, 3000);
+            // Live refresh the data -- disabled, causes more problems then helps
+            // setInterval(() => {
+            //     if ((typeof this.$refs.pagination !== 'undefined') && (this.$refs.pagination.isOnFirstPage)) {
+            //         if (typeof this.$refs.vuetable !== 'undefined') {
+            //             this.$refs.vuetable.refresh();
+            //         }
+            //     }
+            // }, 3000);
         },
         methods: {
             onFilterSet (filterText) {
