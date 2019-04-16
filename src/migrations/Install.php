@@ -11,8 +11,9 @@
 
 namespace nystudio107\retour\migrations;
 
+use nystudio107\retour\widgets\RetourWidget;
+
 use Craft;
-use craft\config\DbConfig;
 use craft\db\Migration;
 
 /**
@@ -46,6 +47,11 @@ class Install extends Migration
             Craft::$app->db->schema->refresh();
             $this->insertDefaultData();
         }
+
+        // Update retour widget type
+        $this->update('{{%widgets}}', [
+            'type' => RetourWidget::class
+        ], ['type' => 'Retour']);
 
         return true;
     }
