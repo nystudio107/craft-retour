@@ -1,9 +1,10 @@
 # Retour Changelog
 
-## 3.1.10 - 2018.04.14
+## 3.1.10 - 2018.04.17
 ### Changed
 * Make sure the URL we redirect to is a full URL, and is based on the defined `siteUrl`
 * Migration for Retour widgets
+* Remove the live refresh of data in the CP
 
 ## 3.1.9 - 2018.04.09
 ### Changed
