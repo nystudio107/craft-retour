@@ -5,6 +5,7 @@
 * Make sure the URL we redirect to is a full URL, and is based on the defined `siteUrl`
 * Migration for Retour widgets
 * Remove the live refresh of data in the CP
+* Ensure the user has permission for a given site to be able to edit redirects for it
 
 ## 3.1.9 - 2018.04.09
 ### Changed
