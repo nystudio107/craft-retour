@@ -48,7 +48,11 @@
             siteId: {
                 type: Number,
                 default: 0,
-            }
+            },
+            refreshIntervalSecs: {
+                type: Number,
+                default: 3,
+            },
         },
         methods: {
             // Load in our chart data asynchronously
@@ -75,9 +79,11 @@
         },
         mounted() {
             // Live refresh the data -- disabled, causes more problems then helps
-            // setInterval(() => {
-            //     this.getSeriesData();
-            // }, 3000);
+            if (this.refreshIntervalSecs) {
+                setInterval(() => {
+                    this.getSeriesData();
+                }, this.refreshIntervalSecs * 1000);
+            }
         },
         data: function() {
             return {

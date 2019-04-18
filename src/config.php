@@ -42,6 +42,9 @@ return [
     // How many stats should be stored
     'statsStoredLimit' => 1000,
 
+    // Dashboard data live refresh interval
+    'refreshIntervalSecs' => 5,
+
     // Whether the Statistics should be trimmed after each new statistic is recorded
     'automaticallyTrimStatistics' => true,
 

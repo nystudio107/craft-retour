@@ -98,6 +98,7 @@ class StatisticsController extends Controller
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
         $variables['selectedSubnavItem'] = 'dashboard';
         $variables['showWelcome'] = $showWelcome;
+        $variables['settings'] = Retour::$settings;
 
         // Render the template
         return $this->renderTemplate('retour/dashboard/index', $variables);

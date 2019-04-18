@@ -75,6 +75,11 @@ class Settings extends Model
     public $statsStoredLimit = 1000;
 
     /**
+     * @var int Dashboard data live refresh interval
+     */
+    public $refreshIntervalSecs = 5;
+
+    /**
      * @var bool Whether the Statistics should be trimmed after each new statistic is recorded
      */
     public $automaticallyTrimStatistics = true;
@@ -117,6 +122,8 @@ class Settings extends Model
             ['dynamicRedirectDisplayLimit', 'default', 'value' => 100],
             ['statsStoredLimit', 'integer', 'min' => 1],
             ['statsStoredLimit', 'default', 'value' => 1000],
+            ['refreshIntervalSecs', 'integer', 'min' => 0],
+            ['refreshIntervalSecs', 'default', 'value' => 3],
             ['statsDisplayLimit', 'integer', 'min' => 1],
             ['statsDisplayLimit', 'default', 'value' => 1000],
             ['excludePatterns', ArrayValidator::class],
