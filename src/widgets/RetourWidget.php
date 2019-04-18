@@ -97,7 +97,7 @@ class RetourWidget extends Widget
                     'widget' => $this,
                 ]
             );
-        } catch (\Twig_Error_Loader $e) {
+        } catch (\Twig\Error\LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);
@@ -122,7 +122,7 @@ class RetourWidget extends Widget
                     'numberOfDays' => $this->numberOfDays,
                 ]
             );
-        } catch (\Twig_Error_Loader $e) {
+        } catch (\Twig\Error\LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);

@@ -427,7 +427,7 @@ class Retour extends Plugin
                 );
                 $exception = $event->exception;
                 // If this is a Twig Runtime exception, use the previous one instead
-                if ($exception instanceof \Twig_Error_Runtime &&
+                if ($exception instanceof \Twig\Error\RuntimeError &&
                     ($previousException = $exception->getPrevious()) !== null) {
                     $exception = $previousException;
                 }
