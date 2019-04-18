@@ -147,18 +147,18 @@ class MultiSite
         return $siteId;
     }
 
-    // Protected Static Methods
-    // =========================================================================
-
     /**
      * @param string $permissionName
      *
      * @throws ForbiddenHttpException
      */
-    protected static function requirePermission(string $permissionName)
+    public static function requirePermission(string $permissionName)
     {
         if (!Craft::$app->getUser()->checkPermission($permissionName)) {
             throw new ForbiddenHttpException('User is not permitted to perform this action');
         }
     }
+
+    // Protected Static Methods
+    // =========================================================================
 }

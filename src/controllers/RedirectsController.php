@@ -121,6 +121,7 @@ class RedirectsController extends Controller
     ): Response {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
+
         // Load in the redirect
         if ($redirectId === 0) {
             $redirect = new StaticRedirectsModel([
@@ -145,6 +146,20 @@ class RedirectsController extends Controller
             $redirect = new StaticRedirectsModel($redirectConfig);
         }
         $redirect->validate();
+        // Ensure the user has permissions to edit this redirect
+        $sites = Craft::$app->getSites();
+        if ($redirect->siteId) {
+            $site = $sites->getSiteById($redirect->siteId);
+            if ($site) {
+                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+            }
+        }
+        if ($siteId) {
+            $site = $sites->getSiteById($siteId);
+            if ($site) {
+                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+            }
+        }
         $pluginName = Retour::$settings->pluginName;
         $templateTitle = Craft::t('retour', 'Edit Redirect');
         $view = Craft::$app->getView();

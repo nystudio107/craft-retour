@@ -59,6 +59,7 @@
                             title="404s by Month"
                             sub-title="Discrete 404 URI hits in the last month"
                             range="month"
+                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
@@ -70,6 +71,7 @@
                             title="404s by Week"
                             sub-title="Discrete 404 URI hits in the last week"
                             range="week"
+                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
@@ -81,13 +83,17 @@
                             title="404s by Day"
                             sub-title="Discrete 404 URI hits in the last day"
                             range="day"
+                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
                     >
                     </dashboard-chart>
                 </div>
             </div>
         </div>
-        <dashboard-table :site-id="{{ currentSiteId }}">
+        <dashboard-table
+                :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
+                :site-id="{{ currentSiteId }}"
+        >
         </dashboard-table>
 
     </div>

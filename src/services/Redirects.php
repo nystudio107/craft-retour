@@ -175,6 +175,13 @@ class Redirects extends Component
                     break;
             }
             $dest = $redirect['redirectDestUrl'];
+            // If this isn't a full URL, make it one based on the appropriate site
+            if (!UrlHelper::isFullUrl($dest)) {
+                try {
+                    $dest = UrlHelper::siteUrl($dest, null, null, $redirect['siteId'] ?? null);
+                } catch (\yii\base\Exception $e) {
+                }
+            }
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
                 if (!empty($request->getQueryStringWithoutPath())) {
