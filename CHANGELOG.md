@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.11 - 2018.04.22
+### Changed
+* Updated Twig namespacing to be compliant with deprecated class aliases in 2.7.x
+
 ## 3.1.10 - 2018.04.18
 ### Changed
 * Make sure the URL we redirect to is a full URL, and is based on the defined `siteUrl`
