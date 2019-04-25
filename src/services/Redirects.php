@@ -499,8 +499,11 @@ class Redirects extends Component
             ;
         if ($siteId) {
             $query
-                ->andWhere(['siteId' => $siteId])
-                ->orWhere(['siteId' => null]);
+                ->andWhere(['or', [
+                    'siteId' => $siteId,
+                ], [
+                    'siteId' => null,
+                ]]);
         }
         $redirect = $query->one();
 
