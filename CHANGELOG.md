@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 3.1.13 - 2018.04.29
+## 3.1.13 - 2018.04.30
 ### Changed
 * Fixed an issue with the widget icon not showing up properly
+* Fixed an issue with non-admin users being unable to export statistics
 
 ## 3.1.12 - 2018.04.25
 ### Changed
