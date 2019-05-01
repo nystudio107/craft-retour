@@ -201,12 +201,12 @@ class FileController extends Controller
      */
     public function actionExportStatistics()
     {
-        PermissionHelper::controllerPermissionCheck('retour:statistics');
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::EXPORT_STATISTICS_CSV_FIELDS);
     }
 
     /**
-     * Export the statistics table as a CSV file
+     * Export the redirects table as a CSV file
      *
      * @throws \yii\web\ForbiddenHttpException
      */
