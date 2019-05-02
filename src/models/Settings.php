@@ -85,6 +85,11 @@ class Settings extends Model
     public $automaticallyTrimStatistics = true;
 
     /**
+     * @var int The number of milliseconds required between trimming of statistics
+     */
+    public $statisticsRateLimitMs = 3600000;
+
+    /**
      * @var int How many stats to display in the Control Panel
      */
     public $statsDisplayLimit = 1000;

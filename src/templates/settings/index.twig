@@ -127,6 +127,22 @@
             warning: configWarning("automaticallyTrimStatistics", "retour"),
             errors: settings.getErrors("automaticallyTrimStatistics"),
         }) }}
+
+        {{ forms.selectField({
+            label: "Statistics Trimming Rate Limit"|t("retour"),
+            instructions: "The amount of time required between trimming of statistics."|t("retour"),
+            id: "statisticsRateLimitMs",
+            name: "statisticsRateLimitMs",
+            options: {
+                3600000: "Once per hour"|t("retour"),
+                86400000: "Once per day"|t("retour"),
+                604800000: "Once per week"|t("retour"),
+            },
+            value: settings.statisticsRateLimitMs,
+            warning: configWarning("statisticsRateLimitMs", "retour"),
+            errors: settings.getErrors("statisticsRateLimitMs"),
+        }) }}
+
         {{ forms.editableTableField({
             label: "Exclude Patterns"|t("retour"),
             instructions: "[Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour."|t("retour"),

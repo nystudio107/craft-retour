@@ -36,6 +36,8 @@ class Statistics extends Component
     // Constants
     // =========================================================================
 
+    const LAST_STATISTICS_TRIM_CACHE_KEY = 'retour-last-statistics-trim';
+
     // Protected Properties
     // =========================================================================
 
@@ -187,7 +189,7 @@ class Statistics extends Component
         // Record the updated statistics
         $this->saveStatistics($statsConfig);
         // After incrementing a statistic, trim the retour_stats db table
-        if (Retour::$settings->automaticallyTrimStatistics) {
+        if (Retour::$settings->automaticallyTrimStatistics && !$this->rateLimited()) {
             $this->trimStatistics();
         }
     }
@@ -313,4 +315,23 @@ class Statistics extends Component
 
     // Protected Methods
     // =========================================================================
+
+    /**
+     * Don't trim more than a given interval, so that performance is not affected
+     *
+     * @return bool
+     */
+    protected function rateLimited(): bool
+    {
+        $limited = false;
+        $now = round(microtime(true) * 1000);
+        $cache = Craft::$app->getCache();
+        $then = $cache->get(self::LAST_STATISTICS_TRIM_CACHE_KEY);
+        if (($then !== false) && ($now - (int)$then < Retour::$settings->statisticsRateLimitMs)) {
+            $limited = true;
+        }
+        $cache->set(self::LAST_STATISTICS_TRIM_CACHE_KEY, $now, 0);
+
+        return $limited;
+    }
 }

@@ -48,6 +48,9 @@ return [
     // Whether the Statistics should be trimmed after each new statistic is recorded
     'automaticallyTrimStatistics' => true,
 
+    // The number of milliseconds required between trimming of statistics
+    'statisticsRateLimitMs' => 3600000,
+
      // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
     'excludePatterns' => [
     ],
