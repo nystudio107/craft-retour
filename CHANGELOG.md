@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.14 - 2018.05.02
+### Changed
+* Added a Statistics Trimming Rate Limit that defaults to once per hour, to prevent the statistics trimming from impacting performance
+
 ## 3.1.13 - 2018.04.30
 ### Changed
 * Fixed an issue with the widget icon not showing up properly
