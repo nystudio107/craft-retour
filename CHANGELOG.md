@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.15 - 2018.05.21
+### Changed
+* Updated build system
+
 ## 3.1.14 - 2018.05.02
 ### Changed
 * Added a Statistics Trimming Rate Limit that defaults to once per hour, to prevent the statistics trimming from impacting performance

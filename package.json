@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
     "keywords": [],
-    "homepage": "https://github.com/nystudio107/craft-retour",
+    "homepage": "https://nystudio107.com/plugins/retour",
     "bugs": {
         "email": "info@nystudio107.com",
-        "url": "https://github.com/nystudio107/craft-retour/issues"
+        "url": "https://nystudio107.com/plugins/retour/support"
     },
     "license": "SEE LICENSE IN LICENSE.md",
     "author": {

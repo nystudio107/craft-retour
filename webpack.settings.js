@@ -37,6 +37,11 @@ module.exports = {
         "retour": "Retour.js",
         "widget": "Widget.js"
     },
+    babelLoaderConfig: {
+        exclude: [
+            /(node_modules|bower_components)/
+        ],
+    },
     copyWebpackConfig: [
     ],
     devServerConfig: {
