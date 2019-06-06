@@ -68,6 +68,7 @@
                     if (data[0] !== undefined) {
                         options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
                         options.labels = data[0]['labels'];
+                        options.xaxis.categories = data[0]['labels'];
                         this.chartOptions = options;
                         this.series = data;
                     }
@@ -109,6 +110,11 @@
                         }
                     },
                     xaxis: {
+                        type: 'category',
+                        labels: {
+                            show: false,
+                            minHeight: '20px',
+                        },
                         crosshairs: {
                             width: 1
                         },
