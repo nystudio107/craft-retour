@@ -2,7 +2,7 @@
     <div class="filter-bar">
         <div class="ui form">
             <div class="inline field">
-                <label class="text-grey-dark">Search for:</label>
+                <label class="text-gray-600">Search for:</label>
                 <input type="text" v-model="filterText" class="text nicetext" @keyup="doFilter" placeholder="">
                 <button class="btn delete icon" @click="resetFilter">Reset</button>
             </div>
