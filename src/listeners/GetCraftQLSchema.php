@@ -11,10 +11,11 @@
 
 namespace nystudio107\retour\listeners;
 
-use Craft;
-use craft\helpers\Json;
+use nystudio107\retour\Retour;
+use nystudio107\retour\models\StaticRedirects;
 
 use craft\base\Element;
+use craft\helpers\UrlHelper;
 
 use markhuot\CraftQL\Events\AlterSchemaFields;
 use markhuot\CraftQL\Builders\Field as FieldBuilder;
@@ -29,6 +30,18 @@ class GetCraftQLSchema
     // Constants
     // =========================================================================
 
+    const INT_FIELDS = [
+        'id',
+        'siteId',
+        'associatedElementId',
+        'redirectHttpCode',
+        'hitCount',
+    ];
+
+    const BOOL_FIELDS = [
+        'enabled',
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -39,31 +52,43 @@ class GetCraftQLSchema
      */
     public static function handle(AlterSchemaFields $event)
     {
+        $fields = StaticRedirects::instance()->fields();
         // Create the root object
         $retourField = $event->schema->createObjectType('retourData');
         // Add in the CraftQL fields
-        foreach (self::CRAFT_QL_FIELDS as $fieldHandle => $containerType) {
-            $retourField
-                ->addStringField($fieldHandle)
-                ->resolve(function (array $data) use ($containerType) {
-                    // $root contains the data returned by the field below
-                    $result = ContainerHelper::getContainerArrays(
-                        [$containerType],
-                        $data['uri'],
-                        $data['siteId'],
-                        $data['asArray']
-                    );
-                    if (!empty($result[$containerType]) && is_array($result[$containerType])) {
-                        $result[$containerType] = Json::encode($result[$containerType]);
-                    }
-
-                    return $result[$containerType];
-                });
+        foreach ($fields as $field) {
+            // Pseudo type system
+            if (in_array($field, self::BOOL_FIELDS, true)) {
+                // Boolean field
+                $retourField
+                    ->addBooleanField($field)
+                    ->resolve(function ($redirect) use ($field) {
+                        $result = $redirect[$field] ?? null;
+                        return $result === null ? $result : (bool)$result;
+                    });
+            } elseif (in_array($field, self::INT_FIELDS, true)) {
+                // Integer field
+                $retourField
+                    ->addIntField($field)
+                    ->resolve(function ($redirect) use ($field) {
+                        $result = $redirect[$field] ?? null;
+                        return $result === null ? $result : (int)$result;
+                    });
+            } else {
+                // String field
+                $retourField
+                    ->addStringField($field)
+                    ->resolve(function ($redirect) use ($field) {
+                        $result = $redirect[$field] ?? null;
+                        return $result === null ? $result : (string)$result;
+                    });
+            }
         }
         // Add the root
-        $event->schema->addField('seomatic')
+        $event->schema->addField('retour')
             ->arguments(function (FieldBuilder $field) {
                 $field->addStringArgument('uri');
+                $field->addIntArgument('siteId');
             })
             ->type($retourField)
             ->resolve(function ($root, $args, $context, $info) {
@@ -77,14 +102,18 @@ class GetCraftQLSchema
                     $uri = $args['uri'] ?? '/';
                     $siteId = $args['siteId'] ?? null;
                 }
-                $asArray = $args['asArray'] ?? false;
-                $uri = trim($uri === '/' ? '__home__' : $uri, '/');
+                $uri = trim($uri === '/' ? '__home__' : $uri);
 
-                return [
-                    'uri' => $uri,
-                    'siteId' => $siteId,
-                    'asArray' => $asArray,
-                ];
+                $redirect = null;
+                // Strip the query string if `alwaysStripQueryString` is set
+                if (Retour::$settings->alwaysStripQueryString) {
+                    $uri = UrlHelper::stripQueryString($uri);
+                }
+                if (!Retour::$plugin->redirects->excludeUri($uri)) {
+                    $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
+                }
+
+                return $redirect;
             });
     }
 }

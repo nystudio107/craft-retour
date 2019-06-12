@@ -345,6 +345,14 @@ class Retour extends Plugin
                 }
             }
         );
+        // CraftQL Support
+        if (class_exists(CraftQL::class)) {
+            Event::on(
+                Schema::class,
+                AlterSchemaFields::EVENT,
+                [GetCraftQLSchema::class, 'handle']
+            );
+        }
     }
 
     /**
