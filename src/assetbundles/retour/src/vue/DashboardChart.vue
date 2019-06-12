@@ -32,7 +32,7 @@
                 callback(result.data);
             }
         }).catch((error) => {
-            console.log(error);
+            console.error(error);
         })
     };
 
@@ -66,10 +66,28 @@
                     // Clone the chartOptions object, and replace the needed values
                     const options = Object.assign({}, this.chartOptions);
                     if (data[0] !== undefined) {
-                        options.yaxis.max = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
-                        options.labels = data[0]['labels'];
-                        options.xaxis.categories = data[0]['labels'];
-                        this.chartOptions = options;
+                        const largest = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
+                        this.chartOptions = {
+                            ...this.chartOptions, ...{
+                                yaxis: {
+                                    min: 0,
+                                    max: largest,
+                                },
+                                xaxis: {
+                                    categories: data[0]['labels'],
+                                    type: 'category',
+                                    labels: {
+                                        show: false,
+                                        minHeight: '20px',
+                                    },
+                                    crosshairs: {
+                                        width: 1
+                                    },
+                                },
+                                labels: data[0]['labels']
+                            }
+                        };
+
                         this.series = data;
                     }
                 });

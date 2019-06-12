@@ -17,7 +17,6 @@ const vm = new Vue({
     },
     methods: {
         onTableRefresh (vuetable) {
-            console.log('onTableRefresh');
             Vue.nextTick( () => vuetable.refresh());
         }
     },
