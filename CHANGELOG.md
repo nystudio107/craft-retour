@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.1.16 - 2018.06.12
+### Changed
+* Added GraphQL support so SPAs can give their content authors a way to manage 404s via the CP
+* Updated to Tailwind CSS `^1.0.0`
+* Updated to the latest ApexCharts, fixed issues due to changed APIs
+
 ## 3.1.15 - 2018.05.21
 ### Changed
 * Updated build system

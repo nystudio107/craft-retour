@@ -5,7 +5,7 @@ export default {
       type: Object,
       default() {
         return {
-          infoClass: 'left floated left py-5 text-grey-dark'
+          infoClass: 'left floated left py-5 text-gray-600'
         }
       }
     },

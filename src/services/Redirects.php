@@ -227,16 +227,18 @@ class Redirects extends Component
     /**
      * @param string $fullUrl
      * @param string $pathOnly
+     * @param null   $siteId
      *
      * @return array|null
      */
-    public function findRedirectMatch(string $fullUrl, string $pathOnly)
+    public function findRedirectMatch(string $fullUrl, string $pathOnly, $siteId = null)
     {
         // Get the current site
-        $siteId = null;
-        $currentSite = Craft::$app->getSites()->currentSite;
-        if ($currentSite) {
-            $siteId = $currentSite->id;
+        if ($siteId === null) {
+            $currentSite = Craft::$app->getSites()->currentSite;
+            if ($currentSite) {
+                $siteId = $currentSite->id;
+            }
         }
         // Try getting the full URL redirect from the cache
         $redirect = $this->getRedirectFromCache($fullUrl, $siteId);

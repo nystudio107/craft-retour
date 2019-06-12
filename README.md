@@ -228,6 +228,98 @@ If you'd like to see an overview of the Retour Statistics in your dashboard, you
 
 It displays the total number of handled and not handled 404s, and the 5 most recent 404 URLs in each category right in your dashboard.
 
+### GraphQL Query support
+
+To retrieve Retour redirect data through the [CraftQL](https://github.com/markhuot/craftql) plugin, use the `retour` field in your graphql query.
+
+This is useful if your website is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
+
+You must as least pass in the URI you want metadata for:
+
+```gql
+{
+  retour(uri: "/stuff") {
+    redirectDestUrl
+  }
+}
+```
+
+...and you can also pass in an optional `siteId`:
+
+```gql
+{
+  retour(uri: "/stuff", siteId: 1) {
+    redirectDestUrl
+  }
+}
+```
+Whenever you query Retour via GraphQL, it assumes a 404 has already taken place, and records the statistics for it.
+
+If not redirect can be found to handle the 404, `null` is returned:
+
+```json
+{
+  "data": {
+    "retour": null
+  }
+}
+```
+
+Otherwise the requested data will be returned:
+```json
+{
+  "data": {
+    "retour": {
+      "redirectDestUrl": "/c3"
+    }
+  }
+}
+```
+![Screenshot](resources/screenshots/retour-craftql-query.png)
+
+Most of the time, the only thing you'll care about is the `redirectDestUrl`, which is the route that the user should be redirected to. However, you can query for everything:
+
+```gql
+{
+  retour(uri: "/stuff") {
+    id
+    siteId
+    associatedElementId
+    enabled
+    redirectSrcUrl
+    redirectSrcUrlParsed
+    redirectSrcMatch
+    redirectMatchType
+    redirectDestUrl
+    redirectHttpCode
+    hitCount
+    hitLastTime
+  }
+}
+```
+
+...which results in something like this:
+```json
+{
+  "data": {
+    "retour": {
+      "id": 1,
+      "siteId": 1,
+      "associatedElementId": 0,
+      "enabled": true,
+      "redirectSrcUrl": "/stuff",
+      "redirectSrcUrlParsed": "/stuff",
+      "redirectSrcMatch": "pathonly",
+      "redirectMatchType": "exactmatch",
+      "redirectDestUrl": "/c3",
+      "redirectHttpCode": 301,
+      "hitCount": 12,
+      "hitLastTime": "2019-06-12 03:26:42"
+    }
+  }
+}
+```
+
 ## Developer Info
 
 ### Custom Match Functions via Plugin
