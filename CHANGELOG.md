@@ -1,10 +1,13 @@
 # Retour Changelog
 
 ## 3.1.16 - 2018.06.12
-### Changed
+### Added
 * Added GraphQL support so SPAs can give their content authors a way to manage 404s via the CP
+
+### Changed
 * Updated to Tailwind CSS `^1.0.0`
 * Updated to the latest ApexCharts, fixed issues due to changed APIs
+* Fixed an issue with really long field titles overflowing the Import CSV File UI
 
 ## 3.1.15 - 2018.05.21
 ### Changed
