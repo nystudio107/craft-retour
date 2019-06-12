@@ -81,7 +81,6 @@
                     'filter': filterText,
                     'siteId': this.siteId,
                 };
-                console.log('onFilterSet');
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             },
             onFilterReset () {

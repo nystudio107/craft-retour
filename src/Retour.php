@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
@@ -39,6 +40,10 @@ use craft\web\UrlManager;
 
 use yii\base\Event;
 use yii\web\HttpException;
+
+use markhuot\CraftQL\Builders\Schema;
+use markhuot\CraftQL\CraftQL;
+use markhuot\CraftQL\Events\AlterSchemaFields;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -340,6 +345,14 @@ class Retour extends Plugin
                 }
             }
         );
+        // CraftQL Support
+        if (class_exists(CraftQL::class)) {
+            Event::on(
+                Schema::class,
+                AlterSchemaFields::EVENT,
+                [GetCraftQLSchema::class, 'handle']
+            );
+        }
     }
 
     /**

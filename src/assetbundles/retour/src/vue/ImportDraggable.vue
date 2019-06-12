@@ -4,8 +4,9 @@
             <div>
                 <h2>CSV File Fields</h2>
                 <draggable :list="dataArray" :options="options" @start="drag=true" @end="drag=false" class="retour-import-dragArea">
-                    <div v-for="(element, index) in dataArray" :key="element.id" class="retour-import-list-group-item clearafter" :class="{'retour-empty-item': element.name === '' }">
-                        <a class="move icon mr-2"></a> {{ element.name }}
+                    <div v-for="(element, index) in dataArray" :key="element.id" class="retour-import-list-group-item whitespace-no-wrap clearafter" :class="{'retour-empty-item': element.name === '' }">
+                        <a class="move icon mr-2"></a>
+                        <span class="truncate inline-block leading-tight align-bottom" style="width: 80%;">{{ element.name }}</span>
                         <div class="float-right" v-if="element.name !== ''">
                             <a @click="remove(index)" class="delete icon"></a>
                         </div>
