@@ -17,9 +17,7 @@ module.exports = {
         dist: {
             base: "./src/assetbundles/retour/dist/",
             clean: [
-                "./img",
-                "./css",
-                "./js"
+                '**/*',
             ]
         },
         templates: "./src/templates/"
