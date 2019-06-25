@@ -498,7 +498,8 @@ class Retour extends Plugin
                     if (strcmp($oldUri, $newUri) !== 0) {
                         // Handle trailing slash config setting
                         if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-                          $newUri = $newUri . '/';
+                            $oldUri = $oldUri . '/';
+                            $newUri = $newUri . '/';
                         }
                         $redirectConfig = [
                             'id' => 0,
