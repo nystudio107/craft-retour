@@ -1,6 +1,10 @@
 # Retour Changelog
 
-## 3.1.16 - 2018.06.12
+## 3.1.17 - 2019.07.10
+### Changed
+* Do not try to created automatic redirects for drafts and revisions in Craft 3.2 or later
+
+## 3.1.16 - 2019.06.12
 ### Added
 * Added GraphQL support so SPAs can give their content authors a way to manage 404s via the CP
 
@@ -9,39 +13,39 @@
 * Updated to the latest ApexCharts, fixed issues due to changed APIs
 * Fixed an issue with really long field titles overflowing the Import CSV File UI
 
-## 3.1.15 - 2018.05.21
+## 3.1.15 - 2019.05.21
 ### Changed
 * Updated build system
 
-## 3.1.14 - 2018.05.02
+## 3.1.14 - 2019.05.02
 ### Changed
 * Added a Statistics Trimming Rate Limit that defaults to once per hour, to prevent the statistics trimming from impacting performance
 
-## 3.1.13 - 2018.04.30
+## 3.1.13 - 2019.04.30
 ### Changed
 * Fixed an issue with the widget icon not showing up properly
 * Fixed an issue with non-admin users being unable to export statistics
 
-## 3.1.12 - 2018.04.25
+## 3.1.12 - 2019.04.25
 ### Changed
 * Fixes an issue where Retour would delete the first redirect with a `null` siteId, when saving a new redirect with `siteId` set
 
-## 3.1.11 - 2018.04.22
+## 3.1.11 - 2019.04.22
 ### Changed
 * Updated Twig namespacing to be compliant with deprecated class aliases in 2.7.x
 
-## 3.1.10 - 2018.04.18
+## 3.1.10 - 2019.04.18
 ### Changed
 * Make sure the URL we redirect to is a full URL, and is based on the defined `siteUrl`
 * Migration for Retour widgets
 * Added a **Dashboard Refresh Interval** control to let people choose the refresh interval (or disable it)
 * Ensure the user has permission for a given site to be able to edit redirects for it
 
-## 3.1.9 - 2018.04.09
+## 3.1.9 - 2019.04.09
 ### Changed
 * Fixed an issue where an empty **Exclude Patterns** table and the use of Project Config on Craft 3.1 or later could cause an exception to be thrown when a 404 is thrown
 
-## 3.1.8 - 2018.04.02
+## 3.1.8 - 2019.04.02
 ### Added
 * Added the ability to exclude URIs from Retour completely via a series of RegEx
 
@@ -51,7 +55,7 @@
 * Ensure that a user has permission to access a site group to redirect something to it
 * Fixed an issue where automatic redirects based on renamed entries didn't create the redirect for the right `siteId` in multi-site setups
 
-## 3.1.7 - 2018.03.20
+## 3.1.7 - 2019.03.20
 ### Changed
 * Fixed an issue with pagination of statistics and redirects when limiting them to a specific site
 * Don't allow editing of the plugin settings if `allowAdminChanges` is false
@@ -59,24 +63,24 @@
 * Disable "Redirect To" link when there is a token in the destination url
 * Display an error when a redirect is not saved because it'd create a redirect loop
 
-## 3.1.6 - 2018.02.04
+## 3.1.6 - 2019.02.04
 ### Changed
 * Reverted the semver on `league/csv` back to `^8.2` due to incompatible APIs
 * Fixed an issue with a missing Dashboard icon
 
-## 3.1.5 - 2018.01.23
+## 3.1.5 - 2019.01.23
 ### Changed
 * Updated the semver on `league/csv` to `^8.2|^9.1`
 
-## 3.1.4 - 2018.01.18
+## 3.1.4 - 2019.01.18
 ### Changed
 * Fixed the breadcrumbs in the CP to respect the currently selected site
 
-## 3.1.3 - 2018.01.10
+## 3.1.3 - 2019.01.10
 ### Changed
 * Fixed an issue where the live reload of 404 data would cause the pagination to reset to viewing the first page
 
-## 3.1.2 - 2018.01.03
+## 3.1.2 - 2019.01.03
 ### Changed
 * Register cache options for every type of request
 * Added `beforeSaveRedirect` and `beforeSaveRedirect` events for plugin/module or [Webhooks](https://github.com/craftcms/webhooks) plugin use
