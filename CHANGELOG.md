@@ -2,7 +2,7 @@
 
 ## 3.1.17 - 2019.07.10
 ### Changed
-* Do not try to created automatic redirects for drafts and revisions in Craft 3.2 or later
+* Do not try to create automatic redirects for drafts and revisions in Craft 3.2 or later
 
 ## 3.1.16 - 2019.06.12
 ### Added
