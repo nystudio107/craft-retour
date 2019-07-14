@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.18 - 2019.07.15
+### Changed
+* Store uploaded CSV files in the cache, as a fallback method to accessing it
+
 ## 3.1.17 - 2019.07.10
 ### Changed
 * Do not try to create automatic redirects for drafts and revisions in Craft 3.2 or later
