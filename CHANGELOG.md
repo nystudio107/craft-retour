@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.1.18 - 2019.07.15
+### Added
+* Added a `ResolveRedirectEvent` that modules/plugins can listen to if they want to resolve their own redirects
+
 ### Changed
 * Store uploaded CSV files in the cache, as a fallback method to accessing it
 
