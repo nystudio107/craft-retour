@@ -46,6 +46,8 @@ class Redirects extends Component
 
     const GLOBAL_REDIRECTS_CACHE_TAG = 'retour_redirects';
 
+    const EVENT_REDIRECT_ID = 0;
+
     /**
      * @event RedirectEvent The event that is triggered before the redirect is saved
      * You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved.
@@ -482,6 +484,15 @@ class Redirects extends Component
     {
         $result = null;
 
+        if ($event->redirectDestUrl !== null) {
+            $redirect = new StaticRedirectsModel([
+                'id' => self::EVENT_REDIRECT_ID,
+                'redirectDestUrl' => $event->redirectDestUrl,
+                'redirectHttpCode' => $event->redirectHttpCode,
+            ]);
+            $result = $redirect->toArray();
+        }
+
         return $result;
     }
 
@@ -643,7 +654,7 @@ class Redirects extends Component
                     ]
                 )->execute();
                 Craft::debug('Rows affected: '.$rowsAffected, __METHOD__);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
             }
         }

@@ -37,7 +37,7 @@ class ResolveRedirectEvent extends \yii\base\ModelEvent
      * @var null|string The URL that should be redirected to or null if no redirect
      *                  should take place
      */
-    public $redirectDestUrl;
+    public $redirectDestUrl = null;
 
     /**
      * @var int The http status code for this redirect; see https://httpstatuses.com/
