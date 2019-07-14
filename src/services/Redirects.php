@@ -13,6 +13,7 @@ namespace nystudio107\retour\services;
 
 use nystudio107\retour\Retour;
 use nystudio107\retour\events\RedirectEvent;
+use nystudio107\retour\events\ResolveRedirectEvent;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
 use Craft;
@@ -28,7 +29,6 @@ use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
-use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -80,6 +80,44 @@ class Redirects extends Component
      * ```
      */
     const EVENT_AFTER_SAVE_REDIRECT = 'afterSaveRedirect';
+
+    /**
+     * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
+     *        to resolve redirects. You may set [[ResolveRedirectEvent::redirectDestUrl]] to
+     *        to the URL that it should redirect to, or null if no redirect should happen
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\ResolveRedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_AFTER_SAVE_REDIRECT,
+     *     function(ResolveRedirectEvent $event) {
+     *         // potentially set $event->redirectDestUrl;
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_BEFORE_RESOLVE_REDIRECT = 'beforeResolveRedirect';
+
+    /**
+     * @event ResolveRedirectEvent The event that is triggered after Retour has attempted
+     *        to resolve redirects. You may set [[ResolveRedirectEvent::redirectDestUrl]] to
+     *        to the URL that it should redirect to, or null if no redirect should happen
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\ResolveRedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_AFTER_RESOLVE_REDIRECT,
+     *     function(ResolveRedirectEvent $event) {
+     *         // potentially set $event->redirectDestUrl;
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_AFTER_RESOLVE_REDIRECT = 'afterResolveRedirect';
 
     // Protected Properties
     // =========================================================================
@@ -332,6 +370,18 @@ class Redirects extends Component
     public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects)
     {
         $result = null;
+        // Throw the Redirects::EVENT_BEFORE_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+        ]);
+        $this->trigger(self::EVENT_BEFORE_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
+        // Iterate through the redirects
         foreach ($redirects as $redirect) {
             // Figure out what type of source matching to do
             $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
@@ -400,6 +450,17 @@ class Redirects extends Component
                 }
             }
         }
+        // Throw the Redirects::EVENT_AFTER_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+        ]);
+        $this->trigger(self::EVENT_AFTER_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
         Craft::info(
             Craft::t(
                 'retour',
@@ -408,6 +469,18 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+
+        return $result;
+    }
+
+    /**
+     * @param ResolveRedirectEvent $event
+     *
+     * @return null|array
+     */
+    public function resolveEventRedirect(ResolveRedirectEvent $event)
+    {
+        $result = null;
 
         return $result;
     }
