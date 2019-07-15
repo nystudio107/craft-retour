@@ -6,6 +6,7 @@
 
 ### Changed
 * Store uploaded CSV files in the cache, as a fallback method to accessing it
+* Handle `addTrailingSlashesToUrls` config setting for automatic slug change redirects
 
 ## 3.1.17 - 2019.07.10
 ### Changed
