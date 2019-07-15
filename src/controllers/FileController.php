@@ -94,32 +94,51 @@ class FileController extends Controller
         $this->requirePostRequest();
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
+        $headers = null;
         $csv = Reader::createFromPath($filename);
-        $headers = array_flip($csv->fetchOne(0));
-        $csv->setOffset(1);
-        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        $csv->each(function ($row) use ($headers, $columns) {
-            $redirectConfig = [
-                'id' => 0,
-            ];
-            $index = 0;
-            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                if (isset($columns[$index], $headers[$columns[$index]])) {
-                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                        ? null
-                        : $row[$headers[$columns[$index]]];
-                }
-                $index++;
+        try {
+            $headers = array_flip($csv->fetchOne(0));
+        } catch (\Exception $e) {
+            // If this throws an exception, try to read the CSV file from the data cache
+            // This can happen on load balancer setups where the Craft temp directory isn't shared
+            $cache = Craft::$app->getCache();
+            $cachedFile = $cache->get($filename);
+            if ($cachedFile !== false) {
+                $csv = Reader::createFromString($cachedFile);
+                $headers = array_flip($csv->fetchOne(0));
+                $cache->delete($filename);
+            } else {
+                Craft::error("Could not import ${$filename} from the file system, or the cache.", __METHOD__);
             }
-            Craft::debug('Importing row: '.print_r($redirectConfig, true), __METHOD__);
-            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        }
+        // If we have headers, then we have a file, so parse it
+        if ($headers !== null) {
+            $csv->setOffset(1);
+            $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+            $csv->each(function ($row) use ($headers, $columns) {
+                $redirectConfig = [
+                    'id' => 0,
+                ];
+                $index = 0;
+                foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                    if (isset($columns[$index], $headers[$columns[$index]])) {
+                        $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                            ? null
+                            : $row[$headers[$columns[$index]]];
+                    }
+                    $index++;
+                }
+                Craft::debug('Importing row: '.print_r($redirectConfig, true), __METHOD__);
+                Retour::$plugin->redirects->saveRedirect($redirectConfig);
 
-            return true;
-        });
-
-        @unlink($filename);
-        Retour::$plugin->clearAllCaches();
-        Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirects imported from CSV file.'));
+                return true;
+            });
+            @unlink($filename);
+            Retour::$plugin->clearAllCaches();
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirects imported from CSV file.'));
+        } else {
+            Craft::$app->getSession()->setError(Craft::t('retour', 'Redirects could not be imported.'));
+        }
 
         $this->redirect('retour/redirects');
     }
@@ -181,13 +200,25 @@ class FileController extends Controller
         // The CSV file
         $file = UploadedFile::getInstanceByName('file');
         if ($file !== null) {
-            $filename = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.uniqid($file->name, true);
-            $file->saveAs($filename, false);
+            $filename = uniqid($file->name, true);
+            $filePath = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.$filename;
+            $file->saveAs($filePath, false);
+            // Also save the file to the cache as a backup way to access it
+            $cache = Craft::$app->getCache();
+            $fileHandle = fopen($filePath, 'r');
+            if ($fileHandle) {
+                $fileContents = fgets($fileHandle);
+                if ($fileContents) {
+                    $cache->set($filePath, $fileContents);
+                }
+                fclose($fileHandle);
+            }
+            // Read in the headers
             $csv = Reader::createFromPath($file->tempName);
             $headers = $csv->fetchOne(0);
             Craft::info(print_r($headers, true), __METHOD__);
             $variables['headers'] = $headers;
-            $variables['filename'] = $filename;
+            $variables['filename'] = $filePath;
         }
 
         // Render the template

@@ -514,6 +514,11 @@ class Retour extends Plugin
                     }
                     // Make sure the URIs are not the same
                     if (strcmp($oldUri, $newUri) !== 0) {
+                        // Handle trailing slash config setting
+                        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
+                            $oldUri = rtrim($oldUri, '/') . '/';
+                            $newUri = rtrim($newUri, '/') . '/';
+                        }
                         $redirectConfig = [
                             'id' => 0,
                             'redirectMatchType' => 'exactmatch',
