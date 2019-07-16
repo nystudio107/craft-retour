@@ -543,11 +543,13 @@ class Retour extends Plugin
     protected function getAllElementUris(Element $element): array
     {
         $uris = [];
-        $sites = Craft::$app->getSites()->getAllSites();
-        foreach ($sites as $site) {
-            $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
-            if ($uri !== null) {
-                $uris[$site->id] = $uri;
+        if (!ElementHelper::isDraftOrRevision($element)) {
+            $sites = Craft::$app->getSites()->getAllSites();
+            foreach ($sites as $site) {
+                $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
+                if ($uri !== null) {
+                    $uris[$site->id] = $uri;
+                }
             }
         }
 
