@@ -28,6 +28,7 @@ use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Elements;
 use craft\services\Dashboard;
@@ -302,14 +303,12 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                $checkElementSlug = true;
-                if (Retour::$craft32) {
-                    if ($element->getIsDraft() || $element->getIsRevision()) {
+                if ($element !== null && $element->getUrl() !== null) {
+                    $checkElementSlug = true;
+                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
-                }
-                if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                    if ($element !== null && $element->getUrl() !== null) {
+                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
                         // We want the already saved representation of this element, not the one we are passed
                         /** @var Element $oldElement */
                         $oldElement = Craft::$app->getElements()->getElementById($element->id);
@@ -335,14 +334,14 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                $checkElementSlug = true;
-                if (Retour::$craft32) {
-                    if ($element->getIsDraft() || $element->getIsRevision()) {
+                if ($element !== null && $element->getUrl() !== null) {
+                    $checkElementSlug = true;
+                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
-                }
-                if (!$event->isNew && self::$settings->createUriChangeRedirects && $element->getUrl() !== null && $checkElementSlug) {
-                    $this->handleElementUriChange($element);
+                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                        $this->handleElementUriChange($element);
+                    }
                 }
             }
         );
