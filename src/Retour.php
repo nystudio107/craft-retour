@@ -312,10 +312,14 @@ class Retour extends Plugin
                         // We want the already saved representation of this element, not the one we are passed
                         /** @var Element $oldElement */
                         $oldElement = Craft::$app->getElements()->getElementById($element->id);
-                        if ($oldElement !== null) {
+                        if ($oldElement !== null && $oldElement->getUrl() !== null) {
+                            $checkElementSlug = true;
+                            if (Retour::$craft32 && ElementHelper::isDraftOrRevision($oldElement)) {
+                                $checkElementSlug = false;
+                            }
                             // Stash the old URLs by element id, and do so only once,
                             // in case we are called more than once per request
-                            if (empty($this->oldElementUris[$oldElement->id])) {
+                            if (empty($this->oldElementUris[$oldElement->id]) && $checkElementSlug) {
                                 $this->oldElementUris[$oldElement->id] = $this->getAllElementUris($oldElement);
                             }
                         }
