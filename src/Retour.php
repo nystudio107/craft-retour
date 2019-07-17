@@ -303,27 +303,26 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->getUrl() !== null  && !$element->propagating) {
+                if ($element !== null && $element->getUrl() !== null && !$element->propagating) {
                     $checkElementSlug = true;
+                    // If we're running Craft 3.2 or later, also check that the element isn't bulk
+                    // re-saving, and that isn't not a draft or revision
                     if (Retour::$craft32 && (
                             $element->resaving ||
                             ElementHelper::isDraftOrRevision($element)
                         )) {
                         $checkElementSlug = false;
                     }
+                    // Only do this for elements that aren't new, pass $checkElementSlug, and the user
+                    // has turned on the setting
                     if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                        // We want the already saved representation of this element, not the one we are passed
-                        /** @var Element $oldElement */
-                        $oldElement = $element::find()
-                            ->id($element->id)
-                            ->siteId($element->siteId)
-                            ->anyStatus()
-                            ->one();
-                        if ($oldElement !== null && $oldElement->getUrl() !== null) {
+                        // Make sure this isn't a transitioning temporary draft/revision and that it's
+                        // not propagating to other sites
+                        if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
                             // Stash the old URLs by element id, and do so only once,
                             // in case we are called more than once per request
-                            if (empty($this->oldElementUris[$oldElement->id])) {
-                                $this->oldElementUris[$oldElement->id] = $this->getAllElementUris($oldElement);
+                            if (empty($this->oldElementUris[$element->id])) {
+                                $this->oldElementUris[$element->id] = $this->getAllElementUris($element);
                             }
                         }
                     }
