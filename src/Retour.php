@@ -303,23 +303,26 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->getUrl() !== null) {
+                if ($element !== null && $element->getUrl() !== null  && !$element->propagating) {
                     $checkElementSlug = true;
-                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
+                    if (Retour::$craft32 && (
+                            $element->resaving ||
+                            ElementHelper::isDraftOrRevision($element)
+                        )) {
                         $checkElementSlug = false;
                     }
                     if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
                         // We want the already saved representation of this element, not the one we are passed
                         /** @var Element $oldElement */
-                        $oldElement = Craft::$app->getElements()->getElementById($element->id);
+                        $oldElement = $element::find()
+                            ->id($element->id)
+                            ->siteId($element->siteId)
+                            ->anyStatus()
+                            ->one();
                         if ($oldElement !== null && $oldElement->getUrl() !== null) {
-                            $checkElementSlug = true;
-                            if (Retour::$craft32 && ElementHelper::isDraftOrRevision($oldElement)) {
-                                $checkElementSlug = false;
-                            }
                             // Stash the old URLs by element id, and do so only once,
                             // in case we are called more than once per request
-                            if (empty($this->oldElementUris[$oldElement->id]) && $checkElementSlug) {
+                            if (empty($this->oldElementUris[$oldElement->id])) {
                                 $this->oldElementUris[$oldElement->id] = $this->getAllElementUris($oldElement);
                             }
                         }
