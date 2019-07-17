@@ -28,6 +28,7 @@ use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Elements;
 use craft\services\Dashboard;
@@ -302,22 +303,26 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                $checkElementSlug = true;
-                if (Retour::$craft32) {
-                    if ($element->getIsDraft() || $element->getIsRevision()) {
+                if ($element !== null && $element->getUrl() !== null && !$element->propagating) {
+                    $checkElementSlug = true;
+                    // If we're running Craft 3.2 or later, also check that the element isn't bulk
+                    // re-saving, and that isn't not a draft or revision
+                    if (Retour::$craft32 && (
+                            $element->resaving ||
+                            ElementHelper::isDraftOrRevision($element)
+                        )) {
                         $checkElementSlug = false;
                     }
-                }
-                if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                    if ($element !== null && $element->getUrl() !== null) {
-                        // We want the already saved representation of this element, not the one we are passed
-                        /** @var Element $oldElement */
-                        $oldElement = Craft::$app->getElements()->getElementById($element->id);
-                        if ($oldElement !== null) {
+                    // Only do this for elements that aren't new, pass $checkElementSlug, and the user
+                    // has turned on the setting
+                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                        // Make sure this isn't a transitioning temporary draft/revision and that it's
+                        // not propagating to other sites
+                        if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
                             // Stash the old URLs by element id, and do so only once,
                             // in case we are called more than once per request
-                            if (empty($this->oldElementUris[$oldElement->id])) {
-                                $this->oldElementUris[$oldElement->id] = $this->getAllElementUris($oldElement);
+                            if (empty($this->oldElementUris[$element->id])) {
+                                $this->oldElementUris[$element->id] = $this->getAllElementUris($element);
                             }
                         }
                     }
@@ -335,14 +340,14 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                $checkElementSlug = true;
-                if (Retour::$craft32) {
-                    if ($element->getIsDraft() || $element->getIsRevision()) {
+                if ($element !== null && $element->getUrl() !== null) {
+                    $checkElementSlug = true;
+                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
-                }
-                if (!$event->isNew && self::$settings->createUriChangeRedirects && $element->getUrl() !== null && $checkElementSlug) {
-                    $this->handleElementUriChange($element);
+                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                        $this->handleElementUriChange($element);
+                    }
                 }
             }
         );
@@ -544,11 +549,13 @@ class Retour extends Plugin
     protected function getAllElementUris(Element $element): array
     {
         $uris = [];
-        $sites = Craft::$app->getSites()->getAllSites();
-        foreach ($sites as $site) {
-            $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
-            if ($uri !== null) {
-                $uris[$site->id] = $uri;
+        if (!self::$craft32 || !ElementHelper::isDraftOrRevision($element)) {
+            $sites = Craft::$app->getSites()->getAllSites();
+            foreach ($sites as $site) {
+                $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
+                if ($uri !== null) {
+                    $uris[$site->id] = $uri;
+                }
             }
         }
 

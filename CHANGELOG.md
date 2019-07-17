@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.20 - 2019.07.17
+### Changed
+* Fixed a regression that could throw an exception when an entry's slug is changed on pre-Craft 3.2
+
+## 3.1.19 - 2019.07.17
+### Changed
+* Fixed an issue where a spurious redirect was created for new entries on Craft 3.2 if **Create Entry Redirects** is enabled
+
 ## 3.1.18 - 2019.07.15
 ### Added
 * Added a `ResolveRedirectEvent` that modules/plugins can listen to if they want to resolve their own redirects
