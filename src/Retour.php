@@ -303,7 +303,7 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->uri !== null && !$element->propagating) {
+                if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
                     $checkElementSlug = true;
                     // If we're running Craft 3.2 or later, also check that the element isn't bulk
                     // re-saving, and that isn't not a draft or revision
@@ -315,7 +315,7 @@ class Retour extends Plugin
                     }
                     // Only do this for elements that aren't new, pass $checkElementSlug, and the user
                     // has turned on the setting
-                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                    if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
                         // Make sure this isn't a transitioning temporary draft/revision and that it's
                         // not propagating to other sites
                         if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
@@ -340,12 +340,12 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->uri !== null) {
+                if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
                     $checkElementSlug = true;
                     if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
-                    if (!$event->isNew && self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                    if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
                         $this->handleElementUriChange($element);
                     }
                 }
