@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.22 - 2019.07.18
+### Changed
+* Proper fix for an issue that would cause uploading assets on Craft 3.2 to fail with "Asset is missing its folder ID" 
+
 ## 3.1.21 - 2019.07.18
 ### Changed
 * Removed the pointless language switcher from the Import CSV File template
