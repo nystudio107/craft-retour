@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.21 - 2019.07.18
+### Changed
+* Removed the pointless language switcher from the Import CSV File template
+* Fixed an issue that would cause uploading assets on Craft 3.2 to fail with "Asset is missing its folder ID" 
+
 ## 3.1.20 - 2019.07.17
 ### Changed
 * Fixed a regression that could throw an exception when an entry's slug is changed on pre-Craft 3.2
