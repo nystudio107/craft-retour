@@ -303,7 +303,7 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->getUrl() !== null && !$element->propagating) {
+                if ($element !== null && $element->uri !== null && !$element->propagating) {
                     $checkElementSlug = true;
                     // If we're running Craft 3.2 or later, also check that the element isn't bulk
                     // re-saving, and that isn't not a draft or revision
@@ -340,7 +340,7 @@ class Retour extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                if ($element !== null && $element->getUrl() !== null) {
+                if ($element !== null && $element->uri !== null) {
                     $checkElementSlug = true;
                     if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
