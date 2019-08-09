@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.1.23 - 2019.08.09
+### Added
+* Added a **Entry Redirects URL Match Type** setting so that full URLs can be used for the automatic Entry Redirects if you have a site that has a sub-directory as part of the `siteUrl`
+
+### Changed
+* Updated assets build to update to the latest npm packages
+
 ## 3.1.22 - 2019.07.18
 ### Changed
 * Proper fix for an issue that would cause uploading assets on Craft 3.2 to fail with "Asset is missing its folder ID" 
