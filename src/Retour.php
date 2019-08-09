@@ -40,6 +40,7 @@ use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 
 use yii\base\Event;
+use yii\base\Exception;
 use yii\web\HttpException;
 
 use markhuot\CraftQL\Builders\Schema;
@@ -524,10 +525,20 @@ class Retour extends Plugin
                             $oldUri = rtrim($oldUri, '/') . '/';
                             $newUri = rtrim($newUri, '/') . '/';
                         }
+                        // Handle the URL match type
+                        if (self::$settings->uriChangeRedirectSrcMatch === 'fullurl') {
+                            try {
+                                $oldUri = UrlHelper::siteUrl($oldUri, null, null, $redirectSiteId);
+                                $newUri = UrlHelper::siteUrl($newUri, null, null, $redirectSiteId);
+                            } catch (Exception $e) {
+                                // That's fine
+                            }
+                        }
                         $redirectConfig = [
                             'id' => 0,
                             'redirectMatchType' => 'exactmatch',
                             'redirectHttpCode' => 301,
+                            'redirectSrcMatch' => self::$settings->uriChangeRedirectSrcMatch,
                             'redirectSrcUrl' => $oldUri,
                             'redirectDestUrl' => $newUri,
                             'siteId' => $redirectSiteId,

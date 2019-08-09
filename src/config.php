@@ -30,6 +30,9 @@ return [
     // Controls whether Retour automatically creates static redirects when an entry's URI changes.
     'createUriChangeRedirects' => true,
 
+    // Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?
+    'uriChangeRedirectSrcMatch' => 'pathonly',
+
     // Should the query string be stripped from all 404 URLs before their evaluation?
     'alwaysStripQueryString'   => false,
 
