@@ -35,22 +35,33 @@ class Settings extends Model
     public $pluginName = 'Retour';
 
     /**
-     * @var bool Controls whether Retour automatically creates static redirects when an entry's URI changes.
+     * @var bool Controls whether Retour automatically creates static redirects
+     *      when an entry's URI changes.
      */
     public $createUriChangeRedirects = true;
 
     /**
-     * @var bool Should the query string be stripped from all 404 URLs before their evaluation?
+     * @var string Should the legacy URL be matched by path (e.g.
+     *      `/new-recipes/`) or by full URL (e.g.:
+     *      `http://example.com/de/new-recipes/`)?
+     */
+    public $uriChangeRedirectSrcMatch = 'pathonly';
+
+    /**
+     * @var bool Should the query string be stripped from all 404 URLs before
+     *      their evaluation?
      */
     public $alwaysStripQueryString = false;
 
     /**
-     * @var bool Should the query string be preserved and passed along to the redirected URL?
+     * @var bool Should the query string be preserved and passed along to the
+     *      redirected URL?
      */
     public $preserveQueryString = false;
 
     /**
-     * @var bool Should the anonymous ip address of the client causing a 404 be recorded?
+     * @var bool Should the anonymous ip address of the client causing a 404 be
+     *      recorded?
      */
     public $recordRemoteIp = true;
 
@@ -65,7 +76,8 @@ class Settings extends Model
     public $dynamicRedirectDisplayLimit = 100;
 
     /**
-     * @var bool Should the query string be stripped from the saved statistics source URLs?
+     * @var bool Should the query string be stripped from the saved statistics
+     *      source URLs?
      */
     public $stripQueryStringFromStats = true;
 
@@ -80,12 +92,14 @@ class Settings extends Model
     public $refreshIntervalSecs = 5;
 
     /**
-     * @var bool Whether the Statistics should be trimmed after each new statistic is recorded
+     * @var bool Whether the Statistics should be trimmed after each new
+     *      statistic is recorded
      */
     public $automaticallyTrimStatistics = true;
 
     /**
-     * @var int The number of milliseconds required between trimming of statistics
+     * @var int The number of milliseconds required between trimming of
+     *      statistics
      */
     public $statisticsRateLimitMs = 3600000;
 
@@ -95,7 +109,8 @@ class Settings extends Model
     public $statsDisplayLimit = 1000;
 
     /**
-     * @var array [Regular expressions](https://regexr.com/) to match URLs to exclude from Retour
+     * @var array [Regular expressions](https://regexr.com/) to match URLs to
+     *      exclude from Retour
      */
     public $excludePatterns = [
     ];
@@ -119,8 +134,14 @@ class Settings extends Model
                     'stripQueryStringFromStats',
                     'recordRemoteIp',
                 ],
-                'boolean'
+                'boolean',
             ],
+            ['uriChangeRedirectSrcMatch', 'default', 'value' => 'pathonly'],
+            ['uriChangeRedirectSrcMatch', 'string'],
+            ['uriChangeRedirectSrcMatch', 'in', 'range' => [
+                'pathonly',
+                'fullurl'
+            ]],
             ['staticRedirectDisplayLimit', 'integer', 'min' => 1],
             ['staticRedirectDisplayLimit', 'default', 'value' => 100],
             ['dynamicRedirectDisplayLimit', 'integer', 'min' => 1],
@@ -147,7 +168,7 @@ class Settings extends Model
                     'class' => EnvAttributeParserBehavior::class,
                     'attributes' => [
                     ],
-                ]
+                ],
             ];
         }
 

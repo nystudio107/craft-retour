@@ -46,7 +46,20 @@
             warning: configWarning("createUriChangeRedirects", "retour"),
             errors: settings.getErrors("createUriChangeRedirects"),
         }) }}
-
+    
+        {{ forms.selectField({
+            label: "Entry Redirects URL Match Type"|t("retour"),
+            instructions: "Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?"|t("retour"),
+            id: "uriChangeRedirectSrcMatch",
+            name: "uriChangeRedirectSrcMatch",
+            value: settings.uriChangeRedirectSrcMatch ?? "pathonly",
+            options: {
+                "pathonly": "Path Only"|t("retour"),
+                "fullurl": "Full URL"|t("retour"),
+            },
+            errors: settings.getErrors("uriChangeRedirectSrcMatch"),
+        }) }}
+    
         {{ forms.lightswitchField({
             label: "Strip Query String from 404s"|t("retour"),
             instructions: "Should the query string be stripped from all 404 URLs before their evaluation?"|t("retour"),

@@ -42,14 +42,4 @@ To install the plugin, follow these instructions.
 
 You can also install Retour via the **Plugin Store** in the Craft Control Panel.
 
-## Documentation
-
-Click here -> [Retour Documentation](https://nystudio107.com/plugins/retour/documentation)
-
-## Retour Roadmap
-
-Some things to do, and ideas for potential features:
-
-* Release it
-
 Brought to you by [nystudio107](https://nystudio107.com/)
