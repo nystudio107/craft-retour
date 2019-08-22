@@ -4,7 +4,7 @@
 
 Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
 
-![Screenshot](./resources/img/plugin-banner.jpg)
+![Screenshot](./docs/docs/resources/img/plugin-banner.jpg)
 
 Related: [Retour for Craft 2.x](https://github.com/nystudio107/retour)
 
@@ -18,7 +18,7 @@ So any existing redirects and statistics will continue to be in place.
 
 ## Used By
 
-![Screenshot](./resources/img/moz-logo-blue.png)![Screenshot](./resources/img/craft-cms-logo.png)
+![Screenshot](./docs/docs/resources/img/moz-logo-blue.png)![Screenshot](./docs/docs/resources/img/craft-cms-logo.png)
 
 SEOmatic is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on to handle their website redirects!
 
