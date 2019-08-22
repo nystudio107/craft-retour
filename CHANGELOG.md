@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.23 - 2019.08.09
+## 3.1.23 - 2019.08.21
 ### Added
 * Added a **Entry Redirects URL Match Type** setting so that full URLs can be used for the automatic Entry Redirects if you have a site that has a sub-directory as part of the `siteUrl`
 
