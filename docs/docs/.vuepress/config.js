@@ -4,6 +4,7 @@ module.exports = {
     base: '/docs/retour/',
     dest: '../../../../sites/nystudio107/web/docs/retour',
     themeConfig: {
+        displayAllHeaders: true,
         sidebar: [
             ['/', 'Retour plugin for Craft CMS 3.x'],
             ['/Overview', 'Retour Overview'],
