@@ -44,7 +44,10 @@
     <div id="cp-nav-content">
         <div class="field readable">
         </div>
-        <redirects-table :site-id="{{ currentSiteId }}">
+        <redirects-table
+                :site-id="{{ currentSiteId }}"
+                :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+        >
         </redirects-table>
     </div>
     {# include our JavaScript modules #}

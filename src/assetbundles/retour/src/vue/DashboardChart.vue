@@ -6,8 +6,6 @@
     import Axios from 'axios';
     import ApexCharts from 'vue-apexcharts';
 
-    const chartDataBaseUrl = '/retour/charts/dashboard/';
-
     // Get the largest number from the passed in arrays
     const largestNumber = (mainArray) => {
         return mainArray.map(function(subArray) {
@@ -25,15 +23,16 @@
         };
     };
     // Query our API endpoint via an XHR GET
-    const queryApi = (api, uri, callback) => {
-        api.get(uri
-        ).then((result) => {
-            if (callback) {
-                callback(result.data);
-            }
-        }).catch((error) => {
-            console.error(error);
-        })
+    const queryApi = (api, uri, params, callback) => {
+        api.get(uri, {params: params})
+            .then((result) => {
+                if (callback) {
+                    callback(result.data);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            })
     };
 
     // Our component exports
@@ -53,16 +52,16 @@
                 type: Number,
                 default: 3,
             },
+            apiUrl: {
+                type: String,
+                default: '',
+            },
         },
         methods: {
             // Load in our chart data asynchronously
             getSeriesData: async function() {
-                const chartsAPI = Axios.create(configureApi(chartDataBaseUrl));
-                let uri = this.range;
-                if (this.siteId !== 0) {
-                    uri += '/' + this.siteId;
-                }
-                await queryApi(chartsAPI, uri, (data) => {
+                const chartsAPI = Axios.create(configureApi(this.apiUrl));
+                await queryApi(chartsAPI, '', {range: this.range, siteId: this.siteId}, (data) => {
                     // Clone the chartOptions object, and replace the needed values
                     const options = Object.assign({}, this.chartOptions);
                     if (data[0] !== undefined) {

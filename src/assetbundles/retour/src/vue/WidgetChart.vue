@@ -7,8 +7,6 @@
     import Axios from 'axios';
     import ApexCharts from 'vue-apexcharts';
 
-    const chartDataBaseUrl = '/retour/charts/widget/';
-
     // Configure the api endpoint
     const configureApi = (url) => {
         return {
@@ -19,13 +17,14 @@
         };
     };
     // Query our API endpoint via an XHR GET
-    const queryApi = (api, uri, callback) => {
-        api.get(uri
-        ).then((result) => {
-            if (callback) {
-                callback(result.data);
-            }
-        }).catch((error) => {
+    const queryApi = (api, uri, params, callback) => {
+        api.get(uri, {params: params})
+            .then((result) => {
+                if (callback) {
+                    callback(result.data);
+                }
+            })
+            .catch((error) => {
             console.error(error);
         })
     };
@@ -39,12 +38,16 @@
             title: String,
             subTitle: String,
             days: String,
+            apiUrl: {
+                type: String,
+                default: '',
+            },
         },
         methods: {
             // Load in our chart data asynchronously
             getSeriesData: async function() {
-                const chartsAPI = Axios.create(configureApi(chartDataBaseUrl));
-                await queryApi(chartsAPI, this.days, (data) => {
+                const chartsAPI = Axios.create(configureApi(this.apiUrl));
+                await queryApi(chartsAPI, '', {days: this.days}, (data) => {
                     this.series = data;
                 });
             }

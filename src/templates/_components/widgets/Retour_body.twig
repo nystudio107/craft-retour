@@ -22,7 +22,12 @@
     <div id="widget-content">
         <h1 style="margin: 0px;">404 Hits</h1>
         <h5>Discrete 404s hits in the last {{ numberOfDays }} days</h5>
-        <widget-chart title="404s hits" sub-title="Discrete 404s hits in the last" days="{{ numberOfDays }}">
+        <widget-chart
+                title="404s hits"
+                sub-title="Discrete 404s hits in the last"
+                days="{{ numberOfDays }}"
+                :api-url="'{{ actionUrl('retour/charts/widget') }}'"
+        >
         </widget-chart>
         <div style="float: right;">
             <a class="go" href="retour/dashboard">Dashboard</a>
