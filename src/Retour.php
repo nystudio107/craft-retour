@@ -617,13 +617,6 @@ class Retour extends Plugin
     protected function customFrontendRoutes(): array
     {
         return [
-            // Tables
-            '/retour/tables/dashboard' => 'retour/tables/dashboard',
-            '/retour/tables/redirects' => 'retour/tables/redirects',
-            // Charts
-            '/retour/charts/dashboard/<range:{handle}>' => 'retour/charts/dashboard',
-            '/retour/charts/dashboard/<range:{handle}>/<siteId:\d+>' => 'retour/charts/dashboard',
-            '/retour/charts/widget/<days>' => 'retour/charts/widget',
         ];
     }
 

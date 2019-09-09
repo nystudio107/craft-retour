@@ -9,7 +9,7 @@
             ></vuetable-pagination>
         </div>
         <vuetable ref="vuetable"
-                  api-url="/retour/tables/redirects"
+                  :api-url=apiUrl
                   :per-page="20"
                   :fields="fields"
                   :css="css"
@@ -49,7 +49,11 @@
             siteId: {
                 type: Number,
                 default: 0,
-            }
+            },
+            apiUrl: {
+                type: String,
+                default: '',
+            },
         },
         data: function() {
             return {

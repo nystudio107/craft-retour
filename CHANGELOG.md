@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.24 - 2019.09.09
+### Changed
+* Replaced frontend api route with an actionUrl()
+
 ## 3.1.23 - 2019.08.21
 ### Added
 * Added a **Entry Redirects URL Match Type** setting so that full URLs can be used for the automatic Entry Redirects if you have a site that has a sub-directory as part of the `siteUrl`

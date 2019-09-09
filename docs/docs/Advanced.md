@@ -39,7 +39,7 @@ use nystudio107\retour\services\Redirects;
 use nystudio107\retour\events\ResolveRedirectEvent;
 
 Event::on(Redirects::class,
-    Redirects::EVENT_AFTER_SAVE_REDIRECT,
+    Redirects::EVENT_BEFORE_RESOLVE_REDIRECT,
     function(ResolveRedirectEvent $event) {
         // potentially set $event->redirectDestUrl;
     }

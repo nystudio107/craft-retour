@@ -61,6 +61,7 @@
                             range="month"
                             :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
+                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
@@ -73,6 +74,7 @@
                             range="week"
                             :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
+                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
@@ -85,6 +87,7 @@
                             range="day"
                             :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                             :site-id="{{ currentSiteId }}"
+                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
@@ -93,6 +96,7 @@
         <dashboard-table
                 :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
                 :site-id="{{ currentSiteId }}"
+                :api-url="'{{ actionUrl('retour/tables/dashboard') }}'"
         >
         </dashboard-table>
 

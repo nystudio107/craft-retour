@@ -9,7 +9,7 @@
             ></vuetable-pagination>
         </div>
         <vuetable ref="vuetable"
-                  api-url="/retour/tables/dashboard"
+                  :api-url=apiUrl
                   :per-page="20"
                   :fields="fields"
                   :css="css"
@@ -53,6 +53,10 @@
             refreshIntervalSecs: {
                 type: Number,
                 default: 3,
+            },
+            apiUrl: {
+                type: String,
+                default: '',
             },
         },
         data: function() {
