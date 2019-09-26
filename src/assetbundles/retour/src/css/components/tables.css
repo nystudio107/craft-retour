@@ -20,7 +20,7 @@ table.vuetable {
 }
 
 /**
- * Dashboard chart
+ * Dashboard table
  */
 
 table.retour-dashboard th.vuetable-th-redirectSrcUrl {
@@ -53,7 +53,7 @@ th.vuetable-th-addLink {
 }
 
 /**
- * Redirects chart
+ * Redirects table
  */
 
 table.retour-redirects th.vuetable-th-redirectSrcUrl {
@@ -68,8 +68,11 @@ th.vuetable-th-redirectMatchType {
   width: 13%!important;
 }
 
-th.vuetable-th-redirectHttpCode {
+th.vuetable-th-siteName {
   width: 10%!important;
+}
+th.vuetable-th-redirectHttpCode {
+  width: 5%!important;
 }
 
 th.vuetable-th-deleteLink {

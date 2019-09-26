@@ -24,6 +24,13 @@ export default [
         callback: 'matchFormatter'
     },
     {
+        name: 'siteName',
+        sortField: 'siteId',
+        title: 'Sites',
+        titleClass: 'text-left',
+        dataClass: 'text-left',
+    },
+    {
         name: 'redirectHttpCode',
         sortField: 'redirectHttpCode',
         title: 'Status',
