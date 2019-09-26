@@ -3,6 +3,7 @@
 ## 3.1.25 - 2019.10.02
 ### Changed
 * Fixed an issue where the enabled/disabled status of a redirect wasn't correctly shown in the list view
+* Fixed an issue where the IP address lookup was no longer working
 
 ## 3.1.24 - 2019.09.09
 ### Changed
