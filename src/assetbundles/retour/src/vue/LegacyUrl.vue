@@ -26,7 +26,7 @@
             redirectEnabled: function() {
                 let enabled = '';
 
-                if (this.rowData.enabled) {
+                if (!!+this.rowData.enabled) {
                     return 'live';
                 }
 

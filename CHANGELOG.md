@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.1.25 - 2019.09.27
+### Changed
+* Fixed an issue where the enabled/disabled status of a redirect wasn't correctly shown in the list view
+* Fixed an issue where the IP address lookup was no longer working
+* Added “Sites” to the Redirects table listing
+
 ## 3.1.24 - 2019.09.09
 ### Changed
 * Replaced frontend api route with an actionUrl()

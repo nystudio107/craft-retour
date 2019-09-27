@@ -13,6 +13,7 @@ namespace nystudio107\retour\controllers;
 
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 
+use Craft;
 use craft\db\Query;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
@@ -180,6 +181,16 @@ class TablesController extends Controller
                     $redirect['redirectDestUrl'] = '';
                 }
             }
+            // Handle extracting the site name
+            $redirect['siteName'] = Craft::t('retour', 'All Sites');
+            if ($redirect['siteId']) {
+                $sites = Craft::$app->getSites();
+                $site = $sites->getSiteById($redirect['siteId']);
+                if ($site) {
+                    $redirect['siteName'] = $site->name;
+                }
+            }
+
             $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
             $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }

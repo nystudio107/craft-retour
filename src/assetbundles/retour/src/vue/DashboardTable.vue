@@ -130,7 +130,7 @@
                     return '';
                 }
                 return `
-                <a class="go" href="https://www.ipaddressguide.com/ip-geolocation?ip=${value}" title="Lookup ${value}" target="_blank" rel="noopener">${value}</a>
+                <a class="go" href="https://whatismyipaddress.com/ip/${value}" title="Lookup ${value}" target="_blank" rel="noopener">${value}</a>
                 `;
             },
             boolFormatter(value) {
