@@ -16,6 +16,7 @@ use nystudio107\retour\gql\types\generators\RetourGenerator;
 use craft\gql\base\InterfaceType as BaseInterfaceType;
 use craft\gql\TypeLoader;
 use craft\gql\GqlEntityRegistry;
+
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\Type;
 
@@ -74,10 +75,65 @@ class RetourInterface extends BaseInterfaceType
     public static function getFieldDefinitions(): array
     {
         return array_merge(parent::getFieldDefinitions(), [
-            'groupId' => [
-                'name' => 'groupId',
+            'id' => [
+                'name' => 'id',
                 'type' => Type::int(),
-                'description' => 'The ID of the group that contains the tag.',
+                'description' => 'The id of the redirect.',
+            ],
+            'siteId' => [
+                'name' => 'siteId',
+                'type' => Type::int(),
+                'description' => 'The siteId of the redirect (0 or null for all sites).',
+            ],
+            'associatedElementId' => [
+                'name' => 'associatedElementId',
+                'type' => Type::int(),
+                'description' => 'The id of the Element associated with this redirect (unused/vestigial).',
+            ],
+            'enabled' => [
+                'name' => 'enabled',
+                'type' => Type::boolean(),
+                'description' => 'Whether the redirect is enabled or not.',
+            ],
+            'redirectSrcUrl' => [
+                'name' => 'redirectSrcUrl',
+                'type' => Type::string(),
+                'description' => 'The unparsed URL pattern that Retour should match.',
+            ],
+            'redirectSrcUrlParsed' => [
+                'name' => 'redirectSrcUrlParsed',
+                'type' => Type::string(),
+                'description' => 'The parsed URL pattern that Retour should match.',
+            ],
+            'redirectSrcMatch' => [
+                'name' => 'redirectSrcMatch',
+                'type' => Type::string(),
+                'description' => 'Should the legacy URL be matched by path or by full URL?',
+            ],
+            'redirectMatchType' => [
+                'name' => 'redirectMatchType',
+                'type' => Type::string(),
+                'description' => 'Whether an `exactmatch` or `regexmatch` should be used when matching the URL.',
+            ],
+            'redirectDestUrl' => [
+                'name' => 'redirectDestUrl',
+                'type' => Type::string(),
+                'description' => 'The URL that should be redirected to.',
+            ],
+            'redirectHttpCode' => [
+                'name' => 'redirectHttpCode',
+                'type' => Type::int(),
+                'description' => 'The http status code that should be used for the redirect.',
+            ],
+            'hitCount' => [
+                'name' => 'hitCount',
+                'type' => Type::int(),
+                'description' => 'The number of times this redirect has been hit.',
+            ],
+            'hitLastTime' => [
+                'name' => 'hitLastTime',
+                'type' => Type::int(),
+                'description' => 'A timestamp of when this redirect was last hit.',
             ],
         ]);
     }
