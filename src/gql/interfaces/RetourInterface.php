@@ -50,6 +50,9 @@ class RetourInterface extends BaseInterfaceType
             'name' => static::getName(),
             'fields' => self::class.'::getFieldDefinitions',
             'description' => 'This is the interface implemented by Retour.',
+            'resolveType' => function (array $value) {
+                return GqlEntityRegistry::getEntity(RetourGenerator::getName());
+            },
         ]));
 
         foreach (RetourGenerator::generateTypes() as $typeName => $generatedType) {
