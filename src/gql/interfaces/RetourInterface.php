@@ -135,8 +135,8 @@ class RetourInterface extends BaseInterfaceType
             ],
             'hitLastTime' => [
                 'name' => 'hitLastTime',
-                'type' => Type::int(),
-                'description' => 'A timestamp of when this redirect was last hit.',
+                'type' => Type::string(),
+                'description' => 'A datetime string of when this redirect was last hit.',
             ],
         ]);
     }
