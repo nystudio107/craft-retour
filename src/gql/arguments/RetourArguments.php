@@ -28,12 +28,17 @@ class RetourArguments extends Arguments
      */
     public static function getArguments(): array
     {
-        return array_merge(parent::getArguments(), [
-            'group' => [
-                'name' => 'group',
-                'type' => Type::listOf(Type::string()),
-                'description' => 'Narrows the query results based on the tag groups the tags belong to per the group’s handles.'
+        return [
+            'uri' => [
+                'name' => 'uri',
+                'type' => Type::string(),
+                'description' => 'The URI to resolve a redirect for.'
             ],
-        ]);
+            'siteId' => [
+                'name' => 'siteId',
+                'type' => Type::int(),
+                'description' => 'The siteId to resolve a redirect for.'
+            ],
+        ];
     }
 }
