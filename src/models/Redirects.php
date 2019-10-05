@@ -28,62 +28,62 @@ class Redirects extends DbModel
     // =========================================================================
 
     /**
-     * @var int
+     * @var int The id of the redirect.
      */
     public $id;
 
     /**
-     * @var null|int
+     * @var null|int The siteId of the redirect (0 or null for all sites).
      */
     public $siteId;
 
     /**
-     * @var int
+     * @var int The id of the Element associated with this redirect (unused/vestigial).
      */
     public $associatedElementId;
 
     /**
-     * @var bool
+     * @var bool Whether the redirect is enabled or not.
      */
     public $enabled = true;
 
     /**
-     * @var string
+     * @var string The unparsed URL pattern that Retour should match.
      */
     public $redirectSrcUrl;
 
     /**
-     * @var string
+     * @var string The parsed URL pattern that Retour should match.
      */
     public $redirectSrcUrlParsed;
 
     /**
-     * @var string
+     * @var string Should the legacy URL be matched by path or by full URL?
      */
     public $redirectSrcMatch;
 
     /**
-     * @var string
+     * @var string Whether an `exactmatch` or `regexmatch` should be used when matching the URL.
      */
     public $redirectMatchType;
 
     /**
-     * @var string
+     * @var string The URL that should be redirected to.
      */
     public $redirectDestUrl;
 
     /**
-     * @var int
+     * @var int The http status code that should be used for the redirect.
      */
     public $redirectHttpCode;
 
     /**
-     * @var int
+     * @var int The number of times this redirect has been hit.
      */
     public $hitCount;
 
     /**
-     * @var string
+     * @var string A timestamp of when this redirect was last hit
      */
     public $hitLastTime;
 
