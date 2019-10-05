@@ -1,8 +1,8 @@
 # Retour Changelog
 
-## 3.1.26 - 2019.10.01
+## 3.1.26 - 2019.10.07
 ### Changed
-* 
+* Added native GraphQL support
 
 ## 3.1.25 - 2019.09.27
 ### Changed
