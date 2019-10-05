@@ -34,7 +34,7 @@ class RetourQuery extends Query
     {
         return [
             'retour' => [
-                'type' => Type::listOf(RetourInterface::getType()),
+                'type' => RetourInterface::getType(),
                 'args' => RetourArguments::getArguments(),
                 'resolve' => RetourResolver::class . '::resolve',
                 'description' => 'This query is used to query for Retour redirects.'
