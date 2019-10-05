@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Redirects;
@@ -23,6 +24,7 @@ use craft\base\Element;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
 use craft\events\ExceptionEvent;
+use craft\events\RegisterGqlQueriesEvent;
 use craft\events\PluginEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
@@ -32,6 +34,7 @@ use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Elements;
 use craft\services\Dashboard;
+use craft\services\Gql;
 use craft\services\Plugins;
 use craft\services\UserPermissions;
 use craft\utilities\ClearCaches;
@@ -366,6 +369,21 @@ class Retour extends Plugin
                 // Respond to Control Panel requests
                 if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleAdminCpRequest();
+                }
+            }
+        );
+        // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
+        Event::on(
+            Gql::class,
+            Gql::EVENT_REGISTER_GQL_QUERIES,
+            function (RegisterGqlQueriesEvent $event) {
+                Craft::debug(
+                    'Gql::EVENT_REGISTER_GQL_QUERIES',
+                    __METHOD__
+                );
+                $queries = RetourQuery::getQueries();
+                foreach ($queries as $key => $value) {
+                    $event->queries[$key] = $value;
                 }
             }
         );
