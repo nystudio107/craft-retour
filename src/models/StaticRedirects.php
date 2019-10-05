@@ -83,7 +83,7 @@ class StaticRedirects extends DbModel
     public $hitCount;
 
     /**
-     * @var string A timestamp of when this redirect was last hit
+     * @var string A datetime string of when this redirect was last hit
      */
     public $hitLastTime;
 
