@@ -18,9 +18,6 @@ use nystudio107\retour\gql\types\RetourType;
 use craft\gql\base\GeneratorInterface;
 use craft\gql\GqlEntityRegistry;
 use craft\gql\TypeLoader;
-use craft\helpers\Gql as GqlHelper;
-use GraphQL\Type\Definition\Type;
-use nystudio107\retour\Retour;
 
 /**
  * Class RetourGenerator
