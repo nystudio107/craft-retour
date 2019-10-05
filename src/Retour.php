@@ -11,7 +11,6 @@
 
 namespace nystudio107\retour;
 
-use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
@@ -26,7 +25,6 @@ use craft\base\Plugin;
 use craft\events\ElementEvent;
 use craft\events\ExceptionEvent;
 use craft\events\RegisterGqlQueriesEvent;
-use craft\events\RegisterGqlTypesEvent;
 use craft\events\PluginEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
@@ -104,6 +102,11 @@ class Retour extends Plugin
      */
     public static $craft32 = false;
 
+    /**
+     * @var bool
+     */
+    public static $craft33 = false;
+
     // Public Properties
     // =========================================================================
 
@@ -132,6 +135,7 @@ class Retour extends Plugin
         self::$settings = $this->getSettings();
         self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
         self::$craft32 = version_compare(Craft::$app->getVersion(), '3.2', '>=');
+        self::$craft33 = version_compare(Craft::$app->getVersion(), '3.3', '>=');
         $this->name = self::$settings->pluginName;
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
@@ -374,33 +378,23 @@ class Retour extends Plugin
                 }
             }
         );
-        // Handler: Gql::EVENT_REGISTER_GQL_TYPES
-        Event::on(
-            Gql::class,
-            Gql::EVENT_REGISTER_GQL_TYPES,
-            function (RegisterGqlTypesEvent $event) {
-                Craft::debug(
-                    'Gql::EVENT_REGISTER_GQL_TYPES',
-                    __METHOD__
-                );
-                $event->types[] = RetourInterface::class;
-            }
-        );
-        // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
-        Event::on(
-            Gql::class,
-            Gql::EVENT_REGISTER_GQL_QUERIES,
-            function (RegisterGqlQueriesEvent $event) {
-                Craft::debug(
-                    'Gql::EVENT_REGISTER_GQL_QUERIES',
-                    __METHOD__
-                );
-                $queries = RetourQuery::getQueries();
-                foreach ($queries as $key => $value) {
-                    $event->queries[$key] = $value;
+        if (self::$craft33) {
+            // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
+            Event::on(
+                Gql::class,
+                Gql::EVENT_REGISTER_GQL_QUERIES,
+                function (RegisterGqlQueriesEvent $event) {
+                    Craft::debug(
+                        'Gql::EVENT_REGISTER_GQL_QUERIES',
+                        __METHOD__
+                    );
+                    $queries = RetourQuery::getQueries();
+                    foreach ($queries as $key => $value) {
+                        $event->queries[$key] = $value;
+                    }
                 }
-            }
-        );
+            );
+        }
         // CraftQL Support
         if (class_exists(CraftQL::class)) {
             Event::on(
