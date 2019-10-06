@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
@@ -24,10 +25,11 @@ use craft\base\Element;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
 use craft\events\ExceptionEvent;
-use craft\events\RegisterGqlQueriesEvent;
 use craft\events\PluginEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterGqlQueriesEvent;
+use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
 use craft\helpers\ElementHelper;
@@ -379,6 +381,18 @@ class Retour extends Plugin
             }
         );
         if (self::$craft33) {
+            // Handler: Gql::EVENT_REGISTER_GQL_TYPES
+            Event::on(
+                Gql::class,
+                Gql::EVENT_REGISTER_GQL_TYPES,
+                function (RegisterGqlTypesEvent $event) {
+                    Craft::debug(
+                        'Gql::EVENT_REGISTER_GQL_TYPES',
+                        __METHOD__
+                    );
+                    $event->types[] = RetourInterface::class;
+                }
+            );
             // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
             Event::on(
                 Gql::class,
