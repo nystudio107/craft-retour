@@ -36,7 +36,7 @@ It displays the total number of handled and not handled 404s, and the 5 most rec
 
 ## GraphQL Query support
 
-To retrieve Retour redirect data through the [CraftQL](https://github.com/markhuot/craftql) plugin, use the `retour` field in your graphql query.
+To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](https://docs.craftcms.com/v3/graphql.html#sending-api-requests) or the [CraftQL plugin](https://github.com/markhuot/craftql), use the `retour` field in your graphql query.
 
 This is useful if your website is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
 

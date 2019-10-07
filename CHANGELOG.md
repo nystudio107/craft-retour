@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.26 - 2019.10.07
+### Changed
+* Added native GraphQL support
+
 ## 3.1.25 - 2019.09.27
 ### Changed
 * Fixed an issue where the enabled/disabled status of a redirect wasn't correctly shown in the list view
