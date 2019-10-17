@@ -131,7 +131,16 @@
                 return `
                 <a class="delete icon" href="${value}" title="Delete"></a>
                 `;
+            },
+            bulkDeleteRedirectFormatter(id) {
+                if (id === '') {
+                  return '';
+                }
+                return `
+                    <input type="checkbox" value="${id}">
+                    `;
             }
+
         }
     }
 </script>

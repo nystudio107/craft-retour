@@ -36,6 +36,9 @@
                 <label class="btn" for="retour-file">Import CSV File</label>
             </form>
         </div>
+        <div class="retour-button-container">
+          <a href="{{ actionUrl('retour/redirects/bulk-delete-redirect') }}" class="btn icon">{{ "Delete Mulitple"|t }}</a>
+        </div>
         <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
     </div>
 {% endblock %}
@@ -44,11 +47,15 @@
     <div id="cp-nav-content">
         <div class="field readable">
         </div>
-        <redirects-table
-                :site-id="{{ currentSiteId }}"
-                :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
-        >
-        </redirects-table>
+        <form method="post" accept-charset="UTF-8">
+            {{ csrfInput() }}
+            <input type="hidden" name="action" value="retour/redirects/bulk-delete-redirect">
+            <redirects-table
+                  :site-id="{{ currentSiteId }}"
+                  :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+            >
+            </redirects-table>
+        </form>
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}

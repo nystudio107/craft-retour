@@ -58,5 +58,13 @@ export default [
         titleClass: 'text-center',
         dataClass: 'text-center',
         callback: 'deleteRedirectFormatter',
+    },
+    {
+        name: 'id',
+        sortField: 'id',
+        title: '',
+        titleClass: 'text-center',
+        dataClass: 'text-center',
+        callback: 'bulkDeleteRedirectFormatter',
     }
 ];
