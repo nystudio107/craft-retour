@@ -94,6 +94,7 @@
                     'Match Type',
                     'HTTP Status',
                     'Site ID',
+                    'Legacy URL Match Type',
                 ]
             }
         },

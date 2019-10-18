@@ -68,6 +68,7 @@ class FileController extends Controller
         'redirectMatchType',
         'redirectHttpCode',
         'siteId',
+        'redirectSrcMatch'
     ];
 
     // Protected Properties
