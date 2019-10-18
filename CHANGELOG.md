@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.27 - 2019.10.18
+### Changed
+* Added a CSV import field for **Legacy URL Match Type**
+
 ## 3.1.26 - 2019.10.07
 ### Changed
 * Added native GraphQL support
