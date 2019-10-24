@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.27 - 2019.10.24
+### Changed
+* Added a CSV import field for **Legacy URL Match Type**
+* Cleaned up the GraphQL type generator
+
 ## 3.1.26 - 2019.10.07
 ### Changed
 * Added native GraphQL support
@@ -8,7 +13,7 @@
 ### Changed
 * Fixed an issue where the enabled/disabled status of a redirect wasn't correctly shown in the list view
 * Fixed an issue where the IP address lookup was no longer working
-* Added “Sites” to the Redirects table listing
+* Added **Sites** to the Redirects table listing
 
 ## 3.1.24 - 2019.09.09
 ### Changed

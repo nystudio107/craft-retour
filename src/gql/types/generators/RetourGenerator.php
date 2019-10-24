@@ -34,6 +34,7 @@ class RetourGenerator implements GeneratorInterface
      */
     public static function generateTypes($context = null): array
     {
+        $gqlTypes = [];
         $retourFields = RetourInterface::getFieldDefinitions();
         $retourArgs = RetourArguments::getArguments();
         $typeName = self::getName();
@@ -49,11 +50,12 @@ class RetourGenerator implements GeneratorInterface
                 'description' => 'This entity has all the Retour fields',
             ]));
 
+        $gqlTypes[$typeName] = $retourType;
         TypeLoader::registerType($typeName, function () use ($retourType) {
             return $retourType;
         });
 
-        return [$retourType];
+        return $gqlTypes;
     }
 
     /**
@@ -61,6 +63,6 @@ class RetourGenerator implements GeneratorInterface
      */
     public static function getName($context = null): string
     {
-        return 'retour';
+        return 'RetourType';
     }
 }
