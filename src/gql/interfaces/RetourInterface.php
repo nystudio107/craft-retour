@@ -54,12 +54,7 @@ class RetourInterface extends BaseInterfaceType
                 return GqlEntityRegistry::getEntity(RetourGenerator::getName());
             },
         ]));
-
-        foreach (RetourGenerator::generateTypes() as $typeName => $generatedType) {
-            TypeLoader::registerType($typeName, function () use ($generatedType) {
-                return $generatedType;
-            });
-        }
+        RetourGenerator::generateTypes();
 
         return $type;
     }
