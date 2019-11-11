@@ -31,6 +31,11 @@ class TablesController extends Controller
     // Constants
     // =========================================================================
 
+    const HANDLED_MAP = [
+        'handled' => 1,
+        'nothandled' => 0,
+    ];
+
     // Protected Properties
     // =========================================================================
 
@@ -50,7 +55,8 @@ class TablesController extends Controller
      * @param int    $page
      * @param int    $per_page
      * @param string $filter
-     * @param null   $siteId
+     * @param int    $siteId
+     * @param string|null $handled
      *
      * @return Response
      * @throws ForbiddenHttpException
@@ -60,7 +66,8 @@ class TablesController extends Controller
         int $page = 1,
         int $per_page = 20,
         $filter = '',
-        $siteId = 0
+        $siteId = 0,
+        $handled = 'all'
     ): Response {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
@@ -84,6 +91,9 @@ class TablesController extends Controller
         if ((int)$siteId !== 0) {
             $query->where(['siteId' => $siteId]);
         }
+        if ($handled !== 'all') {
+            $query->where(['handledByRetour' => self::HANDLED_MAP[$handled]]);
+        }
         if ($filter !== '') {
             $query->where(['like', 'redirectSrcUrl', $filter]);
             $query->orWhere(['like', 'referrerUrl', $filter]);
@@ -106,6 +116,9 @@ class TablesController extends Controller
                 ->from(['{{%retour_stats}}']);
             if ((int)$siteId !== 0) {
                 $query->where(['siteId' => $siteId]);
+            }
+            if ($handled !== 'all') {
+                $query->where(['handledByRetour' => self::HANDLED_MAP[$handled]]);
             }
             if ($filter !== '') {
                 $query->where(['like', 'redirectSrcUrl', $filter]);
@@ -191,7 +204,6 @@ class TablesController extends Controller
                 }
             }
 
-            $redirect['deleteLink'] = UrlHelper::cpUrl('retour/delete-redirect/'.$redirect['id']);
             $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
         }
         // Format the data for the API

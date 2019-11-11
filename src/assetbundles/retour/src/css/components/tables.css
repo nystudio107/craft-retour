@@ -23,6 +23,10 @@ table.vuetable {
  * Dashboard table
  */
 
+table.retour-dashboard th.vuetable-th-checkbox-id {
+  width: 2%!important;
+}
+
 table.retour-dashboard th.vuetable-th-redirectSrcUrl {
   width: 34%!important;
 }
@@ -56,6 +60,10 @@ th.vuetable-th-addLink {
  * Redirects table
  */
 
+table.retour-redirects th.vuetable-th-checkbox-id {
+  width: 2%!important;
+}
+
 table.retour-redirects th.vuetable-th-redirectSrcUrl {
   width: 30%!important;
 }
@@ -72,10 +80,6 @@ th.vuetable-th-siteName {
   width: 10%!important;
 }
 th.vuetable-th-redirectHttpCode {
-  width: 5%!important;
-}
-
-th.vuetable-th-deleteLink {
   width: 5%!important;
 }
 

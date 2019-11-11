@@ -1,6 +1,21 @@
 <template>
     <div class="py-4">
-        <vuetable-filter-bar></vuetable-filter-bar>
+        <div class="" v-show="numSelected !== 0">
+            <form method="post" accept-charset="UTF-8">
+                <input type="hidden" :name="csrfTokenName" :value="csrfTokenValue" />
+                <input v-for="selectedId in selectedIds" type="hidden" name="redirectIds[]" :value="selectedId" />
+                <label class="text-gray-600">{{ numSelected }} redirect<span v-if="numSelected !== 1">s</span>:</label>
+                <div class="btngroup inline">
+                    <div class="btn menubtn" data-icon="settings"></div>
+                    <div class="menu" data-align="right">
+                        <ul>
+                            <li><a class="formsubmit" data-action="retour/redirects/delete-redirects">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
         <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
@@ -73,11 +88,23 @@
                     }
                 ],
                 fields: FieldDefs,
+                numSelected: 0,
+                selectedIds: [],
             }
+        },
+        computed: {
+            csrfTokenName: function() {
+                return window.Craft.csrfTokenName;
+            },
+            csrfTokenValue: function() {
+                return window.Craft.csrfTokenValue;
+            },
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
             this.$events.$on('filter-reset', e => this.onFilterReset());
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled-all', (isChecked) => this.onCheckboxToggled(isChecked, null));
         },
         methods: {
             onFilterSet (filterText) {
@@ -102,6 +129,14 @@
             },
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page);
+            },
+            onCheckboxToggled (isChecked, dataItem) {
+                this.numSelected = 0;
+                this.selectedIds = [];
+                if (this.$refs.vuetable !== undefined && this.$refs.vuetable.selectedTo !== undefined) {
+                    this.numSelected = this.$refs.vuetable.selectedTo.length;
+                    this.selectedIds = this.$refs.vuetable.selectedTo;
+                }
             },
             matchFormatter(value) {
                 let label = 'Pluing Match';

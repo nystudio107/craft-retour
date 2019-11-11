@@ -1,6 +1,11 @@
 // Field definitions for DashboardTable.vue
 export default [
     {
+        name: '__checkbox',
+        titleClass: 'center aligned',
+        dataClass: 'center aligned'
+    },
+    {
         name: '__component:file-not-found-url',
         sortField: 'redirectSrcUrl',
         title: '404 File Not Found URL',

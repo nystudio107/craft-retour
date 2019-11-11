@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           styles.js
  * @author         Andrew Welch
- * @build          Fri, Oct 18, 2019 3:44 PM ET
- * @release        7096695bf96ea56425d01456d933eba4b1b91ac5 [develop]
+ * @build          Mon, Nov 11, 2019 11:27 PM ET
+ * @release        39e7ad60ee5e660e385a2a71154bde2436d94a6a [develop]
  * @copyright      Copyright (c) 2019 nystudio107
  *
  */

@@ -1,9 +1,35 @@
 <template>
     <div class="py-4">
-        <vuetable-filter-bar></vuetable-filter-bar>
+        <div class="" v-show="numSelected !== 0">
+            <form method="post" accept-charset="UTF-8">
+                <input type="hidden" :name="csrfTokenName" :value="csrfTokenValue" />
+                <input v-for="selectedId in selectedIds" type="hidden" name="statisticIds[]" :value="selectedId" />
+                <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
+                <div class="btngroup inline">
+                    <div class="btn menubtn" data-icon="settings"></div>
+                    <div class="menu" data-align="right">
+                        <ul>
+                            <li><a class="formsubmit" data-action="retour/statistics/delete-statistics">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
         <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
+
+            <div class="left floated left pl-3 pt-3 text-gray-600">
+                <div class="select">
+                    <select v-model="retourHandled" class="fieldtoggle" data-target-prefix="retour-handled-" name="retourHandled">
+                        <option value="all" selected>All</option>
+                        <option value="handled">Handled</option>
+                        <option value="nothandled">Not Handled</option>
+                    </select>
+                </div>
+            </div>
+
             <vuetable-pagination ref="paginationTop"
                                  @vuetable-pagination:change-page="onChangePage"
             ></vuetable-pagination>
@@ -77,11 +103,38 @@
                     }
                 ],
                 fields: FieldDefs,
+                numSelected: 0,
+                selectedIds: [],
+                retourHandled: 'all',
+            }
+        },
+        computed: {
+            csrfTokenName: function() {
+                return window.Craft.csrfTokenName;
+            },
+            csrfTokenValue: function() {
+                return window.Craft.csrfTokenValue;
+            },
+        },
+        watch: {
+            retourHandled: function(val) {
+                this.moreParams = {
+                    'siteId': this.siteId,
+                };
+                if (val !== 'all') {
+                    this.moreParams = {
+                        'siteId': this.siteId,
+                        'handled': val,
+                    };
+                }
+                this.$events.fire('refresh-table', this.$refs.vuetable);
             }
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
             this.$events.$on('filter-reset', e => this.onFilterReset());
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled-all', (isChecked) => this.onCheckboxToggled(isChecked, null));
             // Live refresh the data
             if (this.refreshIntervalSecs) {
                 setInterval(() => {
@@ -116,6 +169,14 @@
             },
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page);
+            },
+            onCheckboxToggled (isChecked, dataItem) {
+                this.numSelected = 0;
+                this.selectedIds = [];
+                if (this.$refs.vuetable !== undefined && this.$refs.vuetable.selectedTo !== undefined) {
+                    this.numSelected = this.$refs.vuetable.selectedTo.length;
+                    this.selectedIds = this.$refs.vuetable.selectedTo;
+                }
             },
             urlFormatter(value) {
                 if (value === '') {

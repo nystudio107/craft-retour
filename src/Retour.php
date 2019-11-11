@@ -640,8 +640,6 @@ class Retour extends Plugin
             'retour/add-redirect' => 'retour/redirects/edit-redirect',
             'retour/add-redirect/<siteId:\d+>' => 'retour/redirects/edit-redirect',
 
-            'retour/delete-redirect/<redirectId:\d+>' => 'retour/redirects/delete-redirect',
-
             'retour/dashboard' => 'retour/statistics/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
 

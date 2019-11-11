@@ -123,6 +123,32 @@ class Statistics extends Component
     }
 
     /**
+     * Delete a statistic by id
+     *
+     * @param int $id
+     *
+     * @return int The result
+     */
+    public function deleteStatisticById(int $id): int
+    {
+        $db = Craft::$app->getDb();
+        // Delete a row from the db table
+        try {
+            $result = $db->createCommand()->delete(
+                '{{%retour_stats}}',
+                [
+                    'id' => $id,
+                ]
+            )->execute();
+        } catch (Exception $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+            $result = 0;
+        }
+
+        return $result;
+    }
+
+    /**
      * Increment the retour_stats record
      *
      * @param string             $url The 404 url

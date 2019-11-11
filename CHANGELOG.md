@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.28 - 2019.11.11
+### Added
+* Added the ability to bulk delete Statistics & Redirects
+* Added the ability to display only handled or not handled statistics
+
 ## 3.1.27 - 2019.10.24
 ### Changed
 * Added a CSV import field for **Legacy URL Match Type**
