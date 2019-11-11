@@ -1,6 +1,5 @@
 <template>
     <div class="py-4">
-
         <div class="" v-show="numSelected !== 0">
             <form method="post" accept-charset="UTF-8">
                 <input type="hidden" :name="csrfTokenName" :value="csrfTokenValue" />
@@ -17,7 +16,6 @@
             </form>
         </div>
         <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
-
         <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>

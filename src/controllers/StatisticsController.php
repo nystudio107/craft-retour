@@ -153,13 +153,17 @@ class StatisticsController extends Controller
             ),
             __METHOD__
         );
-        Retour::$plugin->clearAllCaches();
-        try {
-            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour statistics cleared.'));
-        } catch (MissingComponentException $e) {
-            Craft::error($e->getMessage(), __METHOD__);
-        }
 
-        return $this->redirect('retour/dashboard');
+        Retour::$plugin->clearAllCaches();
+        // Handle any cumulative errors
+        if (!$stickyError) {
+            // Clear the caches and continue on
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour statistics deleted.'));
+
+            return $this->redirect('retour/dashboard');
+        }
+        Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete statistic."));
+
+        return null;
     }
 }
