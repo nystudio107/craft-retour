@@ -20,6 +20,16 @@
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
 
+            <div class="left floated left pl-5 pt-3 text-gray-600">
+                <div class="select">
+                    <select v-model="retourHandled" class="fieldtoggle" data-target-prefix="retour-handled-" name="retourHandled">
+                        <option value="all" selected>All</option>
+                        <option value="handled">Handled</option>
+                        <option value="nothandled">Not Handled</option>
+                    </select>
+                </div>
+            </div>
+
             <vuetable-pagination ref="paginationTop"
                                  @vuetable-pagination:change-page="onChangePage"
             ></vuetable-pagination>
@@ -95,6 +105,7 @@
                 fields: FieldDefs,
                 numSelected: 0,
                 selectedIds: [],
+                retourHandled: 'all',
             }
         },
         computed: {
@@ -104,6 +115,20 @@
             csrfTokenValue: function() {
                 return window.Craft.csrfTokenValue;
             },
+        },
+        watch: {
+            retourHandled: function(val) {
+                this.moreParams = {
+                    'siteId': this.siteId,
+                };
+                if (val !== 'all') {
+                    this.moreParams = {
+                        'siteId': this.siteId,
+                        'handled': val,
+                    };
+                }
+                this.$events.fire('refresh-table', this.$refs.vuetable);
+            }
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
