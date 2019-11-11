@@ -101,5 +101,20 @@ return [
     '5 seconds' => '5 seconds',
     '60 seconds' => '60 seconds',
     'Dashboard data live refresh interval.' => 'Dashboard data live refresh interval.',
-    'Whether the Statistics should be trimmed after each new statistic is recorded.' => 'Whether the Statistics should be trimmed after each new statistic is recorded.'
+    'Whether the Statistics should be trimmed after each new statistic is recorded.' => 'Whether the Statistics should be trimmed after each new statistic is recorded.',
+    'Choose the fields to import into Retour from the CSV file by dragging them in the appropriate order. Click on the `x` to delete an unused field.' => 'Choose the fields to import into Retour from the CSV file by dragging them in the appropriate order. Click on the `x` to delete an unused field.',
+    'Retour edirects deleted.' => 'Retour edirects deleted.',
+    'The amount of time required between trimming of statistics.' => 'The amount of time required between trimming of statistics.',
+    'Retour statistics deleted: {error}' => 'Retour statistics deleted: {error}',
+    'Couldn\'t delete statistic.' => 'Couldn\'t delete statistic.',
+    'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?' => 'Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?',
+    'Redirects could not be imported.' => 'Redirects could not be imported.',
+    'Once per week' => 'Once per week',
+    'Once per hour' => 'Once per hour',
+    'Once per day' => 'Once per day',
+    'Entry Redirects URL Match Type' => 'Entry Redirects URL Match Type',
+    'Statistics Trimming Rate Limit' => 'Statistics Trimming Rate Limit',
+    'Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?' => 'Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?',
+    'Retour statistics deleted.' => 'Retour statistics deleted.',
+    'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.' => 'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.'
 ];
