@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vendor.js
  * @author         Andrew Welch
- * @build          Mon, Nov 11, 2019 11:24 PM ET
- * @release        d2a9ec62a162128ce6524f6f3748b2c5dbaf1e16 [develop]
+ * @build          Mon, Nov 11, 2019 11:27 PM ET
+ * @release        39e7ad60ee5e660e385a2a71154bde2436d94a6a [develop]
  * @copyright      Copyright (c) 2019 nystudio107
  *
  */

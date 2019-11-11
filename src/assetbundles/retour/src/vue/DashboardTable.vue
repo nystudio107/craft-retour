@@ -20,7 +20,7 @@
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
 
-            <div class="left floated left pl-5 pt-3 text-gray-600">
+            <div class="left floated left pl-3 pt-3 text-gray-600">
                 <div class="select">
                     <select v-model="retourHandled" class="fieldtoggle" data-target-prefix="retour-handled-" name="retourHandled">
                         <option value="all" selected>All</option>
