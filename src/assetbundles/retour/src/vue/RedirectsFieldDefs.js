@@ -1,6 +1,11 @@
 // Field definitions for RedirectsTable.vue
 export default [
     {
+        name: '__checkbox',
+        titleClass: 'center aligned',
+        dataClass: 'center aligned'
+    },
+    {
         name: '__component:legacy-url',
         sortField: 'redirectSrcUrl',
         title: 'Legacy URL Pattern',
@@ -51,12 +56,4 @@ export default [
         titleClass: 'center',
         dataClass: 'center',
     },
-    {
-        name: 'deleteLink',
-        sortField: 'deleteLink',
-        title: '',
-        titleClass: 'text-center',
-        dataClass: 'text-center',
-        callback: 'deleteRedirectFormatter',
-    }
 ];

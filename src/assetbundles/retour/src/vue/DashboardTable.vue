@@ -1,9 +1,25 @@
 <template>
     <div class="py-4">
-        <vuetable-filter-bar></vuetable-filter-bar>
+
+        <div class="" v-show="numSelected !== 0">
+            <form method="post" accept-charset="UTF-8">
+                <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
+                <div class="btngroup inline">
+                    <div class="btn menubtn" data-icon="settings"></div>
+                    <div class="menu" data-align="right">
+                        <ul>
+                            <li><a class="formsubmit" data-action="plugins/install-plugin">Install App</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
+
         <div class="vuetable-pagination clearafter">
             <vuetable-pagination-info ref="paginationInfoTop"
             ></vuetable-pagination-info>
+
             <vuetable-pagination ref="paginationTop"
                                  @vuetable-pagination:change-page="onChangePage"
             ></vuetable-pagination>
@@ -77,11 +93,14 @@
                     }
                 ],
                 fields: FieldDefs,
+                numSelected: 0,
             }
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
             this.$events.$on('filter-reset', e => this.onFilterReset());
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
+            this.$refs.vuetable.$on('vuetable:checkbox-toggled-all', (isChecked) => this.onCheckboxToggled(isChecked, null));
             // Live refresh the data
             if (this.refreshIntervalSecs) {
                 setInterval(() => {
@@ -116,6 +135,12 @@
             },
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page);
+            },
+            onCheckboxToggled (isChecked, dataItem) {
+                this.numSelected = 0;
+                if (this.$refs.vuetable !== undefined && this.$refs.vuetable.selectedTo !== undefined) {
+                    this.numSelected = this.$refs.vuetable.selectedTo.length;
+                }
             },
             urlFormatter(value) {
                 if (value === '') {
