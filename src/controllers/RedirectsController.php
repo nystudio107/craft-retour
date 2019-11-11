@@ -205,16 +205,23 @@ class RedirectsController extends Controller
     }
 
     /**
-     * @param int $redirectId
+     * @param array $redirectIds
      *
      * @return null|Response
      * @throws \craft\errors\MissingComponentException
      * @throws \yii\web\ForbiddenHttpException
      */
-    public function actionDeleteRedirect(int $redirectId)
+    public function actionDeleteRedirects(array $redirectIds)
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
-        if (Retour::$plugin->redirects->deleteRedirectById($redirectId)) {
+        $stickyError = false;
+        foreach ($redirectIds as $redirectId) {
+            if (!Retour::$plugin->redirects->deleteRedirectById($redirectId)) {
+                $stickyError = true;
+            }
+        }
+        // Handle any cumulative errors
+        if (!$stickyError) {
             // Clear the caches and continue on
             Retour::$plugin->clearAllCaches();
             Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect deleted.'));

@@ -129,4 +129,37 @@ class StatisticsController extends Controller
 
         return $this->redirect('retour/dashboard');
     }
+
+    /**
+     * @return Response
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionDeleteStatistics(): Response
+    {
+        PermissionHelper::controllerPermissionCheck('retour:dashboard');
+        $request = Craft::$app->getRequest();
+        $statisticIds = $request->getRequiredBodyParam('statisticIds');
+        $stickyError = false;
+        foreach ($statisticIds as $statisticId) {
+            if (!Retour::$plugin->statistics->deleteStatisticById($statisticId)) {
+                $stickyError = true;
+            }
+        }
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Retour statistics deleted: {error}',
+                ['error' => $stickyError]
+            ),
+            __METHOD__
+        );
+        Retour::$plugin->clearAllCaches();
+        try {
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour statistics cleared.'));
+        } catch (MissingComponentException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+
+        return $this->redirect('retour/dashboard');
+    }
 }

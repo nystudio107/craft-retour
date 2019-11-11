@@ -3,12 +3,14 @@
 
         <div class="" v-show="numSelected !== 0">
             <form method="post" accept-charset="UTF-8">
+                <input type="hidden" :name="csrfTokenName" :value="csrfTokenValue" />
+                <input v-for="selectedId in selectedIds" type="hidden" name="statisticIds[]" :value="selectedId" />
                 <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
                 <div class="btngroup inline">
                     <div class="btn menubtn" data-icon="settings"></div>
                     <div class="menu" data-align="right">
                         <ul>
-                            <li><a class="formsubmit" data-action="plugins/install-plugin">Install App</a></li>
+                            <li><a class="formsubmit" data-action="retour/statistics/delete-statistics">Delete</a></li>
                         </ul>
                     </div>
                 </div>
@@ -94,7 +96,16 @@
                 ],
                 fields: FieldDefs,
                 numSelected: 0,
+                selectedIds: [],
             }
+        },
+        computed: {
+            csrfTokenName: function() {
+                return window.Craft.csrfTokenName;
+            },
+            csrfTokenValue: function() {
+                return window.Craft.csrfTokenValue;
+            },
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
@@ -138,8 +149,10 @@
             },
             onCheckboxToggled (isChecked, dataItem) {
                 this.numSelected = 0;
+                this.selectedIds = [];
                 if (this.$refs.vuetable !== undefined && this.$refs.vuetable.selectedTo !== undefined) {
                     this.numSelected = this.$refs.vuetable.selectedTo.length;
+                    this.selectedIds = this.$refs.vuetable.selectedTo;
                 }
             },
             urlFormatter(value) {
