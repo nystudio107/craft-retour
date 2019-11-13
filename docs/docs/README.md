@@ -20,7 +20,7 @@ So any existing redirects and statistics will continue to be in place.
 
 ![Screenshot](./resources/img/moz-logo-blue.png)![Screenshot](./resources/img/craft-cms-logo.png)
 
-SEOmatic is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on to handle their website redirects!
+Retour is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on to handle their website redirects!
 
 ## Requirements
 
