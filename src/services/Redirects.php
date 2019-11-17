@@ -432,6 +432,7 @@ class Redirects extends Component
                             }
                         } catch (\Exception $e) {
                             // That's fine
+                            Craft::error('Invalid Redirect Regex: '.$matchRegEx, __METHOD__);
                         }
 
                         break;
@@ -821,6 +822,7 @@ class Redirects extends Component
                     }
                 } catch (\Exception $e) {
                     // That's fine
+                    Craft::error('Invalid exclude URI Regex: '.$pattern, __METHOD__);
                 }
             }
         }
