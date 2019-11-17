@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.29 - 2019.11.18
+### Changed
+* Added a `try` / `catch` around regular expression parsing to gracefully handle malformed input
+
 ## 3.1.28 - 2019.11.11
 ### Added
 * Added the ability to bulk delete Statistics & Redirects
