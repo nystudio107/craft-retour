@@ -224,7 +224,7 @@ class RedirectsController extends Controller
         // Handle any cumulative errors
         if (!$stickyError) {
             // Clear the caches and continue on
-            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour edirects deleted.'));
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour redirects deleted.'));
 
             return $this->redirect('retour/redirects');
         }
