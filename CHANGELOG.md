@@ -3,6 +3,7 @@
 ## 3.1.29 - 2019.11.18
 ### Changed
 * Added a `try` / `catch` around regular expression parsing to gracefully handle malformed input
+* Log invalid regex's to `web.log`
 
 ## 3.1.28 - 2019.11.11
 ### Added
