@@ -5,6 +5,9 @@
 * Added a `try` / `catch` around regular expression parsing to gracefully handle malformed input
 * Log invalid regex's to `web.log`
 
+### Fixed
+* Fixed an issue where deleting statistics could throw an error
+
 ## 3.1.28 - 2019.11.11
 ### Added
 * Added the ability to bulk delete Statistics & Redirects

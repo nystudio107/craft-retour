@@ -131,17 +131,17 @@ class StatisticsController extends Controller
     }
 
     /**
-     * @return Response
+     * @return Response|void
      * @throws \yii\web\ForbiddenHttpException
      */
-    public function actionDeleteStatistics(): Response
+    public function actionDeleteStatistics()
     {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $request = Craft::$app->getRequest();
         $statisticIds = $request->getRequiredBodyParam('statisticIds');
         $stickyError = false;
         foreach ($statisticIds as $statisticId) {
-            if (!Retour::$plugin->statistics->deleteStatisticById($statisticId)) {
+            if (Retour::$plugin->statistics->deleteStatisticById($statisticId) === 0) {
                 $stickyError = true;
             }
         }
@@ -164,6 +164,6 @@ class StatisticsController extends Controller
         }
         Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete statistic."));
 
-        return null;
+        return;
     }
 }
