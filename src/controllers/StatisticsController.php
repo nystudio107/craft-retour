@@ -132,6 +132,8 @@ class StatisticsController extends Controller
 
     /**
      * @return Response|void
+     * @throws MissingComponentException
+     * @throws \yii\web\BadRequestHttpException
      * @throws \yii\web\ForbiddenHttpException
      */
     public function actionDeleteStatistics()
