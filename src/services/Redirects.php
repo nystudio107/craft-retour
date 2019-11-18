@@ -415,20 +415,26 @@ class Redirects extends Component
                     // Do a regex match
                     case 'regexmatch':
                         $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
-                        if (preg_match($matchRegEx, $url) === 1) {
-                            $this->incrementRedirectHitCount($redirect);
-                            // If we're not associated with an EntryID, handle capture group replacement
-                            if ((int)$redirect['associatedElementId'] === 0) {
-                                $redirect['redirectDestUrl'] = preg_replace(
-                                    $matchRegEx,
-                                    $redirect['redirectDestUrl'],
-                                    $url
-                                );
-                            }
-                            $this->saveRedirectToCache($url, $redirect);
+                        try {
+                            if (preg_match($matchRegEx, $url) === 1) {
+                                $this->incrementRedirectHitCount($redirect);
+                                // If we're not associated with an EntryID, handle capture group replacement
+                                if ((int)$redirect['associatedElementId'] === 0) {
+                                    $redirect['redirectDestUrl'] = preg_replace(
+                                        $matchRegEx,
+                                        $redirect['redirectDestUrl'],
+                                        $url
+                                    );
+                                }
+                                $this->saveRedirectToCache($url, $redirect);
 
-                            return $redirect;
+                                return $redirect;
+                            }
+                        } catch (\Exception $e) {
+                            // That's fine
+                            Craft::error('Invalid Redirect Regex: '.$matchRegEx, __METHOD__);
                         }
+
                         break;
 
                     // Otherwise try to look up a plugin's method by and call it for the match
@@ -810,8 +816,13 @@ class Redirects extends Component
         if (!empty(Retour::$settings->excludePatterns)) {
             foreach (Retour::$settings->excludePatterns as $excludePattern) {
                 $pattern = '`'.$excludePattern['pattern'].'`i';
-                if (preg_match($pattern, $uri) === 1) {
-                    return true;
+                try {
+                    if (preg_match($pattern, $uri) === 1) {
+                        return true;
+                    }
+                } catch (\Exception $e) {
+                    // That's fine
+                    Craft::error('Invalid exclude URI Regex: '.$pattern, __METHOD__);
                 }
             }
         }
