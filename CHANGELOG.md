@@ -1,7 +1,7 @@
 # Retour Changelog
 
 ## 3.1.30 - 2019.12.06
-### Changed
+### Fixed
 * Fixed a low-impact SQL injection vulnerability 
 
 ## 3.1.29 - 2019.11.18
