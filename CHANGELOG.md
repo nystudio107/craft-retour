@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.30 - 2019.12.06
+### Changed
+* Fixed a low-impact SQL injection vulnerability 
+
 ## 3.1.29 - 2019.11.18
 ### Changed
 * Added a `try` / `catch` around regular expression parsing to gracefully handle malformed input
