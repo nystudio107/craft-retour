@@ -36,6 +36,11 @@ class TablesController extends Controller
         'nothandled' => 0,
     ];
 
+    const SORT_MAP = [
+        'DESC' => SORT_DESC,
+        'ASC' => SORT_ASC,
+    ];
+
     // Protected Properties
     // =========================================================================
 
@@ -81,13 +86,15 @@ class TablesController extends Controller
                 list($sortField, $sortType) = explode('|', $sort);
             }
         }
+        $sortType = strtoupper($sortType);
+        $sortType = self::SORT_MAP[$sortType] ?? self::SORT_MAP['DESC'];
         // Query the db table
         $offset = ($page - 1) * $per_page;
         $query = (new Query())
             ->from(['{{%retour_stats}}'])
             ->offset($offset)
             ->limit($per_page)
-            ->orderBy("{$sortField} {$sortType}");
+            ->orderBy([$sortField => $sortType]);
         if ((int)$siteId !== 0) {
             $query->where(['siteId' => $siteId]);
         }
@@ -171,13 +178,15 @@ class TablesController extends Controller
                 list($sortField, $sortType) = explode('|', $sort);
             }
         }
+        $sortType = strtoupper($sortType);
+        $sortType = self::SORT_MAP[$sortType] ?? self::SORT_MAP['DESC'];
         // Query the db table
         $offset = ($page - 1) * $per_page;
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->offset($offset)
             ->limit($per_page)
-            ->orderBy("{$sortField} {$sortType}");
+            ->orderBy([$sortField => $sortType]);
         if ((int)$siteId !== 0) {
             $query->where(['siteId' => $siteId]);
         }

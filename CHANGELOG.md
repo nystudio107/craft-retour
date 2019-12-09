@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.1.30 - 2019.12.09
+### Added
+* Added the ability to use [reference tags](https://docs.craftcms.com/v3/reference-tags.html) in the Destination URL
+
+### Fixed
+* Fixed a low-impact SQL injection vulnerability 
+
 ## 3.1.29 - 2019.11.18
 ### Changed
 * Added a `try` / `catch` around regular expression parsing to gracefully handle malformed input
