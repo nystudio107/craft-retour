@@ -228,6 +228,7 @@ class Redirects extends Component
                     $dest .= '?' . $request->getQueryStringWithoutPath();
                 }
             }
+            $dest = Craft::$app->elements->parseRefs($dest, $redirect['siteId'] ?? null);
             $status = $redirect['redirectHttpCode'];
             Craft::info(
                 Craft::t(
