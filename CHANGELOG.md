@@ -1,6 +1,9 @@
 # Retour Changelog
 
-## 3.1.30 - 2019.12.06
+## 3.1.30 - 2019.12.09
+### Added
+* Added the ability to use [reference tags](https://docs.craftcms.com/v3/reference-tags.html) in the Destination URL
+
 ### Fixed
 * Fixed a low-impact SQL injection vulnerability 
 
