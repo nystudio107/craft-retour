@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.31 - 2019.12.11
+### Security
+* Throw an exception if an invalid sort field is passed into the controller methods, to eliminate a low-impact SQL injection vulnerability
+
 ## 3.1.30 - 2019.12.09
 ### Added
 * Added the ability to use [reference tags](https://docs.craftcms.com/v3/reference-tags.html) in the Destination URL
