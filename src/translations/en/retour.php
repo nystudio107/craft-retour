@@ -116,5 +116,7 @@ return [
     'Statistics Trimming Rate Limit' => 'Statistics Trimming Rate Limit',
     'Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?' => 'Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?',
     'Retour statistics deleted.' => 'Retour statistics deleted.',
-    'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.' => 'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.'
+    'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.' => 'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.',
+    'Retour redirects deleted.' => 'Retour redirects deleted.',
+    'Invalid sort field specified.' => 'Invalid sort field specified.'
 ];
