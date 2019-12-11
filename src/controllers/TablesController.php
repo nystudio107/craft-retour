@@ -18,6 +18,7 @@ use craft\db\Query;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
 
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
@@ -41,6 +42,25 @@ class TablesController extends Controller
         'ASC' => SORT_ASC,
     ];
 
+    const ALLOWED_STATS_SORT_FIELDS = [
+        'redirectSrcUrl',
+        'referrerUrl',
+        'remoteIp',
+        'hitCount',
+        'hitLastTime',
+        'handledByRetour',
+    ];
+
+    const ALLOWED_REDIRECTS_SORT_FIELDS = [
+        'redirectSrcUrl',
+        'redirectDestUrl',
+        'redirectMatchType',
+        'siteId',
+        'redirectHttpCode',
+        'hitCount',
+        'hitLastTime',
+    ];
+
     // Protected Properties
     // =========================================================================
 
@@ -56,15 +76,16 @@ class TablesController extends Controller
     /**
      * Handle requests for the dashboard statistics table
      *
-     * @param string $sort
-     * @param int    $page
-     * @param int    $per_page
-     * @param string $filter
-     * @param int    $siteId
+     * @param string      $sort
+     * @param int         $page
+     * @param int         $per_page
+     * @param string      $filter
+     * @param int         $siteId
      * @param string|null $handled
      *
      * @return Response
      * @throws ForbiddenHttpException
+     * @throws BadRequestHttpException
      */
     public function actionDashboard(
         string $sort = 'hitCount|desc',
@@ -88,6 +109,10 @@ class TablesController extends Controller
         }
         $sortType = strtoupper($sortType);
         $sortType = self::SORT_MAP[$sortType] ?? self::SORT_MAP['DESC'];
+        // Validate untrusted data
+        if (!in_array($sortField, self::ALLOWED_STATS_SORT_FIELDS, true)) {
+            throw new BadRequestHttpException(Craft::t('retour', 'Invalid sort field specified.'));
+        }
         // Query the db table
         $offset = ($page - 1) * $per_page;
         $query = (new Query())
@@ -158,6 +183,7 @@ class TablesController extends Controller
      *
      * @return Response
      * @throws ForbiddenHttpException
+     * @throws BadRequestHttpException
      */
     public function actionRedirects(
         string $sort = 'hitCount|desc',
@@ -180,6 +206,10 @@ class TablesController extends Controller
         }
         $sortType = strtoupper($sortType);
         $sortType = self::SORT_MAP[$sortType] ?? self::SORT_MAP['DESC'];
+        // Validate untrusted data
+        if (!in_array($sortField, self::ALLOWED_REDIRECTS_SORT_FIELDS, true)) {
+            throw new BadRequestHttpException(Craft::t('retour', 'Invalid sort field specified.'));
+        }
         // Query the db table
         $offset = ($page - 1) * $per_page;
         $query = (new Query())
