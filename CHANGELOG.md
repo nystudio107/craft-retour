@@ -3,6 +3,7 @@
 ## 3.1.32 - 2020.01.09
 ### Added
 * Added URL sanitization to the redirect URL that Retour passes to `$response->redirect()`
+* If `addTrailingSlashesToUrls` is set, add a slash to the end of  **Destination URL** if the URL is a site URL
 
 ## 3.1.31 - 2019.12.11
 ### Security
