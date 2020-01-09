@@ -187,6 +187,39 @@ class Install extends Migration
 
         $this->createIndex(
             $this->db->getIndexName(
+                '{{%retour_static_redirects}}',
+                'redirectSrcUrl',
+                false
+            ),
+            '{{%retour_static_redirects}}',
+            'redirectSrcUrl',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(
+                '{{%retour_redirects}}',
+                'redirectSrcUrl',
+                false
+            ),
+            '{{%retour_redirects}}',
+            'redirectSrcUrl',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(
+                '{{%retour_stats}}',
+                'redirectSrcUrl',
+                false
+            ),
+            '{{%retour_stats}}',
+            'redirectSrcUrl',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(
                 '{{%retour_redirects}}',
                 'siteId',
                 false

@@ -257,6 +257,8 @@ class Redirects extends Component
                     Craft::error($e->getMessage(), __METHOD__);
                 }
             }
+            // Sanitize the URL
+            $dest = filter_var($dest, FILTER_SANITIZE_URL);
             // Redirect the request away;
             $response->redirect($dest, $status)->send();
             try {

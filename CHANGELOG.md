@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.1.32 - 2020.01.09
+### Added
+* Added URL sanitization to the redirect URL that Retour passes to `$response->redirect()`
+* If `addTrailingSlashesToUrls` is set, add a slash to the end of  **Destination URL** if the URL is a site URL
+* Added indexes for `redirectSrcUrl` in all tables to make queries perform better
+
 ## 3.1.31 - 2019.12.11
 ### Security
 * Throw an exception if an invalid sort field is passed into the controller methods, to eliminate a low-impact SQL injection vulnerability
