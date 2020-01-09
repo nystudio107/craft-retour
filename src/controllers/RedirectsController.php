@@ -252,6 +252,12 @@ class RedirectsController extends Controller
             throw new NotFoundHttpException('Redirect not found');
         }
         $redirectConfig['id'] = (int)$redirectConfig['id'];
+        // Handle enforcing trailing slashes
+        $generalConfig = Craft::$app->getConfig()->getGeneral();
+        if ($generalConfig->addTrailingSlashesToUrls) {
+            $destUrl = $redirectConfig['redirectDestUrl'] ?? '';
+            $redirectConfig['redirectDestUrl'] = $this->addSlashToSiteUrls($destUrl);
+        }
         $redirect = new StaticRedirectsModel($redirectConfig);
         // Make sure the redirect validates
         if (!$redirect->validate()) {
@@ -285,5 +291,35 @@ class RedirectsController extends Controller
         Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect settings saved.'));
 
         return $this->redirectToPostedUrl();
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * If the $url appears to be a site URL, add a slash to the end of it
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    protected function addSlashToSiteUrls(string $url): string
+    {
+        // Make sure the URL doesn't end with a file extension, e.g.: .jpg
+        if (!preg_match('/\.[^\/]+$/', $url)) {
+            // If it's a root relative URL, assume it's a site URL
+            if (UrlHelper::isRootRelativeUrl($url)) {
+                return rtrim($url, '/') . '/';
+            }
+            // If the URL matches any of the site's base URLs, assume it's a site URL
+            $sites = Craft::$app->getSites()->getAllSites();
+            foreach ($sites as $site) {
+                if (strpos($url, $site->getBaseUrl()) === 0) {
+                    return rtrim($url, '/') . '/';
+                }
+            }
+        }
+
+        return $url;
     }
 }
