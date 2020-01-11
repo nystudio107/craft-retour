@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.33 - 2020.01.10
+### Fixed
+* Fixed an issue with the migration that happened for sites that were upgraded from Craft 2.x
+
 ## 3.1.32 - 2020.01.09
 ### Added
 * Added URL sanitization to the redirect URL that Retour passes to `$response->redirect()`
