@@ -45,17 +45,6 @@ class m200109_144310_add_redirectSrcUrl_index extends Migration
 
         $this->createIndex(
             $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
-            '{{%retour_redirects}}',
-            'redirectSrcUrl',
-            false
-        );
-
-        $this->createIndex(
-            $this->db->getIndexName(
                 '{{%retour_stats}}',
                 'redirectSrcUrl',
                 false
