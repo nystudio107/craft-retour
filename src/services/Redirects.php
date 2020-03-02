@@ -14,6 +14,7 @@ namespace nystudio107\retour\services;
 use nystudio107\retour\Retour;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
+use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
 use Craft;
@@ -22,7 +23,6 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-use craft\helpers\UrlHelper;
 
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
@@ -258,7 +258,10 @@ class Redirects extends Component
                 }
             }
             // Sanitize the URL
-            $dest = filter_var($dest, FILTER_SANITIZE_URL);
+            $result = UrlHelper::sanitizeUrl($dest);
+            if ($result) {
+                $dest = $result;
+            }
             // Redirect the request away;
             $response->redirect($dest, $status)->send();
             try {
