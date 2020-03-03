@@ -258,10 +258,7 @@ class Redirects extends Component
                 }
             }
             // Sanitize the URL
-            $result = UrlHelper::sanitizeUrl($dest);
-            if ($result) {
-                $dest = $result;
-            }
+            $dest = UrlHelper::sanitizeUrl($dest);
             // Redirect the request away;
             $response->redirect($dest, $status)->send();
             try {
