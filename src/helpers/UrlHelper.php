@@ -20,27 +20,25 @@ use craft\helpers\UrlHelper as CraftUrlHelper;
  */
 class UrlHelper extends CraftUrlHelper
 {
-    // Public Static Properties
-    // =========================================================================
-
     // Public Static Methods
     // =========================================================================
 
     /**
-     * Sanitize the passed in URL
+     * Return a sanitized URL
      *
-     * @param $url
-     * @param bool $encode
+     * @param string $url
      *
-     * @return bool|mixed|string
+     * @return string
      */
-    public static function sanitizeUrl($url, $encode = false) {
-        $url = urlencode(urldecode($url));
-        $url = filter_var(urldecode($url), FILTER_SANITIZE_SPECIAL_CHARS);
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            return false;
-        }
+    public static function sanitizeUrl(string $url): string
+    {
+        // HTML decode the entities, then strip out any tags
+        $url = html_entity_decode($url, ENT_NOQUOTES, 'UTF-8');
+        $url = strip_tags($url);
+        // Remove any Twig tags that somehow are present in the incoming URL
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+        $url = preg_replace('{.*}', '', $url);
 
-        return $encode ? urlencode($url) : $url;
+        return $url;
     }
 }
