@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.34 - 2020.03.12
+### Fixed
+* Handle sanitizing URLs that have special characters such as `ü` in them
+* Remove any double slashes from resolved RegEx redirects
+
 ## 3.1.33 - 2020.01.10
 ### Fixed
 * Fixed an issue with the migration that happened for sites that were upgraded from Craft 2.x
