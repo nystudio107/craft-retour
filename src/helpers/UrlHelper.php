@@ -37,7 +37,7 @@ class UrlHelper extends CraftUrlHelper
         $url = strip_tags($url);
         // Remove any Twig tags that somehow are present in the incoming URL
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-        $url = preg_replace('{.*}', '', $url);
+        $url = preg_replace('/{.*}/', '', $url);
 
         return $url;
     }

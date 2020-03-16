@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.35 - 2020.03.16
+### Fixed
+* Fixes an issue where `UrlHelper::sanitizeUrl()` would return an empty string
+
 ## 3.1.34 - 2020.03.12
 ### Fixed
 * Handle sanitizing URLs that have special characters such as `ü` in them
