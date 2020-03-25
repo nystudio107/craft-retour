@@ -437,7 +437,7 @@ class Redirects extends Component
                                         $url
                                     );
                                 }
-                                $redirect = str_replace('//', '/', $redirect);
+                                $url = preg_replace('/([^:])(\/{2,})/', '$1/', $url);
                                 $this->saveRedirectToCache($url, $redirect);
 
                                 return $redirect;
