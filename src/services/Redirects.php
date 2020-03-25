@@ -218,7 +218,11 @@ class Redirects extends Component
             // If this isn't a full URL, make it one based on the appropriate site
             if (!UrlHelper::isFullUrl($dest)) {
                 try {
-                    $dest = UrlHelper::siteUrl($dest, null, null, $redirect['siteId'] ?? null);
+                    $siteId = $redirect['siteId'] ?? null;
+                    if ($siteId !== null) {
+                        $siteId = (int)$siteId;
+                    }
+                    $dest = UrlHelper::siteUrl($dest, null, null, $siteId);
                 } catch (\yii\base\Exception $e) {
                 }
             }

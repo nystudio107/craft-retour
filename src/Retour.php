@@ -568,6 +568,9 @@ class Retour extends Plugin
                         // Handle the URL match type
                         if (self::$settings->uriChangeRedirectSrcMatch === 'fullurl') {
                             try {
+                                if ($redirectSiteId !== null) {
+                                    $redirectSiteId = (int)$redirectSiteId;
+                                }
                                 $oldUri = UrlHelper::siteUrl($oldUri, null, null, $redirectSiteId);
                                 $newUri = UrlHelper::siteUrl($newUri, null, null, $redirectSiteId);
                             } catch (Exception $e) {
