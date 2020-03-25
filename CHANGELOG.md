@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.36 - 2020.03.24
+### Fixed
+* Fixed an issue where `$siteId` might not be typecast properly when coming from the database, causing PHP to throw an error
+* Replaced the simple `//` -> `/` replacement with a regex, to fix an issue that could inadvertently affect the protocol portion of a destination URL
+
 ## 3.1.35 - 2020.03.16
 ### Fixed
 * Fixes an issue where `UrlHelper::sanitizeUrl()` would return an empty string
