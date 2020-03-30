@@ -38,6 +38,8 @@ class UrlHelper extends CraftUrlHelper
         // Remove any Twig tags that somehow are present in the incoming URL
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $url = preg_replace('/{.*}/', '', $url);
+        // Remove any linebreaks that may be errantly in the URL
+        $url = (string)str_replace(PHP_EOL, '', $url);
 
         return $url;
     }
