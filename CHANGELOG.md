@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.37 - 2020.03.30
+### Changed
+* Explicitly remove any newline characters that might be in the redirected URL
+
 ## 3.1.36 - 2020.03.24
 ### Fixed
 * Fixed an issue where `$siteId` might not be typecast properly when coming from the database, causing PHP to throw an error
