@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 3.1.37 - 2020.03.30
+## 3.1.37 - 2020.04.02
 ### Changed
 * Explicitly remove any newline characters that might be in the redirected URL
+* Updated to latest npm dependencies via `npm audit fix` for both the primary app and the docs
 
 ## 3.1.36 - 2020.03.24
 ### Fixed
