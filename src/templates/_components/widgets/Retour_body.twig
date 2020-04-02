@@ -16,7 +16,7 @@
 {% extends "retour/_layouts/widget-cp.twig" %}
 
 {% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
-{% set iconUrl = baseAssetsUrl ~ '/img/icon.svg' %}
+{% set iconUrl = baseAssetsUrl ~ '/img/Retour-icon.svg' %}
 
 {% block content %}
     <div id="widget-content">
@@ -30,7 +30,7 @@
         >
         </widget-chart>
         <div style="float: right;">
-            <a class="go" href="retour/dashboard">Dashboard</a>
+            <a class="go" href="{{ cpUrl("retour/dashboard") }}">Dashboard</a>
         </div>
     </div>
 
