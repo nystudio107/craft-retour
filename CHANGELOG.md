@@ -1,8 +1,11 @@
 # Retour Changelog
 
 ## 3.1.37 - 2020.04.02
-### Changed
+### Fixed
 * Explicitly remove any newline characters that might be in the redirected URL
+* Fixed an issue with the Dashboard Widget link not being right in certain configs
+
+### Changed
 * Updated to latest npm dependencies via `npm audit fix` for both the primary app and the docs
 
 ## 3.1.36 - 2020.03.24
