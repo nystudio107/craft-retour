@@ -39,7 +39,13 @@ class UrlHelper extends CraftUrlHelper
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $url = preg_replace('/{.*}/', '', $url);
         // Remove any linebreaks that may be errantly in the URL
-        $url = (string)str_replace(PHP_EOL, '', $url);
+        $url = (string)str_replace([
+            PHP_EOL,
+                "\r",
+                "\n",
+            ]
+            , '', $url
+        );
 
         return $url;
     }
