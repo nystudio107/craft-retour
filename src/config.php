@@ -54,6 +54,9 @@ return [
     // The number of milliseconds required between trimming of statistics
     'statisticsRateLimitMs' => 3600000,
 
+    // Determines whether the Retour API endpoint should be enabled for anonymous frontend access
+    'enableApiEndpoint' => false,
+
      // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
     'excludePatterns' => [
     ],

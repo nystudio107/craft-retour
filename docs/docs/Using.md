@@ -40,7 +40,7 @@ To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](h
 
 This is useful if your website is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
 
-You must as least pass in the URI you want metadata for:
+You must at least pass in the URI you want metadata for:
 
 ```graphql
 {
@@ -124,6 +124,67 @@ Most of the time, the only thing you'll care about is the `redirectDestUrl`, whi
     }
   }
 }
+```
+
+## API Endpoint
+
+**N.B.:** Anonymous access to the Retour API endpoint is disabled by default; you'll need to enable it in Retour → Plugin Settings
+
+Retour has an API endpoint that allows you to get a JSON array of all of the redirects.
+
+This is useful if you have an SPA, which you want to have handle the redirects, but you want to give your content authors a GUI for managing them.
+
+To get all of the Retour Redirects, the controller action is:
+
+```twig
+/actions/retour/api/get-redirects
+```
+
+This will return to you an array of redirects as JSON data, e.g.:
+
+```json
+[
+  {
+    "id": "1",
+    "dateCreated": "2020-03-03 23:50:05",
+    "dateUpdated": "2020-03-03 23:50:05",
+    "uid": "0a530fb3-30fe-49a6-ab6b-363cdac8515e",
+    "siteId": "2",
+    "associatedElementId": "0",
+    "enabled": "1",
+    "redirectSrcUrl": "/blog/stuffer",
+    "redirectSrcUrlParsed": "/blog/stuffer",
+    "redirectSrcMatch": "pathonly",
+    "redirectMatchType": "exactmatch",
+    "redirectDestUrl": "/blog/stuffer-es",
+    "redirectHttpCode": "301",
+    "hitCount": "0",
+    "hitLastTime": null
+  },
+  {
+    "id": "2",
+    "dateCreated": "2020-03-03 23:50:19",
+    "dateUpdated": "2020-03-03 23:50:19",
+    "uid": "f81b4752-398c-4e6d-942b-a33f19f06421",
+    "siteId": "4",
+    "associatedElementId": "0",
+    "enabled": "1",
+    "redirectSrcUrl": "/blog/stuffer",
+    "redirectSrcUrlParsed": "/blog/stuffer",
+    "redirectSrcMatch": "pathonly",
+    "redirectMatchType": "exactmatch",
+    "redirectDestUrl": "/blog/stuffer-to-to",
+    "redirectHttpCode": "301",
+    "hitCount": "0",
+    "hitLastTime": null
+  }
+]
+```
+
+If you want only the redirects for a particular `siteId`, you can pass that in as a parameter as well:
+
+```twig
+/actions/retour/api/get-redirects?siteId=1
 ```
 
 Brought to you by [nystudio107](https://nystudio107.com/)

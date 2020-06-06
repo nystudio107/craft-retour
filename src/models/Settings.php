@@ -109,6 +109,11 @@ class Settings extends Model
     public $statsDisplayLimit = 1000;
 
     /**
+     * @var bool Determines whether the Retour API endpoint should be enabled for anonymous frontend access
+     */
+    public $enableApiEndpoint = false;
+
+    /**
      * @var array [Regular expressions](https://regexr.com/) to match URLs to
      *      exclude from Retour
      */
