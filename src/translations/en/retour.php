@@ -118,5 +118,7 @@ return [
     'Retour statistics deleted.' => 'Retour statistics deleted.',
     'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.' => 'The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.',
     'Retour redirects deleted.' => 'Retour redirects deleted.',
-    'Invalid sort field specified.' => 'Invalid sort field specified.'
+    'Invalid sort field specified.' => 'Invalid sort field specified.',
+    'Enable API Access' => 'Enable API Access',
+    'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.' => 'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.'
 ];

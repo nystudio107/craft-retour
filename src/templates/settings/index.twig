@@ -46,7 +46,7 @@
             warning: configWarning("createUriChangeRedirects", "retour"),
             errors: settings.getErrors("createUriChangeRedirects"),
         }) }}
-    
+
         {{ forms.selectField({
             label: "Entry Redirects URL Match Type"|t("retour"),
             instructions: "Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?"|t("retour"),
@@ -59,7 +59,7 @@
             },
             errors: settings.getErrors("uriChangeRedirectSrcMatch"),
         }) }}
-    
+
         {{ forms.lightswitchField({
             label: "Strip Query String from 404s"|t("retour"),
             instructions: "Should the query string be stripped from all 404 URLs before their evaluation?"|t("retour"),
@@ -154,6 +154,16 @@
             value: settings.statisticsRateLimitMs,
             warning: configWarning("statisticsRateLimitMs", "retour"),
             errors: settings.getErrors("statisticsRateLimitMs"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Enable API Access"|t("retour"),
+            instructions: "Determines whether the Retour API endpoint should be enabled for anonymous frontend access."|t("retour"),
+            id: "enableApiEndpoint",
+            name: "enableApiEndpoint",
+            on: settings.enableApiEndpoint,
+            warning: configWarning("enableApiEndpoint", "retour"),
+            errors: settings.getErrors("enableApiEndpoint"),
         }) }}
 
         {{ forms.editableTableField({

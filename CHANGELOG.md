@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.39 - 2020.06.08
+### Added
+* Added an API endpoint to allow the fetching of all of the Retour Redirects
+
+## 3.1.38 - 2020.04.12
+### Fixed
+* Also explicitly remove `\n` and `\r` characters that might be in the redirected URL
+
 ## 3.1.37 - 2020.04.02
 ### Fixed
 * Explicitly remove any newline characters that might be in the redirected URL
