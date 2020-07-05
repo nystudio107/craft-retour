@@ -8,6 +8,9 @@
 * Added a `EVENT_REDIRECT_RESOLVED` to allow plugins/modules to modify redirects that have been resolved.
 * Added an “Additional Headers” setting that allows you to define additional headers that are added to the redirect response
 
+### Fixed
+* Fixed an issue where really long ALL CAPS column names would cause the Import UI to wrap
+
 ## 3.1.39 - 2020.06.08
 ### Added
 * Added an API endpoint to allow the fetching of all of the Retour Redirects
