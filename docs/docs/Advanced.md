@@ -28,6 +28,67 @@ Trimmed 2 from retour_stats table
 
 `craft.retour.getHttpStatus` in your templates will return the HTTP Status code for the current template, so you can display a special message for people who end up on a page via a `301` or `302` redirect.
 
+
+## Redirect Events
+
+Retour throws several Redirect events, in case you want to listen for them in your custom plugin/module, or use them in conjunction with the [Webhooks](https://github.com/craftcms/webhooks) plugin.
+
+`beforeSaveRedirect` is the event that is triggered before the redirect is saved. You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved:
+
+```php
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\events\RedirectEvent;
+
+Event::on(Redirects::class,
+     Redirects::EVENT_BEFORE_SAVE_REDIRECT,
+     function(RedirectEvent $event) {
+         // potentially set $event->isValid;
+     }
+ );
+```
+
+`afterSaveRedirect` is the event that is triggered after the redirect is saved.
+
+```php
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\events\RedirectEvent;
+
+Event::on(Redirects::class,
+     Redirects::EVENT_AFTER_SAVE_REDIRECT,
+     function(RedirectEvent $event) {
+         // the redirect was saved
+     }
+ );
+```
+
+The `RedirectEvent` has the following read-only properties that you can use for informational purposes:
+```php
+    /**
+     * @var bool Whether the redirect is brand new
+     */
+    public $isNew = false;
+
+    /**
+     * @var string The old URL
+     */
+    public $legacyUrl;
+
+    /**
+     * @var string The new URL
+     */
+    public $destinationUrl;
+
+    /**
+     * @var string The type of matching done on the legacyUrl
+     */
+    public $matchType;
+
+    /**
+     * @var string The type of redirect
+     */
+    public $redirectType;
+```
+
 ## Resolve Redirect Events
 
 Retour throws several Resolve Redirect events, in case you want to listen for them in your custom plugin/module, or use them in conjunction with the [Webhooks](https://github.com/craftcms/webhooks) plugin.
@@ -92,64 +153,22 @@ The `ResolveRedirectEvent` has the following properties that you can set:
 
 If your plugin/module wishes to cause a redirect, it should set the `$redirectDestUrl` property to the URL it wants to redirect to.
 
-## Redirect Events
+## Redirect Resolved events
 
-Retour throws several Redirect events, in case you want to listen for them in your custom plugin/module, or use them in conjunction with the [Webhooks](https://github.com/craftcms/webhooks) plugin.
+Retour will throw an event once it has successfully resolved a redirect, allowing your custom plugin/module to potentially modify where it redirects to despite the redirect being resolved fully.
 
-`beforeSaveRedirect` is the event that is triggered before the redirect is saved. You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved:
-
-```php
-use nystudio107\retour\services\Redirects;
-use nystudio107\retour\events\RedirectEvent;
-
-Event::on(Redirects::class,
-     Redirects::EVENT_BEFORE_SAVE_REDIRECT,
-     function(RedirectEvent $event) {
-         // potentially set $event->isValid;
-     }
- );
-```
-
-`afterSaveRedirect` is the event that is triggered after the redirect is saved.
+`RedirectResolvedEvent` is the event that is triggered once Retour has resolved a redirect. [[RedirectResolvedEvent::redirect]] will be set to the redirect that was resolved. You may set [[RedirectResolvedEvent::redirectDestUrl]] to to a different URL that it should redirect to, or leave it null if the  redirect should happen as resolved.
 
 ```php
 use nystudio107\retour\services\Redirects;
-use nystudio107\retour\events\RedirectEvent;
+use nystudio107\retour\events\RedirectResolvedEvent;
 
 Event::on(Redirects::class,
-     Redirects::EVENT_AFTER_SAVE_REDIRECT,
-     function(RedirectEvent $event) {
-         // the redirect was saved
-     }
- );
-```
-
-The `RedirectEvent` has the following read-only properties that you can use for informational purposes:
-```php
-    /**
-     * @var bool Whether the redirect is brand new
-     */
-    public $isNew = false;
-
-    /**
-     * @var string The old URL
-     */
-    public $legacyUrl;
-
-    /**
-     * @var string The new URL
-     */
-    public $destinationUrl;
-
-    /**
-     * @var string The type of matching done on the legacyUrl
-     */
-    public $matchType;
-
-    /**
-     * @var string The type of redirect
-     */
-    public $redirectType;
+    Redirects::EVENT_REDIRECT_RESOLVED,
+    function(RedirectResolvedEvent $event) {
+        // potentially set $event->redirectDestUrl;
+    }
+);
 ```
 
 ## Custom Match Functions via Plugin
