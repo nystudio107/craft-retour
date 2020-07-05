@@ -79,6 +79,11 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
 * **Record Remote IP** - Should the anonymous ip address of the client causing a 404 be recorded?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
+* **Dashboard Refresh Interval** - Dashboard data live refresh interval for the chart and table data
 * **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the Control Panel, or you run the `retour/stats/trim` console command (see below).
+* **Statistics Trimming Rate Limit** - Whether the Statistics should be trimmed after each new statistic is recorded.
+* **Enable API Access** - Determines whether the Retour API endpoint should be enabled for anonymous frontend access.
+* **Exclude Patterns** - [Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour.
+* **Additional Headers** - Additional HTTP headers to add to the redirected request
    
 Brought to you by [nystudio107](https://nystudio107.com/)
