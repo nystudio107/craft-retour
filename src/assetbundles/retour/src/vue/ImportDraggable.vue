@@ -1,5 +1,5 @@
 <template>
-    <div class="flex overflow-hidden w-full flex-no-wrap items-start" style="max-width: 600px;">
+    <div class="flex overflow-hidden w-full flex-no-wrap items-start" style="max-width: 80%;">
         <div class="flex-grow">
             <div>
                 <h2>CSV File Fields</h2>
