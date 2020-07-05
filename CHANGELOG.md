@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 3.1.40 - 2020.07.05
+### Added
+* Added the Codeception testing framework to SEOmatic
+* Added a Unit Test to Retour that executes on every push to GitHub to verify there are no regressions for [#110](https://github.com/nystudio107/craft-retour/issues/110)
+
 ## 3.1.39 - 2020.06.08
 ### Added
 * Added an API endpoint to allow the fetching of all of the Retour Redirects
