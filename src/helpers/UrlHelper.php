@@ -34,6 +34,7 @@ class UrlHelper extends CraftUrlHelper
     {
         // HTML decode the entities, then strip out any tags
         $url = html_entity_decode($url, ENT_NOQUOTES, 'UTF-8');
+        $url = urldecode($url);
         $url = strip_tags($url);
         // Remove any Twig tags that somehow are present in the incoming URL
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
