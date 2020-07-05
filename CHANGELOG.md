@@ -4,6 +4,8 @@
 ### Added
 * Added the Codeception testing framework to SEOmatic
 * Added a Unit Test to Retour that executes on every push to GitHub to verify there are no regressions for [#110](https://github.com/nystudio107/craft-retour/issues/110)
+* Added the ability to import “hits” into a redirect
+* Added a `EVENT_REDIRECT_RESOLVED` to allow plugins/modules to modify redirects that have been resolved.
 
 ## 3.1.39 - 2020.06.08
 ### Added
