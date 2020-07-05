@@ -2,8 +2,8 @@
  * @project        Retour
  * @name           vendor.js
  * @author         Andrew Welch
- * @build          Sun, Jul 5, 2020 2:29 PM ET
- * @release        03098c0272cb718382913b0f7ca0006e09be596c [develop]
+ * @build          Sun, Jul 5, 2020 2:46 PM ET
+ * @release        c87e20cc6fa0e0515f8bbe84c89f5b1de9b3b577 [develop]
  * @copyright      Copyright (c) 2020 nystudio107
  *
  */
