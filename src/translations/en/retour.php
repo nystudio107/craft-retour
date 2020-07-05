@@ -120,5 +120,9 @@ return [
     'Retour redirects deleted.' => 'Retour redirects deleted.',
     'Invalid sort field specified.' => 'Invalid sort field specified.',
     'Enable API Access' => 'Enable API Access',
-    'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.' => 'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.'
+    'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.' => 'Determines whether the Retour API endpoint should be enabled for anonymous frontend access.',
+    'Additional headers to add to the redirected request' => 'Additional headers to add to the redirected request',
+    'Additional Headers' => 'Additional Headers',
+    'Header Name' => 'Header Name',
+    'Header Value' => 'Header Value'
 ];

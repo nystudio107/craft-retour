@@ -186,6 +186,35 @@
             rows: settings.excludePatterns,
             errors: settings.getErrors("excludePatterns"),
         }) }}
+
+        {{ forms.editableTableField({
+            label: "Additional Headers"|t("retour"),
+            instructions: "Additional headers to add to the redirected request"|t("retour"),
+            id: 'additionalHeaders',
+            name: 'additionalHeaders',
+            required: false,
+            defaultValues: {
+                name: "",
+                value: "",
+            },
+            cols: {
+                name: {
+                    heading: "Header Name"|t("retour"),
+                    type: "singleline",
+                    width: "50%",
+                    code: true,
+                },
+                value: {
+                    heading: "Header Value"|t("retour"),
+                    type: "singleline",
+                    width: "50%",
+                    code: true,
+                },
+            },
+            rows: settings.additionalHeaders,
+            errors: settings.getErrors("additionalHeaders"),
+        }) }}
+
     {% endnamespace %}
 
     {# include our JavaScript modules #}

@@ -71,6 +71,10 @@
                                 yaxis: {
                                     min: 0,
                                     max: largest,
+                                    labels: {
+                                        show: false,
+                                        minHeight: '20px',
+                                    },
                                 },
                                 xaxis: {
                                     categories: data[0]['labels'],
@@ -108,9 +112,8 @@
                 chartOptions: {
                     chart: {
                         id: 'vuechart-dashboard',
-                        toolbar: {
-                            show: false,
-                        },
+                        type: 'area',
+                        height: 160,
                         sparkline: {
                             enabled: true
                         },
@@ -136,10 +139,8 @@
                             width: 1
                         },
                     },
-                    labels: [],
                     yaxis: {
                         min: 0,
-                        max: 0,
                     },
                     title: {
                         text: this.title,

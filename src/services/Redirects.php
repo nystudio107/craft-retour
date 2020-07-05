@@ -14,6 +14,7 @@ namespace nystudio107\retour\services;
 use nystudio107\retour\Retour;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
+use nystudio107\retour\events\RedirectResolvedEvent;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 
@@ -120,6 +121,27 @@ class Redirects extends Component
      * ```
      */
     const EVENT_AFTER_RESOLVE_REDIRECT = 'afterResolveRedirect';
+
+    /**
+     * @event RedirectResolvedEvent The event that is triggered once Retour has resolved
+     *        a redirect. [[RedirectResolvedEvent::redirect]] will be set to the redirect
+     *        that was resolved. You may set [[RedirectResolvedEvent::redirectDestUrl]] to
+     *        to a different URL that it should redirect to, or leave it null if the
+     *        redirect should happen as resolved.
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\RedirectResolvedEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_REDIRECT_RESOLVED,
+     *     function(RedirectResolvedEvent $event) {
+     *         // potentially set $event->redirectDestUrl;
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
 
     // Protected Properties
     // =========================================================================
@@ -263,6 +285,12 @@ class Redirects extends Component
             }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
+            // Add any additional headers
+            if (!empty(Retour::$settings->additionalHeaders)) {
+                foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
+                    $response->headers->add($additionalHeader['name'], $additionalHeader['value']);
+                }
+            }
             // Redirect the request away;
             $response->redirect($dest, $status)->send();
             try {
@@ -419,6 +447,19 @@ class Redirects extends Component
                             $this->incrementRedirectHitCount($redirect);
                             $this->saveRedirectToCache($url, $redirect);
 
+                            // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                            $event = new RedirectResolvedEvent([
+                                'fullUrl' => $fullUrl,
+                                'pathOnly' => $pathOnly,
+                                'redirectDestUrl' => null,
+                                'redirectHttpCode' => 301,
+                                'redirect' => $redirect,
+                            ]);
+                            $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                            if ($event->redirectDestUrl !== null) {
+                                return $this->resolveEventRedirect($event);
+                            }
+
                             return $redirect;
                         }
                         break;
@@ -439,6 +480,19 @@ class Redirects extends Component
                                 }
                                 $url = preg_replace('/([^:])(\/{2,})/', '$1/', $url);
                                 $this->saveRedirectToCache($url, $redirect);
+
+                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                                $event = new RedirectResolvedEvent([
+                                    'fullUrl' => $fullUrl,
+                                    'pathOnly' => $pathOnly,
+                                    'redirectDestUrl' => null,
+                                    'redirectHttpCode' => 301,
+                                    'redirect' => $redirect,
+                                ]);
+                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                                if ($event->redirectDestUrl !== null) {
+                                    return $this->resolveEventRedirect($event);
+                                }
 
                                 return $redirect;
                             }
@@ -462,6 +516,19 @@ class Redirects extends Component
                             if ($result) {
                                 $this->incrementRedirectHitCount($redirect);
                                 $this->saveRedirectToCache($url, $redirect);
+
+                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                                $event = new RedirectResolvedEvent([
+                                    'fullUrl' => $fullUrl,
+                                    'pathOnly' => $pathOnly,
+                                    'redirectDestUrl' => null,
+                                    'redirectHttpCode' => 301,
+                                    'redirect' => $redirect,
+                                ]);
+                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                                if ($event->redirectDestUrl !== null) {
+                                    return $this->resolveEventRedirect($event);
+                                }
 
                                 return $redirect;
                             }
