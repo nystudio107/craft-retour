@@ -120,6 +120,12 @@ class Settings extends Model
     public $excludePatterns = [
     ];
 
+    /**
+     * @var array Additional headers to add to redirected requests
+     */
+    public $additionalHeaders = [
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -157,7 +163,13 @@ class Settings extends Model
             ['refreshIntervalSecs', 'default', 'value' => 3],
             ['statsDisplayLimit', 'integer', 'min' => 1],
             ['statsDisplayLimit', 'default', 'value' => 1000],
-            ['excludePatterns', ArrayValidator::class],
+            [
+                [
+                    'excludePatterns',
+                    'additionalHeaders',
+                ],
+                ArrayValidator::class
+            ],
         ];
     }
 

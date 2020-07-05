@@ -60,4 +60,8 @@ return [
      // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
     'excludePatterns' => [
     ],
+
+    // Additional headers to add to redirected requests
+    'additionalHeaders' => [
+    ],
 ];
