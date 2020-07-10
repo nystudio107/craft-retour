@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.41 - 2020.07.013
+###  Changed
+* Overwrite existing headers rather than adding to them with the **Additional Headers** setting
+
 ## 3.1.40 - 2020.07.05
 ### Added
 * Added the Codeception testing framework to SEOmatic
