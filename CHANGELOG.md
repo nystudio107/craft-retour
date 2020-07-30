@@ -1,6 +1,9 @@
 # Retour Changelog
 
-## 3.1.41 - 2020.07.013
+## 3.1.41 - 2020.07.30
+### Fixed
+* Added `craftcms/cms` back in as a dependency so Craft sees updates to the plugin again
+
 ###  Changed
 * Overwrite existing headers rather than adding to them with the **Additional Headers** setting
 
