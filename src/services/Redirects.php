@@ -285,10 +285,10 @@ class Redirects extends Component
             }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
-            // Add any additional headers
+            // Add any additional headers (existing ones will be replaced)
             if (!empty(Retour::$settings->additionalHeaders)) {
                 foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
-                    $response->headers->add($additionalHeader['name'], $additionalHeader['value']);
+                    $response->headers->set($additionalHeader['name'], $additionalHeader['value']);
                 }
             }
             // Redirect the request away;
