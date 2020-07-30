@@ -23,11 +23,11 @@
         }
     ],
     "require-dev": {
-        "craftcms/cms": "^3.2.0",
         "codeception/codeception": "^3.0",
         "vlucas/phpdotenv": "^3.0"
     },
     "require": {
+        "craftcms/cms": "^3.0.0",
         "league/csv": "^8.2"
     },
     "autoload": {
