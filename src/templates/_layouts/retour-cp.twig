@@ -4,13 +4,15 @@
 
 {% block head %}
     {{ parent() }}
+    {{ craft.retour.includeCssModule("vendors~dashboard~redirects.css", false) }}
     {{ craft.retour.includeCssModule("styles.css", false) }}
 {% endblock %}
 
 {% block foot %}
     {{ parent() }}
     {% set jsModules = [
-        'vendor.js',
+        'vendors~dashboard~redirects.js',
+        'styles.js',
         'retour.js',
     ] %}
     {{ registerJsModules(jsModules) }}

@@ -19,6 +19,8 @@
 
 {% import "_includes/forms" as forms %}
 
+{% from 'retour/_includes/macros.twig' import registerJsModules %}
+
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
@@ -52,5 +54,9 @@
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}
-    {{ craft.retour.includeJsModule("redirects.js", false) }}
+    {% set jsModules = [
+        'vendors~dashboard~redirects.js',
+        'redirects.js',
+    ] %}
+    {{ registerJsModules(jsModules) }}
 {% endblock %}
