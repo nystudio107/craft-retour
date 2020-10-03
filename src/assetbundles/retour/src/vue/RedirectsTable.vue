@@ -43,7 +43,6 @@
 </template>
 
 <script>
-    import Vue from 'vue';
     import FieldDefs from './RedirectsFieldDefs.js';
     import LegacyUrl from './LegacyUrl.vue';
     import VueTable from 'vuetable-2/src/components/Vuetable.vue';

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import VueEvents from 'vue-events';
 import Confetti from '../vue/Confetti.vue';
 import DashboardChart from '../vue/DashboardChart.vue';

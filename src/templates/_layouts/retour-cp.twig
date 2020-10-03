@@ -1,9 +1,17 @@
 {% extends "_layouts/cp" %}
 
+{% from 'retour/_includes/macros.twig' import registerJsModules %}
+
 {% block head %}
     {{ parent() }}
-    {{ craft.retour.includeCssModule("styles.css") }}
-    {{ craft.retour.includeCssModule("vendor.css") }}
-    {{ craft.retour.includeJsModule("vendor.js", false) }}
-    {{ craft.retour.includeJsModule("retour.js", false) }}
+    {{ craft.retour.includeCssModule("styles.css", false) }}
+{% endblock %}
+
+{% block foot %}
+    {{ parent() }}
+    {% set jsModules = [
+        'vendor.js',
+        'retour.js',
+    ] %}
+    {{ registerJsModules(jsModules) }}
 {% endblock %}

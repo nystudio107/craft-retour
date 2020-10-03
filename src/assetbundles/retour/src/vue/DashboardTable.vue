@@ -54,7 +54,6 @@
 </template>
 
 <script>
-    import Vue from 'vue';
     import FieldDefs from './DashboardFieldDefs.js';
     import FileNotFoundUrl from './FileNotFoundUrl.vue';
     import VueTable from 'vuetable-2/src/components/Vuetable.vue';
