@@ -1,7 +1,9 @@
 {
-  "vendor.css": "css/vendor.css",
-  "vendor.js": "js/vendor.js",
-  "vendor.js.map": "js/vendor.js.map",
+  "vendors~dashboard~redirects.css": "css/vendors~dashboard~redirects.css",
+  "vendors~dashboard~redirects.js": "js/vendors~dashboard~redirects.js",
+  "vendors~dashboard~redirects.js.map": "js/vendors~dashboard~redirects.js.map",
+  "vendors~dashboard~widget.js": "js/vendors~dashboard~widget.js",
+  "vendors~dashboard~widget.js.map": "js/vendors~dashboard~widget.js.map",
   "dashboard.js": "js/dashboard.js",
   "dashboard.js.map": "js/dashboard.js.map",
   "import.js": "js/import.js",
@@ -13,10 +15,12 @@
   "styles.css": "css/styles.css",
   "styles.js": "js/styles.js",
   "styles.js.map": "js/styles.js.map",
+  "vendors~import.js": "js/vendors~import.js",
+  "vendors~import.js.map": "js/vendors~import.js.map",
   "widget.js": "js/widget.js",
   "widget.js.map": "js/widget.js.map",
   "css/styles.css.map": "css/styles.css.map",
-  "css/vendor.css.map": "css/vendor.css.map",
+  "css/vendors~dashboard~redirects.css.map": "css/vendors~dashboard~redirects.css.map",
   "img/Retour-icon.svg": "img/Retour-icon.svg",
   "img/icon-mask.svg": "img/icon-mask.svg"
 }
