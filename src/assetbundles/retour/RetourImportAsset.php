@@ -13,6 +13,7 @@ namespace nystudio107\retour\assetbundles\retour;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
+use craft\web\assets\vue\VueAsset;
 
 /**
  * @author    nystudio107
@@ -32,6 +33,7 @@ class RetourImportAsset extends AssetBundle
         $this->sourcePath = '@nystudio107/retour/assetbundles/retour/dist';
         $this->depends = [
             CpAsset::class,
+            VueAsset::class,
             RetourAsset::class,
         ];
 

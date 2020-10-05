@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import WidgetChart from '../vue/WidgetChart.vue';
 
 // Create our vue instance

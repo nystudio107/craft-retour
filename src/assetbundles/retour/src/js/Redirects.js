@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import VueEvents from 'vue-events';
 import RedirectsTable from '../vue/RedirectsTable.vue';
 

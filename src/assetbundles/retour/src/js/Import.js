@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import ImportDraggable from '../vue/ImportDraggable.vue';
 
 // Create our vue instance

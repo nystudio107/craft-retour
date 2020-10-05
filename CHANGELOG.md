@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.42 - 2020.10.04
+### Changed
+* Rebuilt CP assets using latest deps
+* Refactored to use `registerJsModules` macro for JS CP assets
+
+### Fixed
+* Fixed an issue that added a `/` to Reg Ex match destination URLs if you had the `addTrailingSlashesToUrls` General Config setting set to `true`
+
 ## 3.1.41 - 2020.07.30
 ### Fixed
 * Added `craftcms/cms` back in as a dependency so Craft sees updates to the plugin again

@@ -254,7 +254,7 @@ class RedirectsController extends Controller
         $redirectConfig['id'] = (int)$redirectConfig['id'];
         // Handle enforcing trailing slashes
         $generalConfig = Craft::$app->getConfig()->getGeneral();
-        if ($generalConfig->addTrailingSlashesToUrls) {
+        if ($generalConfig->addTrailingSlashesToUrls && $redirectConfig['redirectMatchType'] === 'exactmatch') {
             $destUrl = $redirectConfig['redirectDestUrl'] ?? '';
             $redirectConfig['redirectDestUrl'] = $this->addSlashToSiteUrls($destUrl);
         }
