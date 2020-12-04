@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.43 - 2020.12.04
+### Changed
+* Don't add slashes to destination URLs that contain a query string, regardless of the `addTrailingSlashesToUrls` setting
+
 ## 3.1.42 - 2020.10.04
 ### Changed
 * Rebuilt CP assets using latest deps
