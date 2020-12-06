@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.44 - UNRELEASED
+### Changed
+* Moved the CSS/JS buildchain over to webpack 5
+
 ## 3.1.43 - 2020.12.04
 ### Changed
 * Don't add slashes to destination URLs that contain a query string, regardless of the `addTrailingSlashesToUrls` setting
