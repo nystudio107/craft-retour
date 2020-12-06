@@ -59,7 +59,6 @@
     {# include our JavaScript modules #}
     {{ parent() }}
     {% set jsModules = [
-        'vendors~import.js',
         'import.js',
     ] %}
     {{ registerJsModules(jsModules) }}

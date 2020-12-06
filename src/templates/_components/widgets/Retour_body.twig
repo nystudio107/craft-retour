@@ -38,8 +38,6 @@
 
     {{ parent() }}
     {% set jsModules = [
-        'vendors~dashboard~redirects.js',
-        'vendors~dashboard~widget.js',
         'widget.js',
     ] %}
     {{ registerJsModules(jsModules) }}
