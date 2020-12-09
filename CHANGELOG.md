@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.45 - UNRELEASED
+### Changed
+* Split out vendors & commons chunks
+
 ## 3.1.44 - 2020.12.08
 ### Changed
 * Moved the CSS/JS buildchain over to webpack 5
