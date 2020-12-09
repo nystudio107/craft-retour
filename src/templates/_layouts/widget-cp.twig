@@ -1,7 +1,7 @@
 {% from 'retour/_includes/macros.twig' import registerJsModules %}
 
 {% block head %}
-    {{ craft.retour.includeCssModule("vendor.css", false) }}
+    {{ craft.retour.includeCssModule("vendors.css", false) }}
     {{ craft.retour.includeCssModule("styles.css", false) }}
     {% set jsModules = [
         'retour.js',

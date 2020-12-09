@@ -4,6 +4,7 @@
 
 {% block head %}
     {{ parent() }}
+    {{ craft.retour.includeCssModule("vendors.css", false) }}
     {{ craft.retour.includeCssModule("styles.css", false) }}
 {% endblock %}
 
@@ -11,6 +12,8 @@
     {{ parent() }}
     {% set jsModules = [
         'runtime.js',
+        'vendors.js',
+        'commons.js',
         'retour.js',
     ] %}
     {{ registerJsModules(jsModules) }}
