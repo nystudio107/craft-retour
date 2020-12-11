@@ -168,7 +168,7 @@ class Redirects extends Component
         );
         $request = Craft::$app->getRequest();
         // We only want site requests that are not live preview or console requests
-        if ($request->getIsSiteRequest() && !$request->getIsLivePreview() && !$request->getIsConsoleRequest()) {
+        if ($request->getIsSiteRequest() && !$this->isPreview($request) && !$request->getIsConsoleRequest()) {
             // See if we should redirect
             try {
                 $fullUrl = urldecode($request->getAbsoluteUrl());
@@ -317,6 +317,11 @@ class Redirects extends Component
             $currentSite = Craft::$app->getSites()->currentSite;
             if ($currentSite) {
                 $siteId = $currentSite->id;
+            } else {
+                $primarySite = Craft::$app->getSites()->primarySite;
+                if ($currentSite) {
+                    $siteId = $primarySite->id;
+                }
             }
         }
         // Try getting the full URL redirect from the cache
@@ -457,7 +462,7 @@ class Redirects extends Component
                             ]);
                             $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                             if ($event->redirectDestUrl !== null) {
-                                return $this->resolveEventRedirect($event);
+                                return $this->resolveEventRedirect($event, $url, $redirect);
                             }
 
                             return $redirect;
@@ -491,7 +496,7 @@ class Redirects extends Component
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event);
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
                                 }
 
                                 return $redirect;
@@ -527,7 +532,7 @@ class Redirects extends Component
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event);
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
                                 }
 
                                 return $redirect;
@@ -565,17 +570,24 @@ class Redirects extends Component
      *
      * @return null|array
      */
-    public function resolveEventRedirect(ResolveRedirectEvent $event)
+    public function resolveEventRedirect(ResolveRedirectEvent $event, $url = null, $redirect = null)
     {
         $result = null;
 
         if ($event->redirectDestUrl !== null) {
-            $redirect = new StaticRedirectsModel([
+            $resolvedRedirect = new StaticRedirectsModel([
                 'id' => self::EVENT_REDIRECT_ID,
                 'redirectDestUrl' => $event->redirectDestUrl,
                 'redirectHttpCode' => $event->redirectHttpCode,
             ]);
-            $result = $redirect->toArray();
+            $result = $resolvedRedirect->toArray();
+
+            if ($url !== null && $redirect !== null) {
+                // Save the modified redirect to the cache
+                $redirect['redirectDestUrl'] = $event->redirectDestUrl;
+                $redirect['redirectHttpCode'] = $event->redirectHttpCode;
+                $this->saveRedirectToCache($url, $redirect);
+            }
         }
 
         return $result;
@@ -866,6 +878,9 @@ class Redirects extends Component
         }
         // Trigger a 'afterSaveRedirect' event
         $this->trigger(self::EVENT_AFTER_SAVE_REDIRECT, $event);
+
+        // Invalidate caches after saving a redirect
+        $this->invalidateCaches();
     }
 
     /**
@@ -875,6 +890,13 @@ class Redirects extends Component
     {
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, $this::GLOBAL_REDIRECTS_CACHE_TAG);
+        // If they are using Craft 3.3 or later, clear the GraphQL caches too
+        if (Retour::$craft33) {
+            $gql = Craft::$app->getGql();
+            if (method_exists($gql, 'invalidateCaches')) {
+                $gql->invalidateCaches();
+            }
+        }
         Craft::info(
             Craft::t(
                 'retour',
@@ -907,5 +929,21 @@ class Redirects extends Component
         }
 
         return false;
+    }
+
+    /**
+     * Return whether this is a preview request of any kind
+     *
+     * @return bool
+     */
+    public function isPreview($request): bool
+    {
+        $isPreview = false;
+        if (Retour::$craft32) {
+            $isPreview = $request->getIsPreview();
+        }
+        $isLivePreview = $request->getIsLivePreview();
+
+        return ($isPreview || $isLivePreview);
     }
 }

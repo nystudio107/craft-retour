@@ -1,5 +1,17 @@
 # Retour Changelog
 
+## 3.1.45 - 2020.12.10
+### Changed
+* Split out vendors & commons chunks
+* Check for both types of preview requests on Craft 3.2 or later
+* Invalidate Retour's caches when a redirect is saved
+* Also invalidate the GraphQL caches on Craft CMS 3.3 or later if a Redirect is saved
+
+### Fixed
+* If a redirect is modified by a plugin event, save the changed redirect to the cache
+* Handle no `siteId` being passed into a GraphQL query properly, by defaulting to either the current site, or the primary site
+* Fixed an issue where the Dashboard filter didn’t work in combination with Handled / Not Handled
+
 ## 3.1.44 - 2020.12.08
 ### Changed
 * Moved the CSS/JS buildchain over to webpack 5
