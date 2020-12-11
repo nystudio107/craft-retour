@@ -3,6 +3,7 @@
 ## 3.1.45 - UNRELEASED
 ### Changed
 * Split out vendors & commons chunks
+* Check for both types of preview requests on Craft 3.2 or later
 
 ### Fixed
 * If a redirect is modified by a plugin event, save the changed redirect to the cache
