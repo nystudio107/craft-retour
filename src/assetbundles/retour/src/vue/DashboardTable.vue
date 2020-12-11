@@ -105,6 +105,7 @@
                 numSelected: 0,
                 selectedIds: [],
                 retourHandled: 'all',
+                filterText: '',
             }
         },
         computed: {
@@ -120,12 +121,11 @@
                 this.moreParams = {
                     'siteId': this.siteId,
                 };
-                if (val !== 'all') {
-                    this.moreParams = {
-                        'siteId': this.siteId,
-                        'handled': val,
-                    };
-                }
+                this.moreParams = {
+                    'siteId': this.siteId,
+                    'filter': this.filterText,
+                    'handled': this.retourHandled,
+                };
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             }
         },
@@ -147,9 +147,11 @@
         },
         methods: {
             onFilterSet (filterText) {
+                this.filterText = filterText;
                 this.moreParams = {
                     'siteId': this.siteId,
-                    'filter': filterText,
+                    'filter': this.filterText,
+                    'handled': this.retourHandled,
                 };
                 this.$events.fire('refresh-table', this.$refs.vuetable);
             },

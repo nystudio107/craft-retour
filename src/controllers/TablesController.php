@@ -119,16 +119,15 @@ class TablesController extends Controller
             ->from(['{{%retour_stats}}'])
             ->offset($offset)
             ->limit($per_page)
-            ->orderBy([$sortField => $sortType]);
+            ->orderBy([$sortField => $sortType])
+            ->filterWhere(['like', 'redirectSrcUrl', $filter])
+            ->orFilterWhere(['like', 'referrerUrl', $filter])
+            ;
         if ((int)$siteId !== 0) {
-            $query->where(['siteId' => $siteId]);
+            $query->andWhere(['siteId' => $siteId]);
         }
         if ($handled !== 'all') {
-            $query->where(['handledByRetour' => self::HANDLED_MAP[$handled]]);
-        }
-        if ($filter !== '') {
-            $query->where(['like', 'redirectSrcUrl', $filter]);
-            $query->orWhere(['like', 'referrerUrl', $filter]);
+            $query->andWhere(['handledByRetour' => self::HANDLED_MAP[$handled]]);
         }
         $stats = $query->all();
         if ($stats) {
@@ -144,18 +143,6 @@ class TablesController extends Controller
             }
             // Format the data for the API
             $data['data'] = $stats;
-            $query = (new Query())
-                ->from(['{{%retour_stats}}']);
-            if ((int)$siteId !== 0) {
-                $query->where(['siteId' => $siteId]);
-            }
-            if ($handled !== 'all') {
-                $query->where(['handledByRetour' => self::HANDLED_MAP[$handled]]);
-            }
-            if ($filter !== '') {
-                $query->where(['like', 'redirectSrcUrl', $filter]);
-                $query->orWhere(['like', 'referrerUrl', $filter]);
-            }
             $count = $query->count();
             $data['links']['pagination'] = [
                 'total' => $count,
@@ -216,13 +203,12 @@ class TablesController extends Controller
             ->from(['{{%retour_static_redirects}}'])
             ->offset($offset)
             ->limit($per_page)
-            ->orderBy([$sortField => $sortType]);
+            ->orderBy([$sortField => $sortType])
+            ->filterWhere(['like', 'redirectSrcUrl', $filter])
+            ->orFilterWhere(['like', 'redirectDestUrl', $filter])
+           ;
         if ((int)$siteId !== 0) {
-            $query->where(['siteId' => $siteId]);
-        }
-        if ($filter !== '') {
-            $query->where(['like', 'redirectSrcUrl', $filter]);
-            $query->orWhere(['like', 'redirectDestUrl', $filter]);
+            $query->andWhere(['siteId' => $siteId]);
         }
         $redirects = $query->all();
         // Add in the `deleteLink` field and clean up the redirects
@@ -248,15 +234,6 @@ class TablesController extends Controller
         // Format the data for the API
         if ($redirects) {
             $data['data'] = $redirects;
-            $query = (new Query())
-                ->from(['{{%retour_static_redirects}}']);
-            if ((int)$siteId !== 0) {
-                $query->where(['siteId' => $siteId]);
-            }
-            if ($filter !== '') {
-                $query->where(['like', 'redirectSrcUrl', $filter]);
-                $query->orWhere(['like', 'redirectDestUrl', $filter]);
-            }
             $count = $query->count();
             $data['links']['pagination'] = [
                 'total' => $count,
