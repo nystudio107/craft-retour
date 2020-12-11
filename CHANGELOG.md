@@ -10,6 +10,7 @@
 ### Fixed
 * If a redirect is modified by a plugin event, save the changed redirect to the cache
 * Handle no `siteId` being passed into a GraphQL query properly, by defaulting to either the current site, or the primary site
+* Fixed an issue where the Dashboard filter didn’t work in combination with Handled / Not Handled
 
 ## 3.1.44 - 2020.12.08
 ### Changed
