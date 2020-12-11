@@ -4,6 +4,8 @@
 ### Changed
 * Split out vendors & commons chunks
 * Check for both types of preview requests on Craft 3.2 or later
+* Invalidate Retour's caches when a redirect is saved
+* Also invalidate the GraphQL caches on Craft CMS 3.3 or later if a Redirect is saved
 
 ### Fixed
 * If a redirect is modified by a plugin event, save the changed redirect to the cache
