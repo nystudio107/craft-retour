@@ -457,7 +457,7 @@ class Redirects extends Component
                             ]);
                             $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                             if ($event->redirectDestUrl !== null) {
-                                return $this->resolveEventRedirect($event);
+                                return $this->resolveEventRedirect($event, $url, $redirect);
                             }
 
                             return $redirect;
@@ -491,7 +491,7 @@ class Redirects extends Component
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event);
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
                                 }
 
                                 return $redirect;
@@ -527,7 +527,7 @@ class Redirects extends Component
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event);
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
                                 }
 
                                 return $redirect;
@@ -565,17 +565,24 @@ class Redirects extends Component
      *
      * @return null|array
      */
-    public function resolveEventRedirect(ResolveRedirectEvent $event)
+    public function resolveEventRedirect(ResolveRedirectEvent $event, $url = null, $redirect = null)
     {
         $result = null;
 
         if ($event->redirectDestUrl !== null) {
-            $redirect = new StaticRedirectsModel([
+            $resolvedRedirect = new StaticRedirectsModel([
                 'id' => self::EVENT_REDIRECT_ID,
                 'redirectDestUrl' => $event->redirectDestUrl,
                 'redirectHttpCode' => $event->redirectHttpCode,
             ]);
-            $result = $redirect->toArray();
+            $result = $resolvedRedirect->toArray();
+
+            if ($url !== null && $redirect !== null) {
+                // Save the modified redirect to the cache
+                $redirect['redirectDestUrl'] = $event->redirectDestUrl;
+                $redirect['redirectHttpCode'] = $event->redirectHttpCode;
+                $this->saveRedirectToCache($url, $redirect);
+            }
         }
 
         return $result;
