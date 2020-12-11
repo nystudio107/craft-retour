@@ -168,7 +168,7 @@ class Redirects extends Component
         );
         $request = Craft::$app->getRequest();
         // We only want site requests that are not live preview or console requests
-        if ($request->getIsSiteRequest() && !$request->getIsLivePreview() && !$request->getIsConsoleRequest()) {
+        if ($request->getIsSiteRequest() && !$this->isPreview($request) && !$request->getIsConsoleRequest()) {
             // See if we should redirect
             try {
                 $fullUrl = urldecode($request->getAbsoluteUrl());
@@ -914,5 +914,21 @@ class Redirects extends Component
         }
 
         return false;
+    }
+
+    /**
+     * Return whether this is a preview request of any kind
+     *
+     * @return bool
+     */
+    public function isPreview($request): bool
+    {
+        $isPreview = false;
+        if (Retour::$craft32) {
+            $isPreview = $request->getIsPreview();
+        }
+        $isLivePreview = $request->getIsLivePreview();
+
+        return ($isPreview || $isLivePreview);
     }
 }
