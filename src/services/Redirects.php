@@ -878,6 +878,9 @@ class Redirects extends Component
         }
         // Trigger a 'afterSaveRedirect' event
         $this->trigger(self::EVENT_AFTER_SAVE_REDIRECT, $event);
+
+        // Invalidate caches after saving a redirect
+        $this->invalidateCaches();
     }
 
     /**
@@ -887,6 +890,13 @@ class Redirects extends Component
     {
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, $this::GLOBAL_REDIRECTS_CACHE_TAG);
+        // If they are using Craft 3.3 or later, clear the GraphQL caches too
+        if (Retour::$craft33) {
+            $gql = Craft::$app->getGql();
+            if (method_exists($gql, 'invalidateCaches')) {
+                $gql->invalidateCaches();
+            }
+        }
         Craft::info(
             Craft::t(
                 'retour',
