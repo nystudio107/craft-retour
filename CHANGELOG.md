@@ -4,6 +4,9 @@
 ### Changed
 * Split out vendors & commons chunks
 
+### Fixed
+* If a redirect is modified by a plugin event, save the changed redirect to the cache
+
 ## 3.1.44 - 2020.12.08
 ### Changed
 * Moved the CSS/JS buildchain over to webpack 5
