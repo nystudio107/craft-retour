@@ -7,6 +7,7 @@
 
 ### Fixed
 * If a redirect is modified by a plugin event, save the changed redirect to the cache
+* Handle no `siteId` being passed into a GraphQL query properly, by defaulting to either the current site, or the primary site
 
 ## 3.1.44 - 2020.12.08
 ### Changed
