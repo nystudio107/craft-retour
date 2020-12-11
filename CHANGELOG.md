@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.45 - UNRELEASED
+## 3.1.45 - 2020.12.10
 ### Changed
 * Split out vendors & commons chunks
 * Check for both types of preview requests on Craft 3.2 or later
