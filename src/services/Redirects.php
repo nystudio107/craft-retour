@@ -317,6 +317,11 @@ class Redirects extends Component
             $currentSite = Craft::$app->getSites()->currentSite;
             if ($currentSite) {
                 $siteId = $currentSite->id;
+            } else {
+                $primarySite = Craft::$app->getSites()->primarySite;
+                if ($currentSite) {
+                    $siteId = $primarySite->id;
+                }
             }
         }
         // Try getting the full URL redirect from the cache
