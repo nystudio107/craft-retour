@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.46 - 2021.01.09
+### Changed
+* Updated Axios to `^0.21.1`
+
 ## 3.1.45 - 2020.12.10
 ### Changed
 * Split out vendors & commons chunks
