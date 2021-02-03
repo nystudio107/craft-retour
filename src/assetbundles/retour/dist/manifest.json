@@ -15,8 +15,6 @@
   "vendors.js": "js/vendors.js",
   "vendors.js.map": "js/vendors.js.map",
   "styles.css": "css/styles.css",
-  "commons.js": "js/commons.js",
-  "commons.js.map": "js/commons.js.map",
   "img/Retour-icon.svg": "img/Retour-icon.svg",
   "img/icon-mask.svg": "img/icon-mask.svg"
 }

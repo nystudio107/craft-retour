@@ -4,6 +4,7 @@ namespace nystudio107\retour\migrations;
 
 use Craft;
 use craft\db\Migration;
+use craft\helpers\MigrationHelper;
 
 /**
  * m181216_043222_rebuild_indexes migration.
@@ -61,22 +62,7 @@ class m181216_043222_rebuild_indexes extends Migration
      */
     protected function dropIndexes()
     {
-        $this->dropIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrlParsed',
-                true
-            ),
-            '{{%retour_static_redirects}}'
-        );
-
-        $this->dropIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrlParsed',
-                true
-            ),
-            '{{%retour_redirects}}'
-        );
+        MigrationHelper::dropIndexIfExists('{{%retour_static_redirects}}', 'redirectSrcUrlParsed', true, $this);
+        MigrationHelper::dropIndexIfExists('{{%retour_redirects}}', 'redirectSrcUrlParsed', true, $this);
     }
 }

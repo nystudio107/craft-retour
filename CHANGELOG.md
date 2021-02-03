@@ -1,5 +1,14 @@
 # Retour Changelog
 
+## 3.1.46 - 2021.02.02
+### Changed
+* Updated Axios to `^0.21.1`
+* Updated to latest npm deps
+* Rebuilt frontend assets
+
+### Fixed
+* Fixed an issue that could cause migration issues from Craft 2 to Craft 3.6, use `Use MigrationHelper::dropIndexIfExists()`
+
 ## 3.1.45 - 2020.12.10
 ### Changed
 * Split out vendors & commons chunks
