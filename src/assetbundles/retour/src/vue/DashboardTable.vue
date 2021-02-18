@@ -54,12 +54,12 @@
 </template>
 
 <script>
-    import FieldDefs from './DashboardFieldDefs.js';
-    import FileNotFoundUrl from './FileNotFoundUrl.vue';
+    import FieldDefs from '@vue/DashboardFieldDefs.js';
+    import FileNotFoundUrl from '@vue/FileNotFoundUrl.vue';
     import VueTable from 'vuetable-2/src/components/Vuetable.vue';
-    import VueTablePagination from './VuetablePagination.vue';
-    import VueTablePaginationInfo from './VuetablePaginationInfo.vue';
-    import VueTableFilterBar from './VuetableFilterBar.vue';
+    import VueTablePagination from '@vue/VuetablePagination.vue';
+    import VueTablePaginationInfo from '@vue/VuetablePaginationInfo.vue';
+    import VueTableFilterBar from '@vue/VuetableFilterBar.vue';
 
     Vue.component('file-not-found-url', FileNotFoundUrl);
     // Our component exports

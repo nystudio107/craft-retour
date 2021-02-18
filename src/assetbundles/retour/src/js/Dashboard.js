@@ -1,7 +1,7 @@
 import VueEvents from 'vue-events';
-import Confetti from '../vue/Confetti.vue';
-import DashboardChart from '../vue/DashboardChart.vue';
-import DashboardTable from '../vue/DashboardTable.vue';
+import Confetti from '@vue/Confetti.vue';
+import DashboardChart from '@vue/DashboardChart.vue';
+import DashboardTable from '@vue/DashboardTable.vue';
 
 Vue.use(VueEvents);
 // Create our vue instance

@@ -43,12 +43,12 @@
 </template>
 
 <script>
-    import FieldDefs from './RedirectsFieldDefs.js';
-    import LegacyUrl from './LegacyUrl.vue';
+    import FieldDefs from '@vue/RedirectsFieldDefs.js';
+    import LegacyUrl from '@vue/LegacyUrl.vue';
     import VueTable from 'vuetable-2/src/components/Vuetable.vue';
-    import VueTablePagination from './VuetablePagination.vue';
-    import VueTablePaginationInfo from './VuetablePaginationInfo.vue';
-    import VueTableFilterBar from './VuetableFilterBar.vue';
+    import VueTablePagination from '@vue/VuetablePagination.vue';
+    import VueTablePaginationInfo from '@vue/VuetablePaginationInfo.vue';
+    import VueTableFilterBar from '@vue/VuetableFilterBar.vue';
 
     Vue.component('legacy-url', LegacyUrl);
     // Our component exports

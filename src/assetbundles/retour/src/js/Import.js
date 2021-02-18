@@ -1,4 +1,4 @@
-import ImportDraggable from '../vue/ImportDraggable.vue';
+import ImportDraggable from '@vue/ImportDraggable.vue';
 
 // Create our vue instance
 const vm = new Vue({
