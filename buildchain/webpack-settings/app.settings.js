@@ -7,7 +7,7 @@ const path = require('path');
 // settings
 module.exports = {
     alias: {
-        '@css': path.resolve('../src/assetbundles/retour/src//css'),
+        '@css': path.resolve('../src/assetbundles/retour/src/css'),
         '@img': path.resolve('../src/assetbundles/retour/src/img'),
         '@js': path.resolve('../src/assetbundles/retour/src/js'),
         '@vue': path.resolve('../src/assetbundles/retour/src/vue'),
