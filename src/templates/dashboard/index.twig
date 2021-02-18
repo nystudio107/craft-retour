@@ -19,8 +19,6 @@
 
 {% import "_includes/forms" as forms %}
 
-{% from 'retour/_includes/macros.twig' import registerJsModules %}
-
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
@@ -105,8 +103,7 @@
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}
-    {% set jsModules = [
+    {{ craft.retour.registerJsModules([
         'dashboard.js',
-    ] %}
-    {{ registerJsModules(jsModules) }}
+    ]) }}
 {% endblock %}
