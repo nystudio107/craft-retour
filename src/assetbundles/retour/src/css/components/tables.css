@@ -24,7 +24,7 @@ table.vuetable {
  */
 
 table.retour-dashboard th.vuetable-th-checkbox-id {
-  width: 2%!important;
+  width: 3%!important;
 }
 
 table.retour-dashboard th.vuetable-th-redirectSrcUrl {
@@ -61,7 +61,7 @@ th.vuetable-th-addLink {
  */
 
 table.retour-redirects th.vuetable-th-checkbox-id {
-  width: 2%!important;
+  width: 3%!important;
 }
 
 table.retour-redirects th.vuetable-th-redirectSrcUrl {
