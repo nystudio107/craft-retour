@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.47 - UNRELEASED
+### Changed
+* Updated build system infra
+
 ## 3.1.46 - 2021.02.02
 ### Changed
 * Updated Axios to `^0.21.1`
