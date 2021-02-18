@@ -23,7 +23,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.vue', '.json'],
     name: 'retour',
     paths: {
-        dist: path.resolve('../../src/assetbundles/retour/dist/'),
+        dist: path.resolve('../src/assetbundles/retour/dist/'),
     },
     urls: {
         publicPath: () => process.env.PUBLIC_PATH || '',
