@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.47 - UNRELEASED
+## 3.1.47 - 2021.02.22
 ### Changed
 * Updated build system infra
 
