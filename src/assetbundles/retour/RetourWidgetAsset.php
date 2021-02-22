@@ -35,6 +35,7 @@ class RetourWidgetAsset extends AssetBundle
         $this->depends = [
             CpAsset::class,
             VueAsset::class,
+            RetourAsset::class,
         ];
         $this->js = [
         ];

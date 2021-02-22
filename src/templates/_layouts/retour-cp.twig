@@ -1,20 +1,19 @@
 {% extends "_layouts/cp" %}
 
-{% from 'retour/_includes/macros.twig' import registerJsModules %}
-
 {% block head %}
     {{ parent() }}
-    {{ craft.retour.includeCssModule("vendors.css", false) }}
-    {{ craft.retour.includeCssModule("styles.css", false) }}
+    {{ craft.retour.registerCssModules([
+        'vendors.css',
+        'styles.css',
+    ]) }}
 {% endblock %}
 
 {% block foot %}
     {{ parent() }}
-    {% set jsModules = [
+    {{ craft.retour.registerJsModules([
         'runtime.js',
         'vendors.js',
         'commons.js',
         'retour.js',
-    ] %}
-    {{ registerJsModules(jsModules) }}
+    ]) }}
 {% endblock %}

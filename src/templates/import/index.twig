@@ -19,8 +19,6 @@
 
 {% import "_includes/forms" as forms %}
 
-{% from 'retour/_includes/macros.twig' import registerJsModules %}
-
 {% block actionButton %}
     <input type="submit" class="btn submit" value="{{ 'Import'|t('app') }}">
 {% endblock %}
@@ -58,9 +56,8 @@
     </div>
     {# include our JavaScript modules #}
     {{ parent() }}
-    {% set jsModules = [
+    {{ craft.retour.registerJsModules([
         'import.js',
-    ] %}
-    {{ registerJsModules(jsModules) }}
+    ]) }}
 {% endblock %}
 

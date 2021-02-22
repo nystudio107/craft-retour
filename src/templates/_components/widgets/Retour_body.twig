@@ -15,8 +15,6 @@
 
 {% extends "retour/_layouts/widget-cp.twig" %}
 
-{% from 'retour/_includes/macros.twig' import registerJsModules %}
-
 {% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
 {% set iconUrl = baseAssetsUrl ~ '/img/Retour-icon.svg' %}
 
@@ -37,8 +35,7 @@
     </div>
 
     {{ parent() }}
-    {% set jsModules = [
+    {{ craft.retour.registerJsModules([
         'widget.js',
-    ] %}
-    {{ registerJsModules(jsModules) }}
+    ]) }}
 {% endblock %}

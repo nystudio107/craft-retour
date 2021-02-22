@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.1.47 - 2021.02.22
+### Changed
+* Updated build system infra
+
+### Fixed
+* Fixed an issue where 404 stats for pages without redirects in place do not increment via GraphQL
+
 ## 3.1.46 - 2021.02.02
 ### Changed
 * Updated Axios to `^0.21.1`
