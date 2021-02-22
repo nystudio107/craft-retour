@@ -7,18 +7,15 @@ const path = require('path');
 // settings
 module.exports = {
     alias: {
-        '@css': path.resolve('../src/assetbundles/retour/src/css'),
-        '@img': path.resolve('../src/assetbundles/retour/src/img'),
-        '@js': path.resolve('../src/assetbundles/retour/src/js'),
-        '@vue': path.resolve('../src/assetbundles/retour/src/vue'),
+        '@': path.resolve('../src/assetbundles/retour/src'),
     },
     copyright: '©2020 nystudio107.com',
     entry: {
-        'dashboard': '@js/Dashboard.js',
-        'import': '@js/Import.js',
-        'redirects': '@js/Redirects.js',
-        'retour': '@js/Retour.js',
-        'widget': '@js/Widget.js'
+        'dashboard': '@/js/Dashboard.js',
+        'import': '@/js/Import.js',
+        'redirects': '@/js/Redirects.js',
+        'retour': '@/js/Retour.js',
+        'widget': '@/js/Widget.js'
     },
     extensions: ['.ts', '.js', '.vue', '.json'],
     name: 'retour',

@@ -1,4 +1,4 @@
-import WidgetChart from '@vue/WidgetChart.vue';
+import WidgetChart from '@/vue/WidgetChart.vue';
 
 // Create our vue instance
 const vm = new Vue({

@@ -1,5 +1,5 @@
 import VueEvents from 'vue-events';
-import RedirectsTable from '@vue/RedirectsTable.vue';
+import RedirectsTable from '@/vue/RedirectsTable.vue';
 
 Vue.use(VueEvents);
 // Create our vue instance
