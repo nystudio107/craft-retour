@@ -52,6 +52,10 @@ class RetourResolver extends Resolver
         }
         if (!Retour::$plugin->redirects->excludeUri($uri)) {
             $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
+            if ($redirect === null) {
+                // Increment the stats
+                Retour::$plugin->statistics->incrementStatistics($uri, false);
+            }
         }
 
         return $redirect;
