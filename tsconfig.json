@@ -14,7 +14,7 @@
     "outDir": "./src/assetbundles/retour/dist/",
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/assetbundles/retour/src/*"
       ]
     },
     "resolveJsonModule": true,
@@ -30,8 +30,8 @@
     ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.vue"
+    "./src/assetbundles/retour/src/**/*.ts",
+    "./src/assetbundles/retour/src/**/*.vue"
   ],
   "exclude": [
     "./node_modules"
