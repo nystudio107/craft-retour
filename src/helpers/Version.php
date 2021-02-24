@@ -39,7 +39,7 @@ class Version
         $version = 0;
         $installedVersion = null;
         try {
-            $installedVersion = InstalledVersions::getPrettyVersion(self::LEAGUE_CSV_PACKAGE);
+            $installedVersion = InstalledVersions::getVersion(self::LEAGUE_CSV_PACKAGE);
         } catch (\Throwable $e) {
             // That's fine
         }
