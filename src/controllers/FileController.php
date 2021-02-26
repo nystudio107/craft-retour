@@ -15,6 +15,7 @@ use nystudio107\retour\Retour;
 use nystudio107\retour\assetbundles\retour\RetourImportAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
+use nystudio107\retour\helpers\Version as VersionHelper;
 
 use Craft;
 use craft\db\Query;
@@ -26,7 +27,9 @@ use yii\base\InvalidConfigException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
+use League\Csv\AbstractCsv;
 use League\Csv\Reader;
+use League\Csv\Statement;
 use League\Csv\Writer;
 
 /**
@@ -115,26 +118,17 @@ class FileController extends Controller
         }
         // If we have headers, then we have a file, so parse it
         if ($headers !== null) {
-            $csv->setOffset(1);
-            $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-            $csv->each(function ($row) use ($headers, $columns) {
-                $redirectConfig = [
-                    'id' => 0,
-                ];
-                $index = 0;
-                foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                    if (isset($columns[$index], $headers[$columns[$index]])) {
-                        $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                            ? null
-                            : $row[$headers[$columns[$index]]];
-                    }
-                    $index++;
-                }
-                Craft::debug('Importing row: '.print_r($redirectConfig, true), __METHOD__);
-                Retour::$plugin->redirects->saveRedirect($redirectConfig);
-
-                return true;
-            });
+            switch (VersionHelper::getLeagueCsvVersion()) {
+                case 8:
+                    $this->importCsvApi8($csv, $columns, $headers);
+                    break;
+                case 9:
+                    $this->importCsvApi9($csv, $columns, $headers);
+                    break;
+                default:
+                    Craft::$app->getSession()->setNotice(Craft::t('retour', 'Unknown league/csv package API version'));
+                    break;
+            }
             @unlink($filename);
             Retour::$plugin->clearAllCaches();
             Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirects imported from CSV file.'));
@@ -276,5 +270,65 @@ class FileController extends Controller
         $csv->insertAll($data);
         $csv->output($filename.'.csv');
         exit(0);
+    }
+
+    /**
+     * @param AbstractCsv $csv
+     * @param array $columns
+     * @param array $headers
+     */
+    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers)
+    {
+        $csv->setOffset(1);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        $csv->each(function ($row) use ($headers, $columns) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
+            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+
+            return true;
+        });
+    }
+
+    /**
+     * @param AbstractCsv $csv
+     * @param array $columns
+     * @param array $headers
+     * @throws \League\Csv\Exception
+     */
+    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers)
+    {
+        $stmt = (new Statement())
+            ->offset(1)
+        ;
+        $rows = $stmt->process($csv);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        foreach ($rows as $row) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
+            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        }
     }
 }
