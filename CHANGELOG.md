@@ -4,6 +4,9 @@
 ### Added
 * Added support for both 8.x and 9.x versions of `league/csv` for peer compatibility
 
+### Changed
+* Ensure the URLs are siteUrls and not cpUrls in the Redirects table “go” arrow
+
 ## 3.1.47 - 2021.02.22
 ### Changed
 * Updated build system infra
