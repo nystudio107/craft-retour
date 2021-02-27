@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.48 - UNRELEASED
+### Added
+* Added support for both 8.x and 9.x versions of `league/csv` for peer compatibility
+
 ## 3.1.47 - 2021.02.22
 ### Changed
 * Updated build system infra
