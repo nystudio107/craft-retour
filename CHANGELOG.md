@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 3.1.48 - UNRELEASED
+## 3.1.48 - 2021.02.27
 ### Added
 * Added support for both 8.x and 9.x versions of `league/csv` for peer compatibility
+* PHP 8 compatibility for the import/export functions via `league/csv` version `^9.0`
 
 ### Changed
 * Ensure the URLs are siteUrls and not cpUrls in the Redirects table “go” arrow
