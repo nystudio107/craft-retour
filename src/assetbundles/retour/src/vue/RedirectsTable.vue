@@ -154,8 +154,13 @@
                 if (value === '') {
                     return '';
                 }
-                return `
-                <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
+                let url = value;
+                let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
+                if (!absoluteUrl.test(url) && !url.includes('$')) {
+                  url = Craft.getSiteUrl(Craft.trim(value, '/'));
+                }
+              return `
+                <a class="go" href="${url}" title="${url}" target="_blank" rel="noopener">${value}</a>
                 `;
             },
             deleteRedirectFormatter(value) {
