@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.49 - UNRELEASED
+## 3.1.49 - 2021.03.03
 ### Changed
 * Dockerized the buildchain, using `craft-plugin-manifest` for the webpack HMR bridge
 
