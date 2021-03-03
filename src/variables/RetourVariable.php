@@ -13,6 +13,8 @@ namespace nystudio107\retour\variables;
 
 use nystudio107\retour\Retour;
 
+use nystudio107\pluginmanifest\variables\ManifestVariable;
+
 /**
  * @author    nystudio107
  * @package   Retour

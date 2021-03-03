@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.49 - 2021.03.03
+### Changed
+* Dockerized the buildchain, using `craft-plugin-manifest` for the webpack HMR bridge
+
 ## 3.1.48 - 2021.02.27
 ### Added
 * Added support for both 8.x and 9.x versions of `league/csv` for peer compatibility

@@ -2,7 +2,6 @@ module.exports = {
     title: 'Retour Documentation',
     description: 'Documentation for the Retour plugin',
     base: '/docs/retour/',
-    dest: '../../../sites/nystudio107/web/docs/retour',
     themeConfig: {
         displayAllHeaders: true,
         sidebar: [

@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
@@ -19,6 +20,8 @@ use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
+
+use nystudio107\pluginmanifest\services\ManifestService;
 
 use Craft;
 use craft\base\Element;
@@ -61,8 +64,9 @@ use markhuot\CraftQL\Events\AlterSchemaFields;
  * @package   Retour
  * @since     3.0.0
  *
- * @property  Redirects  $redirects
- * @property  Statistics $statistics
+ * @property Redirects          $redirects
+ * @property Statistics         $statistics
+ * @property ManifestService    $manifest
  */
 class Retour extends Plugin
 {
@@ -295,13 +299,24 @@ class Retour extends Plugin
      */
     protected function installGlobalEventListeners()
     {
+        // Register the manifest service
+        $this->set('manifest', [
+            'class' => ManifestService::class,
+            'assetClass' => RetourAsset::class,
+            'devServerManifestPath' => 'http://retour-buildchain:8080/',
+            'devServerPublicPath' => 'http://retour-buildchain:8080/',
+        ]);
+
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
             function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('retour', RetourVariable::class);
+                $variable->set('retour', [
+                    'class' => RetourVariable::class,
+                    'manifestService' => $this->manifest,
+                ]);
             }
         );
         // Handler: Elements::EVENT_BEFORE_SAVE_ELEMENT
