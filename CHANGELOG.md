@@ -3,6 +3,7 @@
 ## 3.1.50 - UNRELEASED
 ### Changed
 * Allow for automatic redirect creation during bulk resaving operations
+* More consistent `makefile` build commands
 
 ## 3.1.49 - 2021.03.03
 ### Changed
