@@ -303,8 +303,8 @@ class Retour extends Plugin
         $this->set('manifest', [
             'class' => ManifestService::class,
             'assetClass' => RetourAsset::class,
-            'devServerManifestPath' => 'http://retour-buildchain:8080/',
-            'devServerPublicPath' => 'http://retour-buildchain:8080/',
+            'devServerManifestPath' => 'http://craft-retour-buildchain:8080/',
+            'devServerPublicPath' => 'http://craft-retour-buildchain:8080/',
         ]);
 
         Event::on(
