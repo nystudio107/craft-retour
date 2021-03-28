@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.50 - UNRELEASED
+## 3.1.50 - 2021.03.27
 ### Changed
 * Allow for automatic redirect creation during bulk resaving operations
 * More consistent `makefile` build commands
