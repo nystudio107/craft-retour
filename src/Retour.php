@@ -124,6 +124,13 @@ class Retour extends Plugin
         $config['components'] = [
             'redirects' => Redirects::class,
             'statistics' => Statistics::class,
+            // Register the manifest service
+            'manifest' => [
+                'class' => ManifestService::class,
+                'assetClass' => RetourAsset::class,
+                'devServerManifestPath' => 'http://craft-retour-buildchain:8080/',
+                'devServerPublicPath' => 'http://craft-retour-buildchain:8080/',
+            ]
         ];
 
         parent::__construct($id, $parent, $config);
@@ -324,14 +331,6 @@ class Retour extends Plugin
      */
     protected function installGlobalEventListeners()
     {
-        // Register the manifest service
-        $this->set('manifest', [
-            'class' => ManifestService::class,
-            'assetClass' => RetourAsset::class,
-            'devServerManifestPath' => 'http://craft-retour-buildchain:8080/',
-            'devServerPublicPath' => 'http://craft-retour-buildchain:8080/',
-        ]);
-
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
