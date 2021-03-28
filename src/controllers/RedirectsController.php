@@ -258,6 +258,11 @@ class RedirectsController extends Controller
             $destUrl = $redirectConfig['redirectDestUrl'] ?? '';
             $redirectConfig['redirectDestUrl'] = $this->addSlashToSiteUrls($destUrl);
         }
+        // Handle URL encoded URLs by decoding them before saving them
+        if ($redirectConfig['redirectMatchType'] === 'exactmatch') {
+            $redirectConfig['redirectSrcUrl'] = urldecode($redirectConfig['redirectSrcUrl'] ?? '');
+            $redirectConfig['redirectSrcUrlParsed'] = urldecode($redirectConfig['redirectSrcUrlParsed'] ?? '');
+        }
         $redirect = new StaticRedirectsModel($redirectConfig);
         // Make sure the redirect validates
         if (!$redirect->validate()) {
