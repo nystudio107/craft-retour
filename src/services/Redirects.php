@@ -762,6 +762,11 @@ class Redirects extends Component
      */
     public function saveRedirect(array $redirectConfig)
     {
+        // Handle pasted in URL encoded URLs
+        if ( $redirectConfig['redirectMatchType'] === 'exactmatch') {
+            $redirectConfig['redirectSrcUrl'] = urldecode($redirectConfig['redirectSrcUrl'] ?? '');
+            $redirectConfig['redirectSrcUrlParsed'] = urldecode($redirectConfig['redirectSrcUrlParsed'] ?? '');
+        }
         // Validate the model before saving it to the db
         $redirect = new StaticRedirectsModel($redirectConfig);
         if ($redirect->validate() === false) {
