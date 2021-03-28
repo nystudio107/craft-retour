@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.51 - UNRELEASED
+### Changed
+* Move the manifest service registration to the constructor
+
 ## 3.1.50 - 2021.03.27
 ### Changed
 * Allow for automatic redirect creation during bulk resaving operations
