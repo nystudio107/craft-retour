@@ -762,7 +762,7 @@ class Redirects extends Component
      */
     public function saveRedirect(array $redirectConfig)
     {
-        // Handle pasted in URL encoded URLs
+        // Handle URL encoded URLs by decoding them before saving them
         if ( $redirectConfig['redirectMatchType'] === 'exactmatch') {
             $redirectConfig['redirectSrcUrl'] = urldecode($redirectConfig['redirectSrcUrl'] ?? '');
             $redirectConfig['redirectSrcUrlParsed'] = urldecode($redirectConfig['redirectSrcUrlParsed'] ?? '');
