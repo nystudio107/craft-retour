@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 3.1.50 - 2021.03.27
+### Changed
+* Allow for automatic redirect creation during bulk resaving operations
+* More consistent `makefile` build commands
+* Use Tailwind 2.x & `@tailwindcss/jit`
+* Move settings from the `composer.json` “extra” to the plugin main class
+
+### Fixed
+* URL decode any Legacy URLs for any Exact Match redirects on save (https://github.com/nystudio107/craft-retour/issues/166)
+
 ## 3.1.49 - 2021.03.03
 ### Changed
 * Dockerized the buildchain, using `craft-plugin-manifest` for the webpack HMR bridge

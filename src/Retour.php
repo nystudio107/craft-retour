@@ -113,6 +113,22 @@ class Retour extends Plugin
      */
     public static $craft33 = false;
 
+    // Static Methods
+    // =========================================================================
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct($id, $parent = null, array $config = [])
+    {
+        $config['components'] = [
+            'redirects' => Redirects::class,
+            'statistics' => Statistics::class,
+        ];
+
+        parent::__construct($id, $parent, $config);
+    }
+
     // Public Properties
     // =========================================================================
 
@@ -121,6 +137,15 @@ class Retour extends Plugin
      */
     public $schemaVersion = '3.0.9';
 
+    /**
+     * @var bool
+     */
+    public $hasCpSection = true;
+
+    /**
+     * @var bool
+     */
+    public $hasCpSettings = true;
 
     /**
      * @var array The URIs for the element before it was saved
@@ -303,8 +328,8 @@ class Retour extends Plugin
         $this->set('manifest', [
             'class' => ManifestService::class,
             'assetClass' => RetourAsset::class,
-            'devServerManifestPath' => 'http://retour-buildchain:8080/',
-            'devServerPublicPath' => 'http://retour-buildchain:8080/',
+            'devServerManifestPath' => 'http://craft-retour-buildchain:8080/',
+            'devServerPublicPath' => 'http://craft-retour-buildchain:8080/',
         ]);
 
         Event::on(
@@ -332,10 +357,8 @@ class Retour extends Plugin
                 $element = $event->element;
                 if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
                     $checkElementSlug = true;
-                    // If we're running Craft 3.2 or later, also check that the element isn't bulk
-                    // re-saving, and that isn't not a draft or revision
+                    // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                     if (Retour::$craft32 && (
-                            $element->resaving ||
                             ElementHelper::isDraftOrRevision($element)
                         )) {
                         $checkElementSlug = false;
