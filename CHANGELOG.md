@@ -5,6 +5,7 @@
 * Allow for automatic redirect creation during bulk resaving operations
 * More consistent `makefile` build commands
 * Use Tailwind 2.x & `@tailwindcss/jit`
+* Move settings from the `composer.json` “extra” to the plugin main class
 
 ## 3.1.49 - 2021.03.03
 ### Changed
