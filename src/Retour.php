@@ -113,6 +113,22 @@ class Retour extends Plugin
      */
     public static $craft33 = false;
 
+    // Static Methods
+    // =========================================================================
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct($id, $parent = null, array $config = [])
+    {
+        $config['components'] = [
+            'redirects' => Redirects::class,
+            'statistics' => Statistics::class,
+        ];
+
+        parent::__construct($id, $parent, $config);
+    }
+
     // Public Properties
     // =========================================================================
 
@@ -121,6 +137,15 @@ class Retour extends Plugin
      */
     public $schemaVersion = '3.0.9';
 
+    /**
+     * @var bool
+     */
+    public $hasCpSection = true;
+
+    /**
+     * @var bool
+     */
+    public $hasCpSettings = true;
 
     /**
      * @var array The URIs for the element before it was saved
