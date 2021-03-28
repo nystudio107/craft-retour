@@ -7,6 +7,9 @@
 * Use Tailwind 2.x & `@tailwindcss/jit`
 * Move settings from the `composer.json` “extra” to the plugin main class
 
+### Fixed
+* URL decode any Legacy URLs for any Exact Match redirects on save (https://github.com/nystudio107/craft-retour/issues/166)
+
 ## 3.1.49 - 2021.03.03
 ### Changed
 * Dockerized the buildchain, using `craft-plugin-manifest` for the webpack HMR bridge
