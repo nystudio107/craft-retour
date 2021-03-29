@@ -41,7 +41,7 @@ class Version
         $installedVersion = null;
         try {
             $pv = PrettyVersions::getVersion(self::LEAGUE_CSV_PACKAGE);
-            $installedVersion = $pv->getPrettyVersion(); // '6.0.0'
+            $installedVersion = $pv->getPrettyVersion();
         } catch (\Throwable $e) {
             Craft::error($e, __METHOD__);
         }
