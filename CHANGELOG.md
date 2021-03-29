@@ -4,6 +4,9 @@
 ### Changed
 * Move the manifest service registration to the constructor
 
+### Fixed
+* Fixed an issue where the CSV import wouldn't work if you were using Composer 1.x, due to package version detection issues
+
 ## 3.1.50 - 2021.03.27
 ### Changed
 * Allow for automatic redirect creation during bulk resaving operations
