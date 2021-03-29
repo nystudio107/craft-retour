@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.51 - UNRELEASED
+## 3.1.51 - 2021.03.29
 ### Changed
 * Move the manifest service registration to the constructor
 
