@@ -11,7 +11,8 @@
 
 namespace nystudio107\retour\helpers;
 
-use \Composer\InstalledVersions;
+use Jean85\PrettyVersions;
+
 use \Composer\Semver\Semver;
 
 /**
@@ -39,9 +40,10 @@ class Version
         $version = 0;
         $installedVersion = null;
         try {
-            $installedVersion = InstalledVersions::getVersion(self::LEAGUE_CSV_PACKAGE);
+            $pv = PrettyVersions::getVersion(self::LEAGUE_CSV_PACKAGE);
+            $installedVersion = $pv->getPrettyVersion();
         } catch (\Throwable $e) {
-            // That's fine
+            Craft::error($e, __METHOD__);
         }
         if ($installedVersion) {
             if (Semver::satisfies($installedVersion, '^8.0.0')) {
