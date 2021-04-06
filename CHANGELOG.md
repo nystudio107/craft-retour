@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.52 - 2021.04.06
+### Added
+* Added `make update` to update NPM packages
+* Added `make update-clean` to completely remove `node_modules/`, then update NPM packages
+
+### Changed
+* Use Tailwind CSS `^2.1.0` with JIT
+
 ## 3.1.51 - 2021.03.29
 ### Changed
 * Move the manifest service registration to the constructor
