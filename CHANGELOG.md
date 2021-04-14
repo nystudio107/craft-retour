@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.53 - UNRELEASED
+### Added
+* Strip leading and trailing spaces off of all URLs (https://github.com/nystudio107/craft-retour/issues/173)
+
 ## 3.1.52 - 2021.04.06
 ### Added
 * Added `make update` to update NPM packages
