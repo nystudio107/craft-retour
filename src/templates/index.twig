@@ -1,0 +1,28 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.x.x
+ */
+#}
+
+{% requirePermission 'accessPlugin-retour' %}
+
+{# Redirect the user to the first sub page they can access #}
+{% if currentUser.can('retour:dashboard') %}
+    {% redirect cpUrl('retour/dashboard') %}
+{% elseif currentUser.can('retour:redirects') %}
+    {% redirect cpUrl('retour/redirects') %}
+{% elseif currentUser.can('retour:settings') %}
+    {% redirect cpUrl('retour/settings') %}
+{% else %}
+    {# ...or throw a 403 if they can't access anything at all #}
+    {% exit 403 %}
+{% endif %}

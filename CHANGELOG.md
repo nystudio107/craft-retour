@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## Unreleased  
+### Fixed  
+* Fixed an issue where clicking the Retour CP nav item would result in a 403 exception if the current user didn't have permission to view the Retour dashboard. Fixes #151
+
 ## 3.1.52 - 2021.04.06
 ### Added
 * Added `make update` to update NPM packages
