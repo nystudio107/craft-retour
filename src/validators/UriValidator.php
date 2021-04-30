@@ -49,6 +49,7 @@ class UriValidator extends Validator
         $redirectMatchType = 'redirectMatchType';
         // Always remove whitespace
         $value = preg_replace("/\r|\n/", '', $value);
+        $value = trim($value);
         $model->$attribute = $value;
         // Only do any kind of validation for exact match redirects
         if ($model->$redirectMatchType !== 'exactmatch') {
