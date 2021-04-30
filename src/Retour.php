@@ -237,6 +237,14 @@ class Retour extends Plugin
                 'url' => 'retour/settings',
             ];
         }
+        // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
+        if (empty($subNavs)) {
+            return null;
+        }
+        // A single sub nav item is redundant
+        if (count($subNavs) === 1) {
+            $subNavs = [];
+        }
         $navItem = array_merge($navItem, [
             'subnav' => $subNavs,
         ]);
@@ -670,7 +678,7 @@ class Retour extends Plugin
     protected function customAdminCpRoutes(): array
     {
         return [
-            'retour' => 'retour/statistics/dashboard',
+            'retour' => '',
 
             'retour/redirects' => 'retour/redirects/redirects',
             'retour/redirects/<siteHandle:{handle}>' => 'retour/redirects/redirects',

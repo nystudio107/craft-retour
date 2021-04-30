@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.1.53 - 2021.04.30
+### Added
+* Strip leading and trailing spaces off of all URLs (https://github.com/nystudio107/craft-retour/issues/173)
+
+### Fixed  
+* Fixed an issue where clicking the Retour CP nav item would result in a 403 exception if the current user didn't have permission to view the Retour dashboard. (https://github.com/nystudio107/craft-retour/issues/151)
+
 ## 3.1.52 - 2021.04.06
 ### Added
 * Added `make update` to update NPM packages
