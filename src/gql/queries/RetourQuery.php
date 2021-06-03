@@ -17,6 +17,7 @@ use nystudio107\retour\gql\resolvers\RetourResolver;
 
 use craft\gql\base\Query;
 use GraphQL\Type\Definition\Type;
+use nystudio107\retour\helpers\Gql as GqlHelper;
 
 /**
  * Class RetourQuery
@@ -32,6 +33,10 @@ class RetourQuery extends Query
      */
     public static function getQueries($checkToken = true): array
     {
+        if ($checkToken && !GqlHelper::canQueryRetour()) {
+            return [];
+        }
+
         return [
             'retour' => [
                 'type' => RetourInterface::getType(),

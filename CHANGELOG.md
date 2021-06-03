@@ -1,5 +1,8 @@
 # Retour Changelog
 
+## 3.1.54 - UNRELEASED
+* Add GraphQL schema components for Retour.
+
 ## 3.1.53 - 2021.04.30
 ### Added
 * Strip leading and trailing spaces off of all URLs (https://github.com/nystudio107/craft-retour/issues/173)

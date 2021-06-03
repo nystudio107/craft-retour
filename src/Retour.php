@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour;
 
+use craft\events\RegisterGqlSchemaComponentsEvent;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
@@ -142,7 +143,7 @@ class Retour extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '3.0.9';
+    public $schemaVersion = '3.0.10';
 
     /**
      * @var bool
@@ -451,6 +452,19 @@ class Retour extends Plugin
                     foreach ($queries as $key => $value) {
                         $event->queries[$key] = $value;
                     }
+                }
+            );
+            // Handler: Gql::EVENT_REGISTER_SCHEMA_COMPONENTS
+            Event::on(
+                Gql::class,
+                Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
+                function (RegisterGqlSchemaComponentsEvent $event) {
+                    Craft::debug(
+                        'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
+                        __METHOD__
+                    );
+                    $label = Craft::t('retour', 'Retour');
+                    $event->queries[$label]['retour.all:read'] = ['label' => Craft::t('retour', 'Query Retour data')];
                 }
             );
         }
