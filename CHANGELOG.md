@@ -1,7 +1,11 @@
 # Retour Changelog
 
 ## 3.1.54 - UNRELEASED
+### Added
 * Add GraphQL schema components for Retour.
+
+### Changed
+* Switched documentation system to VitePress
 
 ## 3.1.53 - 2021.04.30
 ### Added
