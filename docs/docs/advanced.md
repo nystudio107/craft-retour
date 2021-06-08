@@ -10,7 +10,7 @@ Trimming statistics
 Trimmed 0 from retour_stats table
 ```
 
-This will trim the `retour_stats` table so that it has only the number of statistics in the table as you've specified via the **Statistics to Store** Setting.
+This will trim the `retour_stats` table so that it has only the number of statistics in the table as you’ve specified via the **Statistics to Store** Setting.
 
 When the `retour_stats` table is trimmed, it sorts the statistics by the **Last Hit** time, and only trims the oldest statistics.
 
@@ -173,9 +173,9 @@ Event::on(Redirects::class,
 
 ## Custom Match Functions via Plugin
 
-The patterns mentioned below still work, but are deprecated. It's recommend that you use the **Resolve Redirect Events** mentioned above.
+The patterns mentioned below still work, but are deprecated. It’s recommend that you use the **Resolve Redirect Events** mentioned above.
 
-Retour allows you to implement a custom matching function via plugin, if the Exact and RegEx matching are not sufficient for your purposes.
+Retour allows you to implement a custom matching function via plugin, if the Exact and regular expression matching are not sufficient for your purposes.
 
 In your main plugin class file, simply add this function:
 

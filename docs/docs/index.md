@@ -2,7 +2,7 @@
 
 # Retour plugin for Craft CMS 3.x
 
-Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website
+Retour allows you to intelligently redirect legacy URLs, so that you don’t lose SEO value when rebuilding & restructuring a site
 
 ![Screenshot](./resources/img/plugin-banner.jpg)
 
@@ -20,7 +20,7 @@ So any existing redirects and statistics will continue to be in place.
 
 ![Screenshot](./resources/img/moz-logo-blue.png)![Screenshot](./resources/img/craft-cms-logo.png)
 
-Retour is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on to handle their website redirects!
+Retour is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) and the creators of Craft CMS, Pixel & Tonic, rely on to handle their site redirects!
 
 ## Requirements
 

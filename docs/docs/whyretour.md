@@ -3,18 +3,18 @@
 If you have just a few static redirects, then your best bet is to put them in your `.htaccess` file, or better yet, in your `.conf` file for your virtual host.  However, there are a number of cases where using a plugin to handle it is a **better** solution:
 
 1. If you have a large number of redirects, it will slow down every single request your web server handles unnecessarily if they are in `.htaccess` or `.conf`
-2. Often the URL patterns from the legacy website do not match the new website URLs in a deterministic way, which makes creating redirects difficult
-3. Sometimes you don't have access to the server config files, or you want to give your client the ability to manage redirects easily
+2. Often the URL patterns from the legacy site do not match the new site URLs in a deterministic way, which makes creating redirects difficult
+3. Sometimes you don’t have access to the server config files, or you want to give your client the ability to manage redirects easily
 
 Retour solves these problems:
 
 1. Retour only attempts to do a redirect after the web server has already thrown a 404 exception.  Once a redirect mapping is successfully determined, it also caches the result for speedy resolution of the next redirect request.
 2. Retour also gives you the ability to do Dynamic Redirects that allow you to import a piece of legacy data into your entries to use as a key for determining the new URL mapping.  In this way, utterly dissimilar URLs can be mapped for redirection effectively.
-3. It provides an easy to use GUI that the client can use from Craft's Control Panel, and keeps statistics on the 404 hits (and misses)
+3. It provides an easy to use GUI that the client can use from Craft’s Control Panel, and keeps statistics on the 404 hits (and misses)
 
 ## A Word about .htaccess
 
-People using the Apache webserver are familiar with the `.htaccess` file, and may even be using it for redirects.  It's very likely that you should not be using `.htaccess` at all; instead you should disable `.htaccess` via `AllowOverride none` and make your configuration changes in your webserver configuration files.  From [Apache HTTP Server Tutorial: .htaccess files](https://httpd.apache.org/docs/current/howto/htaccess.html)
+People using the Apache webserver are familiar with the `.htaccess` file, and may even be using it for redirects.  It’s very likely that you should not be using `.htaccess` at all; instead you should disable `.htaccess` via `AllowOverride none` and make your configuration changes in your webserver configuration files.  From [Apache HTTP Server Tutorial: .htaccess files](https://httpd.apache.org/docs/current/howto/htaccess.html)
 ```
 There are two main reasons to avoid the use of .htaccess files.
 
