@@ -2,21 +2,21 @@
 
 ## Retour Statistics
 
-Retour keeps track of every 404 your website receives.  You can view them by clicking on **Retour->Dashboard**.  
+Retour keeps track of every 404 your site receives.  You can view them by clicking on **Retour->Dashboard**.  
 
 ![Screenshot](./resources/screenshots/retour-dashboard.png)
 
-If you're using Craft to host [multiple sites](https://docs.craftcms.com/v3/sites.html) you can view the statistics for **All Sites** or an individual site using the Sites menu at the top of the page.
+If you’re using Craft to host [multiple sites](https://docs.craftcms.com/v3/sites.html) you can view the statistics for **All Sites** or an individual site using the Sites menu at the top of the page.
 
 You can sort by any column by clicking on the column name, and you can filter the results by typing in the **Search for:** field.
 
-Only one record is saved per URL Pattern, so the database won't get clogged with a ton of records.
+Only one record is saved per URL Pattern, so the database won’t get clogged with a ton of records.
 
 The charts show you how many directs happened during the last month, week, and day, including how many were handled by Retour.
 
 The **Handled** column will display an `√` if the last 404 hit to this URL was handled by Retour, and an `x` if it was not.
 
-Clicking on the `+` next to an unhandled 404 will create a new Static Redirect with the 404's URL set as the source.
+Clicking on the `+` next to an unhandled 404 will create a new Static Redirect with the 404’s URL set as the source.
 
 ![Screenshot](./resources/screenshots/retour-not-found-detail.png)
 
@@ -28,7 +28,7 @@ The **Export CSV File** button on the **Retour->Statistics** page allows you to 
 
 ## Retour Widget
 
-If you'd like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
+If you’d like to see an overview of the Retour Statistics in your dashboard, you can add a Retour widget to your Dashboard:
 
 ![Screenshot](./resources/screenshots/retour-widget.png)
 
@@ -36,9 +36,9 @@ It displays the total number of handled and not handled 404s, and the 5 most rec
 
 ## GraphQL Query support
 
-To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](https://docs.craftcms.com/v3/graphql.html#sending-api-requests) or the [CraftQL plugin](https://github.com/markhuot/craftql), use the `retour` field in your graphql query.
+To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](https://docs.craftcms.com/v3/graphql.html#sending-api-requests) or the [CraftQL plugin](https://github.com/markhuot/craftql), use the `retour` field in your GraphQL query.
 
-This is useful if your website is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
+This is useful if your site is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
 
 You must at least pass in the URI you want metadata for:
 
@@ -83,7 +83,7 @@ Otherwise the requested data will be returned:
 ```
 ![Screenshot](./resources/screenshots/retour-craftql-query.png)
 
-Most of the time, the only thing you'll care about is the `redirectDestUrl`, which is the route that the user should be redirected to. However, you can query for everything:
+Most of the time, the only thing you’ll care about is the `redirectDestUrl`, which is the route that the user should be redirected to. However, you can query for everything:
 
 ```graphql
 {
@@ -128,7 +128,7 @@ Most of the time, the only thing you'll care about is the `redirectDestUrl`, whi
 
 ## API Endpoint
 
-**N.B.:** Anonymous access to the Retour API endpoint is disabled by default; you'll need to enable it in Retour → Plugin Settings
+**N.B.:** Anonymous access to the Retour API endpoint is disabled by default; you’ll need to enable it in Retour → Plugin Settings
 
 Retour has an API endpoint that allows you to get a JSON array of all of the redirects.
 
@@ -140,7 +140,7 @@ To get all of the Retour Redirects, the controller action is:
 /actions/retour/api/get-redirects
 ```
 
-This will return to you an array of redirects as JSON data, e.g.:
+This will return to you an array of redirects as JSON data, for example:
 
 ```json
 [

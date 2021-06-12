@@ -11,9 +11,9 @@
 
 namespace nystudio107\retour\gql\resolvers;
 
+use Craft;
 use craft\base\Element;
 use craft\gql\base\Resolver;
-use craft\helpers\Gql as GqlHelper;
 
 use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -52,7 +52,7 @@ class RetourResolver extends Resolver
         }
         if (!Retour::$plugin->redirects->excludeUri($uri)) {
             $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
-            if ($redirect === null) {
+            if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
                 // Increment the stats
                 Retour::$plugin->statistics->incrementStatistics($uri, false);
             }

@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.54 - 2021.06.12
+### Added
+* Add GraphQL schema components for Retour.
+
+### Changed
+* Ensure that the URI doesn't match an element URI before incrementing the 404 statistics via GraphQL query (https://github.com/nystudio107/craft-retour/issues/177)
+* Switched documentation system to VitePress
+
 ## 3.1.53 - 2021.04.30
 ### Added
 * Strip leading and trailing spaces off of all URLs (https://github.com/nystudio107/craft-retour/issues/173)

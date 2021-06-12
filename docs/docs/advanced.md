@@ -10,7 +10,7 @@ Trimming statistics
 Trimmed 0 from retour_stats table
 ```
 
-This will trim the `retour_stats` table so that it has only the number of statistics in the table as you've specified via the **Statistics to Store** Setting.
+This will trim the `retour_stats` table so that it has only the number of statistics in the table as you’ve specified via the **Statistics to Store** Setting.
 
 When the `retour_stats` table is trimmed, it sorts the statistics by the **Last Hit** time, and only trims the oldest statistics.
 
@@ -173,44 +173,45 @@ Event::on(Redirects::class,
 
 ## Custom Match Functions via Plugin
 
-The patterns mentioned below still work, but are deprecated. It's recommend that you use the **Resolve Redirect Events** mentioned above.
+The patterns mentioned below still work, but are deprecated. It’s recommend that you use the **Resolve Redirect Events** mentioned above.
 
-Retour allows you to implement a custom matching function via plugin, if the Exact and RegEx matching are not sufficient for your purposes.
+Retour allows you to implement a custom matching function via plugin, if the Exact and regular expression matching are not sufficient for your purposes.
 
 In your main plugin class file, simply add this function:
 
-    /**
-     * retourMatch gives your plugin a chance to use whatever custom logic is needed for URL redirection.  You are passed
-     * in an array that contains the details of the redirect.  Do whatever matching logic, then return true if is a
-     * matched, false if it is not.
-     *
-     * You can alter the 'redirectDestUrl' to change what URL they should be redirected to, as well as the 'redirectHttpCode'
-     * to change the type of redirect.  None of the changes made are saved in the database.
-     *
-     * @param mixed An array of arguments that define the redirect
-     *            $args = array(
-     *                'redirect' => array(
-     *                    'id' => the id of the redirect record in the retour_redirects table
-     *                    'associatedElementId' => the id of the entry if this is a Dynamic Entry Redirect; 0 otherwise
-     *                    'redirectSrcUrl' => the legacy URL as entered by the user
-     *                    'redirectSrcUrlParsed' => the redirectSrcUrl after it has been parsed as a micro template for {variables}
-     *                        via renderObjectTemplate().  This is typically what you would want to match against.
-     *                    'redirectMatchType' => the type of match; this will be set to your plugin's ClassHandle
-     *                    'redirectDestUrl' => the destination URL for the entry this redirect is associated with, or the
-     *                        destination URL that was manually entered by the user
-     *                    'redirectHttpCode' => the redirect HTTP code (typically 301 or 302)
-     *                    'hitCount' => the number of times this redirect has been matched, and the redirect done in the browser
-     *                    'hitLastTime' => the date and time of the when this redirect was matched
-     *                    'locale' => the locale of this redirect
-     *                )
-     *            );
-     * @return bool Return true if it's a match, false otherwise
-     */
-    public function retourMatch($args)
-    {
-        return true;
-    }
-
+```php
+/**
+ * retourMatch gives your plugin a chance to use whatever custom logic is needed for URL redirection.  You are passed
+ * in an array that contains the details of the redirect.  Do whatever matching logic, then return true if is a
+ * matched, false if it is not.
+ *
+ * You can alter the 'redirectDestUrl' to change what URL they should be redirected to, as well as the 'redirectHttpCode'
+ * to change the type of redirect.  None of the changes made are saved in the database.
+ *
+ * @param mixed An array of arguments that define the redirect
+ *            $args = array(
+ *                'redirect' => array(
+ *                    'id' => the id of the redirect record in the retour_redirects table
+ *                    'associatedElementId' => the id of the entry if this is a Dynamic Entry Redirect; 0 otherwise
+ *                    'redirectSrcUrl' => the legacy URL as entered by the user
+ *                    'redirectSrcUrlParsed' => the redirectSrcUrl after it has been parsed as a micro template for {variables}
+ *                        via renderObjectTemplate().  This is typically what you would want to match against.
+ *                    'redirectMatchType' => the type of match; this will be set to your plugin's ClassHandle
+ *                    'redirectDestUrl' => the destination URL for the entry this redirect is associated with, or the
+ *                        destination URL that was manually entered by the user
+ *                    'redirectHttpCode' => the redirect HTTP code (typically 301 or 302)
+ *                    'hitCount' => the number of times this redirect has been matched, and the redirect done in the browser
+ *                    'hitLastTime' => the date and time of the when this redirect was matched
+ *                    'locale' => the locale of this redirect
+ *                )
+ *            );
+ * @return bool Return true if it's a match, false otherwise
+ */
+public function retourMatch($args)
+{
+    return true;
+}
+```
 Your plugin will then appear in the list of Pattern Match Types that can be chosen from via **Retour->Redirects**.
 
 Brought to you by [nystudio107](https://nystudio107.com/)
