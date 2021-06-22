@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.55 - UNRELEASED
+### Fixed
+* Fix missing use clause
+
 ## 3.1.54 - 2021.06.12
 ### Added
 * Add GraphQL schema components for Retour.
