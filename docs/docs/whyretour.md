@@ -1,3 +1,7 @@
+---
+title: Why Retour
+description: Why Retour documentation for the Retour plugin. The Retour plugin allows you to intelligently redirect legacy URLs, so that you don’t lose SEO value when rebuilding & restructuring a site
+---
 # Why Use a Plugin for Redirects?
 
 If you have just a few static redirects, then your best bet is to put them in your `.htaccess` file, or better yet, in your `.conf` file for your virtual host.  However, there are a number of cases where using a plugin to handle it is a **better** solution:

@@ -1,3 +1,7 @@
+---
+title: Using Retour
+description: Using Retour documentation for the Retour plugin. The Retour plugin allows you to intelligently redirect legacy URLs, so that you don’t lose SEO value when rebuilding & restructuring a site
+---
 # Using Retour
 
 ## Retour Statistics
