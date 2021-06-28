@@ -21,11 +21,11 @@ module.exports = {
         lastUpdated: 'Last Updated',
         sidebar: [
             { text: 'Retour Plugin', link: '/' },
-            { text: 'Retour Overview', link: '/overview' },
-            { text: 'Why Use a Plugin for Redirects?', link: '/whyretour' },
-            { text: 'Configuring Retour', link: '/configuring' },
-            { text: 'Using Retour', link: '/using' },
-            { text: 'Advanced Usage', link: '/advanced' },
+            { text: 'Retour Overview', link: '/overview.html' },
+            { text: 'Why Use a Plugin for Redirects?', link: '/whyretour.html' },
+            { text: 'Configuring Retour', link: '/configuring.html' },
+            { text: 'Using Retour', link: '/using.html' },
+            { text: 'Advanced Usage', link: '/advanced.html' },
         ],
     },
 };
