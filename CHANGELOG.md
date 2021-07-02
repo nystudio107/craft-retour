@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.1.55 - UNRELEASED
+### Added
+* Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
+
 ### Changed
 * If the redirectSrcUrl starts with `http`, default the match type to `fullurl` (https://github.com/nystudio107/craft-retour/issues/187)
 * Update the 404 statistics for the path including the query string, if it hasn't been stripped (https://github.com/nystudio107/craft-retour/issues/189)
