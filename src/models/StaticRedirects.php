@@ -91,6 +91,18 @@ class StaticRedirects extends DbModel
     // =========================================================================
 
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        // If the redirectSrcUrl starts with `http`, default the match type to `fullurl`
+        if (strpos($this->redirectSrcUrl, 'http') === 0) {
+            $this->redirectSrcMatch = 'fullurl';
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
