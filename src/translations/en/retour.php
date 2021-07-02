@@ -124,5 +124,10 @@ return [
     'Additional headers to add to the redirected request' => 'Additional headers to add to the redirected request',
     'Additional Headers' => 'Additional Headers',
     'Header Name' => 'Header Name',
-    'Header Value' => 'Header Value'
+    'Header Value' => 'Header Value',
+    'Unknown league/csv package API version' => 'Unknown league/csv package API version',
+    'Query Retour data' => 'Query Retour data',
+    'CSV Delimiter' => 'CSV Delimiter',
+    'The delimiter between data column values for importing CSV files.' => 'The delimiter between data column values for importing CSV files.',
+    'The delimiter between data column values for importing CSV files (normally `,`).' => 'The delimiter between data column values for importing CSV files (normally `,`).'
 ];

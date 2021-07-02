@@ -126,6 +126,11 @@ class Settings extends Model
     public $additionalHeaders = [
     ];
 
+    /**
+     * @var string The delimiter between data column values for importing CSV files (normally `,`)
+     */
+    public $csvColumnDelimiter = ',';
+
     // Public Methods
     // =========================================================================
 

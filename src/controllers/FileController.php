@@ -28,6 +28,7 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 
 use League\Csv\AbstractCsv;
+use League\Csv\Exception;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\Writer;
@@ -101,6 +102,11 @@ class FileController extends Controller
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
         $headers = null;
         $csv = Reader::createFromPath($filename);
+        try {
+            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+        } catch (Exception $e) {
+            Craft::error($e, __METHOD__);
+        }
         try {
             $headers = array_flip($csv->fetchOne(0));
         } catch (\Exception $e) {
