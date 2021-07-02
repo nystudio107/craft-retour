@@ -2,7 +2,7 @@
 
 ## 3.1.55 - UNRELEASED
 ### Changed
-* Update the 404 statistics for the path including the query string, if it hasn't been stripped
+* Update the 404 statistics for the path including the query string, if it hasn't been stripped (https://github.com/nystudio107/craft-retour/issues/189)
 
 ### Fixed
 * Fix missing use clause
