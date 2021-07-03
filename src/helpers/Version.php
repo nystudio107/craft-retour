@@ -11,6 +11,8 @@
 
 namespace nystudio107\retour\helpers;
 
+use Craft;
+
 use Jean85\PrettyVersions;
 
 use \Composer\Semver\Semver;

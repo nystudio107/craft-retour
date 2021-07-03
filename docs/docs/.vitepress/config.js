@@ -1,14 +1,12 @@
 module.exports = {
-    title: 'Retour Documentation',
+    title: 'Retour Plugin Documentation',
     description: 'Documentation for the Retour plugin',
     base: '/docs/retour/',
     lang: 'en-US',
     head: [
-        [
-            'script',
-            {},
-            "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-69117511-1', 'auto');ga('require', 'displayfeatures');ga('send', 'pageview');"
-        ],
+        ['meta', { content: 'https://github.com/nystudio107', property: 'og:see_also', }],
+        ['meta', { content: 'https://www.youtube.com/channel/UCOZTZHQdC-unTERO7LRS6FA', property: 'og:see_also', }],
+        ['meta', { content: 'https://www.facebook.com/newyorkstudio107', property: 'og:see_also', }],
     ],
     themeConfig: {
         repo: 'nystudio107/craft-retour',
@@ -23,11 +21,11 @@ module.exports = {
         lastUpdated: 'Last Updated',
         sidebar: [
             { text: 'Retour Plugin', link: '/' },
-            { text: 'Retour Overview', link: '/overview' },
-            { text: 'Why Use a Plugin for Redirects?', link: '/whyretour' },
-            { text: 'Configuring Retour', link: '/configuring' },
-            { text: 'Using Retour', link: '/using' },
-            { text: 'Advanced Usage', link: '/advanced' },
+            { text: 'Retour Overview', link: '/overview.html' },
+            { text: 'Why Use a Plugin for Redirects?', link: '/whyretour.html' },
+            { text: 'Configuring Retour', link: '/configuring.html' },
+            { text: 'Using Retour', link: '/using.html' },
+            { text: 'Advanced Usage', link: '/advanced.html' },
         ],
     },
 };

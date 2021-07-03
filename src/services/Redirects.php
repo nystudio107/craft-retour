@@ -186,6 +186,8 @@ class Redirects extends Component
                 $fullUrl = UrlHelper::stripQueryString($fullUrl);
                 $pathOnly = UrlHelper::stripQueryString($pathOnly);
             }
+            // Stash the $pathOnly for use when incrementing the statistics
+            $originalPathOnly = $pathOnly;
             Craft::info(
                 Craft::t(
                     'retour',
@@ -205,7 +207,7 @@ class Redirects extends Component
                     $this->doRedirect($fullUrl, $pathOnly, $redirect);
                 }
                 // Increment the stats
-                Retour::$plugin->statistics->incrementStatistics($pathOnly, false);
+                Retour::$plugin->statistics->incrementStatistics($originalPathOnly, false);
             }
         }
     }

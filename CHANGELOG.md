@@ -1,5 +1,18 @@
 # Retour Changelog
 
+## 3.1.55 - 2021.07.02
+### Added
+* Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
+* Allow the choice of how many statistics per-page to display (https://github.com/nystudio107/craft-retour/issues/185)
+* Both the Dashboard Statistics table and the Redirects Table now remember their state (https://github.com/nystudio107/craft-retour/issues/189)
+
+### Changed
+* If the redirectSrcUrl starts with `http`, default the match type to `fullurl` (https://github.com/nystudio107/craft-retour/issues/187)
+* Update the 404 statistics for the path including the query string, if it hasn't been stripped (https://github.com/nystudio107/craft-retour/issues/189)
+
+### Fixed
+* Fix missing use clause
+
 ## 3.1.54 - 2021.06.12
 ### Added
 * Add GraphQL schema components for Retour.

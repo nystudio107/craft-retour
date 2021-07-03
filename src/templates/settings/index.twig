@@ -215,6 +215,18 @@
             errors: settings.getErrors("additionalHeaders"),
         }) }}
 
+        {{ forms.textField({
+            label: "CSV Delimiter"|t("retour"),
+            instructions: "The delimiter between data column values for importing CSV files (normally `,`)."|t("retour"),
+            id: "csvColumnDelimiter",
+            name: "csvColumnDelimiter",
+            size: 1,
+            maxlength: 1,
+            value: settings.csvColumnDelimiter,
+            warning: configWarning("csvColumnDelimiter", "retour"),
+            errors: settings.getErrors("csvColumnDelimiter"),
+        }) }}
+
     {% endnamespace %}
 
     {# include our JavaScript modules #}

@@ -64,4 +64,7 @@ return [
     // Additional headers to add to redirected requests
     'additionalHeaders' => [
     ],
+
+    // The delimiter between data column values for importing CSV files (normally `,`)
+    'csvColumnDelimiter' => ',',
 ];
