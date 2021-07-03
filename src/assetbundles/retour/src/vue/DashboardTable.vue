@@ -33,7 +33,6 @@
           <div class="left floated left pl-3 pt-3 text-gray-600">
             <div class="select">
               <select v-model="perPage" class="fieldtoggle" data-target-prefix="per-page-" name="perPage">
-                <option value="1" selected>1</option>
                 <option value="20" selected>20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
