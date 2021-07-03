@@ -163,8 +163,9 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
+      const cacheKey = 'retour-dashboard-state-' + Craft.username + Craft.siteId;
       return {
-        'retour-dashboard-state': 'dashboard-table',
+        'cacheKey': cacheKey,
       };
     },
     onFilterSet(filterText) {

@@ -109,8 +109,9 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
+      const cacheKey = 'retour-redirects-state-' + Craft.username + Craft.siteId;
       return {
-        'retour-redirects-state': 'redirects-table',
+        'cacheKey': cacheKey,
       };
     },
     onFilterSet(filterText) {
