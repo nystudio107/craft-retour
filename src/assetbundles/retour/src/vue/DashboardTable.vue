@@ -29,6 +29,17 @@
                     </select>
                 </div>
             </div>
+          <div class="vuetable-pagination-info left floated left pl-3 py-5 text-gray-600">Per-Page:</div>
+          <div class="left floated left pl-3 pt-3 text-gray-600">
+            <div class="select">
+              <select v-model="perPage" class="fieldtoggle" data-target-prefix="per-page-" name="perPage">
+                <option value="1" selected>1</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+          </div>
 
             <vuetable-pagination ref="paginationTop"
                                  @vuetable-pagination:change-page="onChangePage"
@@ -36,7 +47,7 @@
         </div>
         <vuetable ref="vuetable"
                   :api-url=apiUrl
-                  :per-page="20"
+                  :per-page="perPage"
                   :fields="fields"
                   :css="css"
                   :sort-order="sortOrder"
@@ -103,6 +114,7 @@
                 ],
                 fields: FieldDefs,
                 numSelected: 0,
+                perPage: 20,
                 selectedIds: [],
                 retourHandled: 'all',
                 filterText: '',
@@ -117,17 +129,20 @@
             },
         },
         watch: {
-            retourHandled: function(val) {
-                this.moreParams = {
-                    'siteId': this.siteId,
-                };
-                this.moreParams = {
-                    'siteId': this.siteId,
-                    'filter': this.filterText,
-                    'handled': this.retourHandled,
-                };
-                this.$events.fire('refresh-table', this.$refs.vuetable);
-            }
+          retourHandled: function(val) {
+            this.moreParams = {
+              'siteId': this.siteId,
+            };
+            this.moreParams = {
+              'siteId': this.siteId,
+              'filter': this.filterText,
+              'handled': this.retourHandled,
+            };
+            this.$events.fire('refresh-table', this.$refs.vuetable);
+          },
+          perPage: function(val) {
+            this.$events.fire('refresh-table', this.$refs.vuetable);
+          }
         },
         mounted() {
             this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
