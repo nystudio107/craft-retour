@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.55 - UNRELEASED
+## 3.1.55 - 2021.07.02
 ### Added
 * Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
 * Allow the choice of how many statistics per-page to display (https://github.com/nystudio107/craft-retour/issues/185)
