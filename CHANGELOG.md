@@ -3,6 +3,8 @@
 ## 3.1.55 - UNRELEASED
 ### Added
 * Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
+* Allow the choice of how many statistics per-page to display (https://github.com/nystudio107/craft-retour/issues/185)
+* Both the Dashboard Statistics table and the Redirects Table now remember their state (https://github.com/nystudio107/craft-retour/issues/189)
 
 ### Changed
 * If the redirectSrcUrl starts with `http`, default the match type to `fullurl` (https://github.com/nystudio107/craft-retour/issues/187)
