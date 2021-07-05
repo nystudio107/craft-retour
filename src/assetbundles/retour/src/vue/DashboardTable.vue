@@ -15,7 +15,7 @@
         </div>
       </form>
     </div>
-    <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
+    <vuetable-filter-bar :initial-filter-text="filterText" v-show="numSelected === 0"></vuetable-filter-bar>
     <div class="vuetable-pagination clearafter">
       <vuetable-pagination-info ref="paginationInfoTop"
       ></vuetable-pagination-info>

@@ -15,7 +15,7 @@
         </div>
       </form>
     </div>
-    <vuetable-filter-bar v-show="numSelected === 0"></vuetable-filter-bar>
+    <vuetable-filter-bar :initial-filter-text="filterText" v-show="numSelected === 0"></vuetable-filter-bar>
     <div class="vuetable-pagination clearafter">
       <vuetable-pagination-info ref="paginationInfoTop"
       ></vuetable-pagination-info>
@@ -91,6 +91,7 @@ export default {
       fields: FieldDefs,
       numSelected: 0,
       selectedIds: [],
+      filterText: '',
     }
   },
   computed: {
@@ -115,6 +116,7 @@ export default {
       };
     },
     onFilterSet(filterText) {
+      this.filterText = filterText;
       this.moreParams = {
         'filter': filterText,
         'siteId': this.siteId,
