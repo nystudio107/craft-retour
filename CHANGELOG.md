@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.56 - UNRELEASED
+### Fixed
+* The filter text that the table components remember between page load is now properly displayed (https://github.com/nystudio107/craft-retour/issues/190)
+
 ## 3.1.55 - 2021.07.02
 ### Added
 * Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
