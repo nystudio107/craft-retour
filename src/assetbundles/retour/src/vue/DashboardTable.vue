@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="floated right vuetable-pagination-info py-3">
-        <div class="inline pl-3 text-gray-600">Per-Page:</div>
+        <div class="inline pl-3 text-gray-600">Per-page:</div>
         <div class="inline pl-3 text-gray-600">
           <div class="select">
             <select v-model="perPage" class="fieldtoggle" data-target-prefix="per-page-" name="perPage">
