@@ -20,7 +20,7 @@
       <vuetable-pagination-info ref="paginationInfoTop"
       ></vuetable-pagination-info>
 
-      <div class="left floated left pl-3 pt-3 text-gray-600">
+      <div class="floated left pl-3 pt-3 text-gray-600">
         <div class="select">
           <select v-model="retourHandled" class="fieldtoggle" data-target-prefix="retour-handled-" name="retourHandled">
             <option value="all" selected>All</option>
@@ -29,17 +29,19 @@
           </select>
         </div>
       </div>
-      <div class="vuetable-pagination-info left floated left pl-3 py-5 text-gray-600">Per-Page:</div>
-      <div class="left floated left pl-3 pt-3 text-gray-600">
-        <div class="select">
-          <select v-model="perPage" class="fieldtoggle" data-target-prefix="per-page-" name="perPage">
-            <option value="20" selected>20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
+      <div class="floated right vuetable-pagination-info py-3">
+        <div class="inline pl-3 text-gray-600">Per-Page:</div>
+        <div class="inline pl-3 text-gray-600">
+          <div class="select">
+            <select v-model="perPage" class="fieldtoggle" data-target-prefix="per-page-" name="perPage">
+              <option value="20" selected>20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+            </select>
+          </div>
         </div>
       </div>
-
       <vuetable-pagination ref="paginationTop"
                            @vuetable-pagination:change-page="onChangePage"
       ></vuetable-pagination>
