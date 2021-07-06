@@ -29,7 +29,12 @@
           </select>
         </div>
       </div>
-      <div class="floated right vuetable-pagination-info py-3">
+
+      <vuetable-pagination ref="paginationTop"
+                           @vuetable-pagination:change-page="onChangePage"
+      ></vuetable-pagination>
+
+      <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">Per-page:</div>
         <div class="inline pl-3 text-gray-600">
           <div class="select">
@@ -42,9 +47,6 @@
           </div>
         </div>
       </div>
-      <vuetable-pagination ref="paginationTop"
-                           @vuetable-pagination:change-page="onChangePage"
-      ></vuetable-pagination>
     </div>
     <vuetable ref="vuetable"
               :api-url=apiUrl
