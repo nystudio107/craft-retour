@@ -1,6 +1,10 @@
 # Retour Changelog
 
 ## 3.1.56 - UNRELEASED
+### Added
+* Added "Per-age" pagination controls for the Redirects page
+* Added “500” option to Dashboard stats & Redirects "Per-page"
+
 ### Fixed
 * The filter text that the table components remember between page load is now properly displayed (https://github.com/nystudio107/craft-retour/issues/190)
 
