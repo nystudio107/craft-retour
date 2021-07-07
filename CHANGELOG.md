@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.56 - UNRELEASED
+## 3.1.56 - 2021.07.07
 ### Added
 * Added "Per-age" pagination controls for the Redirects page
 * Added “500” option to Dashboard stats & Redirects "Per-page"
