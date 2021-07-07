@@ -2,7 +2,7 @@
  * @project        retour
  * @name           redirects.js
  * @author         Andrew Welch
- * @build          Tue Jul 06 2021 18:07:02 GMT+0000 (Coordinated Universal Time)
+ * @build          Wed Jul 07 2021 13:41:37 GMT+0000 (Coordinated Universal Time)
  * @copyright      Copyright (c) 2021 ©2020 nystudio107.com
  *
  */
