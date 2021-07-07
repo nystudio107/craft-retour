@@ -7,6 +7,7 @@
 
 ### Fixed
 * The filter text that the table components remember between page load is now properly displayed (https://github.com/nystudio107/craft-retour/issues/190)
+* Fixed an issue where the selected state was remembered after doing a bulk operation (such as Delete) (https://github.com/nystudio107/craft-retour/issues/191)
 
 ## 3.1.55 - 2021.07.02
 ### Added
