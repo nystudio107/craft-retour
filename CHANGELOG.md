@@ -1,5 +1,14 @@
 # Retour Changelog
 
+## 3.1.56 - 2021.07.07
+### Added
+* Added "Per-age" pagination controls for the Redirects page
+* Added “500” option to Dashboard stats & Redirects "Per-page"
+
+### Fixed
+* The filter text that the table components remember between page load is now properly displayed (https://github.com/nystudio107/craft-retour/issues/190)
+* Fixed an issue where the selected state was remembered after doing a bulk operation (such as Delete) (https://github.com/nystudio107/craft-retour/issues/191)
+
 ## 3.1.55 - 2021.07.02
 ### Added
 * Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
