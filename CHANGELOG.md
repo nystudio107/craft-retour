@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.57 - UNRELEASED
+## 3.1.57 - 2021.07.08
 ### Fixed
 * Ignore the `numSelected` and `selectedIds` properties for the Dashboard Table component's save state (https://github.com/nystudio107/craft-retour/issues/191)
 
