@@ -2,7 +2,7 @@
 
 ## 3.1.58 - UNRELEASED
 ### Changed
-* * Ensure the URLs are siteUrls and not cpUrls in the Dashboard table “go” arrow (https://github.com/nystudio107/craft-retour/issues/192)
+* Ensure the URLs are siteUrls and not cpUrls in the Dashboard table “go” arrow (https://github.com/nystudio107/craft-retour/issues/192)
     
 ## 3.1.57 - 2021.07.08
 ### Fixed
