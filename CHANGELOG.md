@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.1.58 - UNRELEASED
+### Added
+* Use the delimiter between data column setting (normally `,`) for exporting CSV files, too (https://github.com/nystudio107/craft-retour/issues/194)
+
 ### Changed
 * Ensure the URLs are siteUrls and not cpUrls in the Dashboard table “go” arrow (https://github.com/nystudio107/craft-retour/issues/192)
     
