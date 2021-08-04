@@ -2,7 +2,7 @@
  * @project        retour
  * @name           vendors.js
  * @author         Andrew Welch
- * @build          Thu Jul 08 2021 12:49:00 GMT+0000 (Coordinated Universal Time)
+ * @build          Wed Aug 04 2021 16:09:01 GMT+0000 (Coordinated Universal Time)
  * @copyright      Copyright (c) 2021 ©2020 nystudio107.com
  *
  */

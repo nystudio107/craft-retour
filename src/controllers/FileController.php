@@ -272,6 +272,11 @@ class FileController extends Controller
             ->all();
         // Create our CSV file writer
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        try {
+            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+        } catch (Exception $e) {
+            Craft::error($e, __METHOD__);
+        }
         $csv->insertOne(array_values($columns));
         $csv->insertAll($data);
         $csv->output($filename.'.csv');

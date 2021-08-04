@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 3.1.58 - 2021.08.04
+### Added
+* Use the delimiter between data column setting (normally `,`) for exporting CSV files, too ([#194](https://github.com/nystudio107/craft-retour/issues/194))
+
+### Changed
+* Ensure the URLs are siteUrls and not cpUrls in the Dashboard table “go” arrow ([#192](https://github.com/nystudio107/craft-retour/issues/192))
+
+### Fixed
+* Fixed an issue where the saved component state could cause it to not display redirects after deleting one while filtering the view ([#196](https://github.com/nystudio107/craft-retour/issues/196))
+* 
 ## 3.1.57 - 2021.07.08
 ### Fixed
 * Ignore the `numSelected` and `selectedIds` properties for the Dashboard Table component's save state (https://github.com/nystudio107/craft-retour/issues/191)
