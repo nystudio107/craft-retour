@@ -65,7 +65,7 @@ You must at least pass in the URI you want metadata for:
 ```
 Whenever you query Retour via GraphQL, it assumes a 404 has already taken place, and records the statistics for it.
 
-If not redirect can be found to handle the 404, `null` is returned:
+If no redirect can be found to handle the 404, `null` is returned:
 
 ```json
 {
