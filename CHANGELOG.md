@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.59 - 2021.08.13
+### Fixed
+* Fix an issue where `Undefined class constant ‘EVENT_REGISTER_GQL_SCHEMA_COMPONENTS` would be thrown if you were running Craft CMS < `^3.5.0` ([#198](https://github.com/nystudio107/craft-retour/issues/198))
+
 ## 3.1.58 - 2021.08.04
 ### Added
 * Use the delimiter between data column setting (normally `,`) for exporting CSV files, too ([#194](https://github.com/nystudio107/craft-retour/issues/194))
@@ -12,7 +16,7 @@
 * 
 ## 3.1.57 - 2021.07.08
 ### Fixed
-* Ignore the `numSelected` and `selectedIds` properties for the Dashboard Table component's save state (https://github.com/nystudio107/craft-retour/issues/191)
+* Ignore the `numSelected` and `selectedIds` properties for the Dashboard Table component's save state ([#191](https://github.com/nystudio107/craft-retour/issues/191))
 
 ## 3.1.56 - 2021.07.07
 ### Added
@@ -20,18 +24,18 @@
 * Added “500” option to Dashboard stats & Redirects "Per-page"
 
 ### Fixed
-* The filter text that the table components remember between page load is now properly displayed (https://github.com/nystudio107/craft-retour/issues/190)
-* Fixed an issue where the selected state was remembered after doing a bulk operation (such as Delete) (https://github.com/nystudio107/craft-retour/issues/191)
+* The filter text that the table components remember between page load is now properly displayed ([#190](https://github.com/nystudio107/craft-retour/issues/190))
+* Fixed an issue where the selected state was remembered after doing a bulk operation (such as Delete) ([#191](https://github.com/nystudio107/craft-retour/issues/191))
 
 ## 3.1.55 - 2021.07.02
 ### Added
-* Added The delimiter between data column values for importing CSV files (normally `,`) (https://github.com/nystudio107/craft-retour/issues/188)
-* Allow the choice of how many statistics per-page to display (https://github.com/nystudio107/craft-retour/issues/185)
-* Both the Dashboard Statistics table and the Redirects Table now remember their state (https://github.com/nystudio107/craft-retour/issues/189)
+* Added The delimiter between data column values for importing CSV files (normally `,`) ([#188](https://github.com/nystudio107/craft-retour/issues/188))
+* Allow the choice of how many statistics per-page to display ([#185](https://github.com/nystudio107/craft-retour/issues/185))
+* Both the Dashboard Statistics table and the Redirects Table now remember their state ([#189](https://github.com/nystudio107/craft-retour/issues/189))
 
 ### Changed
-* If the redirectSrcUrl starts with `http`, default the match type to `fullurl` (https://github.com/nystudio107/craft-retour/issues/187)
-* Update the 404 statistics for the path including the query string, if it hasn't been stripped (https://github.com/nystudio107/craft-retour/issues/189)
+* If the redirectSrcUrl starts with `http`, default the match type to `fullurl` ([#187](https://github.com/nystudio107/craft-retour/issues/187))
+* Update the 404 statistics for the path including the query string, if it hasn't been stripped ([#189](https://github.com/nystudio107/craft-retour/issues/189))
 
 ### Fixed
 * Fix missing use clause
@@ -41,15 +45,15 @@
 * Add GraphQL schema components for Retour.
 
 ### Changed
-* Ensure that the URI doesn't match an element URI before incrementing the 404 statistics via GraphQL query (https://github.com/nystudio107/craft-retour/issues/177)
+* Ensure that the URI doesn't match an element URI before incrementing the 404 statistics via GraphQL query ([#177](https://github.com/nystudio107/craft-retour/issues/177))
 * Switched documentation system to VitePress
 
 ## 3.1.53 - 2021.04.30
 ### Added
-* Strip leading and trailing spaces off of all URLs (https://github.com/nystudio107/craft-retour/issues/173)
+* Strip leading and trailing spaces off of all URLs ([#173](https://github.com/nystudio107/craft-retour/issues/173))
 
 ### Fixed  
-* Fixed an issue where clicking the Retour CP nav item would result in a 403 exception if the current user didn't have permission to view the Retour dashboard. (https://github.com/nystudio107/craft-retour/issues/151)
+* Fixed an issue where clicking the Retour CP nav item would result in a 403 exception if the current user didn't have permission to view the Retour dashboard. ([#151](https://github.com/nystudio107/craft-retour/issues/151))
 
 ## 3.1.52 - 2021.04.06
 ### Added
@@ -74,7 +78,7 @@
 * Move settings from the `composer.json` “extra” to the plugin main class
 
 ### Fixed
-* URL decode any Legacy URLs for any Exact Match redirects on save (https://github.com/nystudio107/craft-retour/issues/166)
+* URL decode any Legacy URLs for any Exact Match redirects on save ([#166](https://github.com/nystudio107/craft-retour/issues/166))
 
 ## 3.1.49 - 2021.03.03
 ### Changed
@@ -143,7 +147,7 @@
 ## 3.1.40 - 2020.07.05
 ### Added
 * Added the Codeception testing framework to SEOmatic
-* Added a Unit Test to Retour that executes on every push to GitHub to verify there are no regressions for [#110](https://github.com/nystudio107/craft-retour/issues/110)
+* Added a Unit Test to Retour that executes on every push to GitHub to verify there are no regressions for ([#110](https://github.com/nystudio107/craft-retour/issues/110))
 * Added the ability to import “hits” into a redirect
 * Added a `EVENT_REDIRECT_RESOLVED` to allow plugins/modules to modify redirects that have been resolved.
 * Added an “Additional Headers” setting that allows you to define additional headers that are added to the redirect response
