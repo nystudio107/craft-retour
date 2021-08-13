@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.59 - 2021.08.13
+### Fixed
+* Fix an issue where `Undefined class constant ‘EVENT_REGISTER_GQL_SCHEMA_COMPONENTS` would be thrown if you were running Craft CMS < `^3.5.0` ([#198](https://github.com/nystudio107/craft-retour/issues/198))
+
 ## 3.1.58 - 2021.08.04
 ### Added
 * Use the delimiter between data column setting (normally `,`) for exporting CSV files, too ([#194](https://github.com/nystudio107/craft-retour/issues/194))
