@@ -114,6 +114,11 @@ class Retour extends Plugin
      */
     public static $craft33 = false;
 
+    /**
+     * @var bool
+     */
+    public static $craft35 = false;
+
     // Static Methods
     // =========================================================================
 
@@ -175,6 +180,7 @@ class Retour extends Plugin
         self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
         self::$craft32 = version_compare(Craft::$app->getVersion(), '3.2', '>=');
         self::$craft33 = version_compare(Craft::$app->getVersion(), '3.3', '>=');
+        self::$craft35 = version_compare(Craft::$app->getVersion(), '3.5', '>=');
         $this->name = self::$settings->pluginName;
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
@@ -454,19 +460,21 @@ class Retour extends Plugin
                     }
                 }
             );
-            // Handler: Gql::EVENT_REGISTER_SCHEMA_COMPONENTS
-            Event::on(
-                Gql::class,
-                Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
-                function (RegisterGqlSchemaComponentsEvent $event) {
-                    Craft::debug(
-                        'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
-                        __METHOD__
-                    );
-                    $label = Craft::t('retour', 'Retour');
-                    $event->queries[$label]['retour.all:read'] = ['label' => Craft::t('retour', 'Query Retour data')];
-                }
-            );
+            if (self::$craft35) {
+                // Handler: Gql::EVENT_REGISTER_SCHEMA_COMPONENTS
+                Event::on(
+                    Gql::class,
+                    Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
+                    function (RegisterGqlSchemaComponentsEvent $event) {
+                        Craft::debug(
+                            'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
+                            __METHOD__
+                        );
+                        $label = Craft::t('retour', 'Retour');
+                        $event->queries[$label]['retour.all:read'] = ['label' => Craft::t('retour', 'Query Retour data')];
+                    }
+                );
+            }
         }
         // CraftQL Support
         if (class_exists(CraftQL::class)) {
