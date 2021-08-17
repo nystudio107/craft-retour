@@ -65,6 +65,7 @@ import VueTablePagination from '@/vue/VuetablePagination.vue';
 import VueTablePaginationInfo from '@/vue/VuetablePaginationInfo.vue';
 import VueTableFilterBar from '@/vue/VuetableFilterBar.vue';
 import saveState from 'vue-save-state';
+import DOMPurify from 'dompurify';
 
 Vue.component('legacy-url', LegacyUrl);
 // Our component exports
@@ -186,6 +187,8 @@ export default {
       if (value === '') {
         return '';
       }
+      value = value.replace(/[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]/g, "");
+      value = DOMPurify.sanitize(value);
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {

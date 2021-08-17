@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.60 - 2021.08.17
+### Security
+* Fixed a potential XSS vulnerability with a malformed Referrer header
+
 ## 3.1.59 - 2021.08.13
 ### Fixed
 * Fix an issue where `Undefined class constant ‘EVENT_REGISTER_GQL_SCHEMA_COMPONENTS` would be thrown if you were running Craft CMS < `^3.5.0` ([#198](https://github.com/nystudio107/craft-retour/issues/198))

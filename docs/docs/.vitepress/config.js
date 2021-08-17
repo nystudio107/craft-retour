@@ -13,7 +13,7 @@ module.exports = {
         docsDir: 'docs/docs',
         docsBranch: 'v3',
         algolia: {
-            apiKey: '',
+            apiKey: 'db19b4e70a07de73e69ed25b2888f86c',
             indexName: 'retour'
         },
         editLinks: true,

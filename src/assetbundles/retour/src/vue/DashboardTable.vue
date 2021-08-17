@@ -75,6 +75,7 @@ import VueTablePagination from '@/vue/VuetablePagination.vue';
 import VueTablePaginationInfo from '@/vue/VuetablePaginationInfo.vue';
 import VueTableFilterBar from '@/vue/VuetableFilterBar.vue';
 import saveState from 'vue-save-state';
+import DOMPurify from 'dompurify';
 
 Vue.component('file-not-found-url', FileNotFoundUrl);
 // Our component exports
@@ -210,6 +211,8 @@ export default {
       if (value === '') {
         return '';
       }
+      value = value.replace(/[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]/g, "");
+      value = DOMPurify.sanitize(value);
       return `
                 <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
                 `;
@@ -218,6 +221,8 @@ export default {
       if (value === '') {
         return '';
       }
+      value = value.replace(/[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]/g, "");
+      value = DOMPurify.sanitize(value);
       return `
                 <a class="go" href="https://whatismyipaddress.com/ip/${value}" title="Lookup ${value}" target="_blank" rel="noopener">${value}</a>
                 `;
