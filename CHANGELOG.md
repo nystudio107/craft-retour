@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.61 - UNRELEASED
+### Fixed
+* Fixed an issue that could throw an error on CSV import if the match type column didn't exist in the imported file ([#116](https://github.com/nystudio107/retour/issues/116))
+
 ## 3.1.60 - 2021.08.17
 ### Security
 * Fixed a potential XSS vulnerability with a malformed Referrer header
