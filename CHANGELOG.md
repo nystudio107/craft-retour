@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 3.1.61 - UNRELEASED
+## 3.1.61 - 2021.08.20
 ### Fixed
 * Fixed an issue that could throw an error on CSV import if the match type column didn't exist in the imported file ([#116](https://github.com/nystudio107/retour/issues/116))
+* Fixed a issue where custom delimeters were not respected for the column names ([#199](https://github.com/nystudio107/craft-retour/issues/199))
 
 ## 3.1.60 - 2021.08.17
 ### Security
