@@ -116,6 +116,11 @@ class FileController extends Controller
             $cachedFile = $cache->get($filename);
             if ($cachedFile !== false) {
                 $csv = Reader::createFromString($cachedFile);
+                try {
+                    $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+                } catch (Exception $e) {
+                    Craft::error($e, __METHOD__);
+                }
                 $headers = array_flip($csv->fetchOne(0));
                 $cache->delete($filename);
             } else {
@@ -217,6 +222,11 @@ class FileController extends Controller
             }
             // Read in the headers
             $csv = Reader::createFromPath($file->tempName);
+            try {
+                $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+            } catch (Exception $e) {
+                Craft::error($e, __METHOD__);
+            }
             $headers = $csv->fetchOne(0);
             Craft::info(print_r($headers, true), __METHOD__);
             $variables['headers'] = $headers;
