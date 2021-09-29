@@ -54,7 +54,7 @@ class RetourResolver extends Resolver
             $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
             if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
                 // Increment the stats
-                Retour::$plugin->statistics->incrementStatistics($uri, false);
+                Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }
         }
 
