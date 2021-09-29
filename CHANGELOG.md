@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.62 - 2021.09.29
+### Fixed
+* Fixed an issue where the statistics for redirects via headless requests were always recorded for site ID 1 ([#201](https://github.com/nystudio107/craft-retour/issues/201))
+
 ## 3.1.61 - 2021.08.20
 ### Fixed
 * Fixed an issue that could throw an error on CSV import if the match type column didn't exist in the imported file ([#116](https://github.com/nystudio107/retour/issues/116))
