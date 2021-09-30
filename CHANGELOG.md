@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.1.62 - 2021.09.29
+### Added
+* Default the newly created redirect based on the siteId of the 404 statistic, if it isn't the default site ([#201](https://github.com/nystudio107/craft-retour/issues/201))
+
 ### Fixed
 * Fixed an issue where the statistics for redirects via headless requests were always recorded for site ID 1 ([#201](https://github.com/nystudio107/craft-retour/issues/201))
 
