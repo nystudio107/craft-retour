@@ -15,6 +15,7 @@ use nystudio107\retour\helpers\Permission as PermissionHelper;
 
 use Craft;
 use craft\db\Query;
+use craft\errors\SiteNotFoundException;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
 
@@ -136,8 +137,19 @@ class TablesController extends Controller
                 $stat['addLink'] = '';
                 if (!$stat['handledByRetour']) {
                     $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                    // Add the siteId to the URL, but keep the current behavior of passing in siteId=0 for "all"
+                    $statSiteId = $stat['siteId'] ?? 0;
+                    try {
+                        $primarySite = Craft::$app->getSites()->getPrimarySite();
+                    } catch (SiteNotFoundException $e) {
+                        $primarySite = null;
+                    }
+                    if ($primarySite !== null && $statSiteId == (int)$primarySite->id) {
+                        $statSiteId = 0;
+                    }
                     $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
-                        'defaultUrl' => $encodedUrl
+                        'defaultUrl' => $encodedUrl,
+                        'siteId' => $statSiteId
                     ]);
                 }
             }
