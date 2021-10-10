@@ -45,4 +45,9 @@ class RedirectEvent extends \yii\base\ModelEvent
      * @var string The type of redirect
      */
     public $redirectType;
+
+    /**
+     * @var null|int The siteId of the redirect (0 or null for all sites).
+     */
+    public $siteId;
 }
