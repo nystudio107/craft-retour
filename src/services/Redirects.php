@@ -344,7 +344,7 @@ class Redirects extends Component
         }
         // Resolve static redirects
         $redirects = $this->getAllStaticRedirects(null, $siteId);
-        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects);
+        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
         if ($redirect) {
             return $redirect;
         }
@@ -415,7 +415,7 @@ class Redirects extends Component
      *
      * @return array|null
      */
-    public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects)
+    public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects, $siteId)
     {
         $result = null;
         // Throw the Redirects::EVENT_BEFORE_RESOLVE_REDIRECT event
@@ -424,6 +424,7 @@ class Redirects extends Component
             'pathOnly' => $pathOnly,
             'redirectDestUrl' => null,
             'redirectHttpCode' => 301,
+            'siteId' => $siteId,
         ]);
         $this->trigger(self::EVENT_BEFORE_RESOLVE_REDIRECT, $event);
         if ($event->redirectDestUrl !== null) {
@@ -461,6 +462,7 @@ class Redirects extends Component
                                 'redirectDestUrl' => null,
                                 'redirectHttpCode' => 301,
                                 'redirect' => $redirect,
+                                'siteId' => $siteId,
                             ]);
                             $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                             if ($event->redirectDestUrl !== null) {
@@ -495,6 +497,7 @@ class Redirects extends Component
                                     'redirectDestUrl' => null,
                                     'redirectHttpCode' => 301,
                                     'redirect' => $redirect,
+                                    'siteId' => $siteId,
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
@@ -531,6 +534,7 @@ class Redirects extends Component
                                     'redirectDestUrl' => null,
                                     'redirectHttpCode' => 301,
                                     'redirect' => $redirect,
+                                    'siteId' => $siteId,
                                 ]);
                                 $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
                                 if ($event->redirectDestUrl !== null) {
@@ -550,6 +554,7 @@ class Redirects extends Component
             'pathOnly' => $pathOnly,
             'redirectDestUrl' => null,
             'redirectHttpCode' => 301,
+            'siteId' => $siteId,
         ]);
         $this->trigger(self::EVENT_AFTER_RESOLVE_REDIRECT, $event);
         if ($event->redirectDestUrl !== null) {
@@ -812,6 +817,7 @@ class Redirects extends Component
             'destinationUrl' => $redirectConfig['redirectDestUrl'],
             'matchType' => $redirectConfig['redirectSrcMatch'],
             'redirectType' => $redirectConfig['redirectHttpCode'],
+            'siteId' => $redirectConfig['siteId'],
         ]);
         $this->trigger(self::EVENT_BEFORE_SAVE_REDIRECT, $event);
         if (!$event->isValid) {

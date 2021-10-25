@@ -1,5 +1,16 @@
 # Retour Changelog
 
+## 3.1.63 - 2021.10.25
+### Added
+* Added a `$siteId` property to `RedirectEvent`, `RedirectResolvedEvent`, and `ResolveRedirectEvent` to allow for custom logic based on the `siteId` ([#202](https://github.com/nystudio107/craft-retour/issues/202))
+
+## 3.1.62 - 2021.09.29
+### Added
+* Default the newly created redirect based on the siteId of the 404 statistic, if it isn't the default site ([#201](https://github.com/nystudio107/craft-retour/issues/201))
+
+### Fixed
+* Fixed an issue where the statistics for redirects via headless requests were always recorded for site ID 1 ([#201](https://github.com/nystudio107/craft-retour/issues/201))
+
 ## 3.1.61 - 2021.08.20
 ### Fixed
 * Fixed an issue that could throw an error on CSV import if the match type column didn't exist in the imported file ([#116](https://github.com/nystudio107/retour/issues/116))

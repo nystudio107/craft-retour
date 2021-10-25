@@ -151,14 +151,17 @@ class Statistics extends Component
     /**
      * Increment the retour_stats record
      *
-     * @param string             $url The 404 url
-     * @param bool               $handled
+     * @param string $url The 404 url
+     * @param bool $handled
+     * @param null $siteId
      */
-    public function incrementStatistics(string $url, $handled = false)
+    public function incrementStatistics(string $url, $handled = false, $siteId = null)
     {
         $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
-        $siteId = Craft::$app->getSites()->currentSite->id;
+        if ($siteId === null) {
+            $siteId = Craft::$app->getSites()->currentSite->id;
+        }
         if (!$request->isConsoleRequest) {
             $referrer = $request->getReferrer();
             if (Retour::$settings->recordRemoteIp) {

@@ -43,4 +43,9 @@ class ResolveRedirectEvent extends \yii\base\ModelEvent
      * @var int The http status code for this redirect; see https://httpstatuses.com/
      */
     public $redirectHttpCode = 301;
+
+    /**
+     * @var null|int The siteId of the redirect (0 or null for all sites).
+     */
+    public $siteId;
 }
