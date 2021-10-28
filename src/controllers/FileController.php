@@ -101,13 +101,10 @@ class FileController extends Controller
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
         $headers = null;
-        $csv = Reader::createFromPath($filename);
+
         try {
+            $csv = Reader::createFromPath($filename);
             $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
-        } catch (Exception $e) {
-            Craft::error($e, __METHOD__);
-        }
-        try {
             $headers = array_flip($csv->fetchOne(0));
         } catch (\Exception $e) {
             // If this throws an exception, try to read the CSV file from the data cache
