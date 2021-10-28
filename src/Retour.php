@@ -17,6 +17,7 @@ use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
+use nystudio107\retour\services\Events;
 use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
 use nystudio107\retour\variables\RetourVariable;
@@ -49,7 +50,6 @@ use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 
 use yii\base\Event;
-use yii\base\Exception;
 use yii\web\HttpException;
 
 use markhuot\CraftQL\Builders\Schema;
@@ -65,6 +65,7 @@ use markhuot\CraftQL\Events\AlterSchemaFields;
  * @package   Retour
  * @since     3.0.0
  *
+ * @property Events             $events
  * @property Redirects          $redirects
  * @property Statistics         $statistics
  * @property ManifestService    $manifest
@@ -128,6 +129,7 @@ class Retour extends Plugin
     public function __construct($id, $parent = null, array $config = [])
     {
         $config['components'] = [
+            'events' => Events::class,
             'redirects' => Redirects::class,
             'statistics' => Statistics::class,
             // Register the manifest service
@@ -159,11 +161,6 @@ class Retour extends Plugin
      * @var bool
      */
     public $hasCpSettings = true;
-
-    /**
-     * @var array The URIs for the element before it was saved
-     */
-    public $oldElementUris = [];
 
     // Public Methods
     // =========================================================================
@@ -383,11 +380,7 @@ class Retour extends Plugin
                         // Make sure this isn't a transitioning temporary draft/revision and that it's
                         // not propagating to other sites
                         if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
-                            // Stash the old URLs by element id, and do so only once,
-                            // in case we are called more than once per request
-                            if (empty($this->oldElementUris[$element->id])) {
-                                $this->oldElementUris[$element->id] = $this->getAllElementUris($element);
-                            }
+                            Retour::$plugin->events->stashElementUris($element);
                         }
                     }
                 }
@@ -410,7 +403,7 @@ class Retour extends Plugin
                         $checkElementSlug = false;
                     }
                     if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                        $this->handleElementUriChange($element);
+                        Retour::$plugin->events->handleElementUriChange($element);
                     }
                 }
             }
@@ -599,97 +592,6 @@ class Retour extends Plugin
     protected function createSettingsModel()
     {
         return new Settings();
-    }
-
-    /**
-     * @param Element $element
-     */
-    protected function handleElementUriChange(Element $element)
-    {
-        $uris = $this->getAllElementUris($element);
-        if (!empty($this->oldElementUris[$element->id])) {
-            $oldElementUris = $this->oldElementUris[$element->id];
-            foreach ($uris as $siteId => $newUri) {
-                if (!empty($oldElementUris[$siteId])) {
-                    $oldUri = $oldElementUris[$siteId];
-                    Craft::debug(
-                        Craft::t(
-                            'retour',
-                            'Comparing old: {oldUri} to new: {newUri}',
-                            ['oldUri' => print_r($oldUri, true), 'newUri' => print_r($newUri, true)]
-                        ),
-                        __METHOD__
-                    );
-                    // Handle the siteId
-                    $redirectSiteId = null;
-                    if (Craft::$app->getIsMultiSite()) {
-                        $redirectSiteId = $siteId;
-                    }
-                    // Make sure the URIs are not the same
-                    if (strcmp($oldUri, $newUri) !== 0) {
-                        // Handle trailing slash config setting
-                        if (Craft::$app->config->general->addTrailingSlashesToUrls) {
-                            $oldUri = rtrim($oldUri, '/') . '/';
-                            $newUri = rtrim($newUri, '/') . '/';
-                        }
-                        // Handle the URL match type
-                        if (self::$settings->uriChangeRedirectSrcMatch === 'fullurl') {
-                            try {
-                                if ($redirectSiteId !== null) {
-                                    $redirectSiteId = (int)$redirectSiteId;
-                                }
-                                $oldUri = UrlHelper::siteUrl($oldUri, null, null, $redirectSiteId);
-                                $newUri = UrlHelper::siteUrl($newUri, null, null, $redirectSiteId);
-                            } catch (Exception $e) {
-                                // That's fine
-                            }
-                        }
-                        $redirectConfig = [
-                            'id' => 0,
-                            'redirectMatchType' => 'exactmatch',
-                            'redirectHttpCode' => 301,
-                            'redirectSrcMatch' => self::$settings->uriChangeRedirectSrcMatch,
-                            'redirectSrcUrl' => $oldUri,
-                            'redirectDestUrl' => $newUri,
-                            'siteId' => $redirectSiteId,
-                        ];
-                        Retour::$plugin->redirects->saveRedirect($redirectConfig);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the URIs for each site for the element
-     *
-     * @param Element $element
-     *
-     * @return array
-     */
-    protected function getAllElementUris(Element $element): array
-    {
-        $uris = [];
-        if (!self::$craft32 || !ElementHelper::isDraftOrRevision($element)) {
-            $sites = Craft::$app->getSites()->getAllSites();
-            foreach ($sites as $site) {
-                $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
-                if ($uri !== null) {
-                    $uris[$site->id] = $uri;
-                }
-            }
-        }
-
-        Craft::debug(
-            Craft::t(
-                'retour',
-                'Getting Element URIs: {uris}',
-                ['uris' => print_r($uris, true)]
-            ),
-            __METHOD__
-        );
-
-        return $uris;
     }
 
     /**

@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.1.64 - 2021.10.28
+### Added
+* feat(events): Added a `beforeSaveEntryRedirect` event to allow you to hook in when an Entry Redirect is automatically created
+
+### Fixed
+* fix(importer): Catch Exception thrown by `Reader::createFromPath()` and use cache ([#205](https://github.com/nystudio107/craft-retour/pull/205)) ([#204](https://github.com/nystudio107/craft-retour/issues/204))
+
 ## 3.1.63 - 2021.10.25
 ### Added
 * Added a `$siteId` property to `RedirectEvent`, `RedirectResolvedEvent`, and `ResolveRedirectEvent` to allow for custom logic based on the `siteId` ([#202](https://github.com/nystudio107/craft-retour/issues/202))
