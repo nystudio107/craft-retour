@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.64 - UNRELEASED
+### Added
+* Added a `beforeSaveEntryRedirect` event to allow you to hook in when an Entry Redirect is automatically created
+
 ## 3.1.63 - 2021.10.25
 ### Added
 * Added a `$siteId` property to `RedirectEvent`, `RedirectResolvedEvent`, and `ResolveRedirectEvent` to allow for custom logic based on the `siteId` ([#202](https://github.com/nystudio107/craft-retour/issues/202))
