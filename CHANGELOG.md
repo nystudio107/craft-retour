@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.65 - 2021.10.29
+### Fixed
+* fix(events): Fixed a regression that could throw an exception during automatic Entry Redirect creation
+
 ## 3.1.64 - 2021.10.28
 ### Added
 * feat(events): Added a `beforeSaveEntryRedirect` event to allow you to hook in when an Entry Redirect is automatically created

@@ -42,7 +42,7 @@ class Events extends Component
      * use nystudio107\retour\events\RedirectEvent;
      *
      * Event::on(Events::class,
-     *     Redirects::EVENT_BEFORE_SAVE_ENTRY_REDIRECT,
+     *     Events::EVENT_BEFORE_SAVE_ENTRY_REDIRECT,
      *     function(RedirectEvent $event) {
      *         // potentially set $event->isValid;
      *     }
@@ -130,7 +130,7 @@ class Events extends Component
                         $isNew = (int)$redirectConfig['id'] === 0;
                         $event = new RedirectEvent([
                             'isNew' => $isNew,
-                            'legacyUrl' => $redirectConfig['redirectSrcUrlParsed'],
+                            'legacyUrl' => $redirectConfig['redirectSrcUrl'],
                             'destinationUrl' => $redirectConfig['redirectDestUrl'],
                             'matchType' => $redirectConfig['redirectSrcMatch'],
                             'redirectType' => $redirectConfig['redirectHttpCode'],

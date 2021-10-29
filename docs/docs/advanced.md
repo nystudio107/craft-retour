@@ -72,7 +72,7 @@ use nystudio107\retour\services\Events;
 use nystudio107\retour\events\RedirectEvent;
 
 Event::on(Events::class,
-    Redirects::EVENT_BEFORE_SAVE_ENTRY_REDIRECT,
+    Events::EVENT_BEFORE_SAVE_ENTRY_REDIRECT,
     function(RedirectEvent $event) {
         // potentially set $event->isValid;
     }
