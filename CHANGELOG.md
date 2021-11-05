@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.66 - UNRELEASED
+### Fixed
+* Fixed an issue with `$` being stripped from displayed URLs ([#206](https://github.com/nystudio107/craft-retour/issues/206))
+
 ## 3.1.65 - 2021.10.29
 ### Fixed
 * Fixed a regression that could throw an exception during automatic Entry Redirect creation
