@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <import-draggable :data="[{% for header in headers %}{id: {{ loop.index0 }}, name: '{{ header }}'},{% endfor %}]"></import-draggable>
+        <import-draggable :data="[{% for header in headers %}{id: {{ loop.index0 }}, name: '{{ header | escape('js') }}'},{% endfor %}]"></import-draggable>
         <div class="field readable">
             <div class="heading">
                 <div class="instructions">
