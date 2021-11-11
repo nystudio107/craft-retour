@@ -101,6 +101,9 @@
         </dashboard-table>
 
     </div>
+{% endblock %}
+
+{% block foot %}
     {# include our JavaScript modules #}
     {{ parent() }}
     {{ craft.retour.registerJsModules([
