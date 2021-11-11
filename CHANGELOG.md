@@ -1,15 +1,23 @@
 # Retour Changelog
 
+## 3.1.66 - 2021.11.10
+### Changed
+* Truncate the column names displayed in the Import CSV function to 50 characters to prevent overrun ([#209](https://github.com/nystudio107/craft-retour/issues/209))
+
+### Fixed
+* Fixed an issue where the Import CSV function would display a blank screen if the CSV was malformed ([#209](https://github.com/nystudio107/craft-retour/issues/209))
+* Fixed an issue with `$` being stripped from displayed URLs ([#206](https://github.com/nystudio107/craft-retour/issues/206))
+
 ## 3.1.65 - 2021.10.29
 ### Fixed
-* fix(events): Fixed a regression that could throw an exception during automatic Entry Redirect creation
+* Fixed a regression that could throw an exception during automatic Entry Redirect creation
 
 ## 3.1.64 - 2021.10.28
 ### Added
-* feat(events): Added a `beforeSaveEntryRedirect` event to allow you to hook in when an Entry Redirect is automatically created
+* Added a `beforeSaveEntryRedirect` event to allow you to hook in when an Entry Redirect is automatically created
 
 ### Fixed
-* fix(importer): Catch Exception thrown by `Reader::createFromPath()` and use cache ([#205](https://github.com/nystudio107/craft-retour/pull/205)) ([#204](https://github.com/nystudio107/craft-retour/issues/204))
+* Catch Exception thrown by `Reader::createFromPath()` and use cache ([#205](https://github.com/nystudio107/craft-retour/pull/205)) ([#204](https://github.com/nystudio107/craft-retour/issues/204))
 
 ## 3.1.63 - 2021.10.25
 ### Added
