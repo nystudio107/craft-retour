@@ -3,6 +3,7 @@
 ## 3.1.66 - UNRELEASED
 ### Changed
 * Truncate the column names displayed in the Import CSV function to 50 characters to prevent overrun ([#209](https://github.com/nystudio107/craft-retour/issues/209))
+
 ### Fixed
 * Fixed an issue where the Import CSV function would display a blank screen if the CSV was malformed ([#209](https://github.com/nystudio107/craft-retour/issues/209))
 * Fixed an issue with `$` being stripped from displayed URLs ([#206](https://github.com/nystudio107/craft-retour/issues/206))
