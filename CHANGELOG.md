@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.66 - UNRELEASED
+## 3.1.66 - 2021.11.10
 ### Changed
 * Truncate the column names displayed in the Import CSV function to 50 characters to prevent overrun ([#209](https://github.com/nystudio107/craft-retour/issues/209))
 
