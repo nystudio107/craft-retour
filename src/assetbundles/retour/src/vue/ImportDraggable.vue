@@ -70,6 +70,13 @@
                 this.dataArray[index].name = '';
                 //this.dataArray.splice(index, 1);
             },
+            truncate: function( str, n, useWordBoundary ){
+              if (str.length <= n) { return str; }
+              const subString = str.substr(0, n-1);
+              return (useWordBoundary
+                ? subString.substr(0, subString.lastIndexOf(" "))
+                : subString) + "&hellip;";
+            }
         },
         created: function() {
             // Pad the array with extra slots
@@ -83,8 +90,8 @@
             }
         },
         data: function() {
-            return {
-                dataArray: this.data,
+          return {
+                dataArray: this.data.map( (e) => {e.name = this.truncate(e.name, 50, true); return e }),
                 options: {
                     group: 'fields'
                 },
