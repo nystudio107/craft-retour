@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 3.1.67 - 2021.11.16
+### Added
+* Added the `retourResolveRedirect` GraphQL query that should be used instead of the `retour` query.
+* Added the `retourRedirects` GraphQL query that returns a list of all redirects for a given site.
+
+### Changed
+* The `retour` GraphQL query is now deprecated in favor of the `retourResolveRedirect` query.
+
 ## 3.1.66 - 2021.11.10
 ### Changed
 * Truncate the column names displayed in the Import CSV function to 50 characters to prevent overrun ([#209](https://github.com/nystudio107/craft-retour/issues/209))

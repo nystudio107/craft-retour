@@ -42,7 +42,26 @@ class RetourQuery extends Query
                 'type' => RetourInterface::getType(),
                 'args' => RetourArguments::getArguments(),
                 'resolve' => RetourResolver::class . '::resolve',
-                'description' => 'This query is used to query for Retour redirects.'
+                'description' => 'This query is used to query for Retour redirects.',
+                'deprecationReason' => 'This query is deprecated and will be removed in the future. You should use `retourResolveRedirect` instead.',
+            ],
+            'retourResolveRedirect' => [
+                'type' => RetourInterface::getType(),
+                'args' => RetourArguments::getArguments(),
+                'resolve' => RetourResolver::class . '::resolve',
+                'description' => 'This query is used to query for Retour redirects.',
+            ],
+            'retourRedirects' => [
+                'type' => Type::listOf(RetourInterface::getType()),
+                'args' => [
+                    'siteId' => [
+                        'name' => 'siteId',
+                        'type' => Type::int(),
+                        'description' => 'The siteId to list all redirects for.'
+                    ],
+                ],
+                'resolve' => RetourResolver::class . '::resolveAll',
+                'description' => 'This query is used to query for all Retour redirects for a site.',
             ],
         ];
     }
