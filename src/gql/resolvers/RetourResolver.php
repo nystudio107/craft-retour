@@ -46,12 +46,15 @@ class RetourResolver extends Resolver
         $uri = trim($uri === '/' ? '__home__' : $uri);
 
         $redirect = null;
+
         // Strip the query string if `alwaysStripQueryString` is set
         if (Retour::$settings->alwaysStripQueryString) {
             $uri = UrlHelper::stripQueryString($uri);
         }
+
         if (!Retour::$plugin->redirects->excludeUri($uri)) {
             $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
+
             if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
                 // Increment the stats
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
@@ -59,5 +62,24 @@ class RetourResolver extends Resolver
         }
 
         return $redirect;
+    }
+
+    /**
+     * Return all static redirects for a site.
+     *
+     * @param $source
+     * @param array $arguments
+     * @param $context
+     * @param ResolveInfo $resolveInfo
+     * @return array
+     * @throws \craft\errors\SiteNotFoundException
+     */
+    public static function resolveAll($source, array $arguments, $context, ResolveInfo $resolveInfo)
+    {
+        $siteId = $arguments['siteId'] ?? Craft::$app->getSites()->getCurrentSite()->id;
+
+        $redirects = Retour::$plugin->redirects->getAllStaticRedirects(null, $siteId);
+
+        return $redirects;
     }
 }
