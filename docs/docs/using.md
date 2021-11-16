@@ -40,7 +40,9 @@ It displays the total number of handled and not handled 404s, and the 5 most rec
 
 ## GraphQL Query support
 
-To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](https://docs.craftcms.com/v3/graphql.html#sending-api-requests) or the [CraftQL plugin](https://github.com/markhuot/craftql), use the `retour` field in your GraphQL query.
+### Resolving Redirects
+
+To retrieve Retour redirect data through the native [GraphQL in Craft CMS 3.3](https://docs.craftcms.com/v3/graphql.html#sending-api-requests) or the [CraftQL plugin](https://github.com/markhuot/craftql), use the `retourResolveRedirect` field in your GraphQL query.
 
 This is useful if your site is a SPA, and Craft is running "headless", but you still want to give your content authors a way to deal with 404s.
 
@@ -48,7 +50,7 @@ You must at least pass in the URI you want metadata for:
 
 ```graphql
 {
-  retour(uri: "/stuff") {
+    retourResolveRedirect(uri: "/stuff") {
     redirectDestUrl
   }
 }
@@ -58,7 +60,7 @@ You must at least pass in the URI you want metadata for:
 
 ```graphql
 {
-  retour(uri: "/stuff", siteId: 1) {
+    retourResolveRedirect(uri: "/stuff", siteId: 1) {
     redirectDestUrl
   }
 }
@@ -70,16 +72,16 @@ If no redirect can be found to handle the 404, `null` is returned:
 ```json
 {
   "data": {
-    "retour": null
+    "retourResolveRedirect": null
   }
 }
 ```
 
-Otherwise the requested data will be returned:
+Otherwise, the requested data will be returned:
 ```json
 {
   "data": {
-    "retour": {
+    "retourResolveRedirect": {
       "redirectDestUrl": "/c3"
     }
   }
@@ -91,7 +93,7 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
 
 ```graphql
 {
-  retour(uri: "/stuff") {
+    retourResolveRedirect(uri: "/stuff") {
     id
     siteId
     associatedElementId
@@ -112,7 +114,7 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
 ```json
 {
   "data": {
-    "retour": {
+    "retourResolveRedirect": {
       "id": 1,
       "siteId": 1,
       "associatedElementId": 0,
@@ -129,6 +131,57 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
   }
 }
 ```
+
+Arguments:
+
+`retourResolveRedirect(uri: '/', siteId: 1)`
+
+`uri:` String - The URI to resolve a redirect for.
+
+`siteId:` Int - Optional - The siteId to resolve a redirect for.
+
+### Getting All Redirects
+
+If you want to retrieve **all** of the redirects that have been entered into Retour, you can to that with the `retourRedirects` query:
+
+```graphql
+{
+  retourRedirects(siteId: 1) {
+    redirectMatchType
+    redirectSrcUrl
+    redirectDestUrl
+  }
+}
+```
+
+This will return all of the redirects for the passed in `siteId`:
+
+```json
+{
+  "data": {
+    "retourRedirects": [
+      {
+        "redirectMatchType": "exactmatch",
+        "redirectSrcUrl": "/woof",
+        "redirectDestUrl": "/"
+      },
+      {
+        "redirectMatchType": "regexmatch",
+        "redirectSrcUrl": "^/branches/(.{4})$",
+        "redirectDestUrl": "/locations/$1"
+      }
+    ]
+  }
+}
+```
+
+If you omit the `siteId` argument, it will retrieve all redirects for all sites.
+
+Arguments:
+
+`retourRedirects(siteId: 1)`
+
+`siteId:` Int - Optional - The siteId to resolve a redirect for.
 
 ## API Endpoint
 
