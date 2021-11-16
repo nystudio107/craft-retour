@@ -43,7 +43,7 @@ class RetourQuery extends Query
                 'args' => RetourArguments::getArguments(),
                 'resolve' => RetourResolver::class . '::resolve',
                 'description' => 'This query is used to query for Retour redirects.',
-                'deprecationReason' => 'This query is depreacted and will be removed. You should use `retourResolveRedirect` instead.',
+                'deprecationReason' => 'This query is deprecated and will be removed in the future. You should use `retourResolveRedirect` instead.',
             ],
             'retourResolveRedirect' => [
                 'type' => RetourInterface::getType(),
