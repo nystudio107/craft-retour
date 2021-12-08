@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.68 - UNRELEASED
+### Changed
+* Updated the buildchain to use Node 16
+
 ## 3.1.67 - 2021.11.16
 ### Added
 * Added the `retourResolveRedirect` GraphQL query that should be used instead of the `retour` query.
