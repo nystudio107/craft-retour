@@ -4,6 +4,9 @@
 ### Changed
 * Updated the buildchain to use Node 16
 
+### Fixed
+* Fixed an issue where non-ASCII characters were stripped from display of URLs in the Retour Dashboard & Redirects pages ([#213](https://github.com/nystudio107/craft-retour/issues/213))
+
 ## 3.1.67 - 2021.11.16
 ### Added
 * Added the `retourResolveRedirect` GraphQL query that should be used instead of the `retour` query.
