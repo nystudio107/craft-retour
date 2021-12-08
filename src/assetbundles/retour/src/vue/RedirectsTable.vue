@@ -187,7 +187,6 @@ export default {
       if (value === '') {
         return '';
       }
-      value = value.replace(/[^-A-Za-z0-9+&@#/%?$=~_|!:,.;\(\)]/g, "");
       value = DOMPurify.sanitize(value);
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
