@@ -1,0 +1,56 @@
+{
+  "src/js/Dashboard.js": {
+    "file": "assets/dashboard.7e316779.js",
+    "src": "src/js/Dashboard.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.8a4eaaf9.js",
+      "_VuetableFilterBar.0f759aad.js"
+    ]
+  },
+  "src/js/Import.js": {
+    "file": "assets/import.969efdbe.js",
+    "src": "src/js/Import.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.8a4eaaf9.js"
+    ]
+  },
+  "src/js/Redirects.js": {
+    "file": "assets/redirects.3b345a1c.js",
+    "src": "src/js/Redirects.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.8a4eaaf9.js",
+      "_VuetableFilterBar.0f759aad.js"
+    ]
+  },
+  "src/js/Retour.js": {
+    "file": "assets/retour.56717911.js",
+    "src": "src/js/Retour.js",
+    "isEntry": true,
+    "css": [
+      "assets/retour.3c139461.css"
+    ]
+  },
+  "src/js/Widget.js": {
+    "file": "assets/widget.71f63053.js",
+    "src": "src/js/Widget.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.8a4eaaf9.js"
+    ]
+  },
+  "_vendor.8a4eaaf9.js": {
+    "file": "assets/vendor.8a4eaaf9.js",
+    "css": [
+      "assets/vendor.3b5bd98c.css"
+    ]
+  },
+  "_VuetableFilterBar.0f759aad.js": {
+    "file": "assets/VuetableFilterBar.0f759aad.js",
+    "imports": [
+      "_vendor.8a4eaaf9.js"
+    ]
+  }
+}

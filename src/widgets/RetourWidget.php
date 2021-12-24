@@ -55,7 +55,7 @@ class RetourWidget extends Widget
      */
     public static function iconPath()
     {
-        return Craft::getAlias("@nystudio107/retour/assetbundles/retour/dist/img/icon-mask.svg");
+        return Craft::getAlias("@nystudio107/retour/web/assets/dist/img/icon-mask.svg");
     }
 
     /**
