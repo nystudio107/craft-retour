@@ -15,7 +15,7 @@
 
 {% extends "retour/_layouts/widget-cp.twig" %}
 
-{% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/assetbundles/retour/dist', true) %}
+{% set baseAssetsUrl = view.getAssetManager().getPublishedUrl('@nystudio107/retour/web/assets/dist', true) %}
 {% set iconUrl = baseAssetsUrl ~ '/img/Retour-icon.svg' %}
 
 {% block content %}
@@ -34,8 +34,10 @@
         </div>
     </div>
 
-    {{ parent() }}
-    {{ craft.retour.registerJsModules([
-        'widget.js',
-    ]) }}
+    {% set scriptTagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Widget.js', false, scriptTagOptions) }}
 {% endblock %}

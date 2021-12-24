@@ -30,7 +30,7 @@ class RetourDashboardAsset extends AssetBundle
      */
     public function init()
     {
-        $this->sourcePath = '@nystudio107/retour/assetbundles/retour/dist';
+        $this->sourcePath = '@nystudio107/retour/web/assets/dist';
         $this->depends = [
             CpAsset::class,
             VueAsset::class,

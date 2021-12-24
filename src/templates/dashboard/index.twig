@@ -106,7 +106,10 @@
 {% block foot %}
     {# include our JavaScript modules #}
     {{ parent() }}
-    {{ craft.retour.registerJsModules([
-        'dashboard.js',
-    ]) }}
+    {% set scriptTagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Dashboard.js', false, scriptTagOptions) }}
 {% endblock %}

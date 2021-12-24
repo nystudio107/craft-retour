@@ -2,18 +2,10 @@
 
 {% block head %}
     {{ parent() }}
-    {{ craft.retour.registerCssModules([
-        'vendors.css',
-        'styles.css',
-    ]) }}
-{% endblock %}
-
-{% block foot %}
-    {{ parent() }}
-    {{ craft.retour.registerJsModules([
-        'runtime.js',
-        'vendors.js',
-        'commons.js',
-        'retour.js',
-    ]) }}
+    {% set scriptTagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Retour.js', false, scriptTagOptions) }}
 {% endblock %}
