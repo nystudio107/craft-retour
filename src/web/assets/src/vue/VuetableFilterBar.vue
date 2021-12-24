@@ -3,7 +3,7 @@
     <div class="ui form">
       <div class="inline field">
         <label class="text-gray-600">Search for:</label>
-        <input type="text" v-model="filterText" class="text nicetext" @keyup="doFilter" placeholder="">
+        <input type="text" v-model="filterText" class="text nicetext mx-2" @keyup="doFilter" placeholder="">
         <button class="btn delete icon" @click="resetFilter">Reset</button>
       </div>
     </div>
