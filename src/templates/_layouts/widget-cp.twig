@@ -1,12 +1,12 @@
 
 {% block head %}
     {{ parent() }}
-    {% set scriptTagOptions = {
+    {% set tagOptions = {
         'depends': [
             'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
         ],
     } %}
-    {{ craft.retour.register('src/js/Retour.js', false, scriptTagOptions, scriptTagOptions) }}
+    {{ craft.retour.register('src/js/Retour.js', false, tagOptions, tagOptions) }}
 {% endblock %}
 
 {% block content %}

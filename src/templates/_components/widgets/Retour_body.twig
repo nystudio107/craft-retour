@@ -34,10 +34,10 @@
         </div>
     </div>
 
-    {% set scriptTagOptions = {
+    {% set tagOptions = {
         'depends': [
             'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
         ],
     } %}
-    {{ craft.retour.register('src/js/Widget.js', false, scriptTagOptions, scriptTagOptions) }}
+    {{ craft.retour.register('src/js/Widget.js', false, tagOptions, tagOptions) }}
 {% endblock %}
