@@ -13,6 +13,7 @@ namespace nystudio107\retour\gql\types;
 
 use nystudio107\retour\gql\interfaces\RetourInterface;
 
+use Craft;
 use craft\gql\base\ObjectType;
 
 use GraphQL\Type\Definition\ResolveInfo;
@@ -44,7 +45,23 @@ class RetourType extends ObjectType
     protected function resolve($source, $arguments, $context, ResolveInfo $resolveInfo)
     {
         $fieldName = $resolveInfo->fieldName;
+        $result = $source[$fieldName] ?? '';
+        // Handle the `site` virtual field
+        if ($fieldName === 'site') {
+            $result = null;
+            $siteId = $source['siteId'] ?? null;
+            if ($siteId) {
+                $site = Craft::$app->getSites()->getSiteById($siteId);
+                if ($site !== null) {
+                    $result = $site->handle;
+                }
+            }
+        }
 
-        return $source[$fieldName];
+        if (empty($result)) {
+            $result = null;
+        }
+
+        return $result;
     }
 }

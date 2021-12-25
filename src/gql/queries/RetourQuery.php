@@ -54,6 +54,11 @@ class RetourQuery extends Query
             'retourRedirects' => [
                 'type' => Type::listOf(RetourInterface::getType()),
                 'args' => [
+                    'site' => [
+                        'name' => 'site',
+                        'type' => Type::string(),
+                        'description' => 'The site handle to list all redirects for.'
+                    ],
                     'siteId' => [
                         'name' => 'siteId',
                         'type' => Type::int(),

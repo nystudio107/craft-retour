@@ -34,6 +34,11 @@ class RetourArguments extends Arguments
                 'type' => Type::string(),
                 'description' => 'The URI to resolve a redirect for.'
             ],
+            'site' => [
+                'name' => 'site',
+                'type' => Type::string(),
+                'description' => 'The site handle to resolve a redirect for.'
+            ],
             'siteId' => [
                 'name' => 'siteId',
                 'type' => Type::int(),
