@@ -3,6 +3,8 @@
 ## 3.1.68 - UNRELEASED
 ### Added
 * Added the ability to add **307 - Temporary Redirect** and **308 - Permanent Redirect** status code redirects ([#216](https://github.com/nystudio107/craft-retour/issues/216))
+* Added the ability to pass in a `site` handle via GraphQL to `retourRedirects()` or `retourResolveRedirect()` ([#215](https://github.com/nystudio107/craft-retour/issues/215))
+* Return the `site` handle via GraphQL from queries to `retourRedirects()` or `retourResolveRedirect()` ([#215](https://github.com/nystudio107/craft-retour/issues/215))
 
 ### Changed
 * Updated the buildchain to use Node 16
