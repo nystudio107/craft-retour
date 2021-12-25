@@ -1,6 +1,6 @@
 {
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard.7e316779.js",
+    "file": "assets/dashboard.09255a7b.js",
     "src": "src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
@@ -17,7 +17,7 @@
     ]
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects.3b345a1c.js",
+    "file": "assets/redirects.7d23b024.js",
     "src": "src/js/Redirects.js",
     "isEntry": true,
     "imports": [
