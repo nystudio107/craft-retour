@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.1.68 - UNRELEASED
+### Added
+* Added the ability to add **307 - Temporary Redirect** and **308 - Permanent Redirect** status code redirects ([#216](https://github.com/nystudio107/craft-retour/issues/216))
+
 ### Changed
 * Updated the buildchain to use Node 16
 * Changed buildchain from to Vite from webpack 5
