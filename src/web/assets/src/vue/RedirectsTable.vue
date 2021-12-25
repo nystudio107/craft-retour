@@ -141,13 +141,15 @@ export default {
     onFilterSet(filterText) {
       this.filterText = filterText;
       this.moreParams = {
-        'filter': filterText,
+        'filter': this.filterText,
         'siteId': this.siteId,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);
     },
     onFilterReset() {
+      this.filterText = '';
       this.moreParams = {
+        'filter': this.filterText,
         'siteId': this.siteId,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);

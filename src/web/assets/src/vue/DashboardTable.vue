@@ -177,14 +177,17 @@ export default {
     onFilterSet(filterText) {
       this.filterText = filterText;
       this.moreParams = {
-        'siteId': this.siteId,
         'filter': this.filterText,
         'handled': this.retourHandled,
+        'siteId': this.siteId,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);
     },
     onFilterReset() {
+      this.filterText = '';
       this.moreParams = {
+        'filter': this.filterText,
+        'handled': this.retourHandled,
         'siteId': this.siteId,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);
