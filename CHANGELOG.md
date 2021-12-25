@@ -6,6 +6,7 @@
 * Changed buildchain from to Vite from webpack 5
 
 ### Fixed
+* Fixed an issue that would cause the component state to not be saved properly if you clicked on the Reset button ([#214](https://github.com/nystudio107/craft-retour/issues/214))
 * Fixed an issue where non-ASCII characters were stripped from display of URLs in the Retour Dashboard & Redirects pages ([#213](https://github.com/nystudio107/craft-retour/issues/213))
 
 ## 3.1.67 - 2021.11.16
