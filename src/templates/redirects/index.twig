@@ -55,7 +55,10 @@
 {% block foot %}
     {# include our JavaScript modules #}
     {{ parent() }}
-    {{ craft.retour.registerJsModules([
-        'redirects.js',
-    ]) }}
+    {% set tagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Redirects.js', false, tagOptions, tagOptions) }}
 {% endblock %}

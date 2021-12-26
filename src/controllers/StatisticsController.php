@@ -72,7 +72,7 @@ class StatisticsController extends Controller
             Craft::error($e->getMessage(), __METHOD__);
         }
         $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
-            '@nystudio107/retour/assetbundles/retour/dist',
+            '@nystudio107/retour/web/assets/dist',
             true
         );
         // Enabled sites

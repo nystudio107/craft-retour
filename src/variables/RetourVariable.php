@@ -13,15 +13,18 @@ namespace nystudio107\retour\variables;
 
 use nystudio107\retour\Retour;
 
-use nystudio107\pluginmanifest\variables\ManifestVariable;
+use nystudio107\pluginvite\variables\ViteVariableInterface;
+use nystudio107\pluginvite\variables\ViteVariableTrait;
 
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
  */
-class RetourVariable extends ManifestVariable
+class RetourVariable implements ViteVariableInterface
 {
+    use ViteVariableTrait;
+
     // Public Methods
     // =========================================================================
 

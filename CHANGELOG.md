@@ -1,5 +1,19 @@
 # Retour Changelog
 
+## 3.1.68 - 2021.12.26
+### Added
+* Added the ability to add **307 - Temporary Redirect** and **308 - Permanent Redirect** status code redirects ([#216](https://github.com/nystudio107/craft-retour/issues/216))
+* Added the ability to pass in a `site` handle via GraphQL to `retourRedirects()` or `retourResolveRedirect()` ([#215](https://github.com/nystudio107/craft-retour/issues/215))
+* Return the `site` handle via GraphQL from queries to `retourRedirects()` or `retourResolveRedirect()` ([#215](https://github.com/nystudio107/craft-retour/issues/215))
+
+### Changed
+* Updated the buildchain to use Node 16
+* Changed buildchain from to Vite from webpack 5
+
+### Fixed
+* Fixed an issue that would cause the component state to not be saved properly if you clicked on the Reset button ([#214](https://github.com/nystudio107/craft-retour/issues/214))
+* Fixed an issue where non-ASCII characters were stripped from display of URLs in the Retour Dashboard & Redirects pages ([#213](https://github.com/nystudio107/craft-retour/issues/213))
+
 ## 3.1.67 - 2021.11.16
 ### Added
 * Added the `retourResolveRedirect` GraphQL query that should be used instead of the `retour` query.

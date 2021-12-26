@@ -78,6 +78,11 @@ class RetourInterface extends BaseInterfaceType
                 'type' => Type::int(),
                 'description' => 'The id of the redirect.',
             ],
+            'site' => [
+                'name' => 'site',
+                'type' => Type::string(),
+                'description' => 'The site handle of the redirect (or null for all sites).'
+            ],
             'siteId' => [
                 'name' => 'siteId',
                 'type' => Type::int(),

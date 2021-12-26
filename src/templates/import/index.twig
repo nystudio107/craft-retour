@@ -59,8 +59,11 @@
 {% block foot %}
     {# include our JavaScript modules #}
     {{ parent() }}
-    {{ craft.retour.registerJsModules([
-        'import.js',
-    ]) }}
+    {% set tagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Import.js', false, tagOptions, tagOptions) }}
 {% endblock %}
 

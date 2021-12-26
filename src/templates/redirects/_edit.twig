@@ -48,7 +48,7 @@
                 <div class="instructions"><p>{{ "Retour will look for 404 (Not Found) URLs that match the Legacy URL Pattern below, and redirect them to Destination URL." |t |raw}}</p></div>
             </div>
         </div>
-    
+
         {{ forms.lightswitchField({
             label: "Enabled"|t("retour"),
             instructions: "Should this redirect be processed?"|t("retour"),
@@ -57,7 +57,7 @@
             on: redirect.enabled,
             errors: redirect.getErrors("enabled"),
         }) }}
-    
+
         {{ forms.selectField({
             label: "Sites"|t("retour"),
             instructions: "What sites should this redirect be active for."|t("retour"),
@@ -67,7 +67,7 @@
             options: sitesMenu,
             errors: redirect.getErrors("siteId"),
         }) }}
-    
+
         {{ forms.textField({
             label: "Legacy URL Pattern"|t("retour"),
             instructions: "Enter the URL pattern that Retour should match.  This matches against the path only (the part of the URL after the domain name), or the full URL, depending on the setting of **Legacy URL Match Type**.  e.g.: Exact Match: `/recipes/` or `http://example.com/recipes/`, or RegEx Match: `.*RecipeID=(.*)`"|t("retour"),
@@ -124,8 +124,10 @@
             name: "redirectHttpCode",
             value: redirect.redirectHttpCode,
             options: {
-                "301": "301 - Permanent"|t("retour"),
-                "302": "302 - Temporary"|t("retour"),
+                "301": "301 - Moved Permanently"|t("retour"),
+                "302": "302 - Found"|t("retour"),
+                "307": "307 - Temporary Redirect"|t("retour"),
+                "308": "308 - Permanent Redirect"|t("retour"),
                 "410": "410 - Gone"|t("retour"),
             },
             errors: redirect.getErrors("redirectHttpCode"),

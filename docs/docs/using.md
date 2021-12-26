@@ -65,6 +65,17 @@ You must at least pass in the URI you want metadata for:
   }
 }
 ```
+
+...or you can also pass in an optional `site` handle:
+
+```graphql
+{
+    retourResolveRedirect(uri: "/stuff", site: "default") {
+    redirectDestUrl
+  }
+}
+```
+
 Whenever you query Retour via GraphQL, it assumes a 404 has already taken place, and records the statistics for it.
 
 If no redirect can be found to handle the 404, `null` is returned:
@@ -96,6 +107,7 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
     retourResolveRedirect(uri: "/stuff") {
     id
     siteId
+    site
     associatedElementId
     enabled
     redirectSrcUrl
@@ -117,6 +129,7 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
     "retourResolveRedirect": {
       "id": 1,
       "siteId": 1,
+      "site": "default",
       "associatedElementId": 0,
       "enabled": true,
       "redirectSrcUrl": "/stuff",
@@ -134,11 +147,13 @@ Most of the time, the only thing you’ll care about is the `redirectDestUrl`, w
 
 Arguments:
 
-`retourResolveRedirect(uri: '/', siteId: 1)`
+`retourResolveRedirect(uri: '/', siteId: 1, site: "default")`
 
 `uri:` String - The URI to resolve a redirect for.
 
 `siteId:` Int - Optional - The siteId to resolve a redirect for.
+
+`site:` String - Optional - The site handle to resolve a redirect for.
 
 ### Getting All Redirects
 
@@ -175,13 +190,27 @@ This will return all of the redirects for the passed in `siteId`:
 }
 ```
 
-If you omit the `siteId` argument, it will retrieve all redirects for all sites.
+...or you can also pass in an optional `site` handle:
+
+```graphql
+{
+    retourRedirects(site: "default") {
+        redirectMatchType
+        redirectSrcUrl
+        redirectDestUrl
+    }
+}
+```
+
+If you omit both the `siteId` and `site` arguments, it will retrieve all redirects for all sites.
 
 Arguments:
 
-`retourRedirects(siteId: 1)`
+`retourRedirects(siteId: 1, site: "default")`
 
-`siteId:` Int - Optional - The siteId to resolve a redirect for.
+`siteId:` Int - Optional - The siteId to return redirects for.
+
+`site:` String - Optional - The site handle to return redirects for.
 
 ## API Endpoint
 

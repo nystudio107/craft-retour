@@ -39,9 +39,15 @@ class RetourResolver extends Resolver
             $uri = $source->uri;
             $siteId = $source->siteId;
         } else {
-            // Otherwise use the passed in arguments, or defaults
+            // Otherwise, use the passed in arguments, or defaults
             $uri = $arguments['uri'] ?? '/';
             $siteId = $arguments['siteId'] ?? null;
+            if (isset($arguments['site'])) {
+                $site = Craft::$app->getSites()->getSiteByHandle($arguments['site']);
+                if ($site !== null) {
+                    $siteId = $site->id;
+                }
+            }
         }
         $uri = trim($uri === '/' ? '__home__' : $uri);
 
@@ -56,6 +62,14 @@ class RetourResolver extends Resolver
             $redirect = Retour::$plugin->redirects->findRedirectMatch($uri, $uri, $siteId);
 
             if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
+                // Set the `site` virtual field
+                $redirect['site'] = null;
+                if (isset($redirect['siteId']) && (int)$redirect['siteId'] !== 0) {
+                    $site = Craft::$app->getSites()->getSiteById((int)$redirect['siteId']);
+                    if ($site !== null) {
+                        $redirect['site'] = $site->handle;
+                    }
+                }
                 // Increment the stats
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }

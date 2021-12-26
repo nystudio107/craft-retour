@@ -23,7 +23,7 @@ use nystudio107\retour\services\Statistics;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
 
-use nystudio107\pluginmanifest\services\ManifestService;
+use nystudio107\pluginvite\services\VitePluginService;
 
 use Craft;
 use craft\base\Element;
@@ -68,7 +68,7 @@ use markhuot\CraftQL\Events\AlterSchemaFields;
  * @property Events             $events
  * @property Redirects          $redirects
  * @property Statistics         $statistics
- * @property ManifestService    $manifest
+ * @property VitePluginService  $vite
  */
 class Retour extends Plugin
 {
@@ -133,12 +133,17 @@ class Retour extends Plugin
             'redirects' => Redirects::class,
             'statistics' => Statistics::class,
             // Register the manifest service
-            'manifest' => [
-                'class' => ManifestService::class,
+            // Register the vite service
+            'vite' => [
+                'class' => VitePluginService::class,
                 'assetClass' => RetourAsset::class,
-                'devServerManifestPath' => 'http://craft-retour-buildchain:8080/',
-                'devServerPublicPath' => 'http://craft-retour-buildchain:8080/',
-            ]
+                'useDevServer' => true,
+                'devServerPublic' => 'http://localhost:3001',
+                'serverPublic' => 'http://localhost:8000',
+                'errorEntry' => 'src/js/app.ts',
+                'devServerInternal' => 'http://craft-retour-buildchain:3001',
+                'checkDevServer' => true,
+            ],
         ];
 
         parent::__construct($id, $parent, $config);
@@ -351,7 +356,7 @@ class Retour extends Plugin
                 $variable = $event->sender;
                 $variable->set('retour', [
                     'class' => RetourVariable::class,
-                    'manifestService' => $this->manifest,
+                    'viteService' => $this->vite,
                 ]);
             }
         );
