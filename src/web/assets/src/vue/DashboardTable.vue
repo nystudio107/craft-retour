@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4">
+  <div>
     <div class="" v-show="numSelected !== 0">
       <form method="post" accept-charset="UTF-8">
         <input type="hidden" :name="csrfTokenName" :value="csrfTokenValue"/>
