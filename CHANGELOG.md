@@ -8,7 +8,7 @@
 
 ### Changed
 * Updated the buildchain to use Node 16
-* Changed buildchain from to Vite from webpack 5
+* Changed buildchain to Vite from webpack 5
 
 ### Fixed
 * Fixed an issue that would cause the component state to not be saved properly if you clicked on the Reset button ([#214](https://github.com/nystudio107/craft-retour/issues/214))
