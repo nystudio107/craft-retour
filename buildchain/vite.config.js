@@ -12,11 +12,11 @@ export default ({ command }) => ({
     outDir: '../src/web/assets/dist',
     rollupOptions: {
       input: {
-        'dashboard': './src/js/Dashboard.js',
-        'import': './src/js/Import.js',
-        'redirects': './src/js/Redirects.js',
-        'retour': './src/js/Retour.js',
-        'widget': './src/js/Widget.js'
+        'dashboard': 'src/js/Dashboard.js',
+        'import': 'src/js/Import.js',
+        'redirects': 'src/js/Redirects.js',
+        'retour': 'src/js/Retour.js',
+        'widget': 'src/js/Widget.js'
       },
       output: {
         sourcemap: true
