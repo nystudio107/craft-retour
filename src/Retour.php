@@ -140,7 +140,7 @@ class Retour extends Plugin
                 'useDevServer' => true,
                 'devServerPublic' => 'http://localhost:3001',
                 'serverPublic' => 'http://localhost:8000',
-                'errorEntry' => 'src/js/app.ts',
+                'errorEntry' => 'src/js/Retour.js',
                 'devServerInternal' => 'http://craft-retour-buildchain:3001',
                 'checkDevServer' => true,
             ],
