@@ -132,7 +132,6 @@ class Retour extends Plugin
             'events' => Events::class,
             'redirects' => Redirects::class,
             'statistics' => Statistics::class,
-            // Register the manifest service
             // Register the vite service
             'vite' => [
                 'class' => VitePluginService::class,
