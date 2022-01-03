@@ -12,7 +12,7 @@ module.exports = {
     themeConfig: {
         repo: 'nystudio107/craft-retour',
         docsDir: 'docs/docs',
-        docsBranch: 'v3',
+        docsBranch: 'develop',
         algolia: {
             apiKey: 'db19b4e70a07de73e69ed25b2888f86c',
             indexName: 'retour'
