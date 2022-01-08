@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.69 - UNRELEASED
+### Added
+* Added a global cache for the static redirects to avoid an expensive query for large redirect data sets
+
 ## 3.1.68 - 2021.12.26
 ### Added
 * Added the ability to add **307 - Temporary Redirect** and **308 - Permanent Redirect** status code redirects ([#216](https://github.com/nystudio107/craft-retour/issues/216))
