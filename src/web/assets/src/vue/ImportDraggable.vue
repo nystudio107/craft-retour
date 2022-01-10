@@ -9,7 +9,7 @@
         <draggable
           :list="dataArray"
           :options="options"
-          class="retour-import-dragArea"
+          class="retour-import-drag-area"
           @start="drag=true"
           @end="drag=false"
         >

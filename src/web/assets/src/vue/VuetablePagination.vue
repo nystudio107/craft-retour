@@ -25,24 +25,26 @@
     </a>
     <template v-if="notEnoughPages">
       <template v-for="n in totalPage">
-        <!-- eslint-disable-next-line vue/no-v-html -->
+        <!-- eslint-disable vue/no-v-html -->
         <a
           :key="n"
           :class="[css.pageClass, isCurrentPage(n) ? css.activeClass : '']"
           @click="loadPage(n)"
           v-html="n"
         />
+        <!--eslint-enable-->
       </template>
     </template>
     <template v-else>
       <template v-for="n in windowSize">
-        <!-- eslint-disable-next-line vue/no-v-html -->
+        <!-- eslint-disable vue/no-v-html -->
         <a
           :key="n"
           :class="[css.pageClass, isCurrentPage(windowStart+n-1) ? css.activeClass : '']"
           @click="loadPage(windowStart+n-1)"
           v-html="windowStart+n-1"
         />
+        <!--eslint-enable-->
       </template>
     </template>
     <a
