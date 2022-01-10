@@ -1,15 +1,15 @@
 {
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard.ca1108d9.js",
+    "file": "assets/dashboard.8a3d825c.js",
     "src": "src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
       "_vendor.8a4eaaf9.js",
-      "_VuetableFilterBar.0f759aad.js"
+      "_VuetableFilterBar.1904be99.js"
     ]
   },
   "src/js/Import.js": {
-    "file": "assets/import.969efdbe.js",
+    "file": "assets/import.77834224.js",
     "src": "src/js/Import.js",
     "isEntry": true,
     "imports": [
@@ -17,12 +17,12 @@
     ]
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects.bca75b9f.js",
+    "file": "assets/redirects.1cbd3fdf.js",
     "src": "src/js/Redirects.js",
     "isEntry": true,
     "imports": [
       "_vendor.8a4eaaf9.js",
-      "_VuetableFilterBar.0f759aad.js"
+      "_VuetableFilterBar.1904be99.js"
     ]
   },
   "src/js/Retour.js": {
@@ -30,11 +30,11 @@
     "src": "src/js/Retour.js",
     "isEntry": true,
     "css": [
-      "assets/retour.d83529c8.css"
+      "assets/retour.5412b28f.css"
     ]
   },
   "src/js/Widget.js": {
-    "file": "assets/widget.71f63053.js",
+    "file": "assets/widget.48b49008.js",
     "src": "src/js/Widget.js",
     "isEntry": true,
     "imports": [
@@ -47,8 +47,8 @@
       "assets/vendor.3b5bd98c.css"
     ]
   },
-  "_VuetableFilterBar.0f759aad.js": {
-    "file": "assets/VuetableFilterBar.0f759aad.js",
+  "_VuetableFilterBar.1904be99.js": {
+    "file": "assets/VuetableFilterBar.1904be99.js",
     "imports": [
       "_vendor.8a4eaaf9.js"
     ]
