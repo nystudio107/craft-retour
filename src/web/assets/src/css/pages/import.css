@@ -6,29 +6,29 @@
  */
 
 .retour-import-list-group-item {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    cursor: move;
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  cursor: move;
 }
 
 .retour-import-field-group-item {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    cursor: arrow;
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  cursor: arrow;
 }
 
 .retour-import-arrow-item {
-    position: relative;
-    display: block;
-    padding: 11px 15px;
+  position: relative;
+  display: block;
+  padding: 11px 15px;
 }
 
 .retour-import-dragArea {
@@ -36,11 +36,12 @@
 }
 
 .retour-empty-item {
-  background: repeating-linear-gradient(
-    -55deg,
-    #DDDDDD,
-    #DDDDDD 10px,
-    #EEE 10px,
-    #EEE 20px
-  );
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      #ddd,
+      #ddd 10px,
+      #eee 10px,
+      #eee 20px
+    );
 }
