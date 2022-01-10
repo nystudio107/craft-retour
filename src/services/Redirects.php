@@ -29,7 +29,9 @@ use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
 use yii\caching\TagDependency;
+use yii\db\conditions\OrCondition;
 use yii\db\Exception;
+use yii\db\Expression;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -336,6 +338,14 @@ class Redirects extends Component
 
             return $redirect;
         }
+        // Try to resolve a static redirect out of the database first
+        $redirect = $this->getStaticRedirectFromDatabase($fullUrl, $pathOnly, $siteId);
+        if ($redirect) {
+            $this->incrementRedirectHitCount($redirect);
+            $this->saveRedirectToCache($pathOnly, $redirect);
+
+            return $redirect;
+        }
         // Resolve static redirects
         $redirects = $this->getAllStaticRedirects(null, $siteId);
         $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
@@ -400,6 +410,24 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    public function getStaticRedirectFromDatabase(string $fullUrl, string $pathOnly, $siteId)
+    {
+        $query = (new Query)
+            ->from('{{%retour_static_redirects}}')
+            ->andWhere(new OrCondition([
+                new Expression('redirectSrcMatch=:pathMatch AND redirectSrcUrlParsed=:pathOnly', [':pathMatch' => 'pathonly', 'pathOnly' => $pathOnly]),
+                new Expression('redirectSrcMatch=:fullMatch AND redirectSrcUrlParsed=:fullUrl', [':fullMatch' => 'fullurl', 'fullUrl' => $fullUrl]),
+            ]))
+            ->andWhere(['or',
+                ['siteId' => $siteId],
+                ['siteId' => null],
+            ])
+            ->andWhere(['redirectMatchType' => 'exactmatch'])
+            ->limit(1);
+
+        return $query->one();
     }
 
     /**
@@ -641,6 +669,7 @@ class Redirects extends Component
                 // Query the db table
                 $query = (new Query())
                     ->from(['{{%retour_static_redirects}}'])
+                    ->where(['!=', 'redirectMatchType' => 'exactmatch'])
                     ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
                 if ($siteId) {
                     $query
