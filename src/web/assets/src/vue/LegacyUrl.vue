@@ -19,7 +19,8 @@
                 required: true
             },
             rowIndex: {
-                type: Number
+                type: Number,
+                default: 0
             }
         },
         computed: {

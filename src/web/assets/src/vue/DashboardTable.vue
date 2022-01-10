@@ -131,7 +131,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import FieldDefs from '@/vue/DashboardFieldDefs.js';
 import FileNotFoundUrl from '@/vue/FileNotFoundUrl.vue';
 import VueTable from 'vuetable-2/src/components/Vuetable.vue';
@@ -144,6 +143,7 @@ import DOMPurify from 'dompurify';
 // Our component exports
 export default {
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     'file-not-found-url': FileNotFoundUrl,
     'vuetable': VueTable,
     'vuetable-pagination': VueTablePagination,
