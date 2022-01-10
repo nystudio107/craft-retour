@@ -669,12 +669,14 @@ class Redirects extends Component
                 // Query the db table
                 $query = (new Query())
                     ->from(['{{%retour_static_redirects}}'])
-                    ->where(['!=', 'redirectMatchType' => 'exactmatch'])
+                    ->andWhere(['!=', 'redirectMatchType', 'exactmatch'])
                     ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
                 if ($siteId) {
                     $query
-                        ->where(['siteId' => $siteId])
-                        ->orWhere(['siteId' => null]);
+                        ->andWhere(['or',
+                            ['siteId' => $siteId],
+                            ['siteId' => null],
+                        ]);
                 }
                 if ($limit) {
                     $query->limit($limit);
