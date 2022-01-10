@@ -5,6 +5,8 @@
  *
  */
 
+/* stylelint-disable */
+
 table.vuetable {
   width: 100%;
   table-layout: fixed;
@@ -94,3 +96,5 @@ td.text-center {
 td.text-right {
   text-align: right !important;
 }
+
+/* stylelint-enable */
