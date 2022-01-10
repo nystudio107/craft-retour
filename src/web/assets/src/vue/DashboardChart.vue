@@ -1,5 +1,11 @@
 <template>
-    <apexcharts width="100%" height="200px" type="area" :options="chartOptions" :series="series"></apexcharts>
+  <apexcharts
+    width="100%"
+    height="200px"
+    type="area"
+    :options="chartOptions"
+    :series="series"
+  />
 </template>
 
 <script>
@@ -41,9 +47,18 @@
             'apexcharts': ApexCharts,
         },
         props: {
-            title: String,
-            subTitle: String,
-            range: String,
+            title: {
+              type: String,
+              default: '',
+            },
+            subTitle: {
+              type: String,
+              default: '',
+            },
+            range: {
+              type: String,
+              default: '',
+            },
             siteId: {
                 type: Number,
                 default: 0,
@@ -56,56 +71,6 @@
                 type: String,
                 default: '',
             },
-        },
-        methods: {
-            // Load in our chart data asynchronously
-            getSeriesData: async function() {
-                const chartsAPI = Axios.create(configureApi(this.apiUrl));
-                await queryApi(chartsAPI, '', {range: this.range, siteId: this.siteId}, (data) => {
-                    // Clone the chartOptions object, and replace the needed values
-                    const options = Object.assign({}, this.chartOptions);
-                    if (data[0] !== undefined) {
-                        const largest = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
-                        this.chartOptions = {
-                            ...this.chartOptions, ...{
-                                yaxis: {
-                                    min: 0,
-                                    max: largest,
-                                    labels: {
-                                        show: false,
-                                        minHeight: '20px',
-                                    },
-                                },
-                                xaxis: {
-                                    categories: data[0]['labels'],
-                                    type: 'category',
-                                    labels: {
-                                        show: false,
-                                        minHeight: '20px',
-                                    },
-                                    crosshairs: {
-                                        width: 1
-                                    },
-                                },
-                                labels: data[0]['labels']
-                            }
-                        };
-
-                        this.series = data;
-                    }
-                });
-            }
-        },
-        created () {
-            this.getSeriesData();
-        },
-        mounted() {
-            // Live refresh the data -- disabled, causes more problems then helps
-            if (this.refreshIntervalSecs) {
-                setInterval(() => {
-                    this.getSeriesData();
-                }, this.refreshIntervalSecs * 1000);
-            }
         },
         data: function() {
             return {
@@ -165,6 +130,56 @@
                         data: [0]
                     }
                 ],
+            }
+        },
+        created () {
+            this.getSeriesData();
+        },
+        mounted() {
+            // Live refresh the data -- disabled, causes more problems then helps
+            if (this.refreshIntervalSecs) {
+                setInterval(() => {
+                    this.getSeriesData();
+                }, this.refreshIntervalSecs * 1000);
+            }
+        },
+        methods: {
+            // Load in our chart data asynchronously
+            getSeriesData: async function() {
+                const chartsAPI = Axios.create(configureApi(this.apiUrl));
+                await queryApi(chartsAPI, '', {range: this.range, siteId: this.siteId}, (data) => {
+                    // Clone the chartOptions object, and replace the needed values
+                    const options = Object.assign({}, this.chartOptions);
+                    if (data[0] !== undefined) {
+                        const largest = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
+                        this.chartOptions = {
+                            ...this.chartOptions, ...{
+                                yaxis: {
+                                    min: 0,
+                                    max: largest,
+                                    labels: {
+                                        show: false,
+                                        minHeight: '20px',
+                                    },
+                                },
+                                xaxis: {
+                                    categories: data[0]['labels'],
+                                    type: 'category',
+                                    labels: {
+                                        show: false,
+                                        minHeight: '20px',
+                                    },
+                                    crosshairs: {
+                                        width: 1
+                                    },
+                                },
+                                labels: data[0]['labels']
+                            }
+                        };
+
+                        this.series = data;
+                    }
+                });
             }
         },
     }

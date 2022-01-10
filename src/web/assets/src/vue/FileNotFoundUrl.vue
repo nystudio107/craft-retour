@@ -1,6 +1,10 @@
 <template>
   <div>
-    <a :href="linkHref" class="go" :title="linkTitle">{{ rowData.redirectSrcUrl }}</a>
+    <a
+      :href="linkHref"
+      class="go"
+      :title="linkTitle"
+    >{{ rowData.redirectSrcUrl }}</a>
   </div>
 </template>
 

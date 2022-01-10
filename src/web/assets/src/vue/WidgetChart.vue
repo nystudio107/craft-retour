@@ -1,5 +1,11 @@
 <template>
-    <apexcharts width="100%" height="200px" type="donut" :options="chartOptions" :series="series"></apexcharts>
+  <apexcharts
+    width="100%"
+    height="200px"
+    type="donut"
+    :options="chartOptions"
+    :series="series"
+  />
 </template>
 
 <script>
@@ -43,18 +49,6 @@
                 default: '',
             },
         },
-        methods: {
-            // Load in our chart data asynchronously
-            getSeriesData: async function() {
-                const chartsAPI = Axios.create(configureApi(this.apiUrl));
-                await queryApi(chartsAPI, '', {days: this.days}, (data) => {
-                    this.series = data;
-                });
-            }
-        },
-        created: function() {
-            this.getSeriesData();
-        },
         data: function() {
             return {
                 chartOptions: {
@@ -71,6 +65,18 @@
                     ],
                 },
                 series: [50, 50],
+            }
+        },
+        created: function() {
+            this.getSeriesData();
+        },
+        methods: {
+            // Load in our chart data asynchronously
+            getSeriesData: async function() {
+                const chartsAPI = Axios.create(configureApi(this.apiUrl));
+                await queryApi(chartsAPI, '', {days: this.days}, (data) => {
+                    this.series = data;
+                });
             }
         },
     }

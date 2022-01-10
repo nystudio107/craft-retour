@@ -3,8 +3,19 @@
     <div class="ui form">
       <div class="inline field">
         <label class="text-gray-600">Search for:</label>
-        <input type="text" v-model="filterText" class="text nicetext mx-2" @keyup="doFilter" placeholder="">
-        <button class="btn delete icon" @click="resetFilter">Reset</button>
+        <input
+          v-model="filterText"
+          type="text"
+          class="text nicetext mx-2"
+          placeholder=""
+          @keyup="doFilter"
+        >
+        <button
+          class="btn delete icon"
+          @click="resetFilter"
+        >
+          Reset
+        </button>
       </div>
     </div>
   </div>
