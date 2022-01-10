@@ -36,6 +36,7 @@
           </div>
           <div
             v-for="index in extraData"
+            :key="index"
             class="retour-import-field-group-item clearafter retour-empty-item"
           >
                         &nbsp;
@@ -43,6 +44,7 @@
         </draggable>
         <input
           v-for="(element, index) in dataArray"
+          :key="index"
           :value="element.name"
           :name="'columns['+index+']'"
           type="hidden"
@@ -55,6 +57,7 @@
         <div>
           <div
             v-for="(element, index) in fieldsArray"
+            :key="index"
             class="retour-import-arrow-item clearafter"
           >
             &rarr;
@@ -68,12 +71,14 @@
         <div>
           <div
             v-for="(element, index) in fieldsArray"
+            :key="index"
             class="retour-import-field-group-item clearafter"
           >
             {{ element }}
           </div>
           <div
             v-for="index in extraFields"
+            :key="index"
             class="retour-import-field-group-item clearafter retour-empty-item"
           >
                         &nbsp;
@@ -93,7 +98,10 @@
             'draggable': Draggable,
         },
         props: {
-            data: Array,
+            data: {
+              type: Array,
+              default: () => []
+            },
         },
         data: function() {
           return {

@@ -25,6 +25,7 @@
     </a>
     <template v-if="notEnoughPages">
       <template v-for="n in totalPage">
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <a
           :key="n"
           :class="[css.pageClass, isCurrentPage(n) ? css.activeClass : '']"
@@ -35,6 +36,7 @@
     </template>
     <template v-else>
       <template v-for="n in windowSize">
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <a
           :key="n"
           :class="[css.pageClass, isCurrentPage(windowStart+n-1) ? css.activeClass : '']"

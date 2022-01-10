@@ -148,8 +148,6 @@
             getSeriesData: async function() {
                 const chartsAPI = Axios.create(configureApi(this.apiUrl));
                 await queryApi(chartsAPI, '', {range: this.range, siteId: this.siteId}, (data) => {
-                    // Clone the chartOptions object, and replace the needed values
-                    const options = Object.assign({}, this.chartOptions);
                     if (data[0] !== undefined) {
                         const largest = Math.round(largestNumber([data[0]['data']])[0] + 1.5);
                         this.chartOptions = {

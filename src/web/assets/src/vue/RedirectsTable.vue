@@ -15,6 +15,7 @@
         >
         <input
           v-for="selectedId in selectedIds"
+          :key="selectedId"
           type="hidden"
           name="redirectIds[]"
           :value="selectedId"
@@ -168,13 +169,13 @@ export default {
     },
   },
   watch: {
-    perPage: function (val) {
+    perPage: function () {
       this.$events.fire('refresh-table', this.$refs.vuetable);
     }
   },
   mounted() {
     this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
-    this.$events.$on('filter-reset', e => this.onFilterReset());
+    this.$events.$on('filter-reset', () => this.onFilterReset());
     this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
     this.$refs.vuetable.$on('vuetable:checkbox-toggled-all', (isChecked) => this.onCheckboxToggled(isChecked, null));
   },
@@ -212,7 +213,7 @@ export default {
     onChangePage(page) {
       this.$refs.vuetable.changePage(page);
     },
-    onCheckboxToggled(isChecked, dataItem) {
+    onCheckboxToggled() {
       this.numSelected = 0;
       this.selectedIds = [];
       if (this.$refs.vuetable !== undefined && this.$refs.vuetable.selectedTo !== undefined) {

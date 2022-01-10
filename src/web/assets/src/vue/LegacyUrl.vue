@@ -4,10 +4,10 @@
       :href="rowData.editLink"
       class="go"
       :title="linkTitle"
-    ><span style="white-space:nowrap"><span
+    ><span style="white-space: nowrap;"><span
       class="status"
       :class="redirectEnabled"
-    /><span style="white-space:normal;">{{ rowData.redirectSrcUrl }}</span></span></a>
+    /><span style="white-space: normal;">{{ rowData.redirectSrcUrl }}</span></span></a>
   </div>
 </template>
 
