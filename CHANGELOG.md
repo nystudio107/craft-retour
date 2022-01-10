@@ -3,6 +3,10 @@
 ## 3.1.69 - UNRELEASED
 ### Added
 * Added a global cache for the static redirects to avoid an expensive query for large redirect data sets
+* Add `.gitattributes` & `CODEOWNERS`
+* Add linting to build
+* Add compression of assets
+* Add bundle visualizer
 
 ## 3.1.68 - 2021.12.26
 ### Added
