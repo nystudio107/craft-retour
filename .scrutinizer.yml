@@ -3,7 +3,7 @@ build:
     node:
       version: v8.11.4
     php:
-      version: 7.3
+      version: 7.4
     mysql:
       version: 5.7
     hosts:
@@ -24,7 +24,6 @@ build:
   dependencies:
     before:
       - mysql -uroot -e 'CREATE DATABASE testcraft'
-      - sudo composer self-update --2
   nodes:
     analysis:
       project_setup:
