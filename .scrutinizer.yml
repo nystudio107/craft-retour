@@ -24,7 +24,7 @@ build:
   dependencies:
     before:
       - mysql -uroot -e 'CREATE DATABASE testcraft'
-      - composer self-update --2
+      - sudo composer self-update --2
   nodes:
     analysis:
       project_setup:
