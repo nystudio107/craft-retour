@@ -1,7 +1,7 @@
 build:
   environment:
     node:
-      version: v8.11.4
+      version: v16
     php:
       version: 7.4
       pecl_extensions:
