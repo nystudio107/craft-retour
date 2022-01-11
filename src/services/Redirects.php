@@ -44,10 +44,8 @@ class Redirects extends Component
     // =========================================================================
 
     const CACHE_KEY = 'retour_redirect_';
-    const ALL_STATIC_REDIRECTS_CACHE_KEY = 'all_static_redirects';
 
     const GLOBAL_REDIRECTS_CACHE_TAG = 'retour_redirects';
-    const ALL_STATIC_REDIRECTS_CACHE_TAG = 'retour_all_static_redirects';
 
     const EVENT_REDIRECT_ID = 0;
 
@@ -144,6 +142,14 @@ class Redirects extends Component
      * ```
      */
     const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
+
+    // Protected Properties
+    // =========================================================================
+
+    /**
+     * @var null|array
+     */
+    protected $cachedStaticRedirects;
 
     // Public Methods
     // =========================================================================
@@ -625,37 +631,27 @@ class Redirects extends Component
      */
     public function getAllStaticRedirects($limit = null, int $siteId = null): array
     {
-        $cache = Craft::$app->getCache();
-        $cacheKey = $this::ALL_STATIC_REDIRECTS_CACHE_KEY.$siteId;
-        // Create the dependency tags
-        $dependency = new TagDependency([
-            'tags' => [
-                $this::GLOBAL_REDIRECTS_CACHE_TAG,
-                $this::ALL_STATIC_REDIRECTS_CACHE_TAG,
-            ],
-        ]);
+        // Cache it in our class; no need to fetch it more than once
+        if ($this->cachedStaticRedirects !== null) {
+            return $this->cachedStaticRedirects;
+        }
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+        if ($limit) {
+            $query->limit($limit);
+        }
+        $redirects = $query->all();
+        // Cache for future accesses
+        $this->cachedStaticRedirects = $redirects;
 
-        return $cache->getOrSet(
-            self::CACHE_KEY.$cacheKey,
-            static function () use ($limit, $siteId) {
-                // Query the db table
-                $query = (new Query())
-                    ->from(['{{%retour_static_redirects}}'])
-                    ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
-                if ($siteId) {
-                    $query
-                        ->where(['siteId' => $siteId])
-                        ->orWhere(['siteId' => null]);
-                }
-                if ($limit) {
-                    $query->limit($limit);
-                }
-
-                return $query->all();
-            },
-            Retour::$cacheDuration,
-            $dependency
-        );
+        return $redirects;
     }
 
     /**
