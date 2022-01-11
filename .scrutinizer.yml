@@ -4,6 +4,8 @@ build:
       version: v8.11.4
     php:
       version: 7.4
+      pecl_extensions:
+        - zip
     mysql:
       version: 5.7
     hosts:
