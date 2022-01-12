@@ -17,7 +17,7 @@ docker:
 		-t ${CONTAINER}:${TAG} \
 		--build-arg TAG=${TAG} \
 		--no-cache
-build: clean docker install
+build: docker install
 	${DOCKERRUN} \
 		run docs:build
 	rm -rf ${DOCSDEST}
@@ -34,7 +34,7 @@ install: docker
 lint: docker install
 	${DOCKERRUN} \
 		run docs:lint
-clean: docker
+clean:
 	rm -rf node_modules/
 	rm -f package-lock.json
 npm: docker

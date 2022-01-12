@@ -1,7 +1,10 @@
 <template>
-  <div :class="['vuetable-pagination-info', css.infoClass]"
-    v-html="paginationInfo">
-  </div>
+  <!-- eslint-disable vue/no-v-html -->
+  <div
+    :class="['vuetable-pagination-info', css.infoClass]"
+    v-html="paginationInfo"
+  />
+  <!--eslint-enable-->
 </template>
 
 <script>

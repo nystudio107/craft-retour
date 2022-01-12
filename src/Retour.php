@@ -132,7 +132,6 @@ class Retour extends Plugin
             'events' => Events::class,
             'redirects' => Redirects::class,
             'statistics' => Statistics::class,
-            // Register the manifest service
             // Register the vite service
             'vite' => [
                 'class' => VitePluginService::class,
@@ -140,7 +139,7 @@ class Retour extends Plugin
                 'useDevServer' => true,
                 'devServerPublic' => 'http://localhost:3001',
                 'serverPublic' => 'http://localhost:8000',
-                'errorEntry' => 'src/js/app.ts',
+                'errorEntry' => 'src/js/Retour.js',
                 'devServerInternal' => 'http://craft-retour-buildchain:3001',
                 'checkDevServer' => true,
             ],

@@ -1,5 +1,9 @@
 import { createVuePlugin } from 'vite-plugin-vue2'
 import ViteRestart from 'vite-plugin-restart';
+import { viteExternalsPlugin } from 'vite-plugin-externals'
+import viteCompression from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
+import eslintPlugin from 'vite-plugin-eslint';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path from 'path';
 
@@ -12,11 +16,11 @@ export default ({ command }) => ({
     outDir: '../src/web/assets/dist',
     rollupOptions: {
       input: {
-        'dashboard': './src/js/Dashboard.js',
-        'import': './src/js/Import.js',
-        'redirects': './src/js/Redirects.js',
-        'retour': './src/js/Retour.js',
-        'widget': './src/js/Widget.js'
+        'dashboard': 'src/js/Dashboard.js',
+        'import': 'src/js/Import.js',
+        'redirects': 'src/js/Redirects.js',
+        'retour': 'src/js/Retour.js',
+        'widget': 'src/js/Widget.js'
       },
       output: {
         sourcemap: true
@@ -35,6 +39,18 @@ export default ({ command }) => ({
       ],
     }),
     createVuePlugin(),
+    viteExternalsPlugin({
+      'vue': 'Vue',
+    }),
+    viteCompression({
+      filter: /\.(js|mjs|json|css|map)$/i
+    }),
+    visualizer({
+      filename: '../src/web/assets/dist/stats.html',
+      template: 'treemap',
+      sourcemap: true,
+    }),
+    eslintPlugin(),
   ],
   publicDir: '../src/web/assets/public',
   resolve: {

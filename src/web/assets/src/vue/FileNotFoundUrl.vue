@@ -1,6 +1,10 @@
 <template>
   <div>
-    <a :href="linkHref" class="go" :title="linkTitle">{{ rowData.redirectSrcUrl }}</a>
+    <a
+      :href="linkHref"
+      class="go"
+      :title="linkTitle"
+    >{{ rowData.redirectSrcUrl }}</a>
   </div>
 </template>
 
@@ -12,7 +16,8 @@ export default {
       required: true
     },
     rowIndex: {
-      type: Number
+      type: Number,
+      default: 0
     }
   },
   computed: {
