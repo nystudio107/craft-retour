@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.1.69 - UNRELEASED
+## 3.1.69 - 2022.01.12
 
 ### Added
 
