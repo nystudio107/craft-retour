@@ -2,8 +2,8 @@
   <div>
     <a
       :href="linkHref"
-      class="go"
       :title="linkTitle"
+      class="go"
     >{{ rowData.redirectSrcUrl }}</a>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
   computed: {
     linkHref: function () {
       let url = this.rowData.redirectSrcUrl;
-      if (url === '') {
+      if (typeof url === undefined || url === '') {
         return '';
       }
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');

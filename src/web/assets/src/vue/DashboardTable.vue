@@ -5,20 +5,20 @@
       class=""
     >
       <form
-        method="post"
         accept-charset="UTF-8"
+        method="post"
       >
         <input
-          type="hidden"
           :name="csrfTokenName"
           :value="csrfTokenValue"
+          type="hidden"
         >
         <input
           v-for="selectedId in selectedIds"
           :key="selectedId"
-          type="hidden"
-          name="statisticIds[]"
           :value="selectedId"
+          name="statisticIds[]"
+          type="hidden"
         >
         <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
         <div class="btngroup inline">
@@ -58,8 +58,8 @@
             name="retourHandled"
           >
             <option
-              value="all"
               selected
+              value="all"
             >
               All
             </option>
@@ -91,8 +91,8 @@
               name="perPage"
             >
               <option
-                value="20"
                 selected
+                value="20"
               >
                 20
               </option>
@@ -113,11 +113,11 @@
     <vuetable
       ref="vuetable"
       :api-url="apiUrl"
-      :per-page="perPage"
-      :fields="fields"
-      :css="css"
-      :sort-order="sortOrder"
       :append-params="moreParams"
+      :css="css"
+      :fields="fields"
+      :per-page="perPage"
+      :sort-order="sortOrder"
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter">
@@ -131,20 +131,22 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import FieldDefs from '@/vue/DashboardFieldDefs.js';
-import FileNotFoundUrl from '@/vue/FileNotFoundUrl.vue';
 import VueTable from 'vuetable-2/src/components/Vuetable.vue';
 import VueTablePagination from '@/vue/VuetablePagination.vue';
 import VueTablePaginationInfo from '@/vue/VuetablePaginationInfo.vue';
 import VueTableFilterBar from '@/vue/VuetableFilterBar.vue';
 import saveState from 'vue-save-state';
 import DOMPurify from 'dompurify';
+import FileNotFoundUrl from '@/vue/FileNotFoundUrl.vue';
+
+// Make the FileNotFoundUrl component globally available
+Vue.component('FileNotFoundUrl', FileNotFoundUrl);
 
 // Our component exports
 export default {
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    'file-not-found-url': FileNotFoundUrl,
     'vuetable': VueTable,
     'vuetable-pagination': VueTablePagination,
     'vuetable-pagination-info': VueTablePaginationInfo,
