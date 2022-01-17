@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.1.70 - 2022.01.17
+
+### Fixed
+
+* Fixed a regression which would cause the **404 File Not Found URL** to not be displayed
+
 ## 3.1.69 - 2022.01.12
 
 ### Added
