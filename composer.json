@@ -1,46 +1,46 @@
 {
-    "name": "nystudio107/craft-retour",
-    "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
-    "type": "craft-plugin",
-    "version": "3.1.69",
-    "keywords": [
-        "craftcms",
-        "craft-plugin",
-        "retour",
-        "redirect",
-        "404",
-        "statistics"
-    ],
-    "support": {
-        "docs": "https://nystudio107.com/plugins/retour/documentation",
-        "issues": "https://nystudio107.com/plugins/retour/support"
-    },
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "nystudio107",
-            "homepage": "https://nystudio107.com/"
-        }
-    ],
-    "require-dev": {
-        "codeception/codeception": "^3.0",
-        "vlucas/phpdotenv": "^3.0"
-    },
-    "require": {
-        "craftcms/cms": "^3.0.0",
-        "nystudio107/craft-plugin-vite": "^1.0.0",
-        "league/csv": "^8.2 || ^9.0",
-        "jean85/pretty-package-versions": "^1.5 || ^2.0"
-    },
-    "autoload": {
-        "psr-4": {
-          "nystudio107\\retour\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "Retour",
-        "handle": "retour",
-        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v3/CHANGELOG.md",
-        "class": "nystudio107\\retour\\Retour"
+  "name": "nystudio107/craft-retour",
+  "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
+  "type": "craft-plugin",
+  "version": "3.1.70",
+  "keywords": [
+    "craftcms",
+    "craft-plugin",
+    "retour",
+    "redirect",
+    "404",
+    "statistics"
+  ],
+  "support": {
+    "docs": "https://nystudio107.com/plugins/retour/documentation",
+    "issues": "https://nystudio107.com/plugins/retour/support"
+  },
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "nystudio107",
+      "homepage": "https://nystudio107.com/"
     }
+  ],
+  "require-dev": {
+    "codeception/codeception": "^3.0",
+    "vlucas/phpdotenv": "^3.0"
+  },
+  "require": {
+    "craftcms/cms": "^3.0.0",
+    "nystudio107/craft-plugin-vite": "^1.0.0",
+    "league/csv": "^8.2 || ^9.0",
+    "jean85/pretty-package-versions": "^1.5 || ^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "nystudio107\\retour\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Retour",
+    "handle": "retour",
+    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v3/CHANGELOG.md",
+    "class": "nystudio107\\retour\\Retour"
+  }
 }
