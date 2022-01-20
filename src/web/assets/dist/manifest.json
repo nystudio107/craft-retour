@@ -6,7 +6,8 @@
     "imports": [
       "_vendor.e64f7ccf.js",
       "_VuetableFilterBar.fb1f9fb1.js"
-    ]
+    ],
+    "integrity": "sha384-PdS4IBjMf40OWLfygStMKp8QE9ebWltfoFSd8sZ92jIkL+EH5+OLDG2g4xHWK/SH"
   },
   "src/js/Import.js": {
     "file": "assets/import.94764cf7.js",
@@ -14,7 +15,8 @@
     "isEntry": true,
     "imports": [
       "_vendor.e64f7ccf.js"
-    ]
+    ],
+    "integrity": "sha384-ikWPer2MZJ7GheGReNV3Yw9sQJf0xyhl7QXPeVJ9C6zlEBDmywHvZf7hVGTAL72k"
   },
   "src/js/Redirects.js": {
     "file": "assets/redirects.cf620f8a.js",
@@ -23,7 +25,8 @@
     "imports": [
       "_vendor.e64f7ccf.js",
       "_VuetableFilterBar.fb1f9fb1.js"
-    ]
+    ],
+    "integrity": "sha384-XhKGiT8V7jvHRfvGCnpT69SB2W06hH0OIEaFmjAh75JgZf3bqBfwO+wRi2NRBvYf"
   },
   "src/js/Retour.js": {
     "file": "assets/retour.56717911.js",
@@ -31,7 +34,8 @@
     "isEntry": true,
     "css": [
       "assets/retour.2cfd7af7.css"
-    ]
+    ],
+    "integrity": "sha384-JVbdRhpt9+ouhVfJmvzz9Sa4vZKvyTw95QWFW3/We9qu2fuFra3YLnz8EDfGUsFd"
   },
   "src/js/Widget.js": {
     "file": "assets/widget.0ebabf04.js",
@@ -39,18 +43,21 @@
     "isEntry": true,
     "imports": [
       "_vendor.e64f7ccf.js"
-    ]
+    ],
+    "integrity": "sha384-W9gasHVLtVQXBaEqeInHAEqVqQWfekEi5x8SAijxXMjrJXQjPvcEiM2h0uqS3JKS"
   },
   "_vendor.e64f7ccf.js": {
     "file": "assets/vendor.e64f7ccf.js",
     "css": [
       "assets/vendor.3b5bd98c.css"
-    ]
+    ],
+    "integrity": "sha384-0x34dC78CEy9rFKkE05Ri2CL+E7980cw/ivQYubtWiZnf8M3S4HQCFayg9l+eSf3"
   },
   "_VuetableFilterBar.fb1f9fb1.js": {
     "file": "assets/VuetableFilterBar.fb1f9fb1.js",
     "imports": [
       "_vendor.e64f7ccf.js"
-    ]
+    ],
+    "integrity": "sha384-ldpEakzlOPwdHC2Rxz6NK/HRW0TYQQBdUUqoTyGqdKnTzuy0IttUHUadN6oas0nD"
   }
 }
