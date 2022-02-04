@@ -118,6 +118,12 @@ class SettingsController extends Controller
             throw new NotFoundHttpException('Plugin not found');
         }
 
+        if (!is_array($settings['additionalHeaders'])) {
+            $settings['additionalHeaders'] = [];
+        }
+        if (!is_array($settings['excludePatterns'])) {
+            $settings['excludePatterns'] = [];
+        }
         if (!Craft::$app->getPlugins()->savePluginSettings($plugin, $settings)) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save plugin settings."));
 
