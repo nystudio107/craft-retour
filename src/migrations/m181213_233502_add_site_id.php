@@ -2,8 +2,8 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
+use yii\base\NotSupportedException;
 
 /**
  * m181213_233502_add_site_id migration.
@@ -12,8 +12,9 @@ class m181213_233502_add_site_id extends Migration
 {
     /**
      * @inheritdoc
+     * @throws NotSupportedException
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         // Drop the locale columns
         if ($this->db->columnExists('{{%retour_redirects}}', 'locale')) {
@@ -54,60 +55,14 @@ class m181213_233502_add_site_id extends Migration
         $this->addForeignKeys();
         // Create indexes
         $this->createIndexes();
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function safeDown()
-    {
-        echo "m181213_233502_add_site_id cannot be reverted.\n";
-        return false;
+        return true;
     }
 
     /**
      * @return void
      */
-    protected function createIndexes()
-    {
-        $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'siteId',
-                false
-            ),
-            '{{%retour_redirects}}',
-            'siteId',
-            false
-        );
-
-        $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'siteId',
-                false
-            ),
-            '{{%retour_static_redirects}}',
-            'siteId',
-            false
-        );
-
-        $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'siteId',
-                false
-            ),
-            '{{%retour_stats}}',
-            'siteId',
-            false
-        );
-    }
-
-    /**
-     * @return void
-     */
-    protected function addForeignKeys()
+    protected function addForeignKeys(): void
     {
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
@@ -128,5 +83,41 @@ class m181213_233502_add_site_id extends Migration
             'CASCADE',
             'CASCADE'
         );
+    }
+
+    /**
+     * @return void
+     */
+    protected function createIndexes(): void
+    {
+        $this->createIndex(
+            $this->db->getIndexName(),
+            '{{%retour_redirects}}',
+            'siteId',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
+            '{{%retour_static_redirects}}',
+            'siteId',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
+            '{{%retour_stats}}',
+            'siteId',
+            false
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function safeDown()
+    {
+        echo "m181213_233502_add_site_id cannot be reverted.\n";
+        return false;
     }
 }

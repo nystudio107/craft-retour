@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -13,7 +12,7 @@ class m181018_135656_add_redirect_status extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         if (!$this->db->columnExists('{{%retour_redirects}}', 'enabled')) {
             $this->addColumn(
@@ -29,12 +28,14 @@ class m181018_135656_add_redirect_status extends Migration
                 $this->boolean()->after('associatedElementId')->defaultValue(true)
             );
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m181018_135656_add_redirect_status cannot be reverted.\n";
 

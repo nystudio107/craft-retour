@@ -11,12 +11,14 @@
 
 namespace nystudio107\retour\events;
 
+use yii\base\ModelEvent;
+
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.1.2
  */
-class RedirectEvent extends \yii\base\ModelEvent
+class RedirectEvent extends ModelEvent
 {
     // Properties
     // =========================================================================
@@ -24,30 +26,30 @@ class RedirectEvent extends \yii\base\ModelEvent
     /**
      * @var bool Whether the redirect is brand new
      */
-    public $isNew = false;
+    public bool $isNew = false;
 
     /**
      * @var string The old URL
      */
-    public $legacyUrl;
+    public string $legacyUrl = '';
 
     /**
      * @var string The new URL
      */
-    public $destinationUrl;
+    public string $destinationUrl = '';
 
     /**
      * @var string The type of matching done on the legacyUrl
      */
-    public $matchType;
+    public string $matchType = '';
 
     /**
      * @var string The type of redirect
      */
-    public $redirectType;
+    public string $redirectType = '';
 
     /**
      * @var null|int The siteId of the redirect (0 or null for all sites).
      */
-    public $siteId;
+    public ?int $siteId = null;
 }

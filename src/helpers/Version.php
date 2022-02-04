@@ -11,11 +11,10 @@
 
 namespace nystudio107\retour\helpers;
 
+use Composer\Semver\Semver;
 use Craft;
-
 use Jean85\PrettyVersions;
-
-use \Composer\Semver\Semver;
+use Throwable;
 
 /**
  * @author    nystudio107
@@ -27,7 +26,7 @@ class Version
     // Constants
     // =========================================================================
 
-    const LEAGUE_CSV_PACKAGE = 'league/csv';
+    protected const LEAGUE_CSV_PACKAGE = 'league/csv';
 
     // Public Static Methods
     // =========================================================================
@@ -44,7 +43,7 @@ class Version
         try {
             $pv = PrettyVersions::getVersion(self::LEAGUE_CSV_PACKAGE);
             $installedVersion = $pv->getPrettyVersion();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Craft::error($e, __METHOD__);
         }
         if ($installedVersion) {

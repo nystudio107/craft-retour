@@ -11,8 +11,6 @@
 
 namespace nystudio107\retour\validators;
 
-use Craft;
-
 use yii\base\InvalidConfigException;
 use yii\validators\Validator;
 
@@ -26,12 +24,12 @@ class ParsedUriValidator extends Validator
     /**
      * @var null|string The source field to parse from
      */
-    public $source = null;
+    public ?string $source = null;
 
     /**
      * @var null|bool Whether or not to actually parse
      */
-    public $parse = false;
+    public ?bool $parse = false;
 
     /**
      * @var bool
@@ -47,7 +45,7 @@ class ParsedUriValidator extends Validator
      * @inheritdoc
      * @throws InvalidConfigException
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         if ($this->source === null) {
@@ -58,7 +56,7 @@ class ParsedUriValidator extends Validator
     /**
      * @inheritdoc
      */
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): void
     {
         // Set the attribute to be the same value as the source
         $srcValue = $this->source;

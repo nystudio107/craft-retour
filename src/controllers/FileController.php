@@ -11,27 +11,29 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\assetbundles\retour\RetourImportAsset;
-use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
-use nystudio107\retour\helpers\Permission as PermissionHelper;
-use nystudio107\retour\helpers\Version as VersionHelper;
-
 use Craft;
 use craft\db\Query;
+use craft\errors\MissingComponentException;
 use craft\helpers\ArrayHelper;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
-
-use yii\base\InvalidConfigException;
-use yii\web\Response;
-use yii\web\UploadedFile;
-
 use League\Csv\AbstractCsv;
 use League\Csv\Exception;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\Writer;
+use nystudio107\retour\assetbundles\retour\RetourImportAsset;
+use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
+use nystudio107\retour\helpers\Permission as PermissionHelper;
+use nystudio107\retour\helpers\Version as VersionHelper;
+use nystudio107\retour\Retour;
+use SplTempFileObject;
+use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * @author    nystudio107
@@ -43,9 +45,9 @@ class FileController extends Controller
     // Constants
     // =========================================================================
 
-    const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+    protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
-    const EXPORT_REDIRECTS_CSV_FIELDS = [
+    protected const EXPORT_REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl' => 'Legacy URL Pattern',
         'redirectDestUrl' => 'Redirect To',
         'redirectMatchType' => 'Match Type',
@@ -56,7 +58,7 @@ class FileController extends Controller
         'hitLastTime' => 'Last Hit',
     ];
 
-    const EXPORT_STATISTICS_CSV_FIELDS = [
+    protected const EXPORT_STATISTICS_CSV_FIELDS = [
         'redirectSrcUrl' => '404 File Not Found URL',
         'referrerUrl' => 'Last Referrer URL',
         'remoteIp' => 'Remote IP',
@@ -66,7 +68,7 @@ class FileController extends Controller
         'siteId' => 'Site ID',
     ];
 
-    const IMPORT_REDIRECTS_CSV_FIELDS = [
+    protected const IMPORT_REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl',
         'redirectDestUrl',
         'redirectMatchType',
@@ -85,11 +87,11 @@ class FileController extends Controller
     // =========================================================================
 
     /**
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \craft\errors\MissingComponentException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws MissingComponentException
      */
-    public function actionImportCsvColumns()
+    public function actionImportCsvColumns(): void
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         // If your CSV document was created or is read on a Macintosh computer,
@@ -148,11 +150,70 @@ class FileController extends Controller
     }
 
     /**
+     * @param AbstractCsv $csv
+     * @param array $columns
+     * @param array $headers
+     */
+    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): void
+    {
+        $csv->setOffset(1);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        $csv->each(function ($row) use ($headers, $columns) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
+            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+
+            return true;
+        });
+    }
+
+    /**
+     * @param AbstractCsv $csv
+     * @param array $columns
+     * @param array $headers
+     * @throws Exception
+     */
+    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): void
+    {
+        $stmt = (new Statement())
+            ->offset(1);
+        $rows = $stmt->process($csv);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        foreach ($rows as $row) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
+            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        }
+    }
+
+    /**
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionImportCsv(string $siteHandle = null): Response
     {
@@ -187,7 +248,7 @@ class FileController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
-        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -195,7 +256,7 @@ class FileController extends Controller
             ],
             [
                 'label' => 'Redirects',
-                'url' => UrlHelper::cpUrl('retour/redirects'.$siteHandleUri),
+                'url' => UrlHelper::cpUrl('retour/redirects' . $siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - Redirects - {$templateTitle}";
@@ -205,7 +266,7 @@ class FileController extends Controller
         $file = UploadedFile::getInstanceByName('file');
         if ($file !== null) {
             $filename = uniqid($file->name, true);
-            $filePath = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.$filename;
+            $filePath = Craft::$app->getPath()->getTempPath() . DIRECTORY_SEPARATOR . $filename;
             $file->saveAs($filePath, false);
             // Also save the file to the cache as a backup way to access it
             $cache = Craft::$app->getCache();
@@ -234,37 +295,26 @@ class FileController extends Controller
         return $this->renderTemplate('retour/import/index', $variables);
     }
 
+    // Public Methods
+    // =========================================================================
+
     /**
      * Export the statistics table as a CSV file
      *
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
-    public function actionExportStatistics()
+    public function actionExportStatistics(): void
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::EXPORT_STATISTICS_CSV_FIELDS);
     }
 
     /**
-     * Export the redirects table as a CSV file
-     *
-     * @throws \yii\web\ForbiddenHttpException
-     */
-    public function actionExportRedirects()
-    {
-        PermissionHelper::controllerPermissionCheck('retour:redirects');
-        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::EXPORT_REDIRECTS_CSV_FIELDS);
-    }
-
-    // Public Methods
-    // =========================================================================
-
-    /**
      * @param string $filename
      * @param string $table
-     * @param array  $columns
+     * @param array $columns
      */
-    protected function exportCsvFile(string $filename, string $table, array $columns)
+    protected function exportCsvFile(string $filename, string $table, array $columns): void
     {
         // If your CSV document was created or is read on a Macintosh computer,
         // add the following lines before using the library to help PHP detect line ending in Mac OS X
@@ -278,7 +328,7 @@ class FileController extends Controller
             ->orderBy('hitCount DESC')
             ->all();
         // Create our CSV file writer
-        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
         try {
             $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
         } catch (Exception $e) {
@@ -286,67 +336,18 @@ class FileController extends Controller
         }
         $csv->insertOne(array_values($columns));
         $csv->insertAll($data);
-        $csv->output($filename.'.csv');
+        $csv->output($filename . '.csv');
         exit(0);
     }
 
     /**
-     * @param AbstractCsv $csv
-     * @param array $columns
-     * @param array $headers
+     * Export the redirects table as a CSV file
+     *
+     * @throws ForbiddenHttpException
      */
-    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers)
+    public function actionExportRedirects(): void
     {
-        $csv->setOffset(1);
-        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        $csv->each(function ($row) use ($headers, $columns) {
-            $redirectConfig = [
-                'id' => 0,
-            ];
-            $index = 0;
-            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                if (isset($columns[$index], $headers[$columns[$index]])) {
-                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                        ? null
-                        : $row[$headers[$columns[$index]]];
-                }
-                $index++;
-            }
-            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
-            Retour::$plugin->redirects->saveRedirect($redirectConfig);
-
-            return true;
-        });
-    }
-
-    /**
-     * @param AbstractCsv $csv
-     * @param array $columns
-     * @param array $headers
-     * @throws \League\Csv\Exception
-     */
-    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers)
-    {
-        $stmt = (new Statement())
-            ->offset(1)
-        ;
-        $rows = $stmt->process($csv);
-        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        foreach ($rows as $row) {
-            $redirectConfig = [
-                'id' => 0,
-            ];
-            $index = 0;
-            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                if (isset($columns[$index], $headers[$columns[$index]])) {
-                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                        ? null
-                        : $row[$headers[$columns[$index]]];
-                }
-                $index++;
-            }
-            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
-            Retour::$plugin->redirects->saveRedirect($redirectConfig);
-        }
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
+        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::EXPORT_REDIRECTS_CSV_FIELDS);
     }
 }

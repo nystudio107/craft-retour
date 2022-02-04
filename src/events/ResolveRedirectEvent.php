@@ -11,14 +11,14 @@
 
 namespace nystudio107\retour\events;
 
-use nystudio107\retour\models\StaticRedirects;
+use yii\base\ModelEvent;
 
 /**
  * @author    nystudio107
  * @package   Retour
  * @since     3.1.18
  */
-class ResolveRedirectEvent extends \yii\base\ModelEvent
+class ResolveRedirectEvent extends ModelEvent
 {
     // Properties
     // =========================================================================
@@ -26,26 +26,26 @@ class ResolveRedirectEvent extends \yii\base\ModelEvent
     /**
      * @var string The full URL including hostname & protocol of the 404'd request
      */
-    public $fullUrl;
+    public string $fullUrl = '';
 
     /**
      * @var string The path of the 404'd request
      */
-    public $pathOnly;
+    public string $pathOnly = '';
 
     /**
      * @var null|string The URL that should be redirected to or null if no redirect
      *                  should take place
      */
-    public $redirectDestUrl = null;
+    public ?string $redirectDestUrl = null;
 
     /**
      * @var int The http status code for this redirect; see https://httpstatuses.com/
      */
-    public $redirectHttpCode = 301;
+    public int $redirectHttpCode = 301;
 
     /**
      * @var null|int The siteId of the redirect (0 or null for all sites).
      */
-    public $siteId;
+    public ?int $siteId = null;
 }

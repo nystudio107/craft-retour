@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -13,7 +12,7 @@ class m181013_202455_add_redirect_src_match extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         if (!$this->db->columnExists('{{%retour_redirects}}', 'redirectSrcMatch')) {
             $this->addColumn(
@@ -29,14 +28,17 @@ class m181013_202455_add_redirect_src_match extends Migration
                 $this->string(32)->after('redirectSrcUrlParsed')->defaultValue('pathonly')
             );
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m181013_202455_add_redirect_src_match cannot be reverted.\n";
+
         return false;
     }
 }

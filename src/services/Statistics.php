@@ -11,18 +11,15 @@
 
 namespace nystudio107\retour\services;
 
-use nystudio107\retour\Retour;
-
-use nystudio107\retour\models\Stats as StatsModel;
-
 use Craft;
 use craft\base\Component;
 use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\UrlHelper;
-
+use DateTime;
+use nystudio107\retour\models\Stats as StatsModel;
+use nystudio107\retour\Retour;
 use yii\db\Exception;
-use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -36,7 +33,7 @@ class Statistics extends Component
     // Constants
     // =========================================================================
 
-    const LAST_STATISTICS_TRIM_CACHE_KEY = 'retour-last-statistics-trim';
+    public const LAST_STATISTICS_TRIM_CACHE_KEY = 'retour-last-statistics-trim';
 
     // Protected Properties
     // =========================================================================
@@ -44,7 +41,7 @@ class Statistics extends Component
     /**
      * @var null|array
      */
-    protected $cachedStatistics;
+    protected ?array $cachedStatistics;
 
     // Public Methods
     // =========================================================================
@@ -71,12 +68,12 @@ class Statistics extends Component
     }
 
     /**
-     * @param int  $days The number of days to get
+     * @param int $days The number of days to get
      * @param bool $handled
      *
      * @return array Recent statistics
      */
-    public function getRecentStatistics($days = 1, $handled = false): array
+    public function getRecentStatistics(int $days = 1, bool $handled = false): array
     {
         // Ensure is an int
         $handledInt = (int)$handled;
@@ -155,7 +152,7 @@ class Statistics extends Component
      * @param bool $handled
      * @param null $siteId
      */
-    public function incrementStatistics(string $url, $handled = false, $siteId = null)
+    public function incrementStatistics(string $url, bool $handled = false, $siteId = null): void
     {
         $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
@@ -211,7 +208,7 @@ class Statistics extends Component
         $stats->exceptionMessage = $exceptionMessage;
         $stats->exceptionFilePath = $exceptionFilePath;
         $stats->exceptionFileLine = (int)$exceptionFileLine;
-        $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
+        $stats->hitLastTime = Db::prepareDateForDb(new DateTime());
         $stats->handledByRetour = (int)$handled;
         $stats->hitCount++;
         $statsConfig = $stats->getAttributes();
@@ -222,6 +219,79 @@ class Statistics extends Component
             $this->trimStatistics();
         }
     }
+
+    /**
+     * @param array $statsConfig
+     */
+    public function saveStatistics(array $statsConfig): void
+    {
+        // Validate the model before saving it to the db
+        $stats = new StatsModel($statsConfig);
+        if ($stats->validate() === false) {
+            Craft::error(
+                Craft::t(
+                    'retour',
+                    'Error validating statistics {id}: {errors}',
+                    ['id' => $stats->id, 'errors' => print_r($stats->getErrors(), true)]
+                ),
+                __METHOD__
+            );
+
+            return;
+        }
+        // Get the validated model attributes and save them to the db
+        $statsConfig = $stats->getAttributes();
+        $db = Craft::$app->getDb();
+        if ($statsConfig['id'] !== 0) {
+            // Update the existing record
+            try {
+                $result = $db->createCommand()->update(
+                    '{{%retour_stats}}',
+                    $statsConfig,
+                    [
+                        'id' => $statsConfig['id'],
+                    ]
+                )->execute();
+            } catch (Exception $e) {
+                // We don't log this error on purpose, because it's just a stats
+                // update, and deadlock errors can potentially occur
+                // Craft::error($e->getMessage(), __METHOD__);
+            }
+        } else {
+            unset($statsConfig['id']);
+            // Create a new record
+            try {
+                $db->createCommand()->insert(
+                    '{{%retour_stats}}',
+                    $statsConfig
+                )->execute();
+            } catch (Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
+    }
+
+    /**
+     * Don't trim more than a given interval, so that performance is not affected
+     *
+     * @return bool
+     */
+    protected function rateLimited(): bool
+    {
+        $limited = false;
+        $now = round(microtime(true) * 1000);
+        $cache = Craft::$app->getCache();
+        $then = $cache->get(self::LAST_STATISTICS_TRIM_CACHE_KEY);
+        if (($then !== false) && ($now - (int)$then < Retour::$settings->statisticsRateLimitMs)) {
+            $limited = true;
+        }
+        $cache->set(self::LAST_STATISTICS_TRIM_CACHE_KEY, $now, 0);
+
+        return $limited;
+    }
+
+    // Protected Methods
+    // =========================================================================
 
     /**
      * Trim the retour_stats db table based on the statsStoredLimit config.php
@@ -289,78 +359,5 @@ class Statistics extends Component
         }
 
         return $affectedRows;
-    }
-
-    /**
-     * @param array $statsConfig
-     */
-    public function saveStatistics(array $statsConfig)
-    {
-        // Validate the model before saving it to the db
-        $stats = new StatsModel($statsConfig);
-        if ($stats->validate() === false) {
-            Craft::error(
-                Craft::t(
-                    'retour',
-                    'Error validating statistics {id}: {errors}',
-                    ['id' => $stats->id, 'errors' => print_r($stats->getErrors(), true)]
-                ),
-                __METHOD__
-            );
-
-            return;
-        }
-        // Get the validated model attributes and save them to the db
-        $statsConfig = $stats->getAttributes();
-        $db = Craft::$app->getDb();
-        if ($statsConfig['id'] !== 0) {
-            // Update the existing record
-            try {
-                $result = $db->createCommand()->update(
-                    '{{%retour_stats}}',
-                    $statsConfig,
-                    [
-                        'id' => $statsConfig['id'],
-                    ]
-                )->execute();
-            } catch (Exception $e) {
-                // We don't log this error on purpose, because it's just a stats
-                // update, and deadlock errors can potentially occur
-                // Craft::error($e->getMessage(), __METHOD__);
-            }
-        } else {
-            unset($statsConfig['id']);
-            // Create a new record
-            try {
-                $db->createCommand()->insert(
-                    '{{%retour_stats}}',
-                    $statsConfig
-                )->execute();
-            } catch (Exception $e) {
-                Craft::error($e->getMessage(), __METHOD__);
-            }
-        }
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * Don't trim more than a given interval, so that performance is not affected
-     *
-     * @return bool
-     */
-    protected function rateLimited(): bool
-    {
-        $limited = false;
-        $now = round(microtime(true) * 1000);
-        $cache = Craft::$app->getCache();
-        $then = $cache->get(self::LAST_STATISTICS_TRIM_CACHE_KEY);
-        if (($then !== false) && ($now - (int)$then < Retour::$settings->statisticsRateLimitMs)) {
-            $limited = true;
-        }
-        $cache->set(self::LAST_STATISTICS_TRIM_CACHE_KEY, $now, 0);
-
-        return $limited;
     }
 }

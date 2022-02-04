@@ -12,10 +12,11 @@
 namespace nystudio107\retour\helpers;
 
 use Craft;
-
 use craft\models\Site;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use function count;
+use function in_array;
 
 /**
  * @author    nystudio107
@@ -33,7 +34,7 @@ class MultiSite
     /**
      * @param array $variables
      */
-    public static function setSitesMenuVariables(array &$variables)
+    public static function setSitesMenuVariables(array &$variables): void
     {
         // Set defaults based on the section settings
         $variables['sitesMenu'] = [
@@ -65,9 +66,9 @@ class MultiSite
      * @param        $siteId
      * @param        $variables
      *
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
-    public static function setMultiSiteVariables($siteHandle, &$siteId, array &$variables)
+    public static function setMultiSiteVariables($siteHandle, &$siteId, array &$variables): void
     {
         // Enabled sites
         $sites = Craft::$app->getSites();
@@ -83,13 +84,13 @@ class MultiSite
             }
 
             // Make sure the $siteId they are trying to edit is in our array of editable sites
-            if (!\in_array($siteId, $variables['enabledSiteIds'], false)) {
+            if (!in_array($siteId, $variables['enabledSiteIds'], false)) {
                 if (!empty($variables['enabledSiteIds'])) {
                     if ($siteId !== 0) {
                         $siteId = reset($variables['enabledSiteIds']);
                     }
                 } else {
-                    self::requirePermission('editSite:'.$siteId);
+                    self::requirePermission('editSite:' . $siteId);
                 }
             }
         }
@@ -102,7 +103,7 @@ class MultiSite
         // Page title
         $variables['showSites'] = (
             Craft::$app->getIsMultiSite() &&
-            \count($variables['enabledSiteIds'])
+            count($variables['enabledSiteIds'])
         );
 
         if ($variables['showSites']) {
@@ -124,20 +125,32 @@ class MultiSite
     }
 
     /**
+     * @param string $permissionName
+     *
+     * @throws ForbiddenHttpException
+     */
+    public static function requirePermission(string $permissionName): void
+    {
+        if (!Craft::$app->getUser()->checkPermission($permissionName)) {
+            throw new ForbiddenHttpException('User is not permitted to perform this action');
+        }
+    }
+
+    /**
      * Return a siteId from a siteHandle
      *
-     * @param string $siteHandle
+     * @param ?string $siteHandle
      *
      * @return int|null
      * @throws NotFoundHttpException
      */
-    public static function getSiteIdFromHandle($siteHandle)
+    public static function getSiteIdFromHandle(?string $siteHandle): ?int
     {
         // Get the site to edit
         if ($siteHandle !== null) {
             $site = Craft::$app->getSites()->getSiteByHandle($siteHandle);
             if (!$site) {
-                throw new NotFoundHttpException('Invalid site handle: '.$siteHandle);
+                throw new NotFoundHttpException('Invalid site handle: ' . $siteHandle);
             }
             $siteId = $site->id;
         } else {
@@ -145,18 +158,6 @@ class MultiSite
         }
 
         return $siteId;
-    }
-
-    /**
-     * @param string $permissionName
-     *
-     * @throws ForbiddenHttpException
-     */
-    public static function requirePermission(string $permissionName)
-    {
-        if (!Craft::$app->getUser()->checkPermission($permissionName)) {
-            throw new ForbiddenHttpException('User is not permitted to perform this action');
-        }
     }
 
     // Protected Static Methods

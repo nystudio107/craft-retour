@@ -12,12 +12,10 @@
 namespace nystudio107\retour\controllers;
 
 use Craft;
-use nystudio107\retour\helpers\Permission as PermissionHelper;
-
 use craft\db\Query;
 use craft\helpers\ArrayHelper;
 use craft\web\Controller;
-
+use nystudio107\retour\helpers\Permission as PermissionHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
@@ -47,7 +45,7 @@ class ChartsController extends Controller
      * The Dashboard chart
      *
      * @param string $range
-     * @param int    $siteId
+     * @param int $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException
@@ -130,7 +128,7 @@ class ChartsController extends Controller
      *
      * @return Response
      */
-    public function actionWidget($days = 1): Response
+    public function actionWidget(int $days = 1): Response
     {
         $data = [];
         // Different dbs do it different ways

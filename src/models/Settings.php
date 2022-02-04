@@ -11,12 +11,10 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
 use craft\base\Model;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\validators\ArrayValidator;
-
+use nystudio107\retour\Retour;
 use yii\behaviors\AttributeTypecastBehavior;
 
 /**
@@ -32,104 +30,104 @@ class Settings extends Model
     /**
      * @var string The public-facing name of the plugin
      */
-    public $pluginName = 'Retour';
+    public string $pluginName = 'Retour';
 
     /**
      * @var bool Controls whether Retour automatically creates static redirects
      *      when an entry's URI changes.
      */
-    public $createUriChangeRedirects = true;
+    public bool $createUriChangeRedirects = true;
 
     /**
      * @var string Should the legacy URL be matched by path (e.g.
      *      `/new-recipes/`) or by full URL (e.g.:
      *      `http://example.com/de/new-recipes/`)?
      */
-    public $uriChangeRedirectSrcMatch = 'pathonly';
+    public string $uriChangeRedirectSrcMatch = 'pathonly';
 
     /**
      * @var bool Should the query string be stripped from all 404 URLs before
      *      their evaluation?
      */
-    public $alwaysStripQueryString = false;
+    public bool $alwaysStripQueryString = false;
 
     /**
      * @var bool Should the query string be preserved and passed along to the
      *      redirected URL?
      */
-    public $preserveQueryString = false;
+    public bool $preserveQueryString = false;
 
     /**
      * @var bool Should the anonymous ip address of the client causing a 404 be
      *      recorded?
      */
-    public $recordRemoteIp = true;
+    public bool $recordRemoteIp = true;
 
     /**
      * @var int How many static redirects to display in the Control Panel
      */
-    public $staticRedirectDisplayLimit = 100;
+    public int $staticRedirectDisplayLimit = 100;
 
     /**
      * @var int How many dynamic redirects to display in the Control Panel
      */
-    public $dynamicRedirectDisplayLimit = 100;
+    public int $dynamicRedirectDisplayLimit = 100;
 
     /**
      * @var bool Should the query string be stripped from the saved statistics
      *      source URLs?
      */
-    public $stripQueryStringFromStats = true;
+    public bool $stripQueryStringFromStats = true;
 
     /**
      * @var int How many stats should be stored
      */
-    public $statsStoredLimit = 1000;
+    public int $statsStoredLimit = 1000;
 
     /**
      * @var int Dashboard data live refresh interval
      */
-    public $refreshIntervalSecs = 5;
+    public int $refreshIntervalSecs = 5;
 
     /**
      * @var bool Whether the Statistics should be trimmed after each new
      *      statistic is recorded
      */
-    public $automaticallyTrimStatistics = true;
+    public bool $automaticallyTrimStatistics = true;
 
     /**
      * @var int The number of milliseconds required between trimming of
      *      statistics
      */
-    public $statisticsRateLimitMs = 3600000;
+    public int $statisticsRateLimitMs = 3600000;
 
     /**
      * @var int How many stats to display in the Control Panel
      */
-    public $statsDisplayLimit = 1000;
+    public int $statsDisplayLimit = 1000;
 
     /**
      * @var bool Determines whether the Retour API endpoint should be enabled for anonymous frontend access
      */
-    public $enableApiEndpoint = false;
+    public bool $enableApiEndpoint = false;
 
     /**
      * @var array [Regular expressions](https://regexr.com/) to match URLs to
      *      exclude from Retour
      */
-    public $excludePatterns = [
+    public array $excludePatterns = [
     ];
 
     /**
      * @var array Additional headers to add to redirected requests
      */
-    public $additionalHeaders = [
+    public array $additionalHeaders = [
     ];
 
     /**
      * @var string The delimiter between data column values for importing CSV files (normally `,`)
      */
-    public $csvColumnDelimiter = ',';
+    public string $csvColumnDelimiter = ',';
 
     // Public Methods
     // =========================================================================
@@ -137,7 +135,7 @@ class Settings extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['pluginName', 'string'],
@@ -181,7 +179,7 @@ class Settings extends Model
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         $craft31Behaviors = [];
         if (Retour::$craft31) {

@@ -13,7 +13,7 @@ class m210603_221000_add_gql_schema_components extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         // Don't make the same config changes twice
         $projectConfig = Craft::$app->getProjectConfig();
@@ -29,14 +29,17 @@ class m210603_221000_add_gql_schema_components extends Migration
                 }
             }
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m210603_221000_add_gql_schema_components cannot be reverted.\n";
+        
         return false;
     }
 }

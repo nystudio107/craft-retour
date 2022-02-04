@@ -11,10 +11,9 @@
 
 namespace nystudio107\retour\migrations;
 
-use nystudio107\retour\widgets\RetourWidget;
-
 use Craft;
 use craft\db\Migration;
+use nystudio107\retour\widgets\RetourWidget;
 
 /**
  * @author    nystudio107
@@ -29,7 +28,7 @@ class Install extends Migration
     /**
      * @var string The database driver to use
      */
-    public $driver;
+    public string $driver;
 
     // Public Methods
     // =========================================================================
@@ -37,7 +36,7 @@ class Install extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
         if ($this->createTables()) {
@@ -55,20 +54,6 @@ class Install extends Migration
 
         return true;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function safeDown()
-    {
-        $this->driver = Craft::$app->getConfig()->getDb()->driver;
-        $this->removeTables();
-
-        return true;
-    }
-
-    // Protected Methods
-    // =========================================================================
 
     /**
      * @return bool
@@ -158,83 +143,58 @@ class Install extends Migration
         return $tablesCreated;
     }
 
+    // Protected Methods
+    // =========================================================================
+
     /**
      * @return void
      */
-    protected function createIndexes()
+    protected function createIndexes(): void
     {
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrlParsed',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrlParsed',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'siteId',
             false
@@ -242,11 +202,7 @@ class Install extends Migration
 
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'siteId',
             false
@@ -256,7 +212,7 @@ class Install extends Migration
     /**
      * @return void
      */
-    protected function addForeignKeys()
+    protected function addForeignKeys(): void
     {
         $this->addForeignKey(
             $this->db->getForeignKeyName('{{%retour_redirects}}', 'associatedElementId'),
@@ -292,14 +248,25 @@ class Install extends Migration
     /**
      * @return void
      */
-    protected function insertDefaultData()
+    protected function insertDefaultData(): void
     {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function safeDown(): bool
+    {
+        $this->driver = Craft::$app->getConfig()->getDb()->driver;
+        $this->removeTables();
+
+        return true;
     }
 
     /**
      * @return void
      */
-    protected function removeTables()
+    protected function removeTables(): void
     {
         $this->dropTableIfExists('{{%retour_redirects}}');
         $this->dropTableIfExists('{{%retour_static_redirects}}');

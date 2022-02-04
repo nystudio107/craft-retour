@@ -11,16 +11,17 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
+use Craft;
+use craft\errors\MissingComponentException;
+use craft\helpers\UrlHelper;
+use craft\web\Controller;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\Settings;
-
-use Craft;
-use craft\helpers\UrlHelper;
-use craft\web\Controller;
-
+use nystudio107\retour\Retour;
 use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -34,7 +35,7 @@ class SettingsController extends Controller
     // Constants
     // =========================================================================
 
-    const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+    protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
     // Protected Properties
     // =========================================================================
@@ -47,12 +48,12 @@ class SettingsController extends Controller
     /**
      * Plugin settings
      *
-     * @param null|bool|Settings $settings
+     * @param Settings|bool|null $settings
      *
      * @return Response The rendered result
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
-    public function actionPluginSettings($settings = null): Response
+    public function actionPluginSettings(Settings|bool|null $settings = null): Response
     {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:settings');
@@ -101,11 +102,11 @@ class SettingsController extends Controller
      *
      * @return Response|null
      * @throws NotFoundHttpException if the requested plugin cannot be found
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws BadRequestHttpException
+     * @throws MissingComponentException
+     * @throws ForbiddenHttpException
      */
-    public function actionSavePluginSettings()
+    public function actionSavePluginSettings(): ?Response
     {
         PermissionHelper::controllerPermissionCheck('retour:settings');
         $this->requirePostRequest();

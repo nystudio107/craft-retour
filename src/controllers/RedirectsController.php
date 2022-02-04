@@ -11,18 +11,19 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
+use Craft;
+use craft\errors\MissingComponentException;
+use craft\helpers\UrlHelper;
+use craft\web\Controller;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
-
-use Craft;
-use craft\web\Controller;
-use craft\helpers\UrlHelper;
-
+use nystudio107\retour\Retour;
 use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -36,7 +37,7 @@ class RedirectsController extends Controller
     // Constants
     // =========================================================================
 
-    const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+    protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
     // Protected Properties
     // =========================================================================
@@ -52,8 +53,8 @@ class RedirectsController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionRedirects(string $siteHandle = null): Response
     {
@@ -83,7 +84,7 @@ class RedirectsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
-        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -91,7 +92,7 @@ class RedirectsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/redirects'.$siteHandleUri),
+                'url' => UrlHelper::cpUrl('retour/redirects' . $siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
@@ -104,21 +105,22 @@ class RedirectsController extends Controller
     /**
      * Edit the redirect
      *
-     * @param int                       $redirectId
-     * @param string                    $defaultUrl
-     * @param int                       $siteId
+     * @param int $redirectId
+     * @param string $defaultUrl
+     * @param int $siteId
      * @param null|StaticRedirectsModel $redirect
      *
      * @return Response
      * @throws NotFoundHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionEditRedirect(
-        int $redirectId = 0,
-        string $defaultUrl = '',
-        int $siteId = 0,
+        int                  $redirectId = 0,
+        string               $defaultUrl = '',
+        int                  $siteId = 0,
         StaticRedirectsModel $redirect = null
-    ): Response {
+    ): Response
+    {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
 
@@ -151,13 +153,13 @@ class RedirectsController extends Controller
         if ($redirect->siteId) {
             $site = $sites->getSiteById($redirect->siteId);
             if ($site) {
-                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+                MultiSiteHelper::requirePermission('editSite:' . $site->uid);
             }
         }
         if ($siteId) {
             $site = $sites->getSiteById($siteId);
             if ($site) {
-                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+                MultiSiteHelper::requirePermission('editSite:' . $site->uid);
             }
         }
         $pluginName = Retour::$settings->pluginName;
@@ -193,7 +195,7 @@ class RedirectsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/edit-redirect/'.$redirectId),
+                'url' => UrlHelper::cpUrl('retour/edit-redirect/' . $redirectId),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - Redirects - {$templateTitle}";
@@ -206,10 +208,10 @@ class RedirectsController extends Controller
 
     /**
      * @return Response|void
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws ForbiddenHttpException
      */
-    public function actionDeleteRedirects()
+    public function actionDeleteRedirects(): ?Response
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $request = Craft::$app->getRequest();
@@ -230,19 +232,19 @@ class RedirectsController extends Controller
         }
         Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete redirect."));
 
-        return;
+        return null;
     }
 
     /**
      * Save the redirect
      *
      * @return null|Response
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionSaveRedirect()
+    public function actionSaveRedirect(): ?Response
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->requirePostRequest();

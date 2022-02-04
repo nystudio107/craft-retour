@@ -11,11 +11,11 @@
 
 namespace nystudio107\retour\widgets;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
-
 use Craft;
 use craft\base\Widget;
+use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
+use nystudio107\retour\Retour;
+use Twig\Error\LoaderError;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 
@@ -37,7 +37,7 @@ class RetourWidget extends Widget
     /**
      * @var int
      */
-    public $numberOfDays = 30;
+    public int $numberOfDays = 30;
 
     // Static Methods
     // =========================================================================
@@ -53,7 +53,7 @@ class RetourWidget extends Widget
     /**
      * @inheritdoc
      */
-    public static function iconPath()
+    public static function iconPath(): bool|string
     {
         return Craft::getAlias("@nystudio107/retour/web/assets/dist/img/icon-mask.svg");
     }
@@ -61,7 +61,7 @@ class RetourWidget extends Widget
     /**
      * @inheritdoc
      */
-    public static function maxColspan()
+    public static function maxColspan(): ?int
     {
         return 1;
     }
@@ -72,7 +72,7 @@ class RetourWidget extends Widget
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
         $rules = array_merge(
@@ -88,7 +88,7 @@ class RetourWidget extends Widget
     /**
      * @inheritdoc
      */
-    public function getSettingsHtml()
+    public function getSettingsHtml(): null|string
     {
         try {
             return Craft::$app->getView()->renderTemplate(
@@ -97,17 +97,19 @@ class RetourWidget extends Widget
                     'widget' => $this,
                 ]
             );
-        } catch (\Twig\Error\LoaderError $e) {
+        } catch (LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);
         }
+
+        return null;
     }
 
     /**
      * @inheritdoc
      */
-    public function getBodyHtml()
+    public function getBodyHtml(): null|string
     {
         try {
             Craft::$app->getView()->registerAssetBundle(RetourWidgetAsset::class);
@@ -122,10 +124,12 @@ class RetourWidget extends Widget
                     'numberOfDays' => $this->numberOfDays,
                 ]
             );
-        } catch (\Twig\Error\LoaderError $e) {
+        } catch (LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);
         }
+
+        return null;
     }
 }

@@ -11,7 +11,6 @@
 
 namespace nystudio107\retour\assetbundles\retour;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 use craft\web\assets\vue\VueAsset;
@@ -29,7 +28,7 @@ class RetourWidgetAsset extends AssetBundle
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         $this->sourcePath = '@nystudio107/retour/web/assets/dist';
         $this->depends = [

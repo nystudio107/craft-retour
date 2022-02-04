@@ -28,7 +28,7 @@ class RetourImportAsset extends AssetBundle
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         $this->sourcePath = '@nystudio107/retour/web/assets/dist';
         $this->depends = [

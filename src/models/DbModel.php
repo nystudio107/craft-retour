@@ -11,9 +11,6 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
-use Craft;
 use craft\base\Model;
 
 /**
@@ -27,24 +24,6 @@ class DbModel extends Model
     // =========================================================================
 
     /**
-     * Remove any properties that don't exist in the model
-     *
-     * @param string $class
-     * @param array  $config
-     */
-    protected static function cleanProperties(string $class, array &$config)
-    {
-        foreach ($config as $propName => $propValue) {
-            if (!property_exists($class, $propName)) {
-                unset($config[$propName]);
-            }
-        }
-    }
-
-    // Public Methods
-    // =========================================================================
-
-    /**
      * @inheritdoc
      */
     public function __construct(array $config = [])
@@ -52,5 +31,23 @@ class DbModel extends Model
         // Unset any deprecated properties
         self::cleanProperties(static::class, $config);
         parent::__construct($config);
+    }
+
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * Remove any properties that don't exist in the model
+     *
+     * @param string $class
+     * @param array $config
+     */
+    protected static function cleanProperties(string $class, array &$config): void
+    {
+        foreach ($config as $propName => $propValue) {
+            if (!property_exists($class, $propName)) {
+                unset($config[$propName]);
+            }
+        }
     }
 }

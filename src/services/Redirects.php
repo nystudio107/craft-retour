@@ -11,25 +11,25 @@
 
 namespace nystudio107\retour\services;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\events\RedirectEvent;
-use nystudio107\retour\events\ResolveRedirectEvent;
-use nystudio107\retour\events\RedirectResolvedEvent;
-use nystudio107\retour\helpers\UrlHelper;
-use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
-
 use Craft;
 use craft\base\Component;
 use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-
+use DateTime;
+use nystudio107\retour\events\RedirectEvent;
+use nystudio107\retour\events\RedirectResolvedEvent;
+use nystudio107\retour\events\ResolveRedirectEvent;
+use nystudio107\retour\helpers\UrlHelper;
+use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
+use nystudio107\retour\Retour;
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
 use yii\caching\TagDependency;
 use yii\db\Exception;
+use function call_user_func_array;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -43,11 +43,11 @@ class Redirects extends Component
     // Constants
     // =========================================================================
 
-    const CACHE_KEY = 'retour_redirect_';
+    public const CACHE_KEY = 'retour_redirect_';
 
-    const GLOBAL_REDIRECTS_CACHE_TAG = 'retour_redirects';
+    public const GLOBAL_REDIRECTS_CACHE_TAG = 'retour_redirects';
 
-    const EVENT_REDIRECT_ID = 0;
+    public const EVENT_REDIRECT_ID = 0;
 
     /**
      * @event RedirectEvent The event that is triggered before the redirect is saved
@@ -65,7 +65,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_BEFORE_SAVE_REDIRECT = 'beforeSaveRedirect';
+    public const EVENT_BEFORE_SAVE_REDIRECT = 'beforeSaveRedirect';
 
     /**
      * @event RedirectEvent The event that is triggered after the redirect is saved
@@ -82,7 +82,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_AFTER_SAVE_REDIRECT = 'afterSaveRedirect';
+    public const EVENT_AFTER_SAVE_REDIRECT = 'afterSaveRedirect';
 
     /**
      * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
@@ -101,7 +101,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_BEFORE_RESOLVE_REDIRECT = 'beforeResolveRedirect';
+    public const EVENT_BEFORE_RESOLVE_REDIRECT = 'beforeResolveRedirect';
 
     /**
      * @event ResolveRedirectEvent The event that is triggered after Retour has attempted
@@ -120,7 +120,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_AFTER_RESOLVE_REDIRECT = 'afterResolveRedirect';
+    public const EVENT_AFTER_RESOLVE_REDIRECT = 'afterResolveRedirect';
 
     /**
      * @event RedirectResolvedEvent The event that is triggered once Retour has resolved
@@ -141,7 +141,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
+    public const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
 
     // Protected Properties
     // =========================================================================
@@ -149,7 +149,7 @@ class Redirects extends Component
     /**
      * @var null|array
      */
-    protected $cachedStaticRedirects;
+    protected ?array $cachedStaticRedirects = null;
 
     // Public Methods
     // =========================================================================
@@ -157,7 +157,7 @@ class Redirects extends Component
     /**
      * Handle 404s by looking for redirects
      */
-    public function handle404()
+    public function handle404(): void
     {
         Craft::info(
             Craft::t(
@@ -213,15 +213,423 @@ class Redirects extends Component
     }
 
     /**
+     * Return whether this is a preview request of any kind
+     *
+     * @param $request
+     * @return bool
+     */
+    public function isPreview($request): bool
+    {
+        $isPreview = false;
+        if (Retour::$craft32) {
+            $isPreview = $request->getIsPreview();
+        }
+        $isLivePreview = $request->getIsLivePreview();
+
+        return ($isPreview || $isLivePreview);
+    }
+
+    /**
+     * @param $uri
+     *
+     * @return bool
+     */
+    public function excludeUri($uri): bool
+    {
+        $uri = '/' . ltrim($uri, '/');
+        if (!empty(Retour::$settings->excludePatterns)) {
+            foreach (Retour::$settings->excludePatterns as $excludePattern) {
+                $pattern = '`' . $excludePattern['pattern'] . '`i';
+                try {
+                    if (preg_match($pattern, $uri) === 1) {
+                        return true;
+                    }
+                } catch (\Exception $e) {
+                    // That's fine
+                    Craft::error('Invalid exclude URI Regex: ' . $pattern, __METHOD__);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $fullUrl
+     * @param string $pathOnly
+     * @param null $siteId
+     *
+     * @return bool|array|null
+     */
+    public function findRedirectMatch(string $fullUrl, string $pathOnly, $siteId = null): bool|array|null
+    {
+        // Get the current site
+        if ($siteId === null) {
+            $currentSite = Craft::$app->getSites()->currentSite;
+            if ($currentSite) {
+                $siteId = $currentSite->id;
+            } else {
+                $primarySite = Craft::$app->getSites()->primarySite;
+                if ($currentSite) {
+                    $siteId = $primarySite->id;
+                }
+            }
+        }
+        // Try getting the full URL redirect from the cache
+        $redirect = $this->getRedirectFromCache($fullUrl, $siteId);
+        if ($redirect) {
+            $this->incrementRedirectHitCount($redirect);
+            $this->saveRedirectToCache($fullUrl, $redirect);
+
+            return $redirect;
+        }
+        // Try getting the path only redirect from the cache
+        $redirect = $this->getRedirectFromCache($pathOnly, $siteId);
+        if ($redirect) {
+            $this->incrementRedirectHitCount($redirect);
+            $this->saveRedirectToCache($pathOnly, $redirect);
+
+            return $redirect;
+        }
+        // Resolve static redirects
+        $redirects = $this->getAllStaticRedirects(null, $siteId);
+        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
+        if ($redirect) {
+            return $redirect;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $url
+     * @param int $siteId
+     *
+     * @return bool|array
+     */
+    public function getRedirectFromCache(string $url, int $siteId = 0): bool|array
+    {
+        $cache = Craft::$app->getCache();
+        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
+        $redirect = $cache->get($cacheKey);
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Cached redirect hit for {url}',
+                ['url' => $url]
+            ),
+            __METHOD__
+        );
+
+        return $redirect;
+    }
+
+    /**
+     * Increment the retour_static_redirects record
+     *
+     * @param $redirectConfig
+     */
+    public function incrementRedirectHitCount(&$redirectConfig): void
+    {
+        if ($redirectConfig !== null) {
+            $db = Craft::$app->getDb();
+            $redirectConfig['hitCount']++;
+            $redirectConfig['hitLastTime'] = Db::prepareDateForDb(new DateTime());
+            Craft::debug(
+                Craft::t(
+                    'retour',
+                    'Incrementing statistics for: {redirect}',
+                    ['redirect' => print_r($redirectConfig, true)]
+                ),
+                __METHOD__
+            );
+            // Update the existing record
+            try {
+                $rowsAffected = $db->createCommand()->update(
+                    '{{%retour_static_redirects}}',
+                    [
+                        'hitCount' => $redirectConfig['hitCount'],
+                        'hitLastTime' => $redirectConfig['hitLastTime'],
+                    ],
+                    [
+                        'id' => $redirectConfig['id'],
+                    ]
+                )->execute();
+                Craft::debug('Rows affected: ' . $rowsAffected, __METHOD__);
+            } catch (\Exception $e) {
+                Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
+    }
+
+    /**
+     * @param string $url
+     * @param array $redirect
+     */
+    public function saveRedirectToCache(string $url, array $redirect): void
+    {
+        $cache = Craft::$app->getCache();
+        // Get the current site id
+        $sites = Craft::$app->getSites();
+        try {
+            $siteId = $sites->getCurrentSite()->id;
+        } catch (SiteNotFoundException $e) {
+            $siteId = 1;
+        }
+        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
+        // Create the dependency tags
+        $dependency = new TagDependency([
+            'tags' => [
+                $this::GLOBAL_REDIRECTS_CACHE_TAG,
+                $this::GLOBAL_REDIRECTS_CACHE_TAG . $siteId,
+            ],
+        ]);
+        $cache->set($cacheKey, $redirect, Retour::$cacheDuration, $dependency);
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Cached redirect saved for {url}',
+                ['url' => $url]
+            ),
+            __METHOD__
+        );
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $siteId
+     *
+     * @return array All of the statistics
+     */
+    public function getAllStaticRedirects(int $limit = null, int $siteId = null): array
+    {
+        // Cache it in our class; no need to fetch it more than once
+        if ($this->cachedStaticRedirects !== null) {
+            return $this->cachedStaticRedirects;
+        }
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+        if ($limit) {
+            $query->limit($limit);
+        }
+        $redirects = $query->all();
+        // Cache for future accesses
+        $this->cachedStaticRedirects = $redirects;
+
+        return $redirects;
+    }
+
+    /**
+     * @param string $fullUrl
+     * @param string $pathOnly
+     * @param array $redirects
+     * @param $siteId
+     *
+     * @return array|null
+     */
+    public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects, $siteId): ?array
+    {
+        $result = null;
+        // Throw the Redirects::EVENT_BEFORE_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+            'siteId' => $siteId,
+        ]);
+        $this->trigger(self::EVENT_BEFORE_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
+        // Iterate through the redirects
+        foreach ($redirects as $redirect) {
+            // Figure out what type of source matching to do
+            $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
+            $redirectEnabled = (bool)$redirect['enabled'];
+            if ($redirectEnabled === true) {
+                switch ($redirectSrcMatch) {
+                    case 'pathonly':
+                        $url = $pathOnly;
+                        break;
+                    case 'fullurl':
+                        $url = $fullUrl;
+                        break;
+                    default:
+                        $url = $pathOnly;
+                        break;
+                }
+                $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
+                switch ($redirectMatchType) {
+                    // Do a straight up match
+                    case 'exactmatch':
+                        if (strcasecmp($redirect['redirectSrcUrlParsed'], $url) === 0) {
+                            $this->incrementRedirectHitCount($redirect);
+                            $this->saveRedirectToCache($url, $redirect);
+
+                            // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                            $event = new RedirectResolvedEvent([
+                                'fullUrl' => $fullUrl,
+                                'pathOnly' => $pathOnly,
+                                'redirectDestUrl' => null,
+                                'redirectHttpCode' => 301,
+                                'redirect' => $redirect,
+                                'siteId' => $siteId,
+                            ]);
+                            $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                            if ($event->redirectDestUrl !== null) {
+                                return $this->resolveEventRedirect($event, $url, $redirect);
+                            }
+
+                            return $redirect;
+                        }
+                        break;
+
+                    // Do a regex match
+                    case 'regexmatch':
+                        $matchRegEx = '`' . $redirect['redirectSrcUrlParsed'] . '`i';
+                        try {
+                            if (preg_match($matchRegEx, $url) === 1) {
+                                $this->incrementRedirectHitCount($redirect);
+                                // If we're not associated with an EntryID, handle capture group replacement
+                                if ((int)$redirect['associatedElementId'] === 0) {
+                                    $redirect['redirectDestUrl'] = preg_replace(
+                                        $matchRegEx,
+                                        $redirect['redirectDestUrl'],
+                                        $url
+                                    );
+                                }
+                                $url = preg_replace('/([^:])(\/{2,})/', '$1/', $url);
+                                $this->saveRedirectToCache($url, $redirect);
+
+                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                                $event = new RedirectResolvedEvent([
+                                    'fullUrl' => $fullUrl,
+                                    'pathOnly' => $pathOnly,
+                                    'redirectDestUrl' => null,
+                                    'redirectHttpCode' => 301,
+                                    'redirect' => $redirect,
+                                    'siteId' => $siteId,
+                                ]);
+                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                                if ($event->redirectDestUrl !== null) {
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
+                                }
+
+                                return $redirect;
+                            }
+                        } catch (\Exception $e) {
+                            // That's fine
+                            Craft::error('Invalid Redirect Regex: ' . $matchRegEx, __METHOD__);
+                        }
+
+                        break;
+
+                    // Otherwise try to look up a plugin's method by and call it for the match
+                    default:
+                        $plugin = $redirectMatchType ? Craft::$app->getPlugins()->getPlugin($redirectMatchType) : null;
+                        if ($plugin && method_exists($plugin, 'retourMatch')) {
+                            $args = [
+                                [
+                                    'redirect' => &$redirect,
+                                ],
+                            ];
+                            $result = call_user_func_array([$plugin, 'retourMatch'], $args);
+                            if ($result) {
+                                $this->incrementRedirectHitCount($redirect);
+                                $this->saveRedirectToCache($url, $redirect);
+
+                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+                                $event = new RedirectResolvedEvent([
+                                    'fullUrl' => $fullUrl,
+                                    'pathOnly' => $pathOnly,
+                                    'redirectDestUrl' => null,
+                                    'redirectHttpCode' => 301,
+                                    'redirect' => $redirect,
+                                    'siteId' => $siteId,
+                                ]);
+                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+                                if ($event->redirectDestUrl !== null) {
+                                    return $this->resolveEventRedirect($event, $url, $redirect);
+                                }
+
+                                return $redirect;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+        // Throw the Redirects::EVENT_AFTER_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+            'siteId' => $siteId,
+        ]);
+        $this->trigger(self::EVENT_AFTER_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
+                ['fullUrl' => $fullUrl, 'pathOnly' => $pathOnly]
+            ),
+            __METHOD__
+        );
+
+        return $result;
+    }
+
+    /**
+     * @param ResolveRedirectEvent $event
+     * @param string|null $url
+     * @param null $redirect
+     * @return null|array
+     */
+    public function resolveEventRedirect(ResolveRedirectEvent $event, ?string $url = null, $redirect = null): ?array
+    {
+        $result = null;
+
+        if ($event->redirectDestUrl !== null) {
+            $resolvedRedirect = new StaticRedirectsModel([
+                'id' => self::EVENT_REDIRECT_ID,
+                'redirectDestUrl' => $event->redirectDestUrl,
+                'redirectHttpCode' => $event->redirectHttpCode,
+            ]);
+            $result = $resolvedRedirect->toArray();
+
+            if ($url !== null && $redirect !== null) {
+                // Save the modified redirect to the cache
+                $redirect['redirectDestUrl'] = $event->redirectDestUrl;
+                $redirect['redirectHttpCode'] = $event->redirectHttpCode;
+                $this->saveRedirectToCache($url, $redirect);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Do the redirect
      *
-     * @param string     $fullUrl
-     * @param string     $pathOnly
-     * @param null|array $redirect
+     * @param string $fullUrl
+     * @param string $pathOnly
+     * @param array|null $redirect
      *
      * @return bool false if not redirected
      */
-    public function doRedirect(string $fullUrl, string $pathOnly, $redirect): bool
+    public function doRedirect(string $fullUrl, string $pathOnly, ?array $redirect): bool
     {
         $response = Craft::$app->getResponse();
         if ($redirect !== null) {
@@ -306,301 +714,6 @@ class Redirects extends Component
     }
 
     /**
-     * @param string $fullUrl
-     * @param string $pathOnly
-     * @param null   $siteId
-     *
-     * @return array|null
-     */
-    public function findRedirectMatch(string $fullUrl, string $pathOnly, $siteId = null)
-    {
-        // Get the current site
-        if ($siteId === null) {
-            $currentSite = Craft::$app->getSites()->currentSite;
-            if ($currentSite) {
-                $siteId = $currentSite->id;
-            } else {
-                $primarySite = Craft::$app->getSites()->primarySite;
-                if ($currentSite) {
-                    $siteId = $primarySite->id;
-                }
-            }
-        }
-        // Try getting the full URL redirect from the cache
-        $redirect = $this->getRedirectFromCache($fullUrl, $siteId);
-        if ($redirect) {
-            $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($fullUrl, $redirect);
-
-            return $redirect;
-        }
-        // Try getting the path only redirect from the cache
-        $redirect = $this->getRedirectFromCache($pathOnly, $siteId);
-        if ($redirect) {
-            $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($pathOnly, $redirect);
-
-            return $redirect;
-        }
-        // Resolve static redirects
-        $redirects = $this->getAllStaticRedirects(null, $siteId);
-        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
-        if ($redirect) {
-            return $redirect;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param          $url
-     * @param int|null $siteId
-     *
-     * @return bool|array
-     */
-    public function getRedirectFromCache($url, int $siteId = 0)
-    {
-        $cache = Craft::$app->getCache();
-        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
-        $redirect = $cache->get($cacheKey);
-        Craft::info(
-            Craft::t(
-                'retour',
-                'Cached redirect hit for {url}',
-                ['url' => $url]
-            ),
-            __METHOD__
-        );
-
-        return $redirect;
-    }
-
-    /**
-     * @param  string $url
-     * @param  array  $redirect
-     */
-    public function saveRedirectToCache($url, $redirect)
-    {
-        $cache = Craft::$app->getCache();
-        // Get the current site id
-        $sites = Craft::$app->getSites();
-        try {
-            $siteId = $sites->getCurrentSite()->id;
-        } catch (SiteNotFoundException $e) {
-            $siteId = 1;
-        }
-        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
-        // Create the dependency tags
-        $dependency = new TagDependency([
-            'tags' => [
-                $this::GLOBAL_REDIRECTS_CACHE_TAG,
-                $this::GLOBAL_REDIRECTS_CACHE_TAG.$siteId,
-            ],
-        ]);
-        $cache->set($cacheKey, $redirect, Retour::$cacheDuration, $dependency);
-        Craft::info(
-            Craft::t(
-                'retour',
-                'Cached redirect saved for {url}',
-                ['url' => $url]
-            ),
-            __METHOD__
-        );
-    }
-
-    /**
-     * @param string $fullUrl
-     * @param string $pathOnly
-     * @param array  $redirects
-     *
-     * @return array|null
-     */
-    public function resolveRedirect(string $fullUrl, string $pathOnly, array $redirects, $siteId)
-    {
-        $result = null;
-        // Throw the Redirects::EVENT_BEFORE_RESOLVE_REDIRECT event
-        $event = new ResolveRedirectEvent([
-            'fullUrl' => $fullUrl,
-            'pathOnly' => $pathOnly,
-            'redirectDestUrl' => null,
-            'redirectHttpCode' => 301,
-            'siteId' => $siteId,
-        ]);
-        $this->trigger(self::EVENT_BEFORE_RESOLVE_REDIRECT, $event);
-        if ($event->redirectDestUrl !== null) {
-            return $this->resolveEventRedirect($event);
-        }
-        // Iterate through the redirects
-        foreach ($redirects as $redirect) {
-            // Figure out what type of source matching to do
-            $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
-            $redirectEnabled = (bool)$redirect['enabled'];
-            if ($redirectEnabled === true) {
-                switch ($redirectSrcMatch) {
-                    case 'pathonly':
-                        $url = $pathOnly;
-                        break;
-                    case 'fullurl':
-                        $url = $fullUrl;
-                        break;
-                    default:
-                        $url = $pathOnly;
-                        break;
-                }
-                $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
-                switch ($redirectMatchType) {
-                    // Do a straight up match
-                    case 'exactmatch':
-                        if (strcasecmp($redirect['redirectSrcUrlParsed'], $url) === 0) {
-                            $this->incrementRedirectHitCount($redirect);
-                            $this->saveRedirectToCache($url, $redirect);
-
-                            // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
-                            $event = new RedirectResolvedEvent([
-                                'fullUrl' => $fullUrl,
-                                'pathOnly' => $pathOnly,
-                                'redirectDestUrl' => null,
-                                'redirectHttpCode' => 301,
-                                'redirect' => $redirect,
-                                'siteId' => $siteId,
-                            ]);
-                            $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
-                            if ($event->redirectDestUrl !== null) {
-                                return $this->resolveEventRedirect($event, $url, $redirect);
-                            }
-
-                            return $redirect;
-                        }
-                        break;
-
-                    // Do a regex match
-                    case 'regexmatch':
-                        $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
-                        try {
-                            if (preg_match($matchRegEx, $url) === 1) {
-                                $this->incrementRedirectHitCount($redirect);
-                                // If we're not associated with an EntryID, handle capture group replacement
-                                if ((int)$redirect['associatedElementId'] === 0) {
-                                    $redirect['redirectDestUrl'] = preg_replace(
-                                        $matchRegEx,
-                                        $redirect['redirectDestUrl'],
-                                        $url
-                                    );
-                                }
-                                $url = preg_replace('/([^:])(\/{2,})/', '$1/', $url);
-                                $this->saveRedirectToCache($url, $redirect);
-
-                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
-                                $event = new RedirectResolvedEvent([
-                                    'fullUrl' => $fullUrl,
-                                    'pathOnly' => $pathOnly,
-                                    'redirectDestUrl' => null,
-                                    'redirectHttpCode' => 301,
-                                    'redirect' => $redirect,
-                                    'siteId' => $siteId,
-                                ]);
-                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
-                                if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event, $url, $redirect);
-                                }
-
-                                return $redirect;
-                            }
-                        } catch (\Exception $e) {
-                            // That's fine
-                            Craft::error('Invalid Redirect Regex: '.$matchRegEx, __METHOD__);
-                        }
-
-                        break;
-
-                    // Otherwise try to look up a plugin's method by and call it for the match
-                    default:
-                        $plugin = $redirectMatchType ? Craft::$app->getPlugins()->getPlugin($redirectMatchType) : null;
-                        if ($plugin && method_exists($plugin, 'retourMatch')) {
-                            $args = [
-                                [
-                                    'redirect' => &$redirect,
-                                ],
-                            ];
-                            $result = \call_user_func_array([$plugin, 'retourMatch'], $args);
-                            if ($result) {
-                                $this->incrementRedirectHitCount($redirect);
-                                $this->saveRedirectToCache($url, $redirect);
-
-                                // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
-                                $event = new RedirectResolvedEvent([
-                                    'fullUrl' => $fullUrl,
-                                    'pathOnly' => $pathOnly,
-                                    'redirectDestUrl' => null,
-                                    'redirectHttpCode' => 301,
-                                    'redirect' => $redirect,
-                                    'siteId' => $siteId,
-                                ]);
-                                $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
-                                if ($event->redirectDestUrl !== null) {
-                                    return $this->resolveEventRedirect($event, $url, $redirect);
-                                }
-
-                                return $redirect;
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-        // Throw the Redirects::EVENT_AFTER_RESOLVE_REDIRECT event
-        $event = new ResolveRedirectEvent([
-            'fullUrl' => $fullUrl,
-            'pathOnly' => $pathOnly,
-            'redirectDestUrl' => null,
-            'redirectHttpCode' => 301,
-            'siteId' => $siteId,
-        ]);
-        $this->trigger(self::EVENT_AFTER_RESOLVE_REDIRECT, $event);
-        if ($event->redirectDestUrl !== null) {
-            return $this->resolveEventRedirect($event);
-        }
-        Craft::info(
-            Craft::t(
-                'retour',
-                'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
-                ['fullUrl' => $fullUrl, 'pathOnly' => $pathOnly]
-            ),
-            __METHOD__
-        );
-
-        return $result;
-    }
-
-    /**
-     * @param ResolveRedirectEvent $event
-     *
-     * @return null|array
-     */
-    public function resolveEventRedirect(ResolveRedirectEvent $event, $url = null, $redirect = null)
-    {
-        $result = null;
-
-        if ($event->redirectDestUrl !== null) {
-            $resolvedRedirect = new StaticRedirectsModel([
-                'id' => self::EVENT_REDIRECT_ID,
-                'redirectDestUrl' => $event->redirectDestUrl,
-                'redirectHttpCode' => $event->redirectHttpCode,
-            ]);
-            $result = $resolvedRedirect->toArray();
-
-            if ($url !== null && $redirect !== null) {
-                // Save the modified redirect to the cache
-                $redirect['redirectDestUrl'] = $event->redirectDestUrl;
-                $redirect['redirectHttpCode'] = $event->redirectHttpCode;
-                $this->saveRedirectToCache($url, $redirect);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Returns the list of matching schemes
      *
      * @return  array
@@ -616,42 +729,11 @@ class Redirects extends Component
         foreach (Craft::$app->getPlugins()->getAllPlugins() as $plugin) {
             /** @var Plugin $plugin */
             if (method_exists($plugin, 'retourMatch')) {
-                $result[$plugin->getHandle()] = $plugin->name.Craft::t('retour', ' Match');
+                $result[$plugin->getHandle()] = $plugin->name . Craft::t('retour', ' Match');
             }
         }
 
         return $result;
-    }
-
-    /**
-     * @param null|int $limit
-     * @param int|null $siteId
-     *
-     * @return array All of the statistics
-     */
-    public function getAllStaticRedirects($limit = null, int $siteId = null): array
-    {
-        // Cache it in our class; no need to fetch it more than once
-        if ($this->cachedStaticRedirects !== null) {
-            return $this->cachedStaticRedirects;
-        }
-        // Query the db table
-        $query = (new Query())
-            ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
-        if ($siteId) {
-            $query
-                ->where(['siteId' => $siteId])
-                ->orWhere(['siteId' => null]);
-        }
-        if ($limit) {
-            $query->limit($limit);
-        }
-        $redirects = $query->all();
-        // Cache for future accesses
-        $this->cachedStaticRedirects = $redirects;
-
-        return $redirects;
     }
 
     /**
@@ -661,41 +743,13 @@ class Redirects extends Component
      *
      * @return null|array The static redirect
      */
-    public function getRedirectById(int $id)
+    public function getRedirectById(int $id): ?array
     {
         // Query the db table
         $redirect = (new Query())
             ->from(['{{%retour_static_redirects}}'])
             ->where(['id' => $id])
             ->one();
-
-        return $redirect;
-    }
-
-    /**
-     * Return a redirect by redirectSrcUrl
-     *
-     * @param string   $redirectSrcUrl
-     * @param int|null $siteId
-     *
-     * @return null|array
-     */
-    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl, int $siteId = null)
-    {
-        // Query the db table
-        $query = (new Query())
-            ->from(['{{%retour_static_redirects}}'])
-            ->where(['redirectSrcUrl' => $redirectSrcUrl])
-            ;
-        if ($siteId) {
-            $query
-                ->andWhere(['or', [
-                    'siteId' => $siteId,
-                ], [
-                    'siteId' => null,
-                ]]);
-        }
-        $redirect = $query->one();
 
         return $redirect;
     }
@@ -727,47 +781,9 @@ class Redirects extends Component
     }
 
     /**
-     * Increment the retour_static_redirects record
-     *
-     * @param $redirectConfig
-     */
-    public function incrementRedirectHitCount(&$redirectConfig)
-    {
-        if ($redirectConfig !== null) {
-            $db = Craft::$app->getDb();
-            $redirectConfig['hitCount']++;
-            $redirectConfig['hitLastTime'] = Db::prepareDateForDb(new \DateTime());
-            Craft::debug(
-                Craft::t(
-                    'retour',
-                    'Incrementing statistics for: {redirect}',
-                    ['redirect' => print_r($redirectConfig, true)]
-                ),
-                __METHOD__
-            );
-            // Update the existing record
-            try {
-                $rowsAffected = $db->createCommand()->update(
-                    '{{%retour_static_redirects}}',
-                    [
-                        'hitCount' => $redirectConfig['hitCount'],
-                        'hitLastTime' => $redirectConfig['hitLastTime'],
-                    ],
-                    [
-                        'id' => $redirectConfig['id'],
-                    ]
-                )->execute();
-                Craft::debug('Rows affected: '.$rowsAffected, __METHOD__);
-            } catch (\Exception $e) {
-                Craft::error($e->getMessage(), __METHOD__);
-            }
-        }
-    }
-
-    /**
      * @param array $redirectConfig
      */
-    public function saveRedirect(array $redirectConfig)
+    public function saveRedirect(array $redirectConfig): void
     {
         // Handle URL encoded URLs by decoding them before saving them
         if (isset($redirectConfig['redirectMatchType']) && $redirectConfig['redirectMatchType'] === 'exactmatch') {
@@ -897,9 +913,36 @@ class Redirects extends Component
     }
 
     /**
+     * Return a redirect by redirectSrcUrl
+     *
+     * @param string $redirectSrcUrl
+     * @param int|null $siteId
+     *
+     * @return null|array
+     */
+    public function getRedirectByRedirectSrcUrl(string $redirectSrcUrl, int $siteId = null): ?array
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->where(['redirectSrcUrl' => $redirectSrcUrl]);
+        if ($siteId) {
+            $query
+                ->andWhere(['or', [
+                    'siteId' => $siteId,
+                ], [
+                    'siteId' => null,
+                ]]);
+        }
+        $redirect = $query->one();
+
+        return $redirect;
+    }
+
+    /**
      * Invalidate all of the redirects caches
      */
-    public function invalidateCaches()
+    public function invalidateCaches(): void
     {
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, $this::GLOBAL_REDIRECTS_CACHE_TAG);
@@ -917,46 +960,5 @@ class Redirects extends Component
             ),
             __METHOD__
         );
-    }
-
-    /**
-     * @param $uri
-     *
-     * @return bool
-     */
-    public function excludeUri($uri): bool
-    {
-        $uri = '/'.ltrim($uri, '/');
-        if (!empty(Retour::$settings->excludePatterns)) {
-            foreach (Retour::$settings->excludePatterns as $excludePattern) {
-                $pattern = '`'.$excludePattern['pattern'].'`i';
-                try {
-                    if (preg_match($pattern, $uri) === 1) {
-                        return true;
-                    }
-                } catch (\Exception $e) {
-                    // That's fine
-                    Craft::error('Invalid exclude URI Regex: '.$pattern, __METHOD__);
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Return whether this is a preview request of any kind
-     *
-     * @return bool
-     */
-    public function isPreview($request): bool
-    {
-        $isPreview = false;
-        if (Retour::$craft32) {
-            $isPreview = $request->getIsPreview();
-        }
-        $isLivePreview = $request->getIsLivePreview();
-
-        return ($isPreview || $isLivePreview);
     }
 }

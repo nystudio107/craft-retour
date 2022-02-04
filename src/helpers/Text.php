@@ -12,6 +12,7 @@
 namespace nystudio107\retour\helpers;
 
 use Stringy\Stringy;
+use function function_exists;
 
 /**
  * @author    nystudio107
@@ -31,13 +32,13 @@ class Text
      * truncating occurs, the string is further truncated so that the substring
      * may be appended without exceeding the desired length.
      *
-     * @param  string $string    The string to truncate
-     * @param  int    $length    Desired length of the truncated string
-     * @param  string $substring The substring to append if it can fit
+     * @param string $string The string to truncate
+     * @param int $length Desired length of the truncated string
+     * @param string $substring The substring to append if it can fit
      *
      * @return string with the resulting $str after truncating
      */
-    public static function truncate($string, $length, $substring = '…'): string
+    public static function truncate(string $string, int $length, string $substring = '…'): string
     {
         $result = $string;
 
@@ -55,13 +56,13 @@ class Text
      * string is further truncated so that the substring may be appended without
      * exceeding the desired length.
      *
-     * @param  string $string    The string to truncate
-     * @param  int    $length    Desired length of the truncated string
-     * @param  string $substring The substring to append if it can fit
+     * @param string $string The string to truncate
+     * @param int $length Desired length of the truncated string
+     * @param string $substring The substring to append if it can fit
      *
      * @return string with the resulting $str after truncating
      */
-    public static function truncateOnWord($string, $length, $substring = '…'): string
+    public static function truncateOnWord(string $string, int $length, string $substring = '…'): string
     {
         $result = $string;
 
@@ -81,13 +82,13 @@ class Text
      *
      * @return string
      */
-    public static function cleanupText($text): string
+    public static function cleanupText(string $text): string
     {
         if (empty($text)) {
             return '';
         }
         // Convert to UTF-8
-        if (\function_exists('iconv')) {
+        if (function_exists('iconv')) {
             $text = iconv(mb_detect_encoding($text, mb_detect_order(), true), 'UTF-8//IGNORE', $text);
         } else {
             ini_set('mbstring.substitute_character', 'none');

@@ -11,12 +11,9 @@
 
 namespace nystudio107\retour\console\controllers;
 
-use nystudio107\retour\Retour;
-
 use Craft;
+use nystudio107\retour\Retour;
 use yii\console\Controller;
-
-use yii\console\Response;
 
 /**
  * Retour Stats command
@@ -33,15 +30,15 @@ class StatsController extends Controller
     /**
      * @var null|int
      */
-    public $limit;
+    public ?int $limit;
 
     // Protected Properties
     // =========================================================================
 
     /**
-     * @var    bool|array
+     * @var    array|bool
      */
-    protected $allowAnonymous = [
+    protected array|bool $allowAnonymous = [
     ];
 
     // Public Methods
@@ -50,7 +47,7 @@ class StatsController extends Controller
     /**
      * @param string $actionID
      *
-     * @return array|string[]
+     * @return array
      */
     public function options($actionID): array
     {
@@ -66,13 +63,13 @@ class StatsController extends Controller
      */
     public function actionTrim(): int
     {
-        echo Craft::t('retour', 'Trimming statistics').PHP_EOL;
+        echo Craft::t('retour', 'Trimming statistics') . PHP_EOL;
         $affectedRows = Retour::$plugin->statistics->trimStatistics($this->limit);
         echo Craft::t(
-            'retour',
-            'Trimmed {rows} from retour_stats table',
-            ['rows' => $affectedRows]
-        ).PHP_EOL;
+                'retour',
+                'Trimmed {rows} from retour_stats table',
+                ['rows' => $affectedRows]
+            ) . PHP_EOL;
 
         return 0;
     }

@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -13,7 +12,7 @@ class m181013_171315_truncate_match_type extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         // https://github.com/yiisoft/yii2/issues/4492
         if ($this->db->getIsPgsql()) {
@@ -50,12 +49,14 @@ class m181013_171315_truncate_match_type extends Migration
                 $this->string(32)->defaultValue('exactmatch')
             );
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m181013_171315_truncate_match_type cannot be reverted.\n";
 

@@ -11,14 +11,12 @@
 
 namespace nystudio107\retour\listeners;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\models\StaticRedirects;
-
 use craft\base\Element;
 use craft\helpers\UrlHelper;
-
-use markhuot\CraftQL\Events\AlterSchemaFields;
 use markhuot\CraftQL\Builders\Field as FieldBuilder;
+use markhuot\CraftQL\Events\AlterSchemaFields;
+use nystudio107\retour\models\StaticRedirects;
+use nystudio107\retour\Retour;
 
 /**
  * @author    nystudio107
@@ -30,7 +28,7 @@ class GetCraftQLSchema
     // Constants
     // =========================================================================
 
-    const INT_FIELDS = [
+    protected const INT_FIELDS = [
         'id',
         'siteId',
         'associatedElementId',
@@ -38,7 +36,7 @@ class GetCraftQLSchema
         'hitCount',
     ];
 
-    const BOOL_FIELDS = [
+    protected const BOOL_FIELDS = [
         'enabled',
     ];
 

@@ -11,7 +11,35 @@
 
 namespace nystudio107\retour;
 
+use Craft;
+use craft\base\Element;
+use craft\base\Model;
+use craft\base\Plugin;
+use craft\events\ElementEvent;
+use craft\events\ExceptionEvent;
+use craft\events\PluginEvent;
+use craft\events\RegisterCacheOptionsEvent;
+use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterGqlQueriesEvent;
 use craft\events\RegisterGqlSchemaComponentsEvent;
+use craft\events\RegisterGqlTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
+use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\ElementHelper;
+use craft\helpers\UrlHelper;
+use craft\services\Dashboard;
+use craft\services\Elements;
+use craft\services\Gql;
+use craft\services\Plugins;
+use craft\services\UserPermissions;
+use craft\utilities\ClearCaches;
+use craft\web\ErrorHandler;
+use craft\web\twig\variables\CraftVariable;
+use craft\web\UrlManager;
+use markhuot\CraftQL\Builders\Schema;
+use markhuot\CraftQL\CraftQL;
+use markhuot\CraftQL\Events\AlterSchemaFields;
+use nystudio107\pluginvite\services\VitePluginService;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
@@ -22,39 +50,9 @@ use nystudio107\retour\services\Redirects;
 use nystudio107\retour\services\Statistics;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
-
-use nystudio107\pluginvite\services\VitePluginService;
-
-use Craft;
-use craft\base\Element;
-use craft\base\Plugin;
-use craft\events\ElementEvent;
-use craft\events\ExceptionEvent;
-use craft\events\PluginEvent;
-use craft\events\RegisterCacheOptionsEvent;
-use craft\events\RegisterComponentTypesEvent;
-use craft\events\RegisterGqlQueriesEvent;
-use craft\events\RegisterGqlTypesEvent;
-use craft\events\RegisterUrlRulesEvent;
-use craft\events\RegisterUserPermissionsEvent;
-use craft\helpers\ElementHelper;
-use craft\helpers\UrlHelper;
-use craft\services\Elements;
-use craft\services\Dashboard;
-use craft\services\Gql;
-use craft\services\Plugins;
-use craft\services\UserPermissions;
-use craft\utilities\ClearCaches;
-use craft\web\ErrorHandler;
-use craft\web\twig\variables\CraftVariable;
-use craft\web\UrlManager;
-
+use Twig\Error\RuntimeError;
 use yii\base\Event;
 use yii\web\HttpException;
-
-use markhuot\CraftQL\Builders\Schema;
-use markhuot\CraftQL\CraftQL;
-use markhuot\CraftQL\Events\AlterSchemaFields;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -65,17 +63,17 @@ use markhuot\CraftQL\Events\AlterSchemaFields;
  * @package   Retour
  * @since     3.0.0
  *
- * @property Events             $events
- * @property Redirects          $redirects
- * @property Statistics         $statistics
- * @property VitePluginService  $vite
+ * @property Events $events
+ * @property Redirects $redirects
+ * @property Statistics $statistics
+ * @property VitePluginService $vite
  */
 class Retour extends Plugin
 {
     // Constants
     // =========================================================================
 
-    const DEVMODE_CACHE_DURATION = 30;
+    public const DEVMODE_CACHE_DURATION = 30;
 
     // Static Properties
     // =========================================================================
@@ -83,45 +81,60 @@ class Retour extends Plugin
     /**
      * @var Retour
      */
-    public static $plugin;
+    public static Plugin $plugin;
 
     /**
      * @var Settings
      */
-    public static $settings;
+    public static Settings $settings;
 
     /**
      * @var int
      */
-    public static $cacheDuration;
+    public static int $cacheDuration;
 
     /**
      * @var HttpException
      */
-    public static $currentException;
+    public static HttpException $currentException;
 
     /**
      * @var bool
      */
-    public static $craft31 = false;
+    public static bool $craft31 = false;
 
     /**
      * @var bool
      */
-    public static $craft32 = false;
+    public static bool $craft32 = false;
 
     /**
      * @var bool
      */
-    public static $craft33 = false;
+    public static bool $craft33 = false;
 
     /**
      * @var bool
      */
-    public static $craft35 = false;
+    public static bool $craft35 = false;
 
     // Static Methods
     // =========================================================================
+    /**
+     * @var string
+     */
+    public string $schemaVersion = '3.0.10';
+
+    // Public Properties
+    // =========================================================================
+    /**
+     * @var bool
+     */
+    public bool $hasCpSection = true;
+    /**
+     * @var bool
+     */
+    public bool $hasCpSettings = true;
 
     /**
      * @inheritdoc
@@ -148,31 +161,13 @@ class Retour extends Plugin
         parent::__construct($id, $parent, $config);
     }
 
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $schemaVersion = '3.0.10';
-
-    /**
-     * @var bool
-     */
-    public $hasCpSection = true;
-
-    /**
-     * @var bool
-     */
-    public $hasCpSettings = true;
-
     // Public Methods
     // =========================================================================
 
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
@@ -205,89 +200,9 @@ class Retour extends Plugin
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getSettingsResponse()
-    {
-        // Just redirect to the plugin settings page
-        Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCpNavItem()
-    {
-        $subNavs = [];
-        $navItem = parent::getCpNavItem();
-        $currentUser = Craft::$app->getUser()->getIdentity();
-        // Only show sub-navs the user has permission to view
-        if ($currentUser->can('retour:dashboard')) {
-            $subNavs['dashboard'] = [
-                'label' => 'Dashboard',
-                'url' => 'retour/dashboard',
-            ];
-        }
-        if ($currentUser->can('retour:redirects')) {
-            $subNavs['redirects'] = [
-                'label' => 'Redirects',
-                'url' => 'retour/redirects',
-            ];
-        }
-        $editableSettings = true;
-        $general = Craft::$app->getConfig()->getGeneral();
-        if (self::$craft31 && !$general->allowAdminChanges) {
-            $editableSettings = false;
-        }
-        if ($currentUser->can('retour:settings') && $editableSettings) {
-            $subNavs['settings'] = [
-                'label' => 'Settings',
-                'url' => 'retour/settings',
-            ];
-        }
-        // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
-        if (empty($subNavs)) {
-            return null;
-        }
-        // A single sub nav item is redundant
-        if (count($subNavs) === 1) {
-            $subNavs = [];
-        }
-        $navItem = array_merge($navItem, [
-            'subnav' => $subNavs,
-        ]);
-
-        return $navItem;
-    }
-
-    /**
-     * Clear all the caches!
-     */
-    public function clearAllCaches()
-    {
-        // Clear all of Retour's caches
-        self::$plugin->redirects->invalidateCaches();
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * Determine whether our table schema exists or not; this is needed because
-     * migrations such as the install migration and base_install migration may
-     * not have been run by the time our init() method has been called
-     *
-     * @return bool
-     */
-    protected function tableSchemaExists(): bool
-    {
-        return (Craft::$app->db->schema->getTableSchema('{{%retour_redirects}}') !== null);
-    }
-
-    /**
      * Install our event listeners.
      */
-    protected function installEventListeners()
+    protected function installEventListeners(): void
     {
         // Install our event listeners only if our table schema exists
         if ($this->tableSchemaExists()) {
@@ -343,9 +258,21 @@ class Retour extends Plugin
     }
 
     /**
+     * Determine whether our table schema exists or not; this is needed because
+     * migrations such as the install migration and base_install migration may
+     * not have been run by the time our init() method has been called
+     *
+     * @return bool
+     */
+    protected function tableSchemaExists(): bool
+    {
+        return (Craft::$app->db->schema->getTableSchema('{{%retour_redirects}}') !== null);
+    }
+
+    /**
      * Install global event listeners for all request types
      */
-    protected function installGlobalEventListeners()
+    protected function installGlobalEventListeners(): void
     {
         Event::on(
             CraftVariable::class,
@@ -374,7 +301,7 @@ class Retour extends Plugin
                     $checkElementSlug = true;
                     // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                     if (Retour::$craft32 && (
-                            ElementHelper::isDraftOrRevision($element)
+                        ElementHelper::isDraftOrRevision($element)
                         )) {
                         $checkElementSlug = false;
                     }
@@ -394,7 +321,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) {
+            static function (ElementEvent $event) {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
@@ -434,7 +361,7 @@ class Retour extends Plugin
             Event::on(
                 Gql::class,
                 Gql::EVENT_REGISTER_GQL_TYPES,
-                function (RegisterGqlTypesEvent $event) {
+                static function (RegisterGqlTypesEvent $event) {
                     Craft::debug(
                         'Gql::EVENT_REGISTER_GQL_TYPES',
                         __METHOD__
@@ -446,7 +373,7 @@ class Retour extends Plugin
             Event::on(
                 Gql::class,
                 Gql::EVENT_REGISTER_GQL_QUERIES,
-                function (RegisterGqlQueriesEvent $event) {
+                static function (RegisterGqlQueriesEvent $event) {
                     Craft::debug(
                         'Gql::EVENT_REGISTER_GQL_QUERIES',
                         __METHOD__
@@ -462,7 +389,7 @@ class Retour extends Plugin
                 Event::on(
                     Gql::class,
                     Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
-                    function (RegisterGqlSchemaComponentsEvent $event) {
+                    static function (RegisterGqlSchemaComponentsEvent $event) {
                         Craft::debug(
                             'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
                             __METHOD__
@@ -483,10 +410,53 @@ class Retour extends Plugin
         }
     }
 
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Handle site requests.  We do it only after we receive the event
+     * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
+     * before our event listeners kick in
+     */
+    protected function handleSiteRequest(): void
+    {
+        // Handler: ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION
+        Event::on(
+            ErrorHandler::class,
+            ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION,
+            static function (ExceptionEvent $event) {
+                Craft::debug(
+                    'ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION',
+                    __METHOD__
+                );
+                $exception = $event->exception;
+                // If this is a Twig Runtime exception, use the previous one instead
+                if ($exception instanceof RuntimeError &&
+                    ($previousException = $exception->getPrevious()) !== null) {
+                    $exception = $previousException;
+                }
+                // If this is a 404 error, see if we can handle it
+                if ($exception instanceof HttpException && $exception->statusCode === 404) {
+                    self::$currentException = $exception;
+                    Retour::$plugin->redirects->handle404();
+                }
+            }
+        );
+    }
+
+    /**
+     * Handle Control Panel requests. We do it only after we receive the event
+     * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
+     * before our event listeners kick in
+     */
+    protected function handleAdminCpRequest(): void
+    {
+    }
+
     /**
      * Install site event listeners for site requests only
      */
-    protected function installSiteEventListeners()
+    protected function installSiteEventListeners(): void
     {
         // Handler: UrlManager::EVENT_REGISTER_SITE_URL_RULES
         Event::on(
@@ -507,9 +477,20 @@ class Retour extends Plugin
     }
 
     /**
+     * Return the custom frontend routes
+     *
+     * @return array
+     */
+    protected function customFrontendRoutes(): array
+    {
+        return [
+        ];
+    }
+
+    /**
      * Install site event listeners for Control Panel requests only
      */
-    protected function installCpEventListeners()
+    protected function installCpEventListeners(): void
     {
         // Handler: Dashboard::EVENT_REGISTER_WIDGET_TYPES
         Event::on(
@@ -551,54 +532,6 @@ class Retour extends Plugin
     }
 
     /**
-     * Handle site requests.  We do it only after we receive the event
-     * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
-     * before our event listeners kick in
-     */
-    protected function handleSiteRequest()
-    {
-        // Handler: ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION
-        Event::on(
-            ErrorHandler::class,
-            ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION,
-            function (ExceptionEvent $event) {
-                Craft::debug(
-                    'ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION',
-                    __METHOD__
-                );
-                $exception = $event->exception;
-                // If this is a Twig Runtime exception, use the previous one instead
-                if ($exception instanceof \Twig\Error\RuntimeError &&
-                    ($previousException = $exception->getPrevious()) !== null) {
-                    $exception = $previousException;
-                }
-                // If this is a 404 error, see if we can handle it
-                if ($exception instanceof HttpException && $exception->statusCode === 404) {
-                    self::$currentException = $exception;
-                    Retour::$plugin->redirects->handle404();
-                }
-            }
-        );
-    }
-
-    /**
-     * Handle Control Panel requests. We do it only after we receive the event
-     * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
-     * before our event listeners kick in
-     */
-    protected function handleAdminCpRequest()
-    {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function createSettingsModel()
-    {
-        return new Settings();
-    }
-
-    /**
      * Return the custom Control Panel routes
      *
      * @return array
@@ -624,13 +557,22 @@ class Retour extends Plugin
     }
 
     /**
-     * Return the custom frontend routes
+     * Returns the custom Control Panel user permissions.
      *
      * @return array
      */
-    protected function customFrontendRoutes(): array
+    protected function customAdminCpPermissions(): array
     {
         return [
+            'retour:dashboard' => [
+                'label' => Craft::t('retour', 'Dashboard'),
+            ],
+            'retour:redirects' => [
+                'label' => Craft::t('retour', 'Redirects'),
+            ],
+            'retour:settings' => [
+                'label' => Craft::t('retour', 'Settings'),
+            ],
         ];
     }
 
@@ -651,22 +593,75 @@ class Retour extends Plugin
     }
 
     /**
-     * Returns the custom Control Panel user permissions.
-     *
-     * @return array
+     * Clear all the caches!
      */
-    protected function customAdminCpPermissions(): array
+    public function clearAllCaches(): void
     {
-        return [
-            'retour:dashboard' => [
-                'label' => Craft::t('retour', 'Dashboard'),
-            ],
-            'retour:redirects' => [
-                'label' => Craft::t('retour', 'Redirects'),
-            ],
-            'retour:settings' => [
-                'label' => Craft::t('retour', 'Settings'),
-            ],
-        ];
+        // Clear all of Retour's caches
+        self::$plugin->redirects->invalidateCaches();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSettingsResponse()
+    {
+        // Just redirect to the plugin settings page
+        Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCpNavItem(): ?array
+    {
+        $subNavs = [];
+        $navItem = parent::getCpNavItem();
+        $currentUser = Craft::$app->getUser()->getIdentity();
+        // Only show sub-navs the user has permission to view
+        if ($currentUser->can('retour:dashboard')) {
+            $subNavs['dashboard'] = [
+                'label' => 'Dashboard',
+                'url' => 'retour/dashboard',
+            ];
+        }
+        if ($currentUser->can('retour:redirects')) {
+            $subNavs['redirects'] = [
+                'label' => 'Redirects',
+                'url' => 'retour/redirects',
+            ];
+        }
+        $editableSettings = true;
+        $general = Craft::$app->getConfig()->getGeneral();
+        if (self::$craft31 && !$general->allowAdminChanges) {
+            $editableSettings = false;
+        }
+        if ($currentUser->can('retour:settings') && $editableSettings) {
+            $subNavs['settings'] = [
+                'label' => 'Settings',
+                'url' => 'retour/settings',
+            ];
+        }
+        // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
+        if (empty($subNavs)) {
+            return null;
+        }
+        // A single sub nav item is redundant
+        if (count($subNavs) === 1) {
+            $subNavs = [];
+        }
+        $navItem = array_merge($navItem, [
+            'subnav' => $subNavs,
+        ]);
+
+        return $navItem;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function createSettingsModel(): ?Model
+    {
+        return new Settings();
     }
 }

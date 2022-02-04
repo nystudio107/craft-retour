@@ -14,7 +14,6 @@ namespace nystudio107\retour\models;
 use nystudio107\retour\validators\DbStringValidator;
 use nystudio107\retour\validators\ParsedUriValidator;
 use nystudio107\retour\validators\UriValidator;
-
 use yii\behaviors\AttributeTypecastBehavior;
 
 /**
@@ -30,62 +29,62 @@ class Redirects extends DbModel
     /**
      * @var int The id of the redirect.
      */
-    public $id;
+    public int $id = 0;
 
     /**
      * @var null|int The siteId of the redirect (0 or null for all sites).
      */
-    public $siteId;
+    public ?int $siteId = null;
 
     /**
      * @var int The id of the Element associated with this redirect (unused/vestigial).
      */
-    public $associatedElementId;
+    public int $associatedElementId = 0;
 
     /**
      * @var bool Whether the redirect is enabled or not.
      */
-    public $enabled = true;
+    public bool $enabled = true;
 
     /**
      * @var string The unparsed URL pattern that Retour should match.
      */
-    public $redirectSrcUrl;
+    public string $redirectSrcUrl = '';
 
     /**
      * @var string The parsed URL pattern that Retour should match.
      */
-    public $redirectSrcUrlParsed;
+    public string $redirectSrcUrlParsed = '';
 
     /**
      * @var string Should the legacy URL be matched by path or by full URL?
      */
-    public $redirectSrcMatch;
+    public string $redirectSrcMatch = '';
 
     /**
      * @var string Whether an `exactmatch` or `regexmatch` should be used when matching the URL.
      */
-    public $redirectMatchType;
+    public string $redirectMatchType = '';
 
     /**
      * @var string The URL that should be redirected to.
      */
-    public $redirectDestUrl;
+    public string $redirectDestUrl = '';
 
     /**
      * @var int The http status code that should be used for the redirect.
      */
-    public $redirectHttpCode;
+    public int $redirectHttpCode = 0;
 
     /**
      * @var int The number of times this redirect has been hit.
      */
-    public $hitCount;
+    public int $hitCount = 0;
 
     /**
      * @var string A datetime string of when this redirect was last hit
      */
-    public $hitLastTime;
+    public string $hitLastTime = '';
 
     // Public Methods
     // =========================================================================
@@ -93,7 +92,7 @@ class Redirects extends DbModel
     /**
      * @inheritDoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         // If the redirectSrcUrl starts with `http`, default the match type to `fullurl`
@@ -105,7 +104,7 @@ class Redirects extends DbModel
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['id', 'integer'],
@@ -167,7 +166,7 @@ class Redirects extends DbModel
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'typecast' => [

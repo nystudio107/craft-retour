@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -13,7 +12,7 @@ class m181018_123901_add_stats_info extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         if (!$this->db->columnExists('{{%retour_stats}}', 'exceptionFileLine')) {
             $this->addColumn(
@@ -43,12 +42,14 @@ class m181018_123901_add_stats_info extends Migration
                 $this->string(255)->after('remoteIp')->defaultValue('')
             );
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m181018_123901_add_stats_info cannot be reverted.\n";
 

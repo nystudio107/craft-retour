@@ -11,14 +11,12 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\helpers\Permission as PermissionHelper;
-
 use Craft;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
-
+use nystudio107\retour\helpers\Permission as PermissionHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -33,17 +31,17 @@ class TablesController extends Controller
     // Constants
     // =========================================================================
 
-    const HANDLED_MAP = [
+    protected const HANDLED_MAP = [
         'handled' => 1,
         'nothandled' => 0,
     ];
 
-    const SORT_MAP = [
+    protected const SORT_MAP = [
         'DESC' => SORT_DESC,
         'ASC' => SORT_ASC,
     ];
 
-    const ALLOWED_STATS_SORT_FIELDS = [
+    protected const ALLOWED_STATS_SORT_FIELDS = [
         'redirectSrcUrl',
         'referrerUrl',
         'remoteIp',
@@ -52,7 +50,7 @@ class TablesController extends Controller
         'handledByRetour',
     ];
 
-    const ALLOWED_REDIRECTS_SORT_FIELDS = [
+    protected const ALLOWED_REDIRECTS_SORT_FIELDS = [
         'redirectSrcUrl',
         'redirectDestUrl',
         'redirectMatchType',
@@ -77,11 +75,11 @@ class TablesController extends Controller
     /**
      * Handle requests for the dashboard statistics table
      *
-     * @param string      $sort
-     * @param int         $page
-     * @param int         $per_page
-     * @param string      $filter
-     * @param int         $siteId
+     * @param string $sort
+     * @param int $page
+     * @param int $per_page
+     * @param string $filter
+     * @param int $siteId
      * @param string|null $handled
      *
      * @return Response
@@ -90,12 +88,13 @@ class TablesController extends Controller
      */
     public function actionDashboard(
         string $sort = 'hitCount|desc',
-        int $page = 1,
-        int $per_page = 20,
-        $filter = '',
-        $siteId = 0,
-        $handled = 'all'
-    ): Response {
+        int    $page = 1,
+        int    $per_page = 20,
+               $filter = '',
+               $siteId = 0,
+               $handled = 'all'
+    ): Response
+    {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
         $sortField = 'hitCount';
@@ -122,8 +121,7 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy([$sortField => $sortType])
             ->filterWhere(['like', 'redirectSrcUrl', $filter])
-            ->orFilterWhere(['like', 'referrerUrl', $filter])
-            ;
+            ->orFilterWhere(['like', 'referrerUrl', $filter]);
         if ((int)$siteId !== 0) {
             $query->andWhere(['siteId' => $siteId]);
         }
@@ -136,7 +134,7 @@ class TablesController extends Controller
             foreach ($stats as &$stat) {
                 $stat['addLink'] = '';
                 if (!$stat['handledByRetour']) {
-                    $encodedUrl = urlencode('/'.ltrim($stat['redirectSrcUrl'], '/'));
+                    $encodedUrl = urlencode('/' . ltrim($stat['redirectSrcUrl'], '/'));
                     // Add the siteId to the URL, but keep the current behavior of passing in siteId=0 for "all"
                     $statSiteId = $stat['siteId'] ?? 0;
                     try {
@@ -175,10 +173,10 @@ class TablesController extends Controller
      * Handle requests for the dashboard redirects table
      *
      * @param string $sort
-     * @param int    $page
-     * @param int    $per_page
+     * @param int $page
+     * @param int $per_page
      * @param string $filter
-     * @param null   $siteId
+     * @param null $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException
@@ -186,11 +184,12 @@ class TablesController extends Controller
      */
     public function actionRedirects(
         string $sort = 'hitCount|desc',
-        int $page = 1,
-        int $per_page = 20,
-        $filter = '',
-        $siteId = 0
-    ): Response {
+        int    $page = 1,
+        int    $per_page = 20,
+               $filter = '',
+               $siteId = 0
+    ): Response
+    {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $data = [];
         $sortField = 'hitCount';
@@ -217,8 +216,7 @@ class TablesController extends Controller
             ->limit($per_page)
             ->orderBy([$sortField => $sortType])
             ->filterWhere(['like', 'redirectSrcUrl', $filter])
-            ->orFilterWhere(['like', 'redirectDestUrl', $filter])
-           ;
+            ->orFilterWhere(['like', 'redirectDestUrl', $filter]);
         if ((int)$siteId !== 0) {
             $query->andWhere(['siteId' => $siteId]);
         }
@@ -241,7 +239,7 @@ class TablesController extends Controller
                 }
             }
 
-            $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/'.$redirect['id']);
+            $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/' . $redirect['id']);
         }
         // Format the data for the API
         if ($redirects) {

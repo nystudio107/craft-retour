@@ -35,7 +35,7 @@ class UriValidator extends Validator
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
     }
@@ -43,7 +43,7 @@ class UriValidator extends Validator
     /**
      * @inheritdoc
      */
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): void
     {
         $value = $model->$attribute;
         $redirectMatchType = 'redirectMatchType';
@@ -60,7 +60,7 @@ class UriValidator extends Validator
             return;
         }
         // Make sure there is a leading /
-        $value = '/'.ltrim($value, '/');
+        $value = '/' . ltrim($value, '/');
         $model->$attribute = $value;
     }
 }

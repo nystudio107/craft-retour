@@ -11,17 +11,17 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
+use Craft;
+use craft\errors\MissingComponentException;
+use craft\helpers\UrlHelper;
+use craft\web\Controller;
 use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
-
-use Craft;
-use craft\web\Controller;
-use craft\errors\MissingComponentException;
-use craft\helpers\UrlHelper;
-
+use nystudio107\retour\Retour;
 use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -35,7 +35,7 @@ class StatisticsController extends Controller
     // Constants
     // =========================================================================
 
-    const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+    protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
     // Protected Properties
     // =========================================================================
@@ -48,11 +48,11 @@ class StatisticsController extends Controller
 
     /**
      * @param string|null $siteHandle
-     * @param bool        $showWelcome
+     * @param bool $showWelcome
      *
      * @return Response
      * @throws NotFoundHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionDashboard(string $siteHandle = null, bool $showWelcome = false): Response
     {
@@ -84,7 +84,7 @@ class StatisticsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
-        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -92,7 +92,7 @@ class StatisticsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/dashboard'.$siteHandleUri),
+                'url' => UrlHelper::cpUrl('retour/dashboard' . $siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
@@ -106,7 +106,7 @@ class StatisticsController extends Controller
 
     /**
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionClearStatistics(): Response
     {
@@ -133,10 +133,10 @@ class StatisticsController extends Controller
     /**
      * @return Response|void
      * @throws MissingComponentException
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
      */
-    public function actionDeleteStatistics()
+    public function actionDeleteStatistics(): ?Response
     {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $request = Craft::$app->getRequest();
@@ -166,6 +166,6 @@ class StatisticsController extends Controller
         }
         Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete statistic."));
 
-        return;
+        return null;
     }
 }

@@ -11,8 +11,9 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
 use craft\web\Controller;
+use nystudio107\retour\Retour;
+use yii\web\Response;
 
 /**
  * @author    nystudio107
@@ -40,7 +41,7 @@ class ApiController extends Controller
     /**
      * @inheritDoc
      */
-    public function beforeAction($action)
+    public function beforeAction($action): bool
     {
         if (!Retour::$settings->enableApiEndpoint) {
             $this->allowAnonymous = false;
@@ -51,9 +52,9 @@ class ApiController extends Controller
 
     /**
      * @param null $siteId
-     * @return \yii\web\Response
+     * @return Response
      */
-    public function actionGetRedirects($siteId = null)
+    public function actionGetRedirects($siteId = null): Response
     {
         $redirects = Retour::$plugin->redirects->getAllStaticRedirects(null, $siteId);
 

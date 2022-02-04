@@ -12,7 +12,6 @@
 namespace nystudio107\retour\models;
 
 use nystudio107\retour\validators\DbStringValidator;
-
 use yii\behaviors\AttributeTypecastBehavior;
 
 /**
@@ -28,62 +27,62 @@ class Stats extends DbModel
     /**
      * @var int
      */
-    public $id;
+    public int $id = 0;
 
     /**
      * @var null|int
      */
-    public $siteId;
+    public ?int $siteId = null;
 
     /**
      * @var string
      */
-    public $redirectSrcUrl;
+    public string $redirectSrcUrl = '';
 
     /**
      * @var string
      */
-    public $referrerUrl;
+    public string $referrerUrl = '';
 
     /**
      * @var string
      */
-    public $remoteIp;
+    public string $remoteIp = '';
 
     /**
      * @var string
      */
-    public $userAgent;
+    public string $userAgent = '';
 
     /**
      * @var string
      */
-    public $exceptionMessage;
+    public string $exceptionMessage = '';
 
     /**
      * @var string
      */
-    public $exceptionFilePath;
+    public string $exceptionFilePath = '';
 
     /**
      * @var int
      */
-    public $exceptionFileLine;
+    public int $exceptionFileLine = 0;
 
     /**
      * @var int
      */
-    public $hitCount;
+    public int $hitCount = 0;
 
     /**
      * @var string
      */
-    public $hitLastTime;
+    public string $hitLastTime = '';
 
     /**
      * @var int
      */
-    public $handledByRetour;
+    public int $handledByRetour = 0;
 
     // Public Methods
     // =========================================================================
@@ -91,7 +90,7 @@ class Stats extends DbModel
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['id', 'integer'],
@@ -145,7 +144,7 @@ class Stats extends DbModel
     /**
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'typecast' => [

@@ -12,7 +12,6 @@
 namespace nystudio107\retour\helpers;
 
 use Craft;
-
 use yii\web\ForbiddenHttpException;
 
 /**
@@ -33,7 +32,7 @@ class Permission
      *
      * @throws ForbiddenHttpException
      */
-    public static function controllerPermissionCheck(string $permission)
+    public static function controllerPermissionCheck(string $permission): void
     {
         if (($currentUser = Craft::$app->getUser()->getIdentity()) === null) {
             throw new ForbiddenHttpException('Your account has no identity.');
