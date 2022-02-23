@@ -38,9 +38,12 @@
     }
   },
   "extra": {
-    "name": "Retour",
+    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v4/CHANGELOG.md",
+    "class": "nystudio107\\retour\\Retour",
+    "developer": "nystudio107",
+    "developerUrl": "https://nystudio107.com",
+    "documentationUrl": "https://nystudio107.com/docs/retour/",
     "handle": "retour",
-    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v3/CHANGELOG.md",
-    "class": "nystudio107\\retour\\Retour"
+    "name": "Retour"
   }
 }
