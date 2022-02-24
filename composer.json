@@ -12,8 +12,9 @@
     "statistics"
   ],
   "support": {
-    "docs": "https://nystudio107.com/plugins/retour/documentation",
-    "issues": "https://nystudio107.com/plugins/retour/support"
+    "docs": "https://nystudio107.com/docs/retour/",
+    "issues": "https://nystudio107.com/plugins/retour/support",
+    "source": "https://github.com/nystudio107/craft-retour"
   },
   "license": "proprietary",
   "authors": [
@@ -38,11 +39,7 @@
     }
   },
   "extra": {
-    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v4/CHANGELOG.md",
     "class": "nystudio107\\retour\\Retour",
-    "developer": "nystudio107",
-    "developerUrl": "https://nystudio107.com",
-    "documentationUrl": "https://nystudio107.com/docs/retour/",
     "handle": "retour",
     "name": "Retour"
   }
