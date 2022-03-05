@@ -40,7 +40,7 @@ class StatisticsController extends Controller
     // Protected Properties
     // =========================================================================
 
-    protected $allowAnonymous = [];
+    protected array|bool|int $allowAnonymous = [];
 
     // Public Methods
     // =========================================================================

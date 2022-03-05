@@ -32,7 +32,7 @@ class RetourGenerator implements GeneratorInterface
     /**
      * @inheritdoc
      */
-    public static function generateTypes($context = null): array
+    public static function generateTypes(mixed $context = null): array
     {
         $gqlTypes = [];
         $retourFields = RetourInterface::getFieldDefinitions();

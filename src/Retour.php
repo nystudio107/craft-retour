@@ -211,10 +211,10 @@ class Retour extends Plugin
     /**
      * @inheritdoc
      */
-    public function getSettingsResponse()
+    public function getSettingsResponse(): mixed
     {
         // Just redirect to the plugin settings page
-        Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
+        return Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
     }
 
     /**
