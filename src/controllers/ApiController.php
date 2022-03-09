@@ -31,7 +31,7 @@ class ApiController extends Controller
     /**
      * @inheritdoc
      */
-    protected $allowAnonymous = [
+    protected array|bool|int $allowAnonymous = [
         'get-redirects',
     ];
 

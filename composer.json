@@ -2,7 +2,7 @@
   "name": "nystudio107/craft-retour",
   "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
   "type": "craft-plugin",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "keywords": [
     "craftcms",
     "craft-plugin",
@@ -12,8 +12,9 @@
     "statistics"
   ],
   "support": {
-    "docs": "https://nystudio107.com/plugins/retour/documentation",
-    "issues": "https://nystudio107.com/plugins/retour/support"
+    "docs": "https://nystudio107.com/docs/retour/",
+    "issues": "https://nystudio107.com/plugins/retour/support",
+    "source": "https://github.com/nystudio107/craft-retour"
   },
   "license": "proprietary",
   "authors": [
@@ -38,9 +39,8 @@
     }
   },
   "extra": {
-    "name": "Retour",
+    "class": "nystudio107\\retour\\Retour",
     "handle": "retour",
-    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-retour/v3/CHANGELOG.md",
-    "class": "nystudio107\\retour\\Retour"
+    "name": "Retour"
   }
 }

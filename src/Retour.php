@@ -118,19 +118,19 @@ class Retour extends Plugin
      */
     public static bool $craft35 = false;
 
-    // Static Methods
+    // Public Properties
     // =========================================================================
+
     /**
      * @var string
      */
     public string $schemaVersion = '3.0.10';
 
-    // Public Properties
-    // =========================================================================
     /**
      * @var bool
      */
     public bool $hasCpSection = true;
+
     /**
      * @var bool
      */
@@ -198,6 +198,74 @@ class Retour extends Plugin
             __METHOD__
         );
     }
+
+    /**
+     * Clear all the caches!
+     */
+    public function clearAllCaches(): void
+    {
+        // Clear all of Retour's caches
+        self::$plugin->redirects->invalidateCaches();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSettingsResponse(): mixed
+    {
+        // Just redirect to the plugin settings page
+        return Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCpNavItem(): ?array
+    {
+        $subNavs = [];
+        $navItem = parent::getCpNavItem();
+        $currentUser = Craft::$app->getUser()->getIdentity();
+        // Only show sub-navs the user has permission to view
+        if ($currentUser->can('retour:dashboard')) {
+            $subNavs['dashboard'] = [
+                'label' => 'Dashboard',
+                'url' => 'retour/dashboard',
+            ];
+        }
+        if ($currentUser->can('retour:redirects')) {
+            $subNavs['redirects'] = [
+                'label' => 'Redirects',
+                'url' => 'retour/redirects',
+            ];
+        }
+        $editableSettings = true;
+        $general = Craft::$app->getConfig()->getGeneral();
+        if (self::$craft31 && !$general->allowAdminChanges) {
+            $editableSettings = false;
+        }
+        if ($currentUser->can('retour:settings') && $editableSettings) {
+            $subNavs['settings'] = [
+                'label' => 'Settings',
+                'url' => 'retour/settings',
+            ];
+        }
+        // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
+        if (empty($subNavs)) {
+            return null;
+        }
+        // A single sub nav item is redundant
+        if (count($subNavs) === 1) {
+            $subNavs = [];
+        }
+        $navItem = array_merge($navItem, [
+            'subnav' => $subNavs,
+        ]);
+
+        return $navItem;
+    }
+
+    // Protected Methods
+    // =========================================================================
 
     /**
      * Install our event listeners.
@@ -410,9 +478,6 @@ class Retour extends Plugin
         }
     }
 
-    // Protected Methods
-    // =========================================================================
-
     /**
      * Handle site requests.  We do it only after we receive the event
      * EVENT_AFTER_LOAD_PLUGINS so that any pending db migrations can be run
@@ -590,71 +655,6 @@ class Retour extends Plugin
                 'action' => [self::$plugin->redirects, 'invalidateCaches'],
             ],
         ];
-    }
-
-    /**
-     * Clear all the caches!
-     */
-    public function clearAllCaches(): void
-    {
-        // Clear all of Retour's caches
-        self::$plugin->redirects->invalidateCaches();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSettingsResponse()
-    {
-        // Just redirect to the plugin settings page
-        Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('retour/settings'));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCpNavItem(): ?array
-    {
-        $subNavs = [];
-        $navItem = parent::getCpNavItem();
-        $currentUser = Craft::$app->getUser()->getIdentity();
-        // Only show sub-navs the user has permission to view
-        if ($currentUser->can('retour:dashboard')) {
-            $subNavs['dashboard'] = [
-                'label' => 'Dashboard',
-                'url' => 'retour/dashboard',
-            ];
-        }
-        if ($currentUser->can('retour:redirects')) {
-            $subNavs['redirects'] = [
-                'label' => 'Redirects',
-                'url' => 'retour/redirects',
-            ];
-        }
-        $editableSettings = true;
-        $general = Craft::$app->getConfig()->getGeneral();
-        if (self::$craft31 && !$general->allowAdminChanges) {
-            $editableSettings = false;
-        }
-        if ($currentUser->can('retour:settings') && $editableSettings) {
-            $subNavs['settings'] = [
-                'label' => 'Settings',
-                'url' => 'retour/settings',
-            ];
-        }
-        // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
-        if (empty($subNavs)) {
-            return null;
-        }
-        // A single sub nav item is redundant
-        if (count($subNavs) === 1) {
-            $subNavs = [];
-        }
-        $navItem = array_merge($navItem, [
-            'subnav' => $subNavs,
-        ]);
-
-        return $navItem;
     }
 
     /**
