@@ -591,7 +591,10 @@ class Retour extends Plugin
                     __METHOD__
                 );
                 // Register our custom permissions
-                $event->permissions[Craft::t('retour', 'Retour')] = $this->customAdminCpPermissions();
+                $event->permissions[] = [
+                    'heading' => Craft::t('retour', 'Retour'),
+                    'permissions' => $this->customAdminCpPermissions(),
+                ];
             }
         );
     }

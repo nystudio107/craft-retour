@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 4.0.0-beta.3 - 2022.03.18
+
+### Fixed
+
+* Fix registering permissions ([#224](https://github.com/nystudio107/craft-retour/issues/224))
+
 ## 4.0.0-beta.2 - 2022.03.04
 
 ### Fixed

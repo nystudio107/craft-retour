@@ -2,7 +2,7 @@
   "name": "nystudio107/craft-retour",
   "description": "Retour allows you to intelligently redirect legacy URLs, so that you don't lose SEO value when rebuilding & restructuring a website",
   "type": "craft-plugin",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "keywords": [
     "craftcms",
     "craft-plugin",
@@ -28,7 +28,7 @@
     "vlucas/phpdotenv": "^3.0"
   },
   "require": {
-    "craftcms/cms": "^4.0.0-alpha",
+    "craftcms/cms": "^4.0.0-beta.1",
     "nystudio107/craft-plugin-vite": "^4.0.0-beta.1",
     "league/csv": "^8.2 || ^9.0",
     "jean85/pretty-package-versions": "^1.5 || ^2.0"
