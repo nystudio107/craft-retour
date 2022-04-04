@@ -23,12 +23,12 @@ export default {
   computed: {
     linkHref: function () {
       let url = this.rowData.redirectSrcUrl;
-      if (typeof url === undefined || url === '') {
+      if (typeof url === 'undefined' || url === '') {
         return '';
       }
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
-        url = Craft.getSiteUrl(Craft.trim(url, '/'));
+        url = Craft.getSiteUrl(url);
       }
 
       return url;
