@@ -36,14 +36,10 @@ use craft\utilities\ClearCaches;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
-use markhuot\CraftQL\Builders\Schema;
-use markhuot\CraftQL\CraftQL;
-use markhuot\CraftQL\Events\AlterSchemaFields;
 use nystudio107\pluginvite\services\VitePluginService;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
-use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Events;
 use nystudio107\retour\services\Redirects;
@@ -467,14 +463,6 @@ class Retour extends Plugin
                     }
                 );
             }
-        }
-        // CraftQL Support
-        if (class_exists(CraftQL::class)) {
-            Event::on(
-                Schema::class,
-                AlterSchemaFields::EVENT,
-                [GetCraftQLSchema::class, 'handle']
-            );
         }
     }
 
