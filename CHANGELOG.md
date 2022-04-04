@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.71 - UNRELEASED
+### Changed
+* No longer trim `/` from URLs that are presented in the Retour Dashboard ([#227](https://github.com/nystudio107/craft-retour/issues/227))
+
 ## 3.1.70 - 2022.01.17
 
 ### Fixed
