@@ -23,7 +23,7 @@ export default {
   computed: {
     linkHref: function () {
       let url = this.rowData.redirectSrcUrl;
-      if (typeof url === undefined || url === '') {
+      if (typeof url === 'undefined' || url === '') {
         return '';
       }
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
