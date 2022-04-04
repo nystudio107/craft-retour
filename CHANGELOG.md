@@ -3,6 +3,8 @@
 ## 4.0.0-beta.4 - UNRELEASED
 ### Changed
 * No longer trim `/` from URLs that are presented in the Retour Dashboard ([#227](https://github.com/nystudio107/craft-retour/issues/227))
+* Remove deprecated CraftQL support
+* Remove unneeded feature checks based on Craft 3.x versions
 
 ## 4.0.0-beta.3 - 2022.03.18
 
