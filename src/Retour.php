@@ -152,7 +152,7 @@ class Retour extends Plugin
         $this->name = self::$settings->pluginName;
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
-            : null;
+            : 0;
         // Handle any console commands
         $request = Craft::$app->getRequest();
         if ($request->getIsConsoleRequest()) {
