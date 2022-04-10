@@ -36,14 +36,10 @@ use craft\utilities\ClearCaches;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
-use markhuot\CraftQL\Builders\Schema;
-use markhuot\CraftQL\CraftQL;
-use markhuot\CraftQL\Events\AlterSchemaFields;
 use nystudio107\pluginvite\services\VitePluginService;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
-use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\Events;
 use nystudio107\retour\services\Redirects;
@@ -97,26 +93,6 @@ class Retour extends Plugin
      * @var HttpException
      */
     public static HttpException $currentException;
-
-    /**
-     * @var bool
-     */
-    public static bool $craft31 = false;
-
-    /**
-     * @var bool
-     */
-    public static bool $craft32 = false;
-
-    /**
-     * @var bool
-     */
-    public static bool $craft33 = false;
-
-    /**
-     * @var bool
-     */
-    public static bool $craft35 = false;
 
     // Public Properties
     // =========================================================================
@@ -173,14 +149,10 @@ class Retour extends Plugin
         self::$plugin = $this;
         // Initialize properties
         self::$settings = $this->getSettings();
-        self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
-        self::$craft32 = version_compare(Craft::$app->getVersion(), '3.2', '>=');
-        self::$craft33 = version_compare(Craft::$app->getVersion(), '3.3', '>=');
-        self::$craft35 = version_compare(Craft::$app->getVersion(), '3.5', '>=');
         $this->name = self::$settings->pluginName;
         self::$cacheDuration = Craft::$app->getConfig()->getGeneral()->devMode
             ? $this::DEVMODE_CACHE_DURATION
-            : null;
+            : 0;
         // Handle any console commands
         $request = Craft::$app->getRequest();
         if ($request->getIsConsoleRequest()) {
@@ -240,7 +212,7 @@ class Retour extends Plugin
         }
         $editableSettings = true;
         $general = Craft::$app->getConfig()->getGeneral();
-        if (self::$craft31 && !$general->allowAdminChanges) {
+        if (!$general->allowAdminChanges) {
             $editableSettings = false;
         }
         if ($currentUser->can('retour:settings') && $editableSettings) {
@@ -368,9 +340,7 @@ class Retour extends Plugin
                 if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
                     $checkElementSlug = true;
                     // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
-                    if (Retour::$craft32 && (
-                        ElementHelper::isDraftOrRevision($element)
-                        )) {
+                    if (ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
                     // Only do this for elements that aren't new, pass $checkElementSlug, and the user
@@ -398,7 +368,7 @@ class Retour extends Plugin
                 $element = $event->element;
                 if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
                     $checkElementSlug = true;
-                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
+                    if (ElementHelper::isDraftOrRevision($element)) {
                         $checkElementSlug = false;
                     }
                     if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
@@ -424,58 +394,46 @@ class Retour extends Plugin
                 }
             }
         );
-        if (self::$craft33) {
-            // Handler: Gql::EVENT_REGISTER_GQL_TYPES
-            Event::on(
-                Gql::class,
-                Gql::EVENT_REGISTER_GQL_TYPES,
-                static function (RegisterGqlTypesEvent $event) {
-                    Craft::debug(
-                        'Gql::EVENT_REGISTER_GQL_TYPES',
-                        __METHOD__
-                    );
-                    $event->types[] = RetourInterface::class;
-                }
-            );
-            // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
-            Event::on(
-                Gql::class,
-                Gql::EVENT_REGISTER_GQL_QUERIES,
-                static function (RegisterGqlQueriesEvent $event) {
-                    Craft::debug(
-                        'Gql::EVENT_REGISTER_GQL_QUERIES',
-                        __METHOD__
-                    );
-                    $queries = RetourQuery::getQueries();
-                    foreach ($queries as $key => $value) {
-                        $event->queries[$key] = $value;
-                    }
-                }
-            );
-            if (self::$craft35) {
-                // Handler: Gql::EVENT_REGISTER_SCHEMA_COMPONENTS
-                Event::on(
-                    Gql::class,
-                    Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
-                    static function (RegisterGqlSchemaComponentsEvent $event) {
-                        Craft::debug(
-                            'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
-                            __METHOD__
-                        );
-                        $label = Craft::t('retour', 'Retour');
-                        $event->queries[$label]['retour.all:read'] = ['label' => Craft::t('retour', 'Query Retour data')];
-                    }
+        // Handler: Gql::EVENT_REGISTER_GQL_TYPES
+        Event::on(
+            Gql::class,
+            Gql::EVENT_REGISTER_GQL_TYPES,
+            static function (RegisterGqlTypesEvent $event) {
+                Craft::debug(
+                    'Gql::EVENT_REGISTER_GQL_TYPES',
+                    __METHOD__
                 );
+                $event->types[] = RetourInterface::class;
             }
-        }
-        // CraftQL Support
-        if (class_exists(CraftQL::class)) {
-            Event::on(
-                Schema::class,
-                AlterSchemaFields::EVENT,
-                [GetCraftQLSchema::class, 'handle']
-            );
-        }
+        );
+        // Handler: Gql::EVENT_REGISTER_GQL_QUERIES
+        Event::on(
+            Gql::class,
+            Gql::EVENT_REGISTER_GQL_QUERIES,
+            static function (RegisterGqlQueriesEvent $event) {
+                Craft::debug(
+                    'Gql::EVENT_REGISTER_GQL_QUERIES',
+                    __METHOD__
+                );
+                $queries = RetourQuery::getQueries();
+                foreach ($queries as $key => $value) {
+                    $event->queries[$key] = $value;
+                }
+            }
+        );
+        // Handler: Gql::EVENT_REGISTER_SCHEMA_COMPONENTS
+        Event::on(
+            Gql::class,
+            Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
+            static function (RegisterGqlSchemaComponentsEvent $event) {
+                Craft::debug(
+                    'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
+                    __METHOD__
+                );
+                $label = Craft::t('retour', 'Retour');
+                $event->queries[$label]['retour.all:read'] = ['label' => Craft::t('retour', 'Query Retour data')];
+            }
+        );
     }
 
     /**

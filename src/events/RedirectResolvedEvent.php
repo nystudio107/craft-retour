@@ -24,7 +24,7 @@ class RedirectResolvedEvent extends ResolveRedirectEvent
     // =========================================================================
 
     /**
-     * @var StaticRedirects|array The redirect that was resolved
+     * @var StaticRedirects|array|null The redirect that was resolved
      */
     public StaticRedirects|array|null $redirect = null;
 }

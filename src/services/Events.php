@@ -73,38 +73,6 @@ class Events extends Component
     }
 
     /**
-     * Get the URIs for each site for the element
-     *
-     * @param Element $element
-     *
-     * @return array
-     */
-    protected function getAllElementUris(Element $element): array
-    {
-        $uris = [];
-        if (!Retour::$craft32 || !ElementHelper::isDraftOrRevision($element)) {
-            $sites = Craft::$app->getSites()->getAllSites();
-            foreach ($sites as $site) {
-                $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
-                if ($uri !== null) {
-                    $uris[$site->id] = $uri;
-                }
-            }
-        }
-
-        Craft::debug(
-            Craft::t(
-                'retour',
-                'Getting Element URIs: {uris}',
-                ['uris' => print_r($uris, true)]
-            ),
-            __METHOD__
-        );
-
-        return $uris;
-    }
-
-    /**
      * @param Element $element
      */
     public function handleElementUriChange(Element $element): void
@@ -175,5 +143,37 @@ class Events extends Component
                 }
             }
         }
+    }
+
+    /**
+     * Get the URIs for each site for the element
+     *
+     * @param Element $element
+     *
+     * @return array
+     */
+    protected function getAllElementUris(Element $element): array
+    {
+        $uris = [];
+        if (!ElementHelper::isDraftOrRevision($element)) {
+            $sites = Craft::$app->getSites()->getAllSites();
+            foreach ($sites as $site) {
+                $uri = Craft::$app->getElements()->getElementUriForSite($element->id, $site->id);
+                if ($uri !== null) {
+                    $uris[$site->id] = $uri;
+                }
+            }
+        }
+
+        Craft::debug(
+            Craft::t(
+                'retour',
+                'Getting Element URIs: {uris}',
+                ['uris' => print_r($uris, true)]
+            ),
+            __METHOD__
+        );
+
+        return $uris;
     }
 }

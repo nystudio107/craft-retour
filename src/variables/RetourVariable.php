@@ -11,10 +11,9 @@
 
 namespace nystudio107\retour\variables;
 
-use nystudio107\retour\Retour;
-
 use nystudio107\pluginvite\variables\ViteVariableInterface;
 use nystudio107\pluginvite\variables\ViteVariableTrait;
+use nystudio107\retour\Retour;
 
 /**
  * @author    nystudio107
@@ -55,7 +54,7 @@ class RetourVariable implements ViteVariableInterface
      */
     public function craft31(): bool
     {
-        return Retour::$craft31;
+        return true;
     }
 
     /**
@@ -65,6 +64,6 @@ class RetourVariable implements ViteVariableInterface
      */
     public function craft32(): bool
     {
-        return Retour::$craft32;
+        return true;
     }
 }
