@@ -5,20 +5,20 @@
       class=""
     >
       <form
-        method="post"
         accept-charset="UTF-8"
+        method="post"
       >
         <input
-          type="hidden"
           :name="csrfTokenName"
           :value="csrfTokenValue"
+          type="hidden"
         >
         <input
           v-for="selectedId in selectedIds"
           :key="selectedId"
-          type="hidden"
-          name="redirectIds[]"
           :value="selectedId"
+          name="redirectIds[]"
+          type="hidden"
         >
         <label class="text-gray-600">{{ numSelected }} redirect<span v-if="numSelected !== 1">s</span>:</label>
         <div class="btngroup inline">
@@ -62,8 +62,8 @@
               name="perPage"
             >
               <option
-                value="20"
                 selected
+                value="20"
               >
                 20
               </option>
@@ -89,11 +89,11 @@
     <vuetable
       ref="vuetable"
       :api-url="apiUrl"
-      :per-page="perPage"
-      :fields="fields"
-      :css="css"
-      :sort-order="sortOrder"
       :append-params="moreParams"
+      :css="css"
+      :fields="fields"
+      :per-page="perPage"
+      :sort-order="sortOrder"
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter border-solid">
@@ -158,7 +158,7 @@ export default {
       selectedIds: [],
       filterText: '',
       perPage: 20,
-   }
+    }
   },
   computed: {
     csrfTokenName: function () {
@@ -242,7 +242,7 @@ export default {
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
-        url = Craft.getSiteUrl(Craft.trim(value, '/'));
+        url = Craft.getSiteUrl(value);
       }
       return `
                 <a class="go" href="${url}" title="${url}" target="_blank" rel="noopener">${value}</a>
