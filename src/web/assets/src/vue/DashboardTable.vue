@@ -237,7 +237,7 @@ export default {
       const cacheKey = 'retour-dashboard-state-' + Craft.username + Craft.siteId;
       return {
         'cacheKey': cacheKey,
-        'ignoreProperties': ['numSelected', 'selectedIds'],
+        'ignoreProperties': ['numSelected', 'selectedIds', 'moreParams'],
       };
     },
     onFilterSet(filterText) {

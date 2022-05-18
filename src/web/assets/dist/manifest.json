@@ -1,14 +1,14 @@
 {
   "../src/web/assets/src/js/Dashboard.js": {
-    "file": "assets/dashboard.4afe8ebe.js",
+    "file": "assets/dashboard.99e154bc.js",
     "src": "../src/web/assets/src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.27a316dc.js",
+      "_purify.es.a934c695.js",
       "_vueComponentNormalizer.9fe6193d.js",
-      "_vue-apexcharts.243efc42.js"
+      "_vue-apexcharts.f4d03252.js"
     ],
-    "integrity": "sha384-Hk/15ZhUJ/msq9vKC3bSQ9B5vfJd+9DL0rb1zjJ+hbUEGax6Lpt63DVD9/WuugBR"
+    "integrity": "sha384-rBG6qaf+3GnJ04uRSmi4KyXPZCjmN8xARJXVSAWFm9gfGstvOVX3RmXwv6ivXFuI"
   },
   "../src/web/assets/src/js/Import.js": {
     "file": "assets/import.c002a270.js",
@@ -20,14 +20,14 @@
     "integrity": "sha384-uWR37vXQi9+HnpAEptVD7GLDxK7uGaoUPz0rw1iEH9dgOvz53ww59l/4WaHxUEjb"
   },
   "../src/web/assets/src/js/Redirects.js": {
-    "file": "assets/redirects.f1e01b5d.js",
+    "file": "assets/redirects.38462adc.js",
     "src": "../src/web/assets/src/js/Redirects.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.27a316dc.js",
+      "_purify.es.a934c695.js",
       "_vueComponentNormalizer.9fe6193d.js"
     ],
-    "integrity": "sha384-w9pEfKb1ejsiwTMptKKbGjSJTNa7TWbMXywdNCjoL7UBk2HsGMF9gY/2j3+KZvLk"
+    "integrity": "sha384-3Fp/okJoUct+nCrBnLRhEb0oL0G1rQNd+SbWQ9LA7Tc06RvYPovYAOfGlqje3Uov"
   },
   "../src/web/assets/src/js/Retour.js": {
     "file": "assets/retour.56717911.js",
@@ -39,34 +39,34 @@
     "integrity": "sha384-JVbdRhpt9+ouhVfJmvzz9Sa4vZKvyTw95QWFW3/We9qu2fuFra3YLnz8EDfGUsFd"
   },
   "../src/web/assets/src/js/Widget.js": {
-    "file": "assets/widget.11ccd51c.js",
+    "file": "assets/widget.ffdbf2c7.js",
     "src": "../src/web/assets/src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts.243efc42.js",
+      "_vue-apexcharts.f4d03252.js",
       "_vueComponentNormalizer.9fe6193d.js"
     ],
-    "integrity": "sha384-xt2tZhFYnTdhAf5Edia2ra2IB1WxfiTJRBNa22BsAaiMe0aEfdArQQ935Z78Glxu"
+    "integrity": "sha384-p7V1qUCyUEnlQ9knWXKbLAWKKgcCDw1otZJGpYuG9JRC63bNBDVp8X2m2PuGNo/0"
   },
-  "_purify.es.27a316dc.js": {
-    "file": "assets/purify.es.27a316dc.js",
+  "_purify.es.a934c695.js": {
+    "file": "assets/purify.es.a934c695.js",
     "imports": [
       "_vueComponentNormalizer.9fe6193d.js"
     ],
     "css": [
       "assets/purify.es.25096ecc.css"
     ],
-    "integrity": "sha384-A+kyTZyESp0Ny9bWRLLhmtAV1HGyNfdf9pf4vBAq8MKcQDuaPwEWrbgK7vuXdMll"
+    "integrity": "sha384-rXa415IXfjBcFBB7wlqiCN+H/K46e0pYz+lvMfGa+chSCVqXFYsjKb51Cp6qSVmz"
   },
   "_vueComponentNormalizer.9fe6193d.js": {
     "file": "assets/vueComponentNormalizer.9fe6193d.js",
     "integrity": "sha384-467zWMadGMoiTkReF6Q17Kh2DWEEHz33q0yFVKa2JO8I2vnAOYvSMdGpvxdZz63t"
   },
-  "_vue-apexcharts.243efc42.js": {
-    "file": "assets/vue-apexcharts.243efc42.js",
+  "_vue-apexcharts.f4d03252.js": {
+    "file": "assets/vue-apexcharts.f4d03252.js",
     "imports": [
       "_vueComponentNormalizer.9fe6193d.js"
     ],
-    "integrity": "sha384-NBrw3vdle3dHT+zrEI6NOfkhdDASAM30LEOj+06hd8dlA4y92vqjUQ/hLOXk7ZeH"
+    "integrity": "sha384-KjAco/8M2Rx23lMQyONXVOn/8MN7g2rfIO5y6LQQyJX1fwDqzXkxGcsIUrLAj8dI"
   }
 }
