@@ -47,7 +47,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop"/>
+      <vuetable-pagination-info ref="paginationInfoTop" />
 
       <div class="floated left pl-3 pt-3 text-gray-600">
         <div class="select">
@@ -121,7 +121,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfo"/>
+      <vuetable-pagination-info ref="paginationInfo" />
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
