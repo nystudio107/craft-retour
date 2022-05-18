@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 4.0.0 - 2022.05.18
+### Added
+* Initial release for Craft CMS 4
+
+### Fixed
+* Fixed an issue where the Dashboard didn't property narrow results down to the selected site, due to `moreParams` being saved in the object state ([#236](https://github.com/nystudio107/craft-retour/issues/236))
+* Fixed an issue where the Redirects didn't property narrow results down to the selected site, due to `moreParams` being saved in the object state ([#235](https://github.com/nystudio107/craft-retour/issues/235))
+
 ## 4.0.0-beta.4 - 2022.04.09
 ### Changed
 * No longer trim `/` from URLs that are presented in the Retour Dashboard ([#227](https://github.com/nystudio107/craft-retour/issues/227))
