@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.0.1 - UNRELEASED
+## 4.0.1 - 2022.05.31
 ### Fixed
 * Fixed a "must not be accessed before initialization" error that could occur using GraphQL ([#238](https://github.com/nystudio107/craft-retour/issues/238))
 
