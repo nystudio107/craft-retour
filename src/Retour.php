@@ -77,22 +77,22 @@ class Retour extends Plugin
     /**
      * @var Retour
      */
-    public static Plugin $plugin;
+    public static ?Plugin $plugin = null;
 
     /**
-     * @var Settings
+     * @var ?Settings
      */
-    public static Settings $settings;
+    public static ?Settings $settings = null;
 
     /**
      * @var int
      */
-    public static int $cacheDuration;
+    public static int $cacheDuration = 0;
 
     /**
-     * @var HttpException
+     * @var ?HttpException
      */
-    public static HttpException $currentException;
+    public static ?HttpException $currentException = null;
 
     // Public Properties
     // =========================================================================
