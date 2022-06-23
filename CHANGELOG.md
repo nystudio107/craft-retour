@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.1.73 - 2022.06.22
+### Changed
+* Removed the sub resource integrity on the built JavaScript, which could fail if systems were set up that manipulated the incoming JavaScript resources dynamically ([#229](https://github.com/nystudio107/craft-retour/issues/229))
+
 ## 3.1.72 - 2022.05.18
 ### Fixed
 * Fixed an issue where the Dashboard didn't property narrow results down to the selected site, due to `moreParams` being saved in the object state ([#236](https://github.com/nystudio107/craft-retour/issues/236))
