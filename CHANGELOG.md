@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.0.2 - 2022.06.22
+### Changed
+* Removed the sub resource integrity on the built JavaScript, which could fail if systems were set up that manipulated the incoming JavaScript resources dynamically ([#229](https://github.com/nystudio107/craft-retour/issues/229))
+
 ## 4.0.1 - 2022.05.31
 ### Fixed
 * Fixed a "must not be accessed before initialization" error that could occur using GraphQL ([#238](https://github.com/nystudio107/craft-retour/issues/238))
