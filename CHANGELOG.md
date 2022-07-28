@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## Unreleased
+### Improved
+* Improved the performance when resolving exact match redirects. ([#217](https://github.com/nystudio107/craft-retour/pull/217))
+
 ## 3.1.73 - 2022.06.22
 ### Changed
 * Removed the sub resource integrity on the built JavaScript, which could fail if systems were set up that manipulated the incoming JavaScript resources dynamically ([#229](https://github.com/nystudio107/craft-retour/issues/229))
