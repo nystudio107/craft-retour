@@ -12,7 +12,9 @@
 namespace nystudio107\retour;
 
 use craft\events\RegisterGqlSchemaComponentsEvent;
+use craft\services\Fields;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\fields\ShortLink as ShortLinkField;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
@@ -427,6 +429,14 @@ class Retour extends Plugin
                 if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleAdminCpRequest();
                 }
+            }
+        );
+        // Handler: Fields::EVENT_REGISTER_FIELD_TYPES
+        Event::on(
+            Fields::class,
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = ShortLinkField::class;
             }
         );
         if (self::$craft33) {

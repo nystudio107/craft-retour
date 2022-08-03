@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\services;
 
+use craft\base\ElementInterface;
 use nystudio107\retour\Retour;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
@@ -828,6 +829,28 @@ class Redirects extends Component
     }
 
     /**
+     * Return a redirect by redirectDestUrl
+     *
+     * @param string   $redirectDestUrl
+     * @param int|null $siteId
+     *
+     * @return null|array
+     */
+    public function getRedirectsByElementId(int $elementId, int $siteId = null)
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->where(['associatedElementId' => $elementId])
+        ;
+        if ($siteId !== null) {
+            $query->andWhere(['siteId' => $siteId]);
+        }
+
+        return $query->all();
+    }
+
+    /**
      * Delete a redirect by id
      *
      * @param int $id
@@ -887,6 +910,44 @@ class Redirects extends Component
                 Craft::debug('Rows affected: '.$rowsAffected, __METHOD__);
             } catch (\Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
+            }
+        }
+    }
+
+    /**
+     * Save an element redirect.
+     *
+     * @param ElementInterface $element
+     * @param array $fieldValue
+     */
+    public function enableElementRedirect(ElementInterface $element, array $fieldValue)
+    {
+        $redirectConfig = [
+            'redirectMatchType' => 'exactmatch',
+            'redirectSrcUrl' => $fieldValue['redirectSrcUrl'],
+            'siteId' => $element->siteId,
+            'associatedElementId' => $element->getCanonicalId(),
+            'enabled' => true,
+            'redirectSrcMatch' => 'pathonly',
+            'redirectDestUrl' => $element->getUrl(),
+            'redirectHttpCode' => $fieldValue['redirectHttpCode'],
+        ];
+
+        $this->saveRedirect($redirectConfig);
+    }
+
+    /**
+     * Delete an element redirect.
+     *
+     * @param ElementInterface $element
+     */
+    public function removeElementRedirect(ElementInterface $element, bool $allSites = false)
+    {
+        $redirects = $this->getRedirectsByElementId($element->getCanonicalId(), $allSites ? null : $element->siteId);
+
+        if (!empty($redirects)) {
+            foreach ($redirects as $redirect) {
+                $this->deleteRedirectById($redirect['id']);
             }
         }
     }
