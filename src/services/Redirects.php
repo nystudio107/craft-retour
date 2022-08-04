@@ -687,7 +687,7 @@ class Redirects extends Component
      *
      * @return array All of the regex match redirects
      */
-    public function getAllRegExRedirects($limit = null, int $siteId = null): array
+    public function getAllRegExRedirects(int $limit = null, int $siteId = null): array
     {
         // Cache it in our class; no need to fetch it more than once
         if ($this->cachedRegExRedirects !== null) {
@@ -708,7 +708,7 @@ class Redirects extends Component
      *
      * @return array All of the regex match redirects
      */
-    public function getAllExactMatchRedirects($limit = null, int $siteId = null): array
+    public function getAllExactMatchRedirects(int $limit = null, int $siteId = null): array
     {
         // Cache it in our class; no need to fetch it more than once
         if ($this->cachedExactMatchRedirects !== null) {
@@ -724,12 +724,12 @@ class Redirects extends Component
     }
 
     /**
-     * @param null $limit
+     * @param int|null $limit
      * @param int|null $siteId
      * @param string $type
      * @return array
      */
-    protected function getRedirectsByMatchType($limit = null, int $siteId = null, string $type): array
+    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type): array
     {
         // Query the db table
         $query = (new Query())
