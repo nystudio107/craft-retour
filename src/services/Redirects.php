@@ -829,9 +829,9 @@ class Redirects extends Component
     }
 
     /**
-     * Return a redirect by redirectDestUrl
+     * Return redirects for a given element.
      *
-     * @param string   $redirectDestUrl
+     * @param int $elementId
      * @param int|null $siteId
      *
      * @return null|array
