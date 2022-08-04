@@ -57,7 +57,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
 
         // Render the input template
         return Craft::$app->getView()->renderTemplate(
-            'retour/_components/fields/Retour_input',
+            'retour/_components/fields/ShortLink_input',
             [
                 'value' => is_array($decoded) ? $decoded : [],
                 'fieldName' => $this->handle
