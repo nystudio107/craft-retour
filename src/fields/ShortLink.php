@@ -34,7 +34,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public static function displayName(): string
     {
-        return Craft::t('retour', 'Retour');
+        return Craft::t('retour', 'Short Link');
     }
 
     // Public Methods
