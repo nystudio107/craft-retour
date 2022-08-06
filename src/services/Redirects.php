@@ -13,6 +13,7 @@ namespace nystudio107\retour\services;
 
 use Craft;
 use craft\base\Component;
+use craft\base\ElementInterface;
 use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
@@ -151,6 +152,16 @@ class Redirects extends Component
      */
     protected ?array $cachedStaticRedirects = null;
 
+    /**
+     * @var null|array
+     */
+    protected ?array $cachedRegExRedirects = [];
+
+    /**
+     * @var null|array
+     */
+    protected ?array $cachedExactMatchRedirects = [];
+
     // Public Methods
     // =========================================================================
 
@@ -288,8 +299,17 @@ class Redirects extends Component
 
             return $redirect;
         }
+
+        $redirect = $this->getStaticRedirect($fullUrl, $pathOnly, $siteId);
+        if ($redirect) {
+            $this->incrementRedirectHitCount($redirect);
+            $this->saveRedirectToCache($pathOnly, $redirect);
+
+            return $redirect;
+        }
+
         // Resolve static redirects
-        $redirects = $this->getAllStaticRedirects(null, $siteId);
+        $redirects = $this->getAllRegExRedirects(null, $siteId);
         $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
         if ($redirect) {
             return $redirect;
@@ -390,6 +410,114 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    /**
+     * @param string $fullUrl
+     * @param string $pathOnly
+     * @param $siteId
+     * @return mixed|null
+     */
+    public function getStaticRedirect(string $fullUrl, string $pathOnly, $siteId)
+    {
+        $staticCondition = ['redirectMatchType' => 'exactmatch'];
+        $siteCondition = [
+            'or',
+            ['siteId' => $siteId],
+            ['siteId' => null]
+        ];
+        $pathCondition = [
+            'or',
+            ['and',
+                ['redirectSrcMatch' => 'pathonly'],
+                ['redirectSrcUrlParsed' => $pathOnly]
+            ],
+            ['and',
+                ['redirectSrcMatch' => 'fullurl'],
+                ['redirectSrcUrlParsed' => $fullUrl]
+            ],
+        ];
+
+        $query = (new Query)
+            ->from('{{%retour_static_redirects}}')
+            ->where(['and',
+                $staticCondition,
+                $pathCondition,
+                $siteCondition
+            ])
+            ->limit(1);
+
+        return $query->one();
+    }
+
+    /**
+     * @param null|int $limit
+     * @param int|null $siteId
+     *
+     * @return array All of the regex match redirects
+     */
+    public function getAllRegExRedirects(int $limit = null, int $siteId = null): array
+    {
+        // Cache it in our class; no need to fetch it more than once
+        if ($this->cachedRegExRedirects !== null) {
+            return $this->cachedRegExRedirects;
+        }
+
+        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'regexmatch');
+
+        // Cache for future accesses
+        $this->cachedRegExRedirects = $redirects;
+
+        return $redirects;
+    }
+
+    /**
+     * @param null|int $limit
+     * @param int|null $siteId
+     *
+     * @return array All of the regex match redirects
+     */
+    public function getAllExactMatchRedirects(int $limit = null, int $siteId = null): array
+    {
+        // Cache it in our class; no need to fetch it more than once
+        if ($this->cachedExactMatchRedirects !== null) {
+            return $this->cachedExactMatchRedirects;
+        }
+
+        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch');
+
+        // Cache for future accesses
+        $this->cachedExactMatchRedirects = $redirects;
+
+        return $redirects;
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $siteId
+     * @param string $type
+     * @return array
+     */
+    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type): array
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
+
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        $query->andWhere(['redirectMatchType' => $type]);
+
+        return $query->all();
     }
 
     /**
@@ -775,6 +903,66 @@ class Redirects extends Component
         }
 
         return $result;
+    }
+
+    /**
+     * Save an element redirect.
+     *
+     * @param ElementInterface $element
+     * @param array $fieldValue
+     */
+    public function enableElementRedirect(ElementInterface $element, array $fieldValue): void
+    {
+        $redirectConfig = [
+            'redirectMatchType' => 'exactmatch',
+            'redirectSrcUrl' => $fieldValue['redirectSrcUrl'],
+            'siteId' => $element->siteId,
+            'associatedElementId' => $element->getCanonicalId(),
+            'enabled' => true,
+            'redirectSrcMatch' => 'pathonly',
+            'redirectDestUrl' => $element->getUrl(),
+            'redirectHttpCode' => $fieldValue['redirectHttpCode'],
+        ];
+
+        $this->saveRedirect($redirectConfig);
+    }
+
+    /**
+     * Delete an element redirect.
+     *
+     * @param ElementInterface $element
+     */
+    public function removeElementRedirect(ElementInterface $element, bool $allSites = false): void
+    {
+        $redirects = $this->getRedirectsByElementId($element->getCanonicalId(), $allSites ? null : $element->siteId);
+
+        if (!empty($redirects)) {
+            foreach ($redirects as $redirect) {
+                $this->deleteRedirectById($redirect['id']);
+            }
+        }
+    }
+
+    /**
+     * Return redirects for a given element.
+     *
+     * @param int $elementId
+     * @param int|null $siteId
+     *
+     * @return null|array
+     */
+    public function getRedirectsByElementId(int $elementId, int $siteId = null)
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->where(['associatedElementId' => $elementId])
+        ;
+        if ($siteId !== null) {
+            $query->andWhere(['siteId' => $siteId]);
+        }
+
+        return $query->all();
     }
 
     /**

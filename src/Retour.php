@@ -29,6 +29,7 @@ use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
 use craft\services\Elements;
+use craft\services\Fields;
 use craft\services\Gql;
 use craft\services\Plugins;
 use craft\services\UserPermissions;
@@ -38,6 +39,7 @@ use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use nystudio107\pluginvite\services\VitePluginService;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\fields\ShortLink as ShortLinkField;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\models\Settings;
@@ -392,6 +394,14 @@ class Retour extends Plugin
                 if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleAdminCpRequest();
                 }
+            }
+        );
+        // Handler: Fields::EVENT_REGISTER_FIELD_TYPES
+        Event::on(
+            Fields::class,
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = ShortLinkField::class;
             }
         );
         // Handler: Gql::EVENT_REGISTER_GQL_TYPES

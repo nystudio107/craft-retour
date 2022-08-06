@@ -4,7 +4,7 @@ description: Documentation for the Retour plugin. The Retour plugin allows you t
 ---
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nystudio107/craft-retour/badges/quality-score.png?b=v3)](https://scrutinizer-ci.com/g/nystudio107/craft-retour/?branch=v3) [![Code Coverage](https://scrutinizer-ci.com/g/nystudio107/craft-retour/badges/coverage.png?b=v3)](https://scrutinizer-ci.com/g/nystudio107/craft-retour/?branch=v3) [![Build Status](https://scrutinizer-ci.com/g/nystudio107/craft-retour/badges/build.png?b=v3)](https://scrutinizer-ci.com/g/nystudio107/craft-retour/build-status/v3) [![Code Intelligence Status](https://scrutinizer-ci.com/g/nystudio107/craft-retour/badges/code-intelligence.svg?b=v3)](https://scrutinizer-ci.com/code-intelligence)
 
-# Retour plugin for Craft CMS 3.x
+# Retour plugin for Craft CMS
 
 Retour allows you to intelligently redirect legacy URLs, so that you don’t lose SEO value when rebuilding & restructuring a site
 
@@ -28,7 +28,7 @@ Retour is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) 
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0 or later.
+This plugin requires Craft CMS 3.0.0 or Craft CMS 4.0.0 or later.
 
 ## Installation
 
