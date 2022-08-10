@@ -26,11 +26,12 @@ use yii\db\Schema;
  */
 class ShortLink extends Field implements PreviewableFieldInterface
 {
-    // Static Methods
-    // =========================================================================
-
     public $redirectSrcMatch = 'pathonly';
     public $redirectHttpCode = 301;
+
+    // Static Methods
+
+    // =========================================================================
 
     /**
      * @inheritdoc
