@@ -29,6 +29,9 @@ class ShortLink extends Field implements PreviewableFieldInterface
     // Static Methods
     // =========================================================================
 
+    public $redirectSrcMatch = 'pathonly';
+    public $redirectHttpCode = 301;
+
     /**
      * @inheritdoc
      */
@@ -53,16 +56,26 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        $decoded = Json::decodeIfJson($value);
-
         // Render the input template
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_input',
             [
-                'value' => is_array($decoded) ? $decoded : [],
-                'fieldName' => $this->handle
+                'name' => $this->handle,
+                'value' => $value,
+                'field' => $this,
             ]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSettingsHtml()
+    {
+        return Craft::$app->getView()->renderTemplate('retour/_components/fields/ShortLink_settings',
+            [
+                'field' => $this,
+            ]);
     }
 
     /**
@@ -75,16 +88,10 @@ class ShortLink extends Field implements PreviewableFieldInterface
         }
 
         $value = $element->{$this->handle};
-        $decoded = Json::decodeIfJson($value);
-        if (is_array($decoded)) {
-            $delete = (empty($decoded['enabled']) && !empty($decoded['redirectSrcUrl'])) || !$element->getEnabledForSite($element->siteId);
-            if (!$delete) {
-                RetourPlugin::$plugin->redirects->enableElementRedirect($element, $decoded);
-            } else {
-                RetourPlugin::$plugin->redirects->removeElementRedirect($element);
-            }
+        RetourPlugin::$plugin->redirects->removeElementRedirect($element);
+        if (!empty($value)) {
+            RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
         }
-
         parent::afterElementSave($element, $isNew);
     }
 
