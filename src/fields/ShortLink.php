@@ -26,6 +26,10 @@ use yii\db\Schema;
  */
 class ShortLink extends Field implements PreviewableFieldInterface
 {
+
+    public string $redirectSrcMatch = 'pathonly';
+    public int $redirectHttpCode = 301;
+
     // Static Methods
     // =========================================================================
 
@@ -59,10 +63,22 @@ class ShortLink extends Field implements PreviewableFieldInterface
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_input',
             [
-                'value' => is_array($decoded) ? $decoded : [],
+                'name' => $this->handle,
+                'value' => $value,
                 'fieldName' => $this->handle
             ]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSettingsHtml(): string
+    {
+        return Craft::$app->getView()->renderTemplate('retour/_components/fields/ShortLink_settings',
+            [
+                'field' => $this,
+            ]);
     }
 
     /**
@@ -75,14 +91,9 @@ class ShortLink extends Field implements PreviewableFieldInterface
         }
 
         $value = $element->{$this->handle};
-        $decoded = Json::decodeIfJson($value);
-        if (is_array($decoded)) {
-            $delete = (empty($decoded['enabled']) && !empty($decoded['redirectSrcUrl'])) || !$element->getEnabledForSite($element->siteId);
-            if (!$delete) {
-                RetourPlugin::$plugin->redirects->enableElementRedirect($element, $decoded);
-            } else {
-                RetourPlugin::$plugin->redirects->removeElementRedirect($element);
-            }
+        RetourPlugin::$plugin->redirects->removeElementRedirect($element);
+        if (!empty($value)) {
+            RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
         }
 
         parent::afterElementSave($element, $isNew);

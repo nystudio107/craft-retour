@@ -909,19 +909,21 @@ class Redirects extends Component
      * Save an element redirect.
      *
      * @param ElementInterface $element
-     * @param array $fieldValue
+     * @param string $sourceUrl
+     * @param string $redirectSrcMatch
+     * @param int $redirectHttpCode
      */
-    public function enableElementRedirect(ElementInterface $element, array $fieldValue): void
+    public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301): void
     {
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
-            'redirectSrcUrl' => $fieldValue['redirectSrcUrl'],
+            'redirectSrcUrl' => $sourceUrl,
             'siteId' => $element->siteId,
             'associatedElementId' => $element->getCanonicalId(),
             'enabled' => true,
-            'redirectSrcMatch' => 'pathonly',
+            'redirectSrcMatch' => $redirectSrcMatch,
             'redirectDestUrl' => $element->getUrl(),
-            'redirectHttpCode' => $fieldValue['redirectHttpCode'],
+            'redirectHttpCode' => $redirectHttpCode,
         ];
 
         $this->saveRedirect($redirectConfig);
