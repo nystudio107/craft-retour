@@ -65,7 +65,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             [
                 'name' => $this->handle,
                 'value' => $value,
-                'fieldName' => $this->handle
+                'field' => $this,
             ]
         );
     }
