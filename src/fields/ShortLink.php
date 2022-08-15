@@ -16,6 +16,7 @@ use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\db\Schema;
+use yii\helpers\StringHelper;
 
 /**
  * @author    nystudio107
@@ -57,8 +58,6 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        $decoded = Json::decodeIfJson($value);
-
         // Render the input template
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_input',
@@ -86,12 +85,23 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function afterElementSave(ElementInterface $element, bool $isNew): void
     {
-        if ($element->getIsDraft()) {
+        if ($element->getIsDraft() || !$element->getSite()->hasUrls) {
             return;
         }
 
         $value = $element->{$this->handle};
         RetourPlugin::$plugin->redirects->removeElementRedirect($element);
+
+        // Return for propagating elements
+        if ($this->redirectSrcMatch === 'pathonly') {
+            if ($element->propagating) {
+                return;
+            }
+        } else if (!StringHelper::startsWith($value, 'http') && StringHelper::startsWith($value, '/')) {
+            $siteUrl = $element->getSite()->getBaseUrl();
+            $value = rtrim($siteUrl, '/') . $value;
+        }
+
         if (!empty($value)) {
             RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
         }
