@@ -97,9 +97,9 @@ class ShortLink extends Field implements PreviewableFieldInterface
             if ($element->propagating) {
                 return;
             }
-        } else if (!StringHelper::startsWith($value, 'http') && StringHelper::startsWith($value, '/')) {
+        } else if (!StringHelper::startsWith($value, 'http')) {
             $siteUrl = $element->getSite()->getBaseUrl();
-            $value = rtrim($siteUrl, '/') . $value;
+            $value = rtrim($siteUrl, '/') . '/' . ltrim($value, '/');
         }
 
         if (!empty($value)) {
