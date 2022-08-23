@@ -6,6 +6,7 @@
 
 ### Changed
 * Improved the performance when resolving exact match redirects. ([#217](https://github.com/nystudio107/craft-retour/pull/217))
+* If the Preserve Query String plugin setting is enabled, query strings from the incoming request and the destination URL will be combined ([#242](https://github.com/nystudio107/craft-retour/issues/242))
 
 ## 3.1.73 - 2022.06.22
 ### Changed
