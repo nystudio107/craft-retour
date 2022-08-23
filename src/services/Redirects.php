@@ -11,21 +11,19 @@
 
 namespace nystudio107\retour\services;
 
-use craft\base\ElementInterface;
-use nystudio107\retour\Retour;
-use nystudio107\retour\events\RedirectEvent;
-use nystudio107\retour\events\ResolveRedirectEvent;
-use nystudio107\retour\events\RedirectResolvedEvent;
-use nystudio107\retour\helpers\UrlHelper;
-use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
-
 use Craft;
 use craft\base\Component;
+use craft\base\ElementInterface;
 use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-
+use nystudio107\retour\events\RedirectEvent;
+use nystudio107\retour\events\RedirectResolvedEvent;
+use nystudio107\retour\events\ResolveRedirectEvent;
+use nystudio107\retour\helpers\UrlHelper;
+use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
+use nystudio107\retour\Retour;
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
@@ -226,8 +224,8 @@ class Redirects extends Component
     /**
      * Do the redirect
      *
-     * @param string     $fullUrl
-     * @param string     $pathOnly
+     * @param string $fullUrl
+     * @param string $pathOnly
      * @param null|array $redirect
      *
      * @return bool false if not redirected
@@ -263,8 +261,14 @@ class Redirects extends Component
             }
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
-                if (!empty($request->getQueryStringWithoutPath())) {
-                    $dest .= '?' . $request->getQueryStringWithoutPath();
+                $queryString = '';
+                try {
+                    $queryString = UrlHelper::combineQueryStringsFromUrls($dest, $request->getUrl());
+                } catch (InvalidConfigException $e) {
+                    // That's ok
+                }
+                if (!empty($queryString)) {
+                    $dest = strtok($dest, '?') . '?' . $queryString;
                 }
             }
             $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
@@ -319,7 +323,7 @@ class Redirects extends Component
     /**
      * @param string $fullUrl
      * @param string $pathOnly
-     * @param null   $siteId
+     * @param null $siteId
      *
      * @return array|null
      */
@@ -381,7 +385,7 @@ class Redirects extends Component
     public function getRedirectFromCache($url, int $siteId = 0)
     {
         $cache = Craft::$app->getCache();
-        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
+        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
         $redirect = $cache->get($cacheKey);
         Craft::info(
             Craft::t(
@@ -396,8 +400,8 @@ class Redirects extends Component
     }
 
     /**
-     * @param  string $url
-     * @param  array  $redirect
+     * @param string $url
+     * @param array $redirect
      */
     public function saveRedirectToCache($url, $redirect)
     {
@@ -409,12 +413,12 @@ class Redirects extends Component
         } catch (SiteNotFoundException $e) {
             $siteId = 1;
         }
-        $cacheKey = $this::CACHE_KEY.md5($url).$siteId;
+        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
         // Create the dependency tags
         $dependency = new TagDependency([
             'tags' => [
                 $this::GLOBAL_REDIRECTS_CACHE_TAG,
-                $this::GLOBAL_REDIRECTS_CACHE_TAG.$siteId,
+                $this::GLOBAL_REDIRECTS_CACHE_TAG . $siteId,
             ],
         ]);
         $cache->set($cacheKey, $redirect, Retour::$cacheDuration, $dependency);
@@ -431,7 +435,7 @@ class Redirects extends Component
     /**
      * @param string $fullUrl
      * @param string $pathOnly
-     * @param array  $redirects
+     * @param array $redirects
      *
      * @return array|null
      */
@@ -495,7 +499,7 @@ class Redirects extends Component
 
                     // Do a regex match
                     case 'regexmatch':
-                        $matchRegEx = '`'.$redirect['redirectSrcUrlParsed'].'`i';
+                        $matchRegEx = '`' . $redirect['redirectSrcUrlParsed'] . '`i';
                         try {
                             if (preg_match($matchRegEx, $url) === 1) {
                                 $this->incrementRedirectHitCount($redirect);
@@ -528,7 +532,7 @@ class Redirects extends Component
                             }
                         } catch (\Exception $e) {
                             // That's fine
-                            Craft::error('Invalid Redirect Regex: '.$matchRegEx, __METHOD__);
+                            Craft::error('Invalid Redirect Regex: ' . $matchRegEx, __METHOD__);
                         }
 
                         break;
@@ -636,7 +640,7 @@ class Redirects extends Component
         foreach (Craft::$app->getPlugins()->getAllPlugins() as $plugin) {
             /** @var Plugin $plugin */
             if (method_exists($plugin, 'retourMatch')) {
-                $result[$plugin->getHandle()] = $plugin->name.Craft::t('retour', ' Match');
+                $result[$plugin->getHandle()] = $plugin->name . Craft::t('retour', ' Match');
             }
         }
 
@@ -803,7 +807,7 @@ class Redirects extends Component
     /**
      * Return a redirect by redirectSrcUrl
      *
-     * @param string   $redirectSrcUrl
+     * @param string $redirectSrcUrl
      * @param int|null $siteId
      *
      * @return null|array
@@ -813,8 +817,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->where(['redirectSrcUrl' => $redirectSrcUrl])
-        ;
+            ->where(['redirectSrcUrl' => $redirectSrcUrl]);
         if ($siteId) {
             $query
                 ->andWhere(['or', [
@@ -841,8 +844,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->where(['associatedElementId' => $elementId])
-        ;
+            ->where(['associatedElementId' => $elementId]);
         if ($siteId !== null) {
             $query->andWhere(['siteId' => $siteId]);
         }
@@ -907,7 +909,7 @@ class Redirects extends Component
                         'id' => $redirectConfig['id'],
                     ]
                 )->execute();
-                Craft::debug('Rows affected: '.$rowsAffected, __METHOD__);
+                Craft::debug('Rows affected: ' . $rowsAffected, __METHOD__);
             } catch (\Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
             }
@@ -1116,17 +1118,17 @@ class Redirects extends Component
      */
     public function excludeUri($uri): bool
     {
-        $uri = '/'.ltrim($uri, '/');
+        $uri = '/' . ltrim($uri, '/');
         if (!empty(Retour::$settings->excludePatterns)) {
             foreach (Retour::$settings->excludePatterns as $excludePattern) {
-                $pattern = '`'.$excludePattern['pattern'].'`i';
+                $pattern = '`' . $excludePattern['pattern'] . '`i';
                 try {
                     if (preg_match($pattern, $uri) === 1) {
                         return true;
                     }
                 } catch (\Exception $e) {
                     // That's fine
-                    Craft::error('Invalid exclude URI Regex: '.$pattern, __METHOD__);
+                    Craft::error('Invalid exclude URI Regex: ' . $pattern, __METHOD__);
                 }
             }
         }
