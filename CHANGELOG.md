@@ -1,10 +1,10 @@
 # Retour Changelog
 
-## 3.1.74 - UNRELEASED
+## 3.2.0 - UNRELEASED
 ### Added
-* Added the Short Link field.
+* Added the **Short Link** field type that allows content authors to add short link redirects in an entry
 
-### Improved
+### Changed
 * Improved the performance when resolving exact match redirects. ([#217](https://github.com/nystudio107/craft-retour/pull/217))
 
 ## 3.1.73 - 2022.06.22
