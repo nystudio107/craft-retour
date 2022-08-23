@@ -16,6 +16,7 @@ use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\db\Schema;
+use yii\helpers\StringHelper;
 
 /**
  * @author    nystudio107
@@ -82,17 +83,37 @@ class ShortLink extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
+    public function getIsTranslatable(ElementInterface $element = null): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function afterElementSave(ElementInterface $element, bool $isNew)
     {
-        if ($element->getIsDraft()) {
+        if ($element->getIsDraft() || !$element->getSite()->hasUrls) {
             return;
         }
 
         $value = $element->{$this->handle};
         RetourPlugin::$plugin->redirects->removeElementRedirect($element);
+
+        // Return for propagating elements
+        if ($this->redirectSrcMatch === 'pathonly') {
+            if ($element->propagating) {
+                return;
+            }
+        } else if (!StringHelper::startsWith($value, 'http')) {
+            $siteUrl = $element->getSite()->getBaseUrl();
+            $value = rtrim($siteUrl, '/') . '/' . ltrim($value, '/');
+        }
+
         if (!empty($value)) {
             RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
         }
+
         parent::afterElementSave($element, $isNew);
     }
 

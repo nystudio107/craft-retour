@@ -931,7 +931,7 @@ class Redirects extends Component
             'associatedElementId' => $element->getCanonicalId(),
             'enabled' => true,
             'redirectSrcMatch' => $redirectSrcMatch,
-            'redirectDestUrl' => $element->getUrl(),
+            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl(),
             'redirectHttpCode' => $redirectHttpCode,
         ];
 
