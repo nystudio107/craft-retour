@@ -785,8 +785,14 @@ class Redirects extends Component
             }
             if (Retour::$settings->preserveQueryString) {
                 $request = Craft::$app->getRequest();
-                if (!empty($request->getQueryStringWithoutPath())) {
-                    $dest .= '?' . $request->getQueryStringWithoutPath();
+                $queryString = '';
+                try {
+                    $queryString = UrlHelper::combineQueryStringsFromUrls($dest, $request->getUrl());
+                } catch (InvalidConfigException $e) {
+                    // That's ok
+                }
+                if (!empty($queryString)) {
+                    $dest = strtok($dest, '?') . '?' . $queryString;
                 }
             }
             $redirectMatchType = $redirect['redirectMatchType'] ?? 'notfound';
@@ -958,8 +964,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->where(['associatedElementId' => $elementId])
-        ;
+            ->where(['associatedElementId' => $elementId]);
         if ($siteId !== null) {
             $query->andWhere(['siteId' => $siteId]);
         }
