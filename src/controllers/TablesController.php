@@ -187,7 +187,8 @@ class TablesController extends Controller
         int    $page = 1,
         int    $per_page = 20,
                $filter = '',
-               $siteId = 0
+               $siteId = 0,
+               $shortLinks = false
     ): Response
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
@@ -219,6 +220,11 @@ class TablesController extends Controller
             ->orFilterWhere(['like', 'redirectDestUrl', $filter]);
         if ((int)$siteId !== 0) {
             $query->andWhere(['siteId' => $siteId]);
+        }
+        if ($shortLinks) {
+            $query->andWhere(['not', ['associatedElementId' => null]]);
+        } else {
+            $query->andWhere(['associatedElementId' => 0]);
         }
         $redirects = $query->all();
         // Add in the `deleteLink` field and clean up the redirects
