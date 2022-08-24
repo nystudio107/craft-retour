@@ -15,7 +15,6 @@ use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json;
 use nystudio107\retour\Retour as RetourPlugin;
-use yii\db\Schema;
 use yii\helpers\StringHelper;
 
 /**
@@ -44,14 +43,6 @@ class ShortLink extends Field implements PreviewableFieldInterface
 
     // Public Methods
     // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function getContentColumnType(): string
-    {
-        return Schema::TYPE_TEXT;
-    }
 
     /**
      * @inheritdoc
