@@ -229,6 +229,19 @@ class TablesController extends Controller
         $redirects = $query->all();
         // Add in the `deleteLink` field and clean up the redirects
         foreach ($redirects as &$redirect) {
+            // Handle short links by adding the element's title and CP URL
+            if ($shortLinks) {
+                $redirect['elementTitle'] = '';
+                $redirect['elementCpUrl'] = '';
+                $elementId = $redirect['associatedElementId'] ?? null;
+                if (!empty($elementId)) {
+                    $element = Craft::$app->getElements()->getElementById($elementId);
+                    if ($element) {
+                        $redirect['elementTitle'] = $element->title;
+                        $redirect['elementCpUrl'] = $element->getCpEditUrl();
+                    }
+                }
+            }
             // Make sure the destination URL is not a regex
             if ($redirect['redirectMatchType'] !== 'exactmatch') {
                 if (preg_match("/\$\d+/", $redirect['redirectDestUrl'])) {
