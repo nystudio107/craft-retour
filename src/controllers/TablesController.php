@@ -222,7 +222,7 @@ class TablesController extends Controller
             $query->andWhere(['siteId' => $siteId]);
         }
         if ($shortLinks) {
-            $query->andWhere(['not', ['associatedElementId' => null]]);
+            $query->andWhere(['not', ['associatedElementId' => 0]]);
         } else {
             $query->andWhere(['associatedElementId' => 0]);
         }

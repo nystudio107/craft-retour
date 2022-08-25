@@ -1,0 +1,64 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Redirects index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:redirects" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+        <div class="retour-button-container">
+            <a href="{{ actionUrl('retour/file/export-redirects') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+        </div>
+        <div class="retour-button-container">
+            <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="retour/file/import-csv">
+                <input type="file" name="file" id="retour-file" class="retour-inputfile" accept=".csv" onchange="this.form.submit();" />
+                <label class="btn" for="retour-file">Import CSV File</label>
+            </form>
+        </div>
+        <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="field readable">
+        </div>
+        <redirects-table
+                :site-id="{{ currentSiteId }}"
+                :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+        >
+        </redirects-table>
+    </div>
+{% endblock %}
+
+{% block foot %}
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {% set tagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Redirects.js', false, tagOptions, tagOptions) }}
+{% endblock %}
