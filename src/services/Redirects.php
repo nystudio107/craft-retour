@@ -924,7 +924,7 @@ class Redirects extends Component
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
             'redirectSrcUrl' => $sourceUrl,
-            'siteId' => $element->siteId,
+            'siteId' => $redirectSrcMatch === 'pathonly' ? null : $element->siteId,
             'associatedElementId' => $element->getCanonicalId(),
             'enabled' => true,
             'redirectSrcMatch' => $redirectSrcMatch,
