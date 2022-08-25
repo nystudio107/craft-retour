@@ -606,6 +606,9 @@ class Retour extends Plugin
             'retour:redirects' => [
                 'label' => Craft::t('retour', 'Redirects'),
             ],
+            'retour:shortlinks' => [
+                'label' => Craft::t('retour', 'Short Links'),
+            ],
             'retour:settings' => [
                 'label' => Craft::t('retour', 'Settings'),
             ],
