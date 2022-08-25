@@ -1,0 +1,52 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Redirects index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:redirects" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="field readable">
+        </div>
+        <shortlinks-table
+            :site-id="{{ currentSiteId }}"
+            :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+        >
+        </shortlinks-table>
+    </div>
+{% endblock %}
+
+{% block foot %}
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {% set tagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Shortlinks.js', false, tagOptions, tagOptions) }}
+{% endblock %}

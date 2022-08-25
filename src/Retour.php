@@ -631,6 +631,9 @@ class Retour extends Plugin
             'retour/dashboard' => 'retour/statistics/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
 
+            'retour/shortlinks' => 'retour/redirects/shortlinks',
+            'retour/shortlinks/<siteHandle:{handle}>' => 'retour/redirects/shortlinks',
+
             'retour/settings' => 'retour/settings/plugin-settings',
         ];
     }

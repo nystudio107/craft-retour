@@ -11,17 +11,15 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
+use Craft;
+use craft\helpers\UrlHelper;
+use craft\web\Controller;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
-
-use Craft;
-use craft\web\Controller;
-use craft\helpers\UrlHelper;
-
+use nystudio107\retour\Retour;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -83,7 +81,7 @@ class RedirectsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
-        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -91,7 +89,7 @@ class RedirectsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/redirects'.$siteHandleUri),
+                'url' => UrlHelper::cpUrl('retour/redirects' . $siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
@@ -104,9 +102,9 @@ class RedirectsController extends Controller
     /**
      * Edit the redirect
      *
-     * @param int                       $redirectId
-     * @param string                    $defaultUrl
-     * @param int                       $siteId
+     * @param int $redirectId
+     * @param string $defaultUrl
+     * @param int $siteId
      * @param null|StaticRedirectsModel $redirect
      *
      * @return Response
@@ -114,11 +112,12 @@ class RedirectsController extends Controller
      * @throws \yii\web\ForbiddenHttpException
      */
     public function actionEditRedirect(
-        int $redirectId = 0,
-        string $defaultUrl = '',
-        int $siteId = 0,
+        int                  $redirectId = 0,
+        string               $defaultUrl = '',
+        int                  $siteId = 0,
         StaticRedirectsModel $redirect = null
-    ): Response {
+    ): Response
+    {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
 
@@ -151,13 +150,13 @@ class RedirectsController extends Controller
         if ($redirect->siteId) {
             $site = $sites->getSiteById($redirect->siteId);
             if ($site) {
-                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+                MultiSiteHelper::requirePermission('editSite:' . $site->uid);
             }
         }
         if ($siteId) {
             $site = $sites->getSiteById($siteId);
             if ($site) {
-                MultiSiteHelper::requirePermission('editSite:'.$site->uid);
+                MultiSiteHelper::requirePermission('editSite:' . $site->uid);
             }
         }
         $pluginName = Retour::$settings->pluginName;
@@ -193,7 +192,7 @@ class RedirectsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/edit-redirect/'.$redirectId),
+                'url' => UrlHelper::cpUrl('retour/edit-redirect/' . $redirectId),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - Redirects - {$templateTitle}";
@@ -296,6 +295,90 @@ class RedirectsController extends Controller
         Craft::$app->getSession()->setNotice(Craft::t('retour', 'Redirect settings saved.'));
 
         return $this->redirectToPostedUrl();
+    }
+
+    /**
+     * Show the short links table
+     *
+     * @param string|null $siteHandle
+     *
+     * @return Response
+     * @throws \yii\web\ForbiddenHttpException
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionShortlinks(string $siteHandle = null): Response
+    {
+        $variables = [];
+        PermissionHelper::controllerPermissionCheck('retour:shortlinks');
+        // Get the site to edit
+        $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
+        $pluginName = Retour::$settings->pluginName;
+        $templateTitle = Craft::t('retour', 'Short Links');
+        $view = Craft::$app->getView();
+        // Asset bundle
+        try {
+            $view->registerAssetBundle(RetourRedirectsAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+        $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/retour/web/assets/dist',
+            true
+        );
+        // Enabled sites
+        MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
+        $variables['controllerHandle'] = 'shortlinks';
+
+        // Basic variables
+        $variables['fullPageForm'] = false;
+        $variables['docsUrl'] = self::DOCUMENTATION_URL;
+        $variables['pluginName'] = $pluginName;
+        $variables['title'] = $templateTitle;
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
+        $variables['crumbs'] = [
+            [
+                'label' => $pluginName,
+                'url' => UrlHelper::cpUrl('retour'),
+            ],
+            [
+                'label' => $templateTitle,
+                'url' => UrlHelper::cpUrl('retour/shortlinks' . $siteHandleUri),
+            ],
+        ];
+        $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
+        $variables['selectedSubnavItem'] = 'shortlinks';
+
+        // Render the template
+        return $this->renderTemplate('retour/shortlinks/index', $variables);
+    }
+
+    /**
+     * @return Response|void
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionDeleteShortlinks()
+    {
+        PermissionHelper::controllerPermissionCheck('retour:shortlinks');
+        $request = Craft::$app->getRequest();
+        $redirectIds = $request->getRequiredBodyParam('redirectIds');
+        $stickyError = false;
+        foreach ($redirectIds as $redirectId) {
+            if (Retour::$plugin->redirects->deleteRedirectById($redirectId) === 0) {
+                $stickyError = true;
+            }
+        }
+        Retour::$plugin->clearAllCaches();
+        // Handle any cumulative errors
+        if (!$stickyError) {
+            // Clear the caches and continue on
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour Short Links deleted.'));
+
+            return $this->redirect('retour/shortlinks');
+        }
+        Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete Short Link."));
+
+        return;
     }
 
     // Protected Methods
