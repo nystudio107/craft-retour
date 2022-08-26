@@ -19,6 +19,26 @@
 
 {% import "_includes/forms" as forms %}
 
+{% do view.registerTranslations('retour', [
+    'Short Link',
+    'Redirect To',
+    'Match Type',
+    'Sites',
+    'Status',
+    'Hits',
+    'Last Hit',
+    'Search for:',
+    'Reset',
+    'Displaying',
+    'to',
+    'of',
+    'items',
+    'Per-page:',
+    'Delete',
+    'redirect',
+    'redirects',
+]) %}
+
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}

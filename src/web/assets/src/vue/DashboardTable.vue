@@ -20,7 +20,8 @@
           name="statisticIds[]"
           type="hidden"
         >
-        <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
+        <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringStatistic }}</span><span
+          v-if="numSelected !== 1">{{ stringStatistics }}</span>:</label>
         <div class="btngroup inline">
           <div
             class="btn menubtn"
@@ -35,7 +36,7 @@
                 <a
                   class="formsubmit"
                   data-action="retour/statistics/delete-statistics"
-                >Delete</a>
+                >{{ stringDelete }}</a>
               </li>
             </ul>
           </div>
@@ -47,7 +48,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
       <div class="floated left pl-3 pt-3 text-gray-600">
         <div class="select">
@@ -80,7 +81,7 @@
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
-          Per-page:
+          {{ stringPerPage }}
         </div>
         <div class="inline pl-3 text-gray-600">
           <div class="select">
@@ -121,7 +122,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfo" />
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
@@ -190,6 +191,10 @@ export default {
       selectedIds: [],
       retourHandled: 'all',
       filterText: '',
+      stringPerPage: Craft.t('retour', 'Per-page:'),
+      stringDelete: Craft.t('retour', 'Delete'),
+      stringStatistic: Craft.t('retour', 'statistic'),
+      stringStatistics: Craft.t('retour', 'statistics'),
     }
   },
   computed: {
