@@ -2,7 +2,7 @@
   <div>
     <div
       v-show="numSelected !== 0"
-      class=""
+      className=""
     >
       <form
         accept-charset="UTF-8"
@@ -20,22 +20,26 @@
           name="redirectIds[]"
           type="hidden"
         >
-        <label class="text-gray-600">{{ numSelected }} redirect<span v-if="numSelected !== 1">s</span>:</label>
-        <div class="btngroup inline">
+        <label className="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{
+            s
+              ringRedirect
+          }}</span><span
+          v-if="numSelected !== 1">{{ stringRedirects }}</span>:</label>
+        <div className="btngroup inline">
           <div
-            class="btn menubtn"
+            className="btn menubtn"
             data-icon="settings"
           />
           <div
-            class="menu"
+            className="menu"
             data-align="right"
           >
             <ul>
               <li>
                 <a
-                  class="formsubmit"
+                  className="formsubmit"
                   data-action="retour/redirects/delete-redirects"
-                >Delete</a>
+                >{{ stringDelete }}</a>
               </li>
             </ul>
           </div>
@@ -46,18 +50,18 @@
       v-show="numSelected === 0"
       :initial-filter-text="filterText"
     />
-    <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+    <div className="vuetable-pagination clearafter">
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
-      <div class="floated left vuetable-pagination-info py-3">
-        <div class="inline pl-3 text-gray-600">
-          Per-page:
+      <div className="floated left vuetable-pagination-info py-3">
+        <div className="inline pl-3 text-gray-600">
+          {{ stringPerPage }}
         </div>
-        <div class="inline pl-3 text-gray-600">
-          <div class="select">
+        <div className="inline pl-3 text-gray-600">
+          <div className="select">
             <select
               v-model="perPage"
-              class="fieldtoggle"
+              className="fieldtoggle"
               data-target-prefix="per-page-"
               name="perPage"
             >
@@ -96,8 +100,8 @@
       :sort-order="sortOrder"
       @vuetable:pagination-data="onPaginationData"
     />
-    <div class="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo" />
+    <div className="vuetable-pagination clearafter border-solid">
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
@@ -161,6 +165,10 @@ export default {
       selectedIds: [],
       filterText: '',
       perPage: 20,
+      stringPerPage: Craft.t('retour', 'Per-page:'),
+      stringDelete: Craft.t('retour', 'Delete'),
+      stringRedirect: Craft.t('retour', 'redirect'),
+      stringRedirects: Craft.t('retour', 'redirects'),
     }
   },
   computed: {
