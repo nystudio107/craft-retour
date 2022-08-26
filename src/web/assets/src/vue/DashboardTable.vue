@@ -21,7 +21,8 @@
           type="hidden"
         >
         <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringStatistic }}</span><span
-          v-if="numSelected !== 1">{{ stringStatistics }}</span>:</label>
+          v-if="numSelected !== 1"
+        >{{ stringStatistics }}</span>:</label>
         <div class="btngroup inline">
           <div
             class="btn menubtn"
@@ -48,7 +49,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop"/>
+      <vuetable-pagination-info ref="paginationInfoTop" />
 
       <div class="floated left pl-3 pt-3 text-gray-600">
         <div class="select">
@@ -122,7 +123,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfo"/>
+      <vuetable-pagination-info ref="paginationInfo" />
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
