@@ -4,9 +4,9 @@
       :href="rowData.elementCpUrl"
       class="go"
       :title="linkTitle"
-    ><span style="white-space: nowrap;"><span/><span style="white-space: normal;">{{
-        rowData.elementTitle
-      }}</span></span></a>
+    ><span style="white-space: nowrap;"><span /><span style="white-space: normal;">{{
+      rowData.elementTitle
+    }}</span></span></a>
   </div>
 </template>
 
