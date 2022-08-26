@@ -45,30 +45,20 @@
 
 {% block actionButton %}
     <div class="buttons">
-        <div class="retour-button-container">
-            <a href="{{ actionUrl('retour/file/export-redirects') }}" class="btn icon">{{ "Export CSV File"|t("retour") }}</a>
-        </div>
-        <div class="retour-button-container">
-            <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-                {{ csrfInput() }}
-                <input type="hidden" name="action" value="retour/file/import-csv">
-                <input type="file" name="file" id="retour-file" class="retour-inputfile" accept=".csv" onchange="this.form.submit();" />
-                <label class="btn" for="retour-file">Import CSV File</label>
-            </form>
-        </div>
-        <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t("retour") }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
     <div id="cp-nav-content">
         <div class="field readable">
+            <p>{{ "Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember."|t('retour') }}</p>
+            <p>{{ "Short Links are created by adding a Short Link field to the field layout of a Section."|t('retour') }}</p>
         </div>
-        <redirects-table
-                :site-id="{{ currentSiteId }}"
-                :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+        <shortlinks-table
+            :site-id="{{ currentSiteId }}"
+            :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
         >
-        </redirects-table>
+        </shortlinks-table>
     </div>
 {% endblock %}
 
@@ -80,5 +70,5 @@
             'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
         ],
     } %}
-    {{ craft.retour.register('src/js/Redirects.js', false, tagOptions, tagOptions) }}
+    {{ craft.retour.register('src/js/Shortlinks.js', false, tagOptions, tagOptions) }}
 {% endblock %}
