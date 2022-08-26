@@ -24,7 +24,7 @@
           v-if="numSelected !== 1">{{ stringRedirects }}</span>:</label>
         <div class="btngroup inline">
           <div
-            class="btn menubtn"
+            class="ml-2 btn menubtn"
             data-icon="settings"
           />
           <div
