@@ -20,11 +20,9 @@
           name="redirectIds[]"
           type="hidden"
         >
-        <label className="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{
-            s
-              ringRedirect
-          }}</span><span
-          v-if="numSelected !== 1">{{ stringRedirects }}</span>:</label>
+        <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringRedirect }}</span><span
+          v-if="numSelected !== 1"
+        >{{ stringRedirects }}</span>:</label>
         <div className="btngroup inline">
           <div
             className="btn menubtn"
@@ -51,7 +49,7 @@
       :initial-filter-text="filterText"
     />
     <div className="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop"/>
+      <vuetable-pagination-info ref="paginationInfoTop" />
 
       <div className="floated left vuetable-pagination-info py-3">
         <div className="inline pl-3 text-gray-600">
@@ -101,7 +99,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div className="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo"/>
+      <vuetable-pagination-info ref="paginationInfo" />
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
