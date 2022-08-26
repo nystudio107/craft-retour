@@ -113,13 +113,13 @@ export default {
         group: 'fields'
       },
       fieldsArray: [
-        Craft.t('Legacy URL Pattern'),
-        Craft.t('Redirect To'),
-        Craft.t('Match Type'),
-        Craft.t('HTTP Status'),
-        Craft.t('Site ID'),
-        Craft.t('Legacy URL Match Type'),
-        Craft.t('Hits'),
+        Craft.t('retour', 'Legacy URL Pattern'),
+        Craft.t('retour', 'Redirect To'),
+        Craft.t('retour', 'Match Type'),
+        Craft.t('retour', 'HTTP Status'),
+        Craft.t('retour', 'Site ID'),
+        Craft.t('retour', 'Legacy URL Match Type'),
+        Craft.t('retour', 'Hits'),
       ]
     }
   },

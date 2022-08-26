@@ -1,6 +1,6 @@
 {
   "../src/web/assets/src/js/Dashboard.js": {
-    "file": "assets/dashboard.42736688.js",
+    "file": "assets/dashboard.d3911074.js",
     "src": "../src/web/assets/src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
@@ -10,7 +10,7 @@
     ]
   },
   "../src/web/assets/src/js/Import.js": {
-    "file": "assets/import.ee97e909.js",
+    "file": "assets/import.faf2c2b9.js",
     "src": "../src/web/assets/src/js/Import.js",
     "isEntry": true,
     "imports": [
@@ -18,7 +18,7 @@
     ]
   },
   "../src/web/assets/src/js/Redirects.js": {
-    "file": "assets/redirects.bcf16ae0.js",
+    "file": "assets/redirects.bdab352f.js",
     "src": "../src/web/assets/src/js/Redirects.js",
     "isEntry": true,
     "imports": [
@@ -32,11 +32,11 @@
     "src": "../src/web/assets/src/js/Retour.js",
     "isEntry": true,
     "css": [
-      "assets/retour.2cfd7af7.css"
+      "assets/retour.b5ae270a.css"
     ]
   },
   "../src/web/assets/src/js/Shortlinks.js": {
-    "file": "assets/shortlinks.5bdbf583.js",
+    "file": "assets/shortlinks.f18a810d.js",
     "src": "../src/web/assets/src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
