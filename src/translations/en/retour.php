@@ -158,5 +158,8 @@ return [
     'Reset' => 'Reset',
     'items' => 'items',
     'Clear Stats' => 'Clear Stats',
-    'statistics' => 'statistics'
+    'statistics' => 'statistics',
+    'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember.' => 'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember.',
+    'Redirects only happen if Craft throws a `404` exception for the Legacy URL Pattern.' => 'Redirects only happen if Craft throws a `404` exception for the Legacy URL Pattern.',
+    'Short Links are created by adding a Short Link field to the field layout of a Section.' => 'Short Links are created by adding a Short Link field to the field layout of a Section.'
 ];
