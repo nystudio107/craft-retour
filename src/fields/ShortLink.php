@@ -80,7 +80,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             return;
         }
 
-        $value = $element->{$this->handle};
+        $value = $element->getFieldValue($this->handle);
         RetourPlugin::$plugin->redirects->removeElementRedirect($element);
 
         // Return for propagating elements
@@ -88,7 +88,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             if ($element->propagating) {
                 return;
             }
-        } else if (!StringHelper::startsWith($value, 'http')) {
+        } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {
             $siteUrl = $element->getSite()->getBaseUrl();
             $value = rtrim($siteUrl, '/') . '/' . ltrim($value, '/');
         }

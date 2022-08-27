@@ -367,7 +367,7 @@ class RedirectsController extends Controller
         $redirectIds = $request->getRequiredBodyParam('redirectIds');
         $stickyError = false;
         foreach ($redirectIds as $redirectId) {
-            if (Retour::$plugin->redirects->deleteRedirectById($redirectId) === 0) {
+            if (Retour::$plugin->redirects->deleteShortlinkById($redirectId) === 0) {
                 $stickyError = true;
             }
         }

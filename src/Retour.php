@@ -212,6 +212,12 @@ class Retour extends Plugin
                 'url' => 'retour/redirects',
             ];
         }
+        if ($currentUser->can('retour:shortlinks')) {
+            $subNavs['shortlinks'] = [
+                'label' => 'Short Links',
+                'url' => 'retour/shortlinks',
+            ];
+        }
         $editableSettings = true;
         $general = Craft::$app->getConfig()->getGeneral();
         if (!$general->allowAdminChanges) {

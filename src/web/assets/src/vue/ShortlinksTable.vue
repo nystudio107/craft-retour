@@ -36,7 +36,7 @@
               <li>
                 <a
                   className="formsubmit"
-                  data-action="retour/redirects/delete-redirects"
+                  data-action="retour/redirects/delete-shortlinks"
                 >{{ stringDelete }}</a>
               </li>
             </ul>
