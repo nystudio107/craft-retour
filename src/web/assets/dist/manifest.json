@@ -36,7 +36,7 @@
     ]
   },
   "../src/web/assets/src/js/Shortlinks.js": {
-    "file": "assets/shortlinks.63a76b6e.js",
+    "file": "assets/shortlinks.6fc55235.js",
     "src": "../src/web/assets/src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
