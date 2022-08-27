@@ -18,9 +18,11 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
+use craft\helpers\StringHelper;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
+use nystudio107\retour\fields\ShortLink;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
@@ -952,6 +954,50 @@ class Redirects extends Component
         if (!empty($redirects)) {
             foreach ($redirects as $redirect) {
                 $this->deleteRedirectById($redirect['id']);
+            }
+        }
+    }
+
+    /**
+     * Delete a short link by its ID.
+     *
+     * @param int $redirectId
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \yii\base\Exception
+     */
+    public function deleteShortlinkById(int $redirectId)
+    {
+        $redirect = $this->getRedirectById($redirectId);
+        $elementId = $redirect['associatedElementId'];
+        $siteId = $redirect['siteId'];
+        $element = Craft::$app->getElements()->getElementById($elementId, null, $siteId);
+
+        if ($element) {
+            $layout = $element->getFieldLayout();
+            $srcUrl = $redirect['redirectSrcUrl'];
+            $site = $element->getSite();
+            $urlLess = StringHelper::removeLeft($srcUrl, $site->getBaseUrl());
+
+            $match = false;
+            foreach ($element->getFieldValues() as $fieldHandle => $fieldValue) {
+                if (!is_string($fieldValue)) {
+                    continue;
+                }
+                // Compare field value with starting slashes dropped to the redirectSrcUrl value as well as one with site URL removed, just in case
+                if (in_array(ltrim($fieldValue, '/'), [ltrim($srcUrl, '/'), ltrim($urlLess, '/')], true)) {
+                   $field = $layout->getFieldByHandle($fieldHandle);
+
+                   if ($field instanceof ShortLink) {
+                       $element->setFieldValue($fieldHandle, null);
+                       $match = true;
+                   }
+                }
+            }
+
+            if ($match) {
+                // This will also delete the redirect from the table
+                Craft::$app->getElements()->saveElement($element);
             }
         }
     }
