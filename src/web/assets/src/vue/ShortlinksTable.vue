@@ -2,7 +2,7 @@
   <div>
     <div
       v-show="numSelected !== 0"
-      className=""
+      class=""
     >
       <form
         accept-charset="UTF-8"
@@ -23,19 +23,19 @@
         <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringRedirect }}</span><span
           v-if="numSelected !== 1"
         >{{ stringRedirects }}</span>:</label>
-        <div className="btngroup inline">
+        <div class="btngroup inline">
           <div
-            className="ml-2 btn menubtn"
+            class="ml-2 btn menubtn"
             data-icon="settings"
           />
           <div
-            className="menu"
+            class="menu"
             data-align="right"
           >
             <ul>
               <li>
                 <a
-                  className="formsubmit"
+                  class="formsubmit"
                   data-action="retour/redirects/delete-shortlinks"
                 >{{ stringDelete }}</a>
               </li>
@@ -48,18 +48,18 @@
       v-show="numSelected === 0"
       :initial-filter-text="filterText"
     />
-    <div className="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+    <div class="vuetable-pagination clearafter">
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
-      <div className="floated left vuetable-pagination-info py-3">
-        <div className="inline pl-3 text-gray-600">
+      <div class="floated left vuetable-pagination-info py-3">
+        <div class="inline pl-3 text-gray-600">
           {{ stringPerPage }}
         </div>
-        <div className="inline pl-3 text-gray-600">
-          <div className="select">
+        <div class="inline pl-3 text-gray-600">
+          <div class="select">
             <select
               v-model="perPage"
-              className="fieldtoggle"
+              class="fieldtoggle"
               data-target-prefix="per-page-"
               name="perPage"
             >
@@ -98,8 +98,8 @@
       :sort-order="sortOrder"
       @vuetable:pagination-data="onPaginationData"
     />
-    <div className="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo" />
+    <div class="vuetable-pagination clearafter border-solid">
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
