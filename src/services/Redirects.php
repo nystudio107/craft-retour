@@ -1189,7 +1189,7 @@ class Redirects extends Component
         if (method_exists($gql, 'invalidateCaches')) {
             $gql->invalidateCaches();
         }
-        Craft::info(
+        Craft::debug(
             Craft::t(
                 'retour',
                 'All redirect caches cleared'
