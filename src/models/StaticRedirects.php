@@ -113,12 +113,14 @@ class StaticRedirects extends DbModel
             ['associatedElementId', 'default', 'value' => 0],
             ['associatedElementId', 'integer'],
             ['enabled', 'boolean'],
+            ['redirectSrcMatch', 'string'],
+            ['redirectSrcMatch', 'in', 'range' => ['pathonly', 'fullurl']],
             ['redirectSrcMatch', 'default', 'value' => 'pathonly'],
             ['redirectSrcMatch', DbStringValidator::class, 'max' => 32],
-            ['redirectSrcMatch', 'string'],
+            ['redirectMatchType', 'string'],
+            ['redirectMatchType', 'in', 'range' => ['exactmatch', 'regexmatch']],
             ['redirectMatchType', 'default', 'value' => 'exactmatch'],
             ['redirectMatchType', DbStringValidator::class, 'max' => 32],
-            ['redirectMatchType', 'string'],
             [
                 [
                     'redirectSrcUrl',
@@ -155,6 +157,7 @@ class StaticRedirects extends DbModel
                 'string'
             ],
             ['redirectHttpCode', 'integer'],
+            ['redirectHttpCode', 'in', 'range' => [301, 302, 307, 308, 410]],
             ['redirectHttpCode', 'default', 'value' => 301],
             ['hitCount', 'default', 'value' => 0],
             ['hitCount', 'integer'],

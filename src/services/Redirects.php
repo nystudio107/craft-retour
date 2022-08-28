@@ -1020,8 +1020,9 @@ class Redirects extends Component
 
     /**
      * @param array $redirectConfig
+     * @return bool
      */
-    public function saveRedirect(array $redirectConfig): void
+    public function saveRedirect(array $redirectConfig): bool
     {
         // Handle URL encoded URLs by decoding them before saving them
         if (isset($redirectConfig['redirectMatchType']) && $redirectConfig['redirectMatchType'] === 'exactmatch') {
@@ -1040,7 +1041,7 @@ class Redirects extends Component
                 __METHOD__
             );
 
-            return;
+            return false;
         }
         // Get the validated model attributes and save them to the db
         $redirectConfig = $redirect->getAttributes();
@@ -1075,7 +1076,7 @@ class Redirects extends Component
         ]);
         $this->trigger(self::EVENT_BEFORE_SAVE_REDIRECT, $event);
         if (!$event->isValid) {
-            return;
+            return false;
         }
         // See if this is an existing redirect
         if (!$isNew) {
@@ -1098,6 +1099,8 @@ class Redirects extends Component
                 )->execute();
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
+
+                return false;
             }
         } else {
             Craft::debug(
@@ -1117,6 +1120,8 @@ class Redirects extends Component
                 )->execute();
             } catch (Exception $e) {
                 Craft::error($e->getMessage(), __METHOD__);
+
+                return false;
             }
         }
         // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
@@ -1148,6 +1153,8 @@ class Redirects extends Component
 
         // Invalidate caches after saving a redirect
         $this->invalidateCaches();
+
+        return true;
     }
 
     /**

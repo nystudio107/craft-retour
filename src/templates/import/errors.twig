@@ -1,0 +1,45 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.2.0
+ */
+#}
+
+{% requirePermission "retour:redirects" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+
+{% block actionButton %}
+{% endblock %}
+
+{% block contextMenu %}
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="messages">
+            <h2>
+                {{ "Some errors occured importing the CSV file."|t("retour") |md }}
+            </h2>
+            <p>{{ "All CSV rows without errors were still imported."|t("retour") }}</p>
+            <div class="pane message">
+                <div class="body">
+                    <code><pre>{{ errorLogContents | raw }}</pre></code>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block foot %}
+    {# include our JavaScript modules #}
+    {{ parent() }}
+{% endblock %}
