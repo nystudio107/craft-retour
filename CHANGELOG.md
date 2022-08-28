@@ -4,6 +4,7 @@
 ### Added
 * Added the **Short Link** field type that allows content authors to add short link redirects in an entry
 * Added translations in the Javascript views that Retour uses, allowing for better localization ([#222](https://github.com/nystudio107/craft-retour/issues/222))
+* If a CSV import has errors, they are displayed on the frontend to make them easier to diagnose ([#219](https://github.com/nystudio107/craft-retour/issues/219))
 
 ### Changed
 * Improved the performance when resolving exact match redirects by doing a database query. ([#217](https://github.com/nystudio107/craft-retour/pull/217))
