@@ -986,12 +986,12 @@ class Redirects extends Component
                 }
                 // Compare field value with starting slashes dropped to the redirectSrcUrl value as well as one with site URL removed, just in case
                 if (in_array(ltrim($fieldValue, '/'), [ltrim($srcUrl, '/'), ltrim($urlLess, '/')], true)) {
-                   $field = $layout->getFieldByHandle($fieldHandle);
+                    $field = $layout->getFieldByHandle($fieldHandle);
 
-                   if ($field instanceof ShortLink) {
-                       $element->setFieldValue($fieldHandle, null);
-                       $match = true;
-                   }
+                    if ($field instanceof ShortLink) {
+                        $element->setFieldValue($fieldHandle, null);
+                        $match = true;
+                    }
                 }
             }
 
@@ -1148,7 +1148,7 @@ class Redirects extends Component
                 $gql->invalidateCaches();
             }
         }
-        Craft::info(
+        Craft::debug(
             Craft::t(
                 'retour',
                 'All redirect caches cleared'
