@@ -13,6 +13,7 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
+use craft\helpers\ElementHelper;
 use craft\helpers\Json;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\helpers\StringHelper;
@@ -92,7 +93,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
 
         // Return for propagating elements
         if ($this->redirectSrcMatch === 'pathonly') {
-            if ($element->propagating) {
+            $parentElement = ElementHelper::rootElement($element);
+            if ($element->propagating || $parentElement->propagating) {
                 return;
             }
         } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {

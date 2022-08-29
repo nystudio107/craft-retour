@@ -14,6 +14,7 @@ namespace nystudio107\retour\controllers;
 use Craft;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
+use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
@@ -235,7 +236,7 @@ class TablesController extends Controller
                 $redirect['elementCpUrl'] = '';
                 $elementId = $redirect['associatedElementId'] ?? null;
                 if (!empty($elementId)) {
-                    $element = Craft::$app->getElements()->getElementById($elementId);
+                    $element = ElementHelper::rootElement(Craft::$app->getElements()->getElementById($elementId));
                     if ($element) {
                         $redirect['elementTitle'] = $element->title;
                         $redirect['elementCpUrl'] = $element->getCpEditUrl();

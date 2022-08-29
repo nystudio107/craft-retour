@@ -18,6 +18,7 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
+use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
@@ -929,14 +930,16 @@ class Redirects extends Component
     public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301)
     {
         $siteId = $redirectSrcMatch === 'pathonly' ? null : $element->siteId;
+        $parentElement = ElementHelper::rootElement($element);
+
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
             'redirectSrcUrl' => $sourceUrl,
             'siteId' => $siteId,
             'associatedElementId' => $element->getCanonicalId(),
-            'enabled' => $element->getEnabledForSite($siteId),
+            'enabled' => $parentElement->getEnabledForSite($siteId),
             'redirectSrcMatch' => $redirectSrcMatch,
-            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl(),
+            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $parentElement->uri : $parentElement->getUrl(),
             'redirectHttpCode' => $redirectHttpCode,
         ];
 
