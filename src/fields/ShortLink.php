@@ -81,8 +81,6 @@ class ShortLink extends Field implements PreviewableFieldInterface
         }
 
         $value = $element->getFieldValue($this->handle);
-        RetourPlugin::$plugin->redirects->removeElementRedirect($element);
-
         // Return for propagating elements
         if ($this->redirectSrcMatch === 'pathonly') {
             if ($element->propagating) {
@@ -92,6 +90,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
             $siteUrl = $element->getSite()->getBaseUrl();
             $value = rtrim($siteUrl, '/') . '/' . ltrim($value, '/');
         }
+
+        RetourPlugin::$plugin->redirects->removeElementRedirect($element, $this->redirectSrcMatch === 'pathonly');
 
         if (!empty($value)) {
             RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
