@@ -923,12 +923,13 @@ class Redirects extends Component
      */
     public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301): void
     {
+        $siteId = $redirectSrcMatch === 'pathonly' ? null : $element->siteId;
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
             'redirectSrcUrl' => $sourceUrl,
-            'siteId' => $redirectSrcMatch === 'pathonly' ? null : $element->siteId,
+            'siteId' => $siteId,
             'associatedElementId' => $element->getCanonicalId(),
-            'enabled' => true,
+            'enabled' => $element->getEnabledForSite($siteId),
             'redirectSrcMatch' => $redirectSrcMatch,
             'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl(),
             'redirectHttpCode' => $redirectHttpCode,
