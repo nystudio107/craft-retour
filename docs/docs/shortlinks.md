@@ -27,8 +27,9 @@ When the entry is saved, a redirect will automtically be created that redirects 
 In the above example, anyone visiting `https://example.com/promo` will be redirected to `https://example.com/my-first-blog`.
 
 * If a Short Link field is left blank, the corresponding redirect will be deleted.
-* A Short Link will be enabled and disabled with the element's status
+* A Short Link will be enabled and disabled with the element's status.
 * For multi-site setups, if you want different short links for each site, ensure you set the field propagation appropriately.
+* If a content author creates a Short Link to a URL that already exists, nothing will happen because Retour does nothing until Craft throws a 404
 
 If you need multiple short links for a given entry, you can create  multiple Short Link fields and add them to the field layout, or you can use a Short Link field in a Matrix block:
 
