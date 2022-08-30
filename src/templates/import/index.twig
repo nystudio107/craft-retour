@@ -19,6 +19,16 @@
 
 {% import "_includes/forms" as forms %}
 
+{% do view.registerTranslations('retour', [
+    'Legacy URL Pattern',
+    'Redirect To',
+    'Match Type',
+    'HTTP Status',
+    'Site ID',
+    'Legacy URL Match Type',
+    'Hits',
+]) %}
+
 {% block actionButton %}
     <input type="submit" class="btn submit" value="{{ 'Import'|t('app') }}">
 {% endblock %}

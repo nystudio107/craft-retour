@@ -2,7 +2,7 @@
   <div class="filter-bar">
     <div class="ui form">
       <div class="inline field">
-        <label class="text-gray-600">Search for:</label>
+        <label class="text-gray-600">{{ searchFor }}</label>
         <input
           v-model="filterText"
           type="text"
@@ -14,7 +14,7 @@
           class="btn delete icon"
           @click="resetFilter"
         >
-          Reset
+          {{ stringReset }}
         </button>
       </div>
     </div>
@@ -32,6 +32,8 @@ export default {
   data() {
     return {
       filterText: this.initialFilterText,
+      stringSearchFor: Craft.t('retour', 'Search for:'),
+      stringReset: Craft.t('retour', 'Reset'),
     }
   },
   methods: {

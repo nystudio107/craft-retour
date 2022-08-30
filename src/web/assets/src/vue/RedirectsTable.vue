@@ -20,10 +20,12 @@
           name="redirectIds[]"
           type="hidden"
         >
-        <label class="text-gray-600">{{ numSelected }} redirect<span v-if="numSelected !== 1">s</span>:</label>
+        <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringRedirect }}</span><span
+          v-if="numSelected !== 1"
+        >{{ stringRedirects }}</span>:</label>
         <div class="btngroup inline">
           <div
-            class="btn menubtn"
+            class="ml-2 btn menubtn"
             data-icon="settings"
           />
           <div
@@ -35,7 +37,7 @@
                 <a
                   class="formsubmit"
                   data-action="retour/redirects/delete-redirects"
-                >Delete</a>
+                >{{ stringDelete }}</a>
               </li>
             </ul>
           </div>
@@ -51,7 +53,7 @@
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
-          Per-page:
+          {{ stringPerPage }}
         </div>
         <div class="inline pl-3 text-gray-600">
           <div class="select">
@@ -158,6 +160,10 @@ export default {
       selectedIds: [],
       filterText: '',
       perPage: 20,
+      stringPerPage: Craft.t('retour', 'Per-page:'),
+      stringDelete: Craft.t('retour', 'Delete'),
+      stringRedirect: Craft.t('retour', 'redirect'),
+      stringRedirects: Craft.t('retour', 'redirects'),
     }
   },
   computed: {

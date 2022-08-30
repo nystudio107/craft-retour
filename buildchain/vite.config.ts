@@ -21,6 +21,7 @@ export default defineConfig(({command}) => ({
         'import': 'src/js/Import.js',
         'redirects': 'src/js/Redirects.js',
         'retour': 'src/js/Retour.js',
+        'shortlinks': 'src/js/Shortlinks.js',
         'widget': 'src/js/Widget.js'
       },
       output: {
@@ -68,7 +69,7 @@ export default defineConfig(({command}) => ({
       strict: false
     },
     host: '0.0.0.0',
-    origin: 'http://localhost:3001/',
+    origin: 'http://localhost:3001',
     port: 3001,
     strictPort: true,
   }

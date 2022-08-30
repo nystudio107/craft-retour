@@ -1,0 +1,28 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.selectField({
+    label: "Legacy URL Match Type"|t("retour"),
+    instructions: "Should the legacy URL be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?"|t("retour"),
+    id: "redirectSrcMatch",
+    name: "redirectSrcMatch",
+    value: field.redirectSrcMatch,
+    options: {
+        "pathonly": "Path Only"|t("retour"),
+        "fullurl": "Full URL"|t("retour"),
+    },
+}) }}
+
+{{ forms.selectField({
+    label: "Redirect Type"|t("retour"),
+    instructions: "Select whether the redirect should be permanent or temporary."|t("retour"),
+    id: "redirectHttpCode",
+    name: "redirectHttpCode",
+    value: field.redirectHttpCode,
+    options: {
+        "301": "301 - Moved Permanently"|t("retour"),
+        "302": "302 - Found"|t("retour"),
+        "307": "307 - Temporary Redirect"|t("retour"),
+        "308": "308 - Permanent Redirect"|t("retour"),
+        "410": "410 - Gone"|t("retour"),
+    },
+}) }}

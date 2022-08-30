@@ -11,20 +11,6 @@
 
 namespace nystudio107\retour;
 
-use craft\events\RegisterGqlSchemaComponentsEvent;
-use nystudio107\retour\assetbundles\retour\RetourAsset;
-use nystudio107\retour\gql\interfaces\RetourInterface;
-use nystudio107\retour\gql\queries\RetourQuery;
-use nystudio107\retour\listeners\GetCraftQLSchema;
-use nystudio107\retour\models\Settings;
-use nystudio107\retour\services\Events;
-use nystudio107\retour\services\Redirects;
-use nystudio107\retour\services\Statistics;
-use nystudio107\retour\variables\RetourVariable;
-use nystudio107\retour\widgets\RetourWidget;
-
-use nystudio107\pluginvite\services\VitePluginService;
-
 use Craft;
 use craft\base\Element;
 use craft\base\Plugin;
@@ -34,13 +20,15 @@ use craft\events\PluginEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterGqlQueriesEvent;
+use craft\events\RegisterGqlSchemaComponentsEvent;
 use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
 use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
-use craft\services\Elements;
 use craft\services\Dashboard;
+use craft\services\Elements;
+use craft\services\Fields;
 use craft\services\Gql;
 use craft\services\Plugins;
 use craft\services\UserPermissions;
@@ -48,13 +36,23 @@ use craft\utilities\ClearCaches;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
-
-use yii\base\Event;
-use yii\web\HttpException;
-
 use markhuot\CraftQL\Builders\Schema;
 use markhuot\CraftQL\CraftQL;
 use markhuot\CraftQL\Events\AlterSchemaFields;
+use nystudio107\pluginvite\services\VitePluginService;
+use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\fields\ShortLink as ShortLinkField;
+use nystudio107\retour\gql\interfaces\RetourInterface;
+use nystudio107\retour\gql\queries\RetourQuery;
+use nystudio107\retour\listeners\GetCraftQLSchema;
+use nystudio107\retour\models\Settings;
+use nystudio107\retour\services\Events;
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\services\Statistics;
+use nystudio107\retour\variables\RetourVariable;
+use nystudio107\retour\widgets\RetourWidget;
+use yii\base\Event;
+use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -65,10 +63,10 @@ use markhuot\CraftQL\Events\AlterSchemaFields;
  * @package   Retour
  * @since     3.0.0
  *
- * @property Events             $events
- * @property Redirects          $redirects
- * @property Statistics         $statistics
- * @property VitePluginService  $vite
+ * @property Events $events
+ * @property Redirects $redirects
+ * @property Statistics $statistics
+ * @property VitePluginService $vite
  */
 class Retour extends Plugin
 {
@@ -234,6 +232,12 @@ class Retour extends Plugin
                 'url' => 'retour/redirects',
             ];
         }
+        if ($currentUser->can('retour:shortlinks')) {
+            $subNavs['shortlinks'] = [
+                'label' => 'Short Links',
+                'url' => 'retour/shortlinks',
+            ];
+        }
         $editableSettings = true;
         $general = Craft::$app->getConfig()->getGeneral();
         if (self::$craft31 && !$general->allowAdminChanges) {
@@ -374,7 +378,7 @@ class Retour extends Plugin
                     $checkElementSlug = true;
                     // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                     if (Retour::$craft32 && (
-                            ElementHelper::isDraftOrRevision($element)
+                        ElementHelper::isDraftOrRevision($element)
                         )) {
                         $checkElementSlug = false;
                     }
@@ -427,6 +431,14 @@ class Retour extends Plugin
                 if ($request->getIsCpRequest() && !$request->getIsConsoleRequest()) {
                     $this->handleAdminCpRequest();
                 }
+            }
+        );
+        // Handler: Fields::EVENT_REGISTER_FIELD_TYPES
+        Event::on(
+            Fields::class,
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = ShortLinkField::class;
             }
         );
         if (self::$craft33) {
@@ -619,6 +631,9 @@ class Retour extends Plugin
             'retour/dashboard' => 'retour/statistics/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
 
+            'retour/shortlinks' => 'retour/redirects/shortlinks',
+            'retour/shortlinks/<siteHandle:{handle}>' => 'retour/redirects/shortlinks',
+
             'retour/settings' => 'retour/settings/plugin-settings',
         ];
     }
@@ -663,6 +678,9 @@ class Retour extends Plugin
             ],
             'retour:redirects' => [
                 'label' => Craft::t('retour', 'Redirects'),
+            ],
+            'retour:shortlinks' => [
+                'label' => Craft::t('retour', 'Short Links'),
             ],
             'retour:settings' => [
                 'label' => Craft::t('retour', 'Settings'),
