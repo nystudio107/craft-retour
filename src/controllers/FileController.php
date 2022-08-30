@@ -23,6 +23,7 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use League\Csv\Writer;
 use nystudio107\retour\assetbundles\retour\RetourImportAsset;
+use nystudio107\retour\helpers\FileLog;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\helpers\Version as VersionHelper;
@@ -46,6 +47,8 @@ class FileController extends Controller
     // =========================================================================
 
     protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
+
+    const LOG_FILE_NAME = 'retour-csv-import-errors';
 
     protected const EXPORT_REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl' => 'Legacy URL Pattern',
@@ -103,7 +106,9 @@ class FileController extends Controller
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
         $headers = null;
-
+        // Log the import
+        Filelog::delete(self::LOG_FILE_NAME);
+        FileLog::create(self::LOG_FILE_NAME, 'nystudio107\retour\*');
         try {
             $csv = Reader::createFromPath($filename);
             $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
@@ -126,14 +131,15 @@ class FileController extends Controller
                 Craft::error("Could not import ${$filename} from the file system, or the cache.", __METHOD__);
             }
         }
+        $hasErrors = false;
         // If we have headers, then we have a file, so parse it
         if ($headers !== null) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
-                    $this->importCsvApi8($csv, $columns, $headers);
+                    $hasErrors = $this->importCsvApi8($csv, $columns, $headers);
                     break;
                 case 9:
-                    $this->importCsvApi9($csv, $columns, $headers);
+                    $hasErrors = $this->importCsvApi9($csv, $columns, $headers);
                     break;
                 default:
                     Craft::$app->getSession()->setNotice(Craft::t('retour', 'Unknown league/csv package API version'));
@@ -145,20 +151,26 @@ class FileController extends Controller
         } else {
             Craft::$app->getSession()->setError(Craft::t('retour', 'Redirects could not be imported.'));
         }
-
-        $this->redirect('retour/redirects');
+        if ($hasErrors) {
+            $this->redirect(UrlHelper::actionUrl('retour/file/display-errors'));
+        } else {
+            $this->redirect('retour/redirects');
+        }
     }
 
     /**
      * @param AbstractCsv $csv
      * @param array $columns
      * @param array $headers
+     * @return bool whether the import has any errors
      */
-    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): void
+    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): bool
     {
+        $hasErrors = false;
         $csv->setOffset(1);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        $csv->each(function ($row) use ($headers, $columns) {
+        $rowIndex = 1;
+        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
             ];
@@ -171,25 +183,35 @@ class FileController extends Controller
                 }
                 $index++;
             }
-            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
-            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+            $redirectDump = print_r($redirectConfig, true);
+            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
+                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+                $hasErrors = true;
+            }
+            $rowIndex++;
 
             return true;
         });
+
+        return $hasErrors;
     }
 
     /**
      * @param AbstractCsv $csv
      * @param array $columns
      * @param array $headers
+     * @return bool whether the import has any errors
      * @throws Exception
      */
-    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): void
+    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): bool
     {
+        $hasErrors = false;
         $stmt = (new Statement())
             ->offset(1);
         $rows = $stmt->process($csv);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        $rowIndex = 1;
         foreach ($rows as $row) {
             $redirectConfig = [
                 'id' => 0,
@@ -203,9 +225,16 @@ class FileController extends Controller
                 }
                 $index++;
             }
-            Craft::debug('Importing row: ' . print_r($redirectConfig, true), __METHOD__);
-            Retour::$plugin->redirects->saveRedirect($redirectConfig);
+            $redirectDump = print_r($redirectConfig, true);
+            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
+                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+                $hasErrors = true;
+            }
+            $rowIndex++;
         }
+
+        return $hasErrors;
     }
 
     /**
@@ -294,6 +323,54 @@ class FileController extends Controller
         // Render the template
         return $this->renderTemplate('retour/import/index', $variables);
     }
+
+    /**
+     * Display the error log if something went wrong
+     *
+     * @return Response
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionDisplayErrors(): Response
+    {
+        $variables = [];
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
+        $pluginName = Retour::$settings->pluginName;
+        $templateTitle = Craft::t('retour', 'CSV File Import Errors');
+        $view = Craft::$app->getView();
+        // Asset bundle
+        try {
+            $view->registerAssetBundle(RetourImportAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+        $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/retour/web/assets/dist',
+            true
+        );
+        // Basic variables
+        $variables['fullPageForm'] = true;
+        $variables['docsUrl'] = self::DOCUMENTATION_URL;
+        $variables['pluginName'] = $pluginName;
+        $variables['title'] = $templateTitle;
+        $variables['crumbs'] = [
+            [
+                'label' => $pluginName,
+                'url' => UrlHelper::cpUrl('retour'),
+            ],
+            [
+                'label' => 'Redirects',
+                'url' => UrlHelper::cpUrl('retour/redirects'),
+            ],
+        ];
+        $variables['docTitle'] = "{$pluginName} - Redirects - {$templateTitle}";
+        $variables['selectedSubnavItem'] = 'redirects';
+        // The error log
+        $variables['errorLogContents'] = FileLog::getContents(self::LOG_FILE_NAME);
+
+        // Render the template
+        return $this->renderTemplate('retour/import/errors', $variables);
+    }
+
 
     // Public Methods
     // =========================================================================

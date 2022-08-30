@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 4.1.0 - 2022.08.30
+### Added
+* Added the **Short Link** field type that allows content authors to add short link redirects in an entry
+* Added translations in the Javascript views that Retour uses, allowing for better localization ([#222](https://github.com/nystudio107/craft-retour/issues/222))
+* If a CSV import has errors, they are displayed on the frontend to make them easier to diagnose ([#219](https://github.com/nystudio107/craft-retour/issues/219))
+
+### Changed
+* Improved the performance when resolving exact match redirects by doing a database query. ([#217](https://github.com/nystudio107/craft-retour/pull/217))
+* If the Preserve Query String plugin setting is enabled, query strings from the incoming request and the destination URL will be combined ([#242](https://github.com/nystudio107/craft-retour/issues/242))
+
 ## 4.0.2 - 2022.06.22
 ### Changed
 * Removed the sub resource integrity on the built JavaScript, which could fail if systems were set up that manipulated the incoming JavaScript resources dynamically ([#229](https://github.com/nystudio107/craft-retour/issues/229))

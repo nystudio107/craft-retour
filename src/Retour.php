@@ -29,6 +29,7 @@ use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
 use craft\services\Elements;
+use craft\services\Fields;
 use craft\services\Gql;
 use craft\services\Plugins;
 use craft\services\UserPermissions;
@@ -38,6 +39,7 @@ use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use nystudio107\pluginvite\services\VitePluginService;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
+use nystudio107\retour\fields\ShortLink as ShortLinkField;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\models\Settings;
@@ -208,6 +210,12 @@ class Retour extends Plugin
             $subNavs['redirects'] = [
                 'label' => 'Redirects',
                 'url' => 'retour/redirects',
+            ];
+        }
+        if ($currentUser->can('retour:shortlinks')) {
+            $subNavs['shortlinks'] = [
+                'label' => 'Short Links',
+                'url' => 'retour/shortlinks',
             ];
         }
         $editableSettings = true;
@@ -394,6 +402,14 @@ class Retour extends Plugin
                 }
             }
         );
+        // Handler: Fields::EVENT_REGISTER_FIELD_TYPES
+        Event::on(
+            Fields::class,
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = ShortLinkField::class;
+            }
+        );
         // Handler: Gql::EVENT_REGISTER_GQL_TYPES
         Event::on(
             Gql::class,
@@ -578,6 +594,9 @@ class Retour extends Plugin
             'retour/dashboard' => 'retour/statistics/dashboard',
             'retour/dashboard/<siteHandle:{handle}>' => 'retour/statistics/dashboard',
 
+            'retour/shortlinks' => 'retour/redirects/shortlinks',
+            'retour/shortlinks/<siteHandle:{handle}>' => 'retour/redirects/shortlinks',
+
             'retour/settings' => 'retour/settings/plugin-settings',
         ];
     }
@@ -595,6 +614,9 @@ class Retour extends Plugin
             ],
             'retour:redirects' => [
                 'label' => Craft::t('retour', 'Redirects'),
+            ],
+            'retour:shortlinks' => [
+                'label' => Craft::t('retour', 'Short Links'),
             ],
             'retour:settings' => [
                 'label' => Craft::t('retour', 'Settings'),

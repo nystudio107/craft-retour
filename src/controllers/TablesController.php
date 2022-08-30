@@ -14,6 +14,7 @@ namespace nystudio107\retour\controllers;
 use Craft;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
+use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
@@ -187,7 +188,8 @@ class TablesController extends Controller
         int    $page = 1,
         int    $per_page = 20,
                $filter = '',
-               $siteId = 0
+               $siteId = 0,
+               $shortLinks = false
     ): Response
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
@@ -220,9 +222,27 @@ class TablesController extends Controller
         if ((int)$siteId !== 0) {
             $query->andWhere(['siteId' => $siteId]);
         }
+        if ($shortLinks) {
+            $query->andWhere(['not', ['associatedElementId' => 0]]);
+        } else {
+            $query->andWhere(['associatedElementId' => 0]);
+        }
         $redirects = $query->all();
         // Add in the `deleteLink` field and clean up the redirects
         foreach ($redirects as &$redirect) {
+            // Handle short links by adding the element's title and CP URL
+            if ($shortLinks) {
+                $redirect['elementTitle'] = '';
+                $redirect['elementCpUrl'] = '';
+                $elementId = $redirect['associatedElementId'] ?? null;
+                if (!empty($elementId)) {
+                    $element = ElementHelper::rootElement(Craft::$app->getElements()->getElementById($elementId));
+                    if ($element) {
+                        $redirect['elementTitle'] = $element->title;
+                        $redirect['elementCpUrl'] = $element->getCpEditUrl();
+                    }
+                }
+            }
             // Make sure the destination URL is not a regex
             if ($redirect['redirectMatchType'] !== 'exactmatch') {
                 if (preg_match("/\$\d+/", $redirect['redirectDestUrl'])) {

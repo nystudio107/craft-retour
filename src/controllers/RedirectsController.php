@@ -300,6 +300,90 @@ class RedirectsController extends Controller
         return $this->redirectToPostedUrl();
     }
 
+    /**
+     * Show the short links table
+     *
+     * @param string|null $siteHandle
+     *
+     * @return Response
+     * @throws \yii\web\ForbiddenHttpException
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionShortlinks(string $siteHandle = null): Response
+    {
+        $variables = [];
+        PermissionHelper::controllerPermissionCheck('retour:shortlinks');
+        // Get the site to edit
+        $siteId = MultiSiteHelper::getSiteIdFromHandle($siteHandle);
+        $pluginName = Retour::$settings->pluginName;
+        $templateTitle = Craft::t('retour', 'Short Links');
+        $view = Craft::$app->getView();
+        // Asset bundle
+        try {
+            $view->registerAssetBundle(RetourRedirectsAsset::class);
+        } catch (InvalidConfigException $e) {
+            Craft::error($e->getMessage(), __METHOD__);
+        }
+        $variables['baseAssetsUrl'] = Craft::$app->assetManager->getPublishedUrl(
+            '@nystudio107/retour/web/assets/dist',
+            true
+        );
+        // Enabled sites
+        MultiSiteHelper::setMultiSiteVariables($siteHandle, $siteId, $variables);
+        $variables['controllerHandle'] = 'shortlinks';
+
+        // Basic variables
+        $variables['fullPageForm'] = false;
+        $variables['docsUrl'] = self::DOCUMENTATION_URL;
+        $variables['pluginName'] = $pluginName;
+        $variables['title'] = $templateTitle;
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
+        $variables['crumbs'] = [
+            [
+                'label' => $pluginName,
+                'url' => UrlHelper::cpUrl('retour'),
+            ],
+            [
+                'label' => $templateTitle,
+                'url' => UrlHelper::cpUrl('retour/shortlinks' . $siteHandleUri),
+            ],
+        ];
+        $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
+        $variables['selectedSubnavItem'] = 'shortlinks';
+
+        // Render the template
+        return $this->renderTemplate('retour/shortlinks/index', $variables);
+    }
+
+    /**
+     * @return Response|void
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionDeleteShortlinks()
+    {
+        PermissionHelper::controllerPermissionCheck('retour:shortlinks');
+        $request = Craft::$app->getRequest();
+        $redirectIds = $request->getRequiredBodyParam('redirectIds');
+        $stickyError = false;
+        foreach ($redirectIds as $redirectId) {
+            if (Retour::$plugin->redirects->deleteShortlinkById($redirectId) === 0) {
+                $stickyError = true;
+            }
+        }
+        Retour::$plugin->clearAllCaches();
+        // Handle any cumulative errors
+        if (!$stickyError) {
+            // Clear the caches and continue on
+            Craft::$app->getSession()->setNotice(Craft::t('retour', 'Retour Short Links deleted.'));
+
+            return $this->redirect('retour/shortlinks');
+        }
+        Craft::$app->getSession()->setError(Craft::t('retour', "Couldn't delete Short Link."));
+
+        return;
+    }
+
     // Protected Methods
     // =========================================================================
 

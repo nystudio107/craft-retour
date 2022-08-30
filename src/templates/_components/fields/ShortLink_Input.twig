@@ -1,0 +1,23 @@
+{% import "_includes/forms" as forms %}
+
+{%- set class = ['nicetext', 'retour-shortlink-icon'] %}
+
+{% set config = {
+    id: id ?? field.getInputId(),
+    describedBy: field.describedBy,
+    name: name,
+    value: value,
+    class: class,
+    required: field.required,
+} %}
+
+<style>
+    .retour-shortlink-icon {
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAoCAMAAACVZWnNAAAAP1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACzJYIvAAAAFXRSTlMAS09SBUIRSAglPhcOMik2LTgbOh9vs7GRAAABUklEQVRIx93USXaEMAwEUEklj4yhuf9ZYxkSkp3Vu6RW7vf6Y0nG0L9LtOS36FkBCMKqbqo7hDklZgT12g9wc7AnSFCnNcR7KRXMqOq2IdpyMX04LV73nBdhqU67fZWaE0vw2eVpM8gw1g1mbenHq9ndVv6yD+lWvwtpTxseWCtaWs2PnZgZ05CNzCwz0V6n29qJbzSG0f6qdEI42u9u0zyIhVGICpKk3G3LSNGzXju/tE1YGCtplSQjNldO89Vz7EOX2joGhmwQ27NP+6MfLiOSxiOP2d7tJNclWmAVDEWrmdWWOxgn6UsYg3jFbe0Cc7uMs415DMfL6t2C7S/Dr8YmjOXn+3xaF+cYDvK7xmJ2cOPnxj5WQn4Lr93O5MV+a5il3APbnZYK2HQ/Za+lnIwsMR7BbfsHpCEAftu1cGphRvVapVgZFl7onUxracn0N/IJlGEKSScEDxoAAAAASUVORK5CYII=");
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: 30px 20px;
+    }
+</style>
+
+{{ forms.text(config) }}

@@ -12,23 +12,23 @@ export default {
     infoTemplate: {
       type: String,
       default() {
-        return "Displaying {from} to {to} of {total} items"
+        return Craft.t('retour', 'Displaying') + " {from} " + Craft.t('retour', 'to') + " {to} " + Craft.t('retour', 'of') + " {total} " + Craft.t('retour', 'items');
       }
     },
     noDataTemplate: {
       type: String,
       default() {
-        return 'No relevant data'
+        return Craft.t('retour', 'No relevant data');
       }
     },
   },
-  data: function() {
+  data: function () {
     return {
       tablePagination: null
     }
   },
   computed: {
-    paginationInfo () {
+    paginationInfo() {
       if (this.tablePagination == null || this.tablePagination.total == 0) {
         return this.noDataTemplate
       }
@@ -40,10 +40,10 @@ export default {
     },
   },
   methods: {
-    setPaginationData (tablePagination) {
+    setPaginationData(tablePagination) {
       this.tablePagination = tablePagination
     },
-    resetData () {
+    resetData() {
       this.tablePagination = null
     }
   },

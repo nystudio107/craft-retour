@@ -19,6 +19,26 @@
 
 {% import "_includes/forms" as forms %}
 
+{% do view.registerTranslations('retour', [
+    'Legacy URL Pattern',
+    'Redirect To',
+    'Match Type',
+    'Sites',
+    'Status',
+    'Hits',
+    'Last Hit',
+    'Search for:',
+    'Reset',
+    'Displaying',
+    'to',
+    'of',
+    'items',
+    'Per-page:',
+    'Delete',
+    'redirect',
+    'redirects',
+]) %}
+
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
@@ -26,7 +46,7 @@
 {% block actionButton %}
     <div class="buttons">
         <div class="retour-button-container">
-            <a href="{{ actionUrl('retour/file/export-redirects') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+            <a href="{{ actionUrl('retour/file/export-redirects') }}" class="btn icon">{{ "Export CSV File"|t("retour") }}</a>
         </div>
         <div class="retour-button-container">
             <form id="retour-import-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -36,13 +56,14 @@
                 <label class="btn" for="retour-file">Import CSV File</label>
             </form>
         </div>
-        <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t }}</a>
+        <a href="{{ cpUrl('retour/add-redirect', {siteId: currentSiteId}) }}" class="btn submit add icon">{{ "New Static Redirect"|t("retour") }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
     <div id="cp-nav-content">
         <div class="field readable">
+            <p>{{ "Redirects only happen if Craft throws a `404` exception for the Legacy URL Pattern."|t('retour')|md|raw }}</p>
         </div>
         <redirects-table
                 :site-id="{{ currentSiteId }}"

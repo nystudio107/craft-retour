@@ -19,6 +19,25 @@
 
 {% import "_includes/forms" as forms %}
 
+{% do view.registerTranslations('retour', [
+    '404 File Not Found URL',
+    'Last Referrer URL',
+    'Remote IP',
+    'Hits',
+    'Last Hit',
+    'Handled',
+    'Search for:',
+    'Reset',
+    'Displaying',
+    'to',
+    'of',
+    'items',
+    'Per-page:',
+    'Delete',
+    'statistic',
+    'statistics',
+]) %}
+
 {% block contextMenu %}
     {% include "retour/_includes/sites-menu.twig" %}
 {% endblock %}
@@ -26,9 +45,9 @@
 {% block actionButton %}
     <div class="buttons">
         <div class="retour-button-container">
-            <a href="{{ actionUrl('retour/file/export-statistics') }}" class="btn icon">{{ "Export CSV File"|t }}</a>
+            <a href="{{ actionUrl('retour/file/export-statistics') }}" class="btn icon">{{ "Export CSV File"|t("retour") }}</a>
         </div>
-        <a href="{{ actionUrl('retour/statistics/clear-statistics') }}" class="btn delete icon">{{ "Clear Stats"|t }}</a>
+        <a href="{{ actionUrl('retour/statistics/clear-statistics') }}" class="btn delete icon">{{ "Clear Stats"|t("retour") }}</a>
     </div>
 {% endblock %}
 
@@ -56,12 +75,12 @@
             <div class="flex-grow">
                 <div class="shadow">
                     <dashboard-chart
-                            title="404s by Month"
-                            sub-title="Discrete 404 URI hits in the last month"
-                            range="month"
-                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
-                            :site-id="{{ currentSiteId }}"
-                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
+                        title="{{ '404s by Month'|t("retour") }}"
+                        sub-title="{{ 'Discrete 404 URI hits in the last month'|t("retour") }}"
+                        range="month"
+                        :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
+                        :site-id="{{ currentSiteId }}"
+                        :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
@@ -69,12 +88,12 @@
             <div class="flex-grow">
                 <div class="shadow">
                     <dashboard-chart
-                            title="404s by Week"
-                            sub-title="Discrete 404 URI hits in the last week"
-                            range="week"
-                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
-                            :site-id="{{ currentSiteId }}"
-                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
+                        title="{{ '404s by Week'|t("retour") }}"
+                        sub-title="{{ 'Discrete 404 URI hits in the last week'|t("retour") }}"
+                        range="week"
+                        :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
+                        :site-id="{{ currentSiteId }}"
+                        :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
@@ -82,21 +101,21 @@
             <div class="flex-grow">
                 <div class="shadow">
                     <dashboard-chart
-                            title="404s by Day"
-                            sub-title="Discrete 404 URI hits in the last day"
-                            range="day"
-                            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
-                            :site-id="{{ currentSiteId }}"
-                            :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
+                        title="{{ '404s by Day'|t("retour") }}"
+                        sub-title="{{ 'Discrete 404 URI hits in the last day'|t("retour") }}"
+                        range="day"
+                        :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
+                        :site-id="{{ currentSiteId }}"
+                        :api-url="'{{ actionUrl('retour/charts/dashboard') }}'"
                     >
                     </dashboard-chart>
                 </div>
             </div>
         </div>
         <dashboard-table
-                :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
-                :site-id="{{ currentSiteId }}"
-                :api-url="'{{ actionUrl('retour/tables/dashboard') }}'"
+            :refresh-interval-secs="{{ settings.refreshIntervalSecs ?? 5 }}"
+            :site-id="{{ currentSiteId }}"
+            :api-url="'{{ actionUrl('retour/tables/dashboard') }}'"
         >
         </dashboard-table>
 

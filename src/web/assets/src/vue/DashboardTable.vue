@@ -20,10 +20,12 @@
           name="statisticIds[]"
           type="hidden"
         >
-        <label class="text-gray-600">{{ numSelected }} statistic<span v-if="numSelected !== 1">s</span>:</label>
+        <label class="text-gray-600">{{ numSelected }} <span v-if="numSelected === 1">{{ stringStatistic }}</span><span
+          v-if="numSelected !== 1"
+        >{{ stringStatistics }}</span>:</label>
         <div class="btngroup inline">
           <div
-            class="btn menubtn"
+            class="ml-2 btn menubtn"
             data-icon="settings"
           />
           <div
@@ -35,7 +37,7 @@
                 <a
                   class="formsubmit"
                   data-action="retour/statistics/delete-statistics"
-                >Delete</a>
+                >{{ stringDelete }}</a>
               </li>
             </ul>
           </div>
@@ -80,7 +82,7 @@
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
-          Per-page:
+          {{ stringPerPage }}
         </div>
         <div class="inline pl-3 text-gray-600">
           <div class="select">
@@ -190,6 +192,10 @@ export default {
       selectedIds: [],
       retourHandled: 'all',
       filterText: '',
+      stringPerPage: Craft.t('retour', 'Per-page:'),
+      stringDelete: Craft.t('retour', 'Delete'),
+      stringStatistic: Craft.t('retour', 'statistic'),
+      stringStatistics: Craft.t('retour', 'statistics'),
     }
   },
   computed: {

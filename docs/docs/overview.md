@@ -10,6 +10,8 @@ In addition to supporting traditional exact and regular expression matching of U
 
 Retour offers true multi-site capability, allowing you to have redirects that affect only certain sites, as well as all sites. Retour will also automatically create a redirect for you if you change an entry’s slug, or move an entry around in a Structure.
 
+Retour also has a Short Link field that allows your content authors to easily create short links or aliases to entries.
+
 Retour even supports GraphQL so it can work with a SPA frontend, while allowing your content editors the ability to monitor & maintain 404s via the Craft CP.
 
 Unlike other redirect plugins or utilizing `.htaccess` to do redirects, Retour does not add overhead to each request for each redirect you have in place.

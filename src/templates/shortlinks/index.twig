@@ -1,0 +1,74 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS 3.x
+ *
+ * Retour Redirects index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% requirePermission "retour:shortlinks" %}
+
+{% extends "retour/_layouts/retour-cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerTranslations('retour', [
+    'Short Link',
+    'Redirect To',
+    'Match Type',
+    'Sites',
+    'Status',
+    'Hits',
+    'Last Hit',
+    'Search for:',
+    'Reset',
+    'Displaying',
+    'to',
+    'of',
+    'items',
+    'Per-page:',
+    'Delete',
+    'redirect',
+    'redirects',
+]) %}
+
+{% block contextMenu %}
+    {% include "retour/_includes/sites-menu.twig" %}
+{% endblock %}
+
+{% block actionButton %}
+    <div class="buttons">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="cp-nav-content">
+        <div class="field readable">
+            <p>{{ "Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember."|t('retour') }}</p>
+            <p>{{ "Short Links are created by adding a Short Link field to the field layout of a Section."|t('retour') }}</p>
+        </div>
+        <shortlinks-table
+            :site-id="{{ currentSiteId }}"
+            :api-url="'{{ actionUrl('retour/tables/redirects') }}'"
+        >
+        </shortlinks-table>
+    </div>
+{% endblock %}
+
+{% block foot %}
+    {# include our JavaScript modules #}
+    {{ parent() }}
+    {% set tagOptions = {
+        'depends': [
+            'nystudio107\\retour\\assetbundles\\retour\\RetourAsset'
+        ],
+    } %}
+    {{ craft.retour.register('src/js/Shortlinks.js', false, tagOptions, tagOptions) }}
+{% endblock %}
