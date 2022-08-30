@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.0 - UNRELEASED
+## 3.2.0 - 2022.08.30
 ### Added
 * Added the **Short Link** field type that allows content authors to add short link redirects in an entry
 * Added translations in the Javascript views that Retour uses, allowing for better localization ([#222](https://github.com/nystudio107/craft-retour/issues/222))
