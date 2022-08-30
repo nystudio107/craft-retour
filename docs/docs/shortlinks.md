@@ -22,14 +22,18 @@ Then the field will appear in your entries, just like any Craft field:
 
 ![Screenshot](./resources/screenshots/retour-shortlink-field.png)
 
-When the entry is saved, a redirect will automtically be created
-that redirects from the short link the content authors provide, to the entry.
+When the entry is saved, a redirect will automtically be created that redirects from the short link the content authors provide, to the entry.
 
 In the above example, anyone visiting `https://example.com/promo` will be redirected to `https://example.com/my-first-blog`.
 
 If a short link field is left blank, the corresponding redirect will be deleted.
 
 For multi-site setups, if you want different short links for each site, ensure you set the field propagation appropriately.
+
+If you need multiple short links for a given entry, you can create  multiple Short Link fields and add them to the field layout, or you can use a Short Link field in a Matrix block:
+
+![Screenshot](./resources/screenshots/retour-shortlinks-blocks.png)
+
 
 ## Short Links page
 
