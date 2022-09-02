@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.1 - UNRELEASED
+### Fix
+* Fixed an issue that could cause redirects to not function as expected ([#245](https://github.com/nystudio107/craft-retour/issues/245))
+
 ## 4.1.0 - 2022.08.30
 ### Added
 * Added the **Short Link** field type that allows content authors to add short link redirects in an entry
