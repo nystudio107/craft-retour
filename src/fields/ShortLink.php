@@ -15,6 +15,7 @@ use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\ElementHelper;
 use craft\helpers\Json;
+use craft\helpers\UrlHelper;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\helpers\StringHelper;
 
@@ -30,6 +31,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
     public $redirectSrcMatch = 'pathonly';
     public $redirectHttpCode = 301;
 
+    static protected $allowShortLinkUpdates = true;
+
     // Static Methods
 
     // =========================================================================
@@ -40,6 +43,22 @@ class ShortLink extends Field implements PreviewableFieldInterface
     public static function displayName(): string
     {
         return Craft::t('retour', 'Short Link');
+    }
+
+    /**
+     * Prevent element updates from updating the short link redirects.
+     */
+    public static function preventShortLinkUpdates()
+    {
+        self::$allowShortLinkUpdates = false;
+    }
+
+    /**
+     * Allow element updates to update the short link redirects.
+     */
+    public static function allowShortLinkUpdates()
+    {
+        self::$allowShortLinkUpdates = true;
     }
 
     // Public Methods
@@ -85,9 +104,11 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function afterElementSave(ElementInterface $element, bool $isNew)
     {
-        if ($element->getIsDraft() || !$element->getSite()->hasUrls) {
+        if (!self::$allowShortLinkUpdates || $element->getIsDraft() || !$element->getSite()->hasUrls) {
             return;
         }
+
+        $element->defineRules();
 
         $value = $element->getFieldValue($this->handle);
 
@@ -98,13 +119,12 @@ class ShortLink extends Field implements PreviewableFieldInterface
                 return;
             }
         } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {
-            $siteUrl = $element->getSite()->getBaseUrl();
-            $value = rtrim($siteUrl, '/') . '/' . ltrim($value, '/');
+            $value = UrlHelper::siteUrl($value, null, null, $element->siteId);
         }
 
-        RetourPlugin::$plugin->redirects->removeElementRedirect($element, $this->redirectSrcMatch === 'pathonly');
-
-        if (!empty($value)) {
+        if (empty($value)) {
+            RetourPlugin::$plugin->redirects->removeElementRedirect($element, $this->redirectSrcMatch === 'pathonly');
+        } else {
             RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
         }
 
