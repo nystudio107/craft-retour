@@ -1,7 +1,7 @@
 # Retour Changelog
 
 ## 4.1.1 - 2022.09.02
-### Fix
+### Fixed
 * Fixed an issue that could cause redirects to not function as expected ([#245](https://github.com/nystudio107/craft-retour/issues/245))
 
 ## 4.1.0 - 2022.08.30
