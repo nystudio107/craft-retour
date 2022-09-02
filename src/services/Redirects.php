@@ -158,12 +158,12 @@ class Redirects extends Component
     /**
      * @var null|array
      */
-    protected ?array $cachedRegExRedirects = [];
+    protected ?array $cachedRegExRedirects = null;
 
     /**
      * @var null|array
      */
-    protected ?array $cachedExactMatchRedirects = [];
+    protected ?array $cachedExactMatchRedirects = null;
 
     // Public Methods
     // =========================================================================
