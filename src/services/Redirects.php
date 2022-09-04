@@ -1187,9 +1187,9 @@ class Redirects extends Component
         return false;
     }
 
-        /**
-         * Invalidate all of the redirects caches
-         */
+    /**
+     * Invalidate all of the redirects caches
+     */
     public function invalidateCaches()
     {
         $cache = Craft::$app->getCache();

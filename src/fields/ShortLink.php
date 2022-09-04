@@ -108,8 +108,6 @@ class ShortLink extends Field implements PreviewableFieldInterface
             return;
         }
 
-        $element->defineRules();
-
         $value = $element->getFieldValue($this->handle);
 
         // Return for propagating elements
