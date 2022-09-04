@@ -104,7 +104,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
         // Return for propagating elements
         if ($this->redirectSrcMatch === 'pathonly') {
             $parentElement = ElementHelper::rootElement($element);
-            if ($element->propagating || $parentElement->propagating) {
+            if ($this->translationMethod === Field::TRANSLATION_METHOD_NONE && ($element->propagating || $parentElement->propagating)) {
                 return;
             }
         } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {
@@ -112,7 +112,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
         }
 
         if (empty($value)) {
-            RetourPlugin::$plugin->redirects->removeElementRedirect($element, $this->redirectSrcMatch === 'pathonly');
+            RetourPlugin::$plugin->redirects->removeElementRedirect($element, false);
 
         } else {
             RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
