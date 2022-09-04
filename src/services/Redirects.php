@@ -957,7 +957,7 @@ class Redirects extends Component
      */
     public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301)
     {
-        $siteId = $redirectSrcMatch === 'pathonly' ? null : $element->siteId;
+        $siteId = $element->siteId;
         $parentElement = ElementHelper::rootElement($element);
 
         $redirectConfig = [
