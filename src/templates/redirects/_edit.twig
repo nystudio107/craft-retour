@@ -22,7 +22,13 @@
 {% block content %}
     <input type="hidden" name="action" value="retour/redirects/save-redirect">
     {{ csrfInput() }}
-    {{ redirectInput("retour/redirects") }}
+
+    {% if redirect.associatedElementId > 0 %}
+        {{ redirectInput("retour/shortlinks") }}
+    {% else %}
+        {{ redirectInput("retour/redirects") }}
+    {% endif %}
+
 
     {% namespace "redirectConfig" %}
         {{ forms.hidden({
@@ -41,6 +47,11 @@
             id: "hitLastTime",
             name: "hitLastTime",
             value: redirect.hitLastTime,
+        }) }}
+
+        {{ forms.hidden ({
+            name: 'associatedElementId',
+            value: redirect.associatedElementId
         }) }}
 
         <div class="field first">
