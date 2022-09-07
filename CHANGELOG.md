@@ -1,5 +1,8 @@
 # Retour Changelog
 
+## 3.2.1 - UNRELEASED
+### Changed
+
 ## 3.2.0 - 2022.08.30
 ### Added
 * Added the **Short Link** field type that allows content authors to add short link redirects in an entry
