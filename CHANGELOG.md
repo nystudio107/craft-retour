@@ -2,6 +2,11 @@
 
 ## 4.1.2 - UNRELEASED
 ### Changed
+* Whether a Short Link redirect is created for "All Sites" or on a per-site basis is now determined by the propagation method of the Short Link field
+
+### Fixed
+* Fix improperly named field input template (casing) ([#247](https://github.com/nystudio107/craft-retour/pull/247))
+* Editing a Short Link field's redirect in the CP now properly preserves its Short Link status, and redirects to the Short Links page
 
 ## 4.1.1 - 2022.09.02
 ### Fixed
