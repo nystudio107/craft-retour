@@ -53,6 +53,7 @@ class FileController extends Controller
         'siteId' => 'Site ID',
         'redirectSrcMatch' => 'Legacy URL Match Type',
         'hitCount' => 'Hits',
+        'associatedElementId' => 'Short Link Element ID',
         'hitLastTime' => 'Last Hit',
     ];
 
@@ -73,7 +74,8 @@ class FileController extends Controller
         'redirectHttpCode',
         'siteId',
         'redirectSrcMatch',
-        'hitCount'
+        'hitCount',
+        'associatedElementId',
     ];
 
     // Protected Properties
@@ -295,7 +297,12 @@ class FileController extends Controller
     public function actionExportStatistics()
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
-        $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', self::EXPORT_STATISTICS_CSV_FIELDS);
+        //Allow the fields to be localized
+        $fields = self::EXPORT_STATISTICS_CSV_FIELDS;
+        foreach ($fields as $key => $field) {
+            $fields[$key] = Craft::t('retour', $field);
+        }
+        $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', $fields);
     }
 
     /**
@@ -306,7 +313,12 @@ class FileController extends Controller
     public function actionExportRedirects()
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
-        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', self::EXPORT_REDIRECTS_CSV_FIELDS);
+        //Allow the fields to be localized
+        $fields = self::EXPORT_REDIRECTS_CSV_FIELDS;
+        foreach ($fields as $key => $field) {
+            $fields[$key] = Craft::t('retour', $field);
+        }
+        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', $fields);
     }
 
     // Public Methods
