@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.2 - UNRELEASED
+## 4.1.2 - 2022.09.08
 ### Changed
 * Whether a Short Link redirect is created for "All Sites" or on a per-site basis is now determined by the propagation method of the Short Link field
 * Include "Short Link Element ID" in the CSV redirects export
