@@ -3,6 +3,8 @@
 ## 3.2.1 - UNRELEASED
 ### Changed
 * Whether a Short Link redirect is created for "All Sites" or on a per-site basis is now determined by the propagation method of the Short Link field
+* Include "Short Link Element ID" in the CSV redirects export
+* Allow for the localization of the exported redirects & statistics column names
 
 ### Fixed
 * Fix improperly named field input template (casing) ([#247](https://github.com/nystudio107/craft-retour/pull/247))
