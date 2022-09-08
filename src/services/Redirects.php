@@ -920,6 +920,34 @@ class Redirects extends Component
     }
 
     /**
+     * Updates an associated element short link value.
+     *
+     * @param array $redirectConfig
+     * @param array $existingData
+     */
+    protected function updateAssociatedElementShortLink(array $redirectConfig, array $existingData)
+    {
+        if (empty($redirectConfig['associatedElementId'])) {
+            return;
+        }
+        // Get the element and set the scenario
+        $associatedElement = Craft::$app->getElements()->getElementById($redirectConfig['associatedElementId']);
+
+        if (!$associatedElement) {
+            return;
+        }
+
+        $fieldUpdated = $this->setShortLinkFieldValue($associatedElement, $existingData['redirectSrcUrl'], $redirectConfig['redirectSrcUrl']);
+
+        if ($fieldUpdated) {
+            // Prevent element from triggering an infinite loop.
+            ShortLink::preventShortLinkUpdates();
+            Craft::$app->getElements()->saveElement($associatedElement);
+            ShortLink::allowShortLinkUpdates();
+        }
+    }
+
+    /**
      * Save an element redirect.
      *
      * @param ElementInterface $element
@@ -929,7 +957,7 @@ class Redirects extends Component
      */
     public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301)
     {
-        $siteId = $redirectSrcMatch === 'pathonly' ? null : $element->siteId;
+        $siteId = $element->siteId;
         $parentElement = ElementHelper::rootElement($element);
 
         $redirectConfig = [
@@ -978,28 +1006,9 @@ class Redirects extends Component
         $element = Craft::$app->getElements()->getElementById($elementId, null, $siteId);
 
         if ($element) {
-            $layout = $element->getFieldLayout();
-            $srcUrl = $redirect['redirectSrcUrl'];
-            $site = $element->getSite();
-            $urlLess = StringHelper::removeLeft($srcUrl, $site->getBaseUrl());
+            $fieldUpdated = $this->setShortLinkFieldValue($element, $redirect['redirectSrcUrl'], null);
 
-            $match = false;
-            foreach ($element->getFieldValues() as $fieldHandle => $fieldValue) {
-                if (!is_string($fieldValue)) {
-                    continue;
-                }
-                // Compare field value with starting slashes dropped to the redirectSrcUrl value as well as one with site URL removed, just in case
-                if (in_array(ltrim($fieldValue, '/'), [ltrim($srcUrl, '/'), ltrim($urlLess, '/')], true)) {
-                    $field = $layout->getFieldByHandle($fieldHandle);
-
-                    if ($field instanceof ShortLink) {
-                        $element->setFieldValue($fieldHandle, null);
-                        $match = true;
-                    }
-                }
-            }
-
-            if ($match) {
+            if ($fieldUpdated) {
                 // This will also delete the redirect from the table
                 Craft::$app->getElements()->saveElement($element);
             }
@@ -1039,6 +1048,10 @@ class Redirects extends Component
         }
         // Throw an event to before saving the redirect
         $db = Craft::$app->getDb();
+        if (!empty($redirectConfig['associatedElementId'])) {
+            $existingRedirect = (new Query())->from(['{{%retour_static_redirects}}'])->where(['id' => $redirectConfig['id']])->one();
+        }
+
         // See if a redirect exists with this source URL already
         if ((int)$redirectConfig['id'] === 0) {
             // Query the db table
@@ -1139,33 +1152,14 @@ class Redirects extends Component
         // Trigger a 'afterSaveRedirect' event
         $this->trigger(self::EVENT_AFTER_SAVE_REDIRECT, $event);
 
+        if (!empty($redirectConfig['associatedElementId']) && !empty($existingRedirect)) {
+            $this->updateAssociatedElementShortLink($redirectConfig, $existingRedirect);
+        }
+
         // Invalidate caches after saving a redirect
         $this->invalidateCaches();
 
         return true;
-    }
-
-    /**
-     * Invalidate all of the redirects caches
-     */
-    public function invalidateCaches()
-    {
-        $cache = Craft::$app->getCache();
-        TagDependency::invalidate($cache, $this::GLOBAL_REDIRECTS_CACHE_TAG);
-        // If they are using Craft 3.3 or later, clear the GraphQL caches too
-        if (Retour::$craft33) {
-            $gql = Craft::$app->getGql();
-            if (method_exists($gql, 'invalidateCaches')) {
-                $gql->invalidateCaches();
-            }
-        }
-        Craft::debug(
-            Craft::t(
-                'retour',
-                'All redirect caches cleared'
-            ),
-            __METHOD__
-        );
     }
 
     /**
@@ -1194,6 +1188,29 @@ class Redirects extends Component
     }
 
     /**
+     * Invalidate all of the redirects caches
+     */
+    public function invalidateCaches()
+    {
+        $cache = Craft::$app->getCache();
+        TagDependency::invalidate($cache, $this::GLOBAL_REDIRECTS_CACHE_TAG);
+        // If they are using Craft 3.3 or later, clear the GraphQL caches too
+        if (Retour::$craft33) {
+            $gql = Craft::$app->getGql();
+            if (method_exists($gql, 'invalidateCaches')) {
+                $gql->invalidateCaches();
+            }
+        }
+        Craft::debug(
+            Craft::t(
+                'retour',
+                'All redirect caches cleared'
+            ),
+            __METHOD__
+        );
+    }
+
+    /**
      * Return whether this is a preview request of any kind
      *
      * @return bool
@@ -1207,5 +1224,39 @@ class Redirects extends Component
         $isLivePreview = $request->getIsLivePreview();
 
         return ($isPreview || $isLivePreview);
+    }
+
+    /**
+     * Find all short link fields on an element that have a matching redirect source url and update the value
+     *
+     * @param ElementInterface $element
+     * @param string $redirectSrcUrl
+     * @param mixed $newValue
+     * @return bool whether a match was found
+     */
+    protected function setShortLinkFieldValue(ElementInterface $element, string $redirectSrcUrl, $newValue): bool
+    {
+        $layout = $element->getFieldLayout();
+        $srcUrl = $redirectSrcUrl;
+        $site = $element->getSite();
+        $urlLess = StringHelper::removeLeft($srcUrl, $site->getBaseUrl());
+
+        $matchFound = false;
+        foreach ($element->getFieldValues() as $fieldHandle => $fieldValue) {
+            if (!is_string($fieldValue)) {
+                continue;
+            }
+            // Compare field value with starting slashes dropped to the redirectSrcUrl value as well as one with site URL removed, just in case
+            if (in_array(ltrim($fieldValue, '/'), [ltrim($srcUrl, '/'), ltrim($urlLess, '/')], true)) {
+                $field = $layout->getFieldByHandle($fieldHandle);
+
+                if ($field instanceof ShortLink) {
+                    $element->setFieldValue($fieldHandle, $newValue);
+                    $matchFound = true;
+                }
+            }
+        }
+
+        return $matchFound;
     }
 }

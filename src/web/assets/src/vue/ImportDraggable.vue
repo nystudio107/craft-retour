@@ -120,6 +120,7 @@ export default {
         Craft.t('retour', 'Site ID'),
         Craft.t('retour', 'Legacy URL Match Type'),
         Craft.t('retour', 'Hits'),
+        Craft.t('retour', 'Short Link Element ID'),
       ]
     }
   },

@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 3.2.1 - 2022.09.08
+### Changed
+* Whether a Short Link redirect is created for "All Sites" or on a per-site basis is now determined by the propagation method of the Short Link field
+* Include "Short Link Element ID" in the CSV redirects export
+* Allow for the localization of the exported redirects & statistics column names
+
+### Fixed
+* Fix improperly named field input template (casing) ([#247](https://github.com/nystudio107/craft-retour/pull/247))
+* Editing a Short Link field's redirect in the CP now properly preserves its Short Link status, and redirects to the Short Links page
+
 ## 3.2.0 - 2022.08.30
 ### Added
 * Added the **Short Link** field type that allows content authors to add short link redirects in an entry
