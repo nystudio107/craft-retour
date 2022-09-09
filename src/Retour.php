@@ -25,7 +25,6 @@ use craft\events\RegisterGqlSchemaComponentsEvent;
 use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
-use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
@@ -115,14 +114,15 @@ class Retour extends Plugin
      */
     public bool $hasCpSettings = true;
 
+    // Public Static Methods
+    // =========================================================================
+
     /**
      * @inheritdoc
      */
-    public function __construct($id, $parent = null, array $config = [])
+    public static function config(): array
     {
-        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
-        // ref: https://github.com/craftcms/cms/issues/1989
-        $config = ArrayHelper::merge([
+        return [
             'components' => [
                 'events' => Events::class,
                 'redirects' => Redirects::class,
@@ -139,9 +139,7 @@ class Retour extends Plugin
                     'checkDevServer' => true,
                 ],
             ]
-        ], $config);
-
-        parent::__construct($id, $parent, $config);
+        ];
     }
 
     // Public Methods
