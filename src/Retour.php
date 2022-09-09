@@ -24,6 +24,7 @@ use craft\events\RegisterGqlSchemaComponentsEvent;
 use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
@@ -126,22 +127,26 @@ class Retour extends Plugin
      */
     public function __construct($id, $parent = null, array $config = [])
     {
-        $config['components'] = [
-            'events' => Events::class,
-            'redirects' => Redirects::class,
-            'statistics' => Statistics::class,
-            // Register the vite service
-            'vite' => [
-                'class' => VitePluginService::class,
-                'assetClass' => RetourAsset::class,
-                'useDevServer' => true,
-                'devServerPublic' => 'http://localhost:3001',
-                'serverPublic' => 'http://localhost:8000',
-                'errorEntry' => 'src/js/Retour.js',
-                'devServerInternal' => 'http://craft-retour-buildchain:3001',
-                'checkDevServer' => true,
-            ],
-        ];
+        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
+        // ref: https://github.com/craftcms/cms/issues/1989
+        $config = ArrayHelper::merge([
+            'components' => [
+                'events' => Events::class,
+                'redirects' => Redirects::class,
+                'statistics' => Statistics::class,
+                // Register the vite service
+                'vite' => [
+                    'class' => VitePluginService::class,
+                    'assetClass' => RetourAsset::class,
+                    'useDevServer' => true,
+                    'devServerPublic' => 'http://localhost:3001',
+                    'serverPublic' => 'http://localhost:8000',
+                    'errorEntry' => 'src/js/Retour.js',
+                    'devServerInternal' => 'http://craft-retour-buildchain:3001',
+                    'checkDevServer' => true,
+                ],
+            ]
+        ], $config);
 
         parent::__construct($id, $parent, $config);
     }
