@@ -57,6 +57,11 @@ class Events extends Component
      */
     public array $oldElementUris = [];
 
+    /**
+     * @var array A list of element ids that have their redirects already created
+     */
+    protected array $elementsWithCreatedRedirects = [];
+
     // Public Methods
     // =========================================================================
 
@@ -77,6 +82,11 @@ class Events extends Component
      */
     public function handleElementUriChange(Element $element): void
     {
+        if (array_key_exists($element->id, $this->elementsWithCreatedRedirects)) {
+            return;
+        }
+        $this->elementsWithCreatedRedirects[] = $element->id;
+
         $uris = $this->getAllElementUris($element);
         if (!empty($this->oldElementUris[$element->id])) {
             $oldElementUris = $this->oldElementUris[$element->id];
