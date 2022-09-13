@@ -1,81 +1,89 @@
 {
   "../src/web/assets/src/js/Dashboard.js": {
-    "file": "assets/dashboard.d3911074.js",
+    "file": "assets/dashboard.78f13246.js",
     "src": "../src/web/assets/src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.602b57a9.js",
-      "_vueComponentNormalizer.9fe6193d.js",
-      "_vue-apexcharts.bf9dadb9.js"
+      "_purify.es.020de810.js",
+      "_vueComponentNormalizer.5c2c5e6e.js",
+      "_vue-apexcharts.af91dad0.js"
     ]
   },
   "../src/web/assets/src/js/Import.js": {
-    "file": "assets/import.65d38e99.js",
+    "file": "assets/import.85093d73.js",
     "src": "../src/web/assets/src/js/Import.js",
     "isEntry": true,
     "imports": [
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
   "../src/web/assets/src/js/Redirects.js": {
-    "file": "assets/redirects.bdab352f.js",
+    "file": "assets/redirects.0815d8a4.js",
     "src": "../src/web/assets/src/js/Redirects.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.602b57a9.js",
-      "_LegacyUrl.bb8cf9b1.js",
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_purify.es.020de810.js",
+      "_LegacyUrl.31a5be57.js",
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
   "../src/web/assets/src/js/Retour.js": {
-    "file": "assets/retour.56717911.js",
+    "file": "assets/retour.3bdce46a.js",
     "src": "../src/web/assets/src/js/Retour.js",
     "isEntry": true,
     "css": [
-      "assets/retour.b5ae270a.css"
+      "assets/Retour.01cd23e9.css"
     ]
   },
   "../src/web/assets/src/js/Shortlinks.js": {
-    "file": "assets/shortlinks.6fc55235.js",
+    "file": "assets/shortlinks.d821b864.js",
     "src": "../src/web/assets/src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.602b57a9.js",
-      "_LegacyUrl.bb8cf9b1.js",
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_purify.es.020de810.js",
+      "_LegacyUrl.31a5be57.js",
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
   "../src/web/assets/src/js/Widget.js": {
-    "file": "assets/widget.09b4df80.js",
+    "file": "assets/widget.e59f34f7.js",
     "src": "../src/web/assets/src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts.bf9dadb9.js",
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_vue-apexcharts.af91dad0.js",
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "_purify.es.602b57a9.js": {
-    "file": "assets/purify.es.602b57a9.js",
+  "_purify.es.020de810.js": {
+    "file": "assets/purify.es.020de810.js",
     "imports": [
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ],
     "css": [
-      "assets/purify.es.25096ecc.css"
+      "assets/purify.5c36e73b.css"
     ]
   },
-  "_vueComponentNormalizer.9fe6193d.js": {
-    "file": "assets/vueComponentNormalizer.9fe6193d.js"
+  "_vueComponentNormalizer.5c2c5e6e.js": {
+    "file": "assets/vueComponentNormalizer.5c2c5e6e.js"
   },
-  "_vue-apexcharts.bf9dadb9.js": {
-    "file": "assets/vue-apexcharts.bf9dadb9.js",
+  "_vue-apexcharts.af91dad0.js": {
+    "file": "assets/vue-apexcharts.af91dad0.js",
     "imports": [
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "_LegacyUrl.bb8cf9b1.js": {
-    "file": "assets/LegacyUrl.bb8cf9b1.js",
+  "_LegacyUrl.31a5be57.js": {
+    "file": "assets/LegacyUrl.31a5be57.js",
     "imports": [
-      "_vueComponentNormalizer.9fe6193d.js"
+      "_vueComponentNormalizer.5c2c5e6e.js"
     ]
+  },
+  "../src/web/assets/src/js/Retour.css": {
+    "file": "assets/Retour.01cd23e9.css",
+    "src": "../src/web/assets/src/js/Retour.css"
+  },
+  "purify.css": {
+    "file": "assets/purify.5c36e73b.css",
+    "src": "purify.css"
   }
 }
