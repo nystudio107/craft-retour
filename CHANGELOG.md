@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.3 - UNRELEASED
+## 4.1.3 - 2022.09.14
 ### Changed
 * Fixed an issue where element types that update their `uriFormat` directly rather than re-saving the elements will generate automatic element redirects ([#248](https://github.com/nystudio107/craft-retour/issues/248))
 * Updated how Retour's components are registered, to allow for overriding via plugin config ([#1989](https://github.com/craftcms/cms/issues/1989)) ([#11039](https://github.com/craftcms/cms/pull/11039))
