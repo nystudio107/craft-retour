@@ -24,6 +24,7 @@ use craft\events\RegisterGqlSchemaComponentsEvent;
 use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
@@ -126,22 +127,26 @@ class Retour extends Plugin
      */
     public function __construct($id, $parent = null, array $config = [])
     {
-        $config['components'] = [
-            'events' => Events::class,
-            'redirects' => Redirects::class,
-            'statistics' => Statistics::class,
-            // Register the vite service
-            'vite' => [
-                'class' => VitePluginService::class,
-                'assetClass' => RetourAsset::class,
-                'useDevServer' => true,
-                'devServerPublic' => 'http://localhost:3001',
-                'serverPublic' => 'http://localhost:8000',
-                'errorEntry' => 'src/js/Retour.js',
-                'devServerInternal' => 'http://craft-retour-buildchain:3001',
-                'checkDevServer' => true,
-            ],
-        ];
+        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
+        // ref: https://github.com/craftcms/cms/issues/1989
+        $config = ArrayHelper::merge([
+            'components' => [
+                'events' => Events::class,
+                'redirects' => Redirects::class,
+                'statistics' => Statistics::class,
+                // Register the vite service
+                'vite' => [
+                    'class' => VitePluginService::class,
+                    'assetClass' => RetourAsset::class,
+                    'useDevServer' => true,
+                    'devServerPublic' => 'http://localhost:3001',
+                    'serverPublic' => 'http://localhost:8000',
+                    'errorEntry' => 'src/js/Retour.js',
+                    'devServerInternal' => 'http://craft-retour-buildchain:3001',
+                    'checkDevServer' => true,
+                ],
+            ]
+        ], $config);
 
         parent::__construct($id, $parent, $config);
     }
@@ -363,59 +368,93 @@ class Retour extends Plugin
                 ]);
             }
         );
+
+        $prepareRedirectOnElementChange = function (ElementEvent $event) {
+            /** @var Element $element */
+            $element = $event->element;
+            if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
+                $checkElementSlug = true;
+                // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
+                if (Retour::$craft32 && (
+                    ElementHelper::isDraftOrRevision($element)
+                    )) {
+                    $checkElementSlug = false;
+                }
+                // Only do this for elements that aren't new, pass $checkElementSlug, and the user
+                // has turned on the setting
+                if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                    // Make sure this isn't a transitioning temporary draft/revision and that it's
+                    // not propagating to other sites
+                    if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
+                        Retour::$plugin->events->stashElementUris($element);
+                    }
+                }
+            }
+        };
+
+        $insertRedirectOnElementChange = function (ElementEvent $event) {
+            /** @var Element $element */
+            $element = $event->element;
+            if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
+                $checkElementSlug = true;
+                if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
+                    $checkElementSlug = false;
+                }
+                if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
+                    Retour::$plugin->events->handleElementUriChange($element);
+                }
+            }
+        };
+
         // Handler: Elements::EVENT_BEFORE_SAVE_ELEMENT
         Event::on(
             Elements::class,
             Elements::EVENT_BEFORE_SAVE_ELEMENT,
-            function (ElementEvent $event) {
+            function (ElementEvent $event) use ($prepareRedirectOnElementChange){
                 Craft::debug(
                     'Elements::EVENT_BEFORE_SAVE_ELEMENT',
                     __METHOD__
                 );
-                /** @var Element $element */
-                $element = $event->element;
-                if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
-                    $checkElementSlug = true;
-                    // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
-                    if (Retour::$craft32 && (
-                        ElementHelper::isDraftOrRevision($element)
-                        )) {
-                        $checkElementSlug = false;
-                    }
-                    // Only do this for elements that aren't new, pass $checkElementSlug, and the user
-                    // has turned on the setting
-                    if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                        // Make sure this isn't a transitioning temporary draft/revision and that it's
-                        // not propagating to other sites
-                        if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
-                            Retour::$plugin->events->stashElementUris($element);
-                        }
-                    }
-                }
+                $prepareRedirectOnElementChange($event);
             }
         );
         // Handler: Elements::EVENT_AFTER_SAVE_ELEMENT
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) {
+            function (ElementEvent $event) use ($insertRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
                 );
-                /** @var Element $element */
-                $element = $event->element;
-                if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
-                    $checkElementSlug = true;
-                    if (Retour::$craft32 && ElementHelper::isDraftOrRevision($element)) {
-                        $checkElementSlug = false;
-                    }
-                    if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
-                        Retour::$plugin->events->handleElementUriChange($element);
-                    }
-                }
+                $insertRedirectOnElementChange($event);
             }
         );
+        // Handler: Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI
+        Event::on(
+            Elements::class,
+            Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI,
+            function (ElementEvent $event) use ($prepareRedirectOnElementChange){
+                Craft::debug(
+                    'Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI',
+                    __METHOD__
+                );
+                $prepareRedirectOnElementChange($event);
+            }
+        );
+        // Handler: Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI
+        Event::on(
+            Elements::class,
+            Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI,
+            function (ElementEvent $event) use ($insertRedirectOnElementChange) {
+                Craft::debug(
+                    'Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI',
+                    __METHOD__
+                );
+                $insertRedirectOnElementChange($event);
+            }
+        );
+
         // Handler: Plugins::EVENT_AFTER_LOAD_PLUGINS
         Event::on(
             Plugins::class,
