@@ -4,7 +4,6 @@ import ViteRestart from 'vite-plugin-restart';
 import {viteExternalsPlugin} from 'vite-plugin-externals'
 import viteCompression from 'vite-plugin-compression';
 import {visualizer} from 'rollup-plugin-visualizer';
-import eslintPlugin from 'vite-plugin-eslint';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import * as path from 'path';
 
@@ -51,9 +50,6 @@ export default defineConfig(({command}) => ({
       filename: '../src/web/assets/dist/stats.html',
       template: 'treemap',
       sourcemap: true,
-    }),
-    eslintPlugin({
-      cache: false,
     }),
   ],
   publicDir: '../src/web/assets/public',
