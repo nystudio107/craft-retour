@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.4 - UNRELEASED
+### Changed
+* Move to using `ServicesTrait` and add getter methods for services
+
 ## 4.1.3 - 2022.09.14
 ### Changed
 * Fixed an issue where element types that update their `uriFormat` directly rather than re-saving the elements will generate automatic element redirects ([#248](https://github.com/nystudio107/craft-retour/issues/248))
