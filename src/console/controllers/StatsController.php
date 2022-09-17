@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -66,13 +66,13 @@ class StatsController extends Controller
      */
     public function actionTrim(): int
     {
-        echo Craft::t('retour', 'Trimming statistics').PHP_EOL;
+        echo Craft::t('retour', 'Trimming statistics') . PHP_EOL;
         $affectedRows = Retour::$plugin->statistics->trimStatistics($this->limit);
         echo Craft::t(
-            'retour',
-            'Trimmed {rows} from retour_stats table',
-            ['rows' => $affectedRows]
-        ).PHP_EOL;
+                'retour',
+                'Trimmed {rows} from retour_stats table',
+                ['rows' => $affectedRows]
+            ) . PHP_EOL;
 
         return 0;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -30,7 +30,7 @@ class DbModel extends Model
      * Remove any properties that don't exist in the model
      *
      * @param string $class
-     * @param array  $config
+     * @param array $config
      */
     protected static function cleanProperties(string $class, array &$config)
     {

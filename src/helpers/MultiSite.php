@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -89,7 +89,7 @@ class MultiSite
                         $siteId = reset($variables['enabledSiteIds']);
                     }
                 } else {
-                    self::requirePermission('editSite:'.$siteId);
+                    self::requirePermission('editSite:' . $siteId);
                 }
             }
         }
@@ -137,7 +137,7 @@ class MultiSite
         if ($siteHandle !== null) {
             $site = Craft::$app->getSites()->getSiteByHandle($siteHandle);
             if (!$site) {
-                throw new NotFoundHttpException('Invalid site handle: '.$siteHandle);
+                throw new NotFoundHttpException('Invalid site handle: ' . $siteHandle);
             }
             $siteId = $site->id;
         } else {

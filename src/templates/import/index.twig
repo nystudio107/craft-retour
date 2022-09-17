@@ -1,7 +1,7 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour Dashboard index.twig
  *
@@ -55,7 +55,8 @@
                 </div>
             </div>
         </div>
-        <import-draggable :data="[{% for header in headers %}{id: {{ loop.index0 }}, name: '{{ header | escape('js') }}'},{% endfor %}]"></import-draggable>
+        <import-draggable
+            :data="[{% for header in headers %}{id: {{ loop.index0 }}, name: '{{ header | escape('js') }}'},{% endfor %}]"></import-draggable>
         <div class="field readable">
             <div class="heading">
                 <div class="instructions">

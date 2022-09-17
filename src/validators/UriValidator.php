@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -60,7 +60,7 @@ class UriValidator extends Validator
             return;
         }
         // Make sure there is a leading /
-        $value = '/'.ltrim($value, '/');
+        $value = '/' . ltrim($value, '/');
         $model->$attribute = $value;
     }
 }

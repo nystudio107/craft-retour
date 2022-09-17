@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -31,9 +31,9 @@ class Text
      * truncating occurs, the string is further truncated so that the substring
      * may be appended without exceeding the desired length.
      *
-     * @param  string $string    The string to truncate
-     * @param  int    $length    Desired length of the truncated string
-     * @param  string $substring The substring to append if it can fit
+     * @param string $string The string to truncate
+     * @param int $length Desired length of the truncated string
+     * @param string $substring The substring to append if it can fit
      *
      * @return string with the resulting $str after truncating
      */
@@ -55,9 +55,9 @@ class Text
      * string is further truncated so that the substring may be appended without
      * exceeding the desired length.
      *
-     * @param  string $string    The string to truncate
-     * @param  int    $length    Desired length of the truncated string
-     * @param  string $substring The substring to append if it can fit
+     * @param string $string The string to truncate
+     * @param int $length Desired length of the truncated string
+     * @param string $substring The substring to append if it can fit
      *
      * @return string with the resulting $str after truncating
      */

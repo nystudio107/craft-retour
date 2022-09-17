@@ -1,7 +1,7 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour Redirects index.twig
  *
@@ -56,7 +56,9 @@
 
         <div class="field first">
             <div class="heading">
-                <div class="instructions"><p>{{ "Retour will look for 404 (Not Found) URLs that match the Legacy URL Pattern below, and redirect them to Destination URL." |t("retour") |raw}}</p></div>
+                <div class="instructions">
+                    <p>{{ "Retour will look for 404 (Not Found) URLs that match the Legacy URL Pattern below, and redirect them to Destination URL." |t("retour") |raw }}</p>
+                </div>
             </div>
         </div>
 

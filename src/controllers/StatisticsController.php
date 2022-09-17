@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -48,7 +48,7 @@ class StatisticsController extends Controller
 
     /**
      * @param string|null $siteHandle
-     * @param bool        $showWelcome
+     * @param bool $showWelcome
      *
      * @return Response
      * @throws NotFoundHttpException
@@ -84,7 +84,7 @@ class StatisticsController extends Controller
         $variables['docsUrl'] = self::DOCUMENTATION_URL;
         $variables['pluginName'] = $pluginName;
         $variables['title'] = $templateTitle;
-        $siteHandleUri = Craft::$app->isMultiSite ? '/'.$siteHandle : '';
+        $siteHandleUri = Craft::$app->isMultiSite ? '/' . $siteHandle : '';
         $variables['crumbs'] = [
             [
                 'label' => $pluginName,
@@ -92,7 +92,7 @@ class StatisticsController extends Controller
             ],
             [
                 'label' => $templateTitle,
-                'url' => UrlHelper::cpUrl('retour/dashboard'.$siteHandleUri),
+                'url' => UrlHelper::cpUrl('retour/dashboard' . $siteHandleUri),
             ],
         ];
         $variables['docTitle'] = "{$pluginName} - {$templateTitle}";
