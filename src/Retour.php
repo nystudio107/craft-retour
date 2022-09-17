@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -24,7 +24,6 @@ use craft\events\RegisterGqlSchemaComponentsEvent;
 use craft\events\RegisterGqlTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
-use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\services\Dashboard;
@@ -40,16 +39,12 @@ use craft\web\UrlManager;
 use markhuot\CraftQL\Builders\Schema;
 use markhuot\CraftQL\CraftQL;
 use markhuot\CraftQL\Events\AlterSchemaFields;
-use nystudio107\pluginvite\services\VitePluginService;
-use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\fields\ShortLink as ShortLinkField;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\listeners\GetCraftQLSchema;
 use nystudio107\retour\models\Settings;
-use nystudio107\retour\services\Events;
-use nystudio107\retour\services\Redirects;
-use nystudio107\retour\services\Statistics;
+use nystudio107\retour\services\ServicesTrait;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
 use yii\base\Event;
@@ -63,14 +58,14 @@ use yii\web\HttpException;
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
- *
- * @property Events $events
- * @property Redirects $redirects
- * @property Statistics $statistics
- * @property VitePluginService $vite
  */
 class Retour extends Plugin
 {
+    // Traits
+    // =========================================================================
+
+    use ServicesTrait;
+
     // Constants
     // =========================================================================
 
@@ -118,38 +113,6 @@ class Retour extends Plugin
      * @var bool
      */
     public static $craft35 = false;
-
-    // Static Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($id, $parent = null, array $config = [])
-    {
-        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
-        // ref: https://github.com/craftcms/cms/issues/1989
-        $config = ArrayHelper::merge([
-            'components' => [
-                'events' => Events::class,
-                'redirects' => Redirects::class,
-                'statistics' => Statistics::class,
-                // Register the vite service
-                'vite' => [
-                    'class' => VitePluginService::class,
-                    'assetClass' => RetourAsset::class,
-                    'useDevServer' => true,
-                    'devServerPublic' => 'http://localhost:3001',
-                    'serverPublic' => 'http://localhost:8000',
-                    'errorEntry' => 'src/js/Retour.js',
-                    'devServerInternal' => 'http://craft-retour-buildchain:3001',
-                    'checkDevServer' => true,
-                ],
-            ]
-        ], $config);
-
-        parent::__construct($id, $parent, $config);
-    }
 
     // Public Properties
     // =========================================================================
@@ -410,7 +373,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_BEFORE_SAVE_ELEMENT,
-            function (ElementEvent $event) use ($prepareRedirectOnElementChange){
+            function (ElementEvent $event) use ($prepareRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_BEFORE_SAVE_ELEMENT',
                     __METHOD__
@@ -434,7 +397,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI,
-            function (ElementEvent $event) use ($prepareRedirectOnElementChange){
+            function (ElementEvent $event) use ($prepareRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI',
                     __METHOD__
