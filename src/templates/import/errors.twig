@@ -1,7 +1,7 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * @author    nystudio107
  * @copyright Copyright (c) 2018 nystudio107
@@ -32,7 +32,9 @@
             <p>{{ "All CSV rows without errors were still imported."|t("retour") }}</p>
             <div class="pane message">
                 <div class="body">
-                    <code><pre>{{ errorLogContents | raw }}</pre></code>
+                    <code>
+                        <pre>{{ errorLogContents | raw }}</pre>
+                    </code>
                 </div>
             </div>
         </div>
