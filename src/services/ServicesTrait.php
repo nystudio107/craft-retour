@@ -96,7 +96,7 @@ trait ServicesTrait
     /**
      * Returns the vite service
      *
-     * @return VitePluginService The events service
+     * @return VitePluginService The vite service
      * @throws InvalidConfigException
      */
     public function getVite(): VitePluginService
