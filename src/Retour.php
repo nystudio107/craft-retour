@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -37,15 +37,11 @@ use craft\utilities\ClearCaches;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
-use nystudio107\pluginvite\services\VitePluginService;
-use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\fields\ShortLink as ShortLinkField;
 use nystudio107\retour\gql\interfaces\RetourInterface;
 use nystudio107\retour\gql\queries\RetourQuery;
 use nystudio107\retour\models\Settings;
-use nystudio107\retour\services\Events;
-use nystudio107\retour\services\Redirects;
-use nystudio107\retour\services\Statistics;
+use nystudio107\retour\services\ServicesTrait;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
 use Twig\Error\RuntimeError;
@@ -60,14 +56,14 @@ use yii\web\HttpException;
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
- *
- * @property Events $events
- * @property Redirects $redirects
- * @property Statistics $statistics
- * @property VitePluginService $vite
  */
 class Retour extends Plugin
 {
+    // Traits
+    // =========================================================================
+
+    use ServicesTrait;
+
     // Constants
     // =========================================================================
 
@@ -113,34 +109,6 @@ class Retour extends Plugin
      * @var bool
      */
     public bool $hasCpSettings = true;
-
-    // Public Static Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public static function config(): array
-    {
-        return [
-            'components' => [
-                'events' => Events::class,
-                'redirects' => Redirects::class,
-                'statistics' => Statistics::class,
-                // Register the vite service
-                'vite' => [
-                    'class' => VitePluginService::class,
-                    'assetClass' => RetourAsset::class,
-                    'useDevServer' => true,
-                    'devServerPublic' => 'http://localhost:3001',
-                    'serverPublic' => 'http://localhost:8000',
-                    'errorEntry' => 'src/js/Retour.js',
-                    'devServerInternal' => 'http://craft-retour-buildchain:3001',
-                    'checkDevServer' => true,
-                ],
-            ]
-        ];
-    }
 
     // Public Methods
     // =========================================================================
@@ -572,7 +540,10 @@ class Retour extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = RetourWidget::class;
+                $currentUser = Craft::$app->getUser()->getIdentity();
+                if ($currentUser->can('accessPlugin-retour')) {
+                    $event->types[] = RetourWidget::class;
+                }
             }
         );
         // Handler: UrlManager::EVENT_REGISTER_CP_URL_RULES

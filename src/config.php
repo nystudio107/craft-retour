@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -34,10 +34,10 @@ return [
     'uriChangeRedirectSrcMatch' => 'pathonly',
 
     // Should the query string be stripped from all 404 URLs before their evaluation?
-    'alwaysStripQueryString'   => false,
+    'alwaysStripQueryString' => false,
 
     // Should the query string be stripped from the saved statistics source URLs?
-    'stripQueryStringFromStats'   => true,
+    'stripQueryStringFromStats' => true,
 
     // Should the anonymous ip address of the client causing a 404 be recorded?
     'recordRemoteIp' => true,
@@ -57,7 +57,7 @@ return [
     // Determines whether the Retour API endpoint should be enabled for anonymous frontend access
     'enableApiEndpoint' => false,
 
-     // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
+    // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
     'excludePatterns' => [
     ],
 
