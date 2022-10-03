@@ -540,7 +540,10 @@ class Retour extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = RetourWidget::class;
+                $currentUser = Craft::$app->getUser()->getIdentity();
+                if ($currentUser->can('accessPlugin-retour')) {
+                    $event->types[] = RetourWidget::class;
+                }
             }
         );
         // Handler: UrlManager::EVENT_REGISTER_CP_URL_RULES
