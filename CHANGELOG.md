@@ -3,6 +3,7 @@
 ## 4.1.4 - UNRELEASED
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services
+* Users must have permission to access Retour to be able to use the Retour widget ([#251](https://github.com/nystudio107/craft-retour/issues/251))
 
 ### Fixed
 * Ensure that `$driver` is nullable in the install migration ([#252](https://github.com/nystudio107/craft-retour/issues/252)) ([#250](https://github.com/nystudio107/craft-retour/pull/250))
