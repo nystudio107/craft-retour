@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.3 - UNRELEASED
+## 3.2.3 - 2022.10.03
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services
 * Users must have permission to access Retour to be able to use the Retour widget ([#251](https://github.com/nystudio107/craft-retour/issues/251))
