@@ -26,9 +26,9 @@ class Install extends Migration
     // =========================================================================
 
     /**
-     * @var string The database driver to use
+     * @var ?string The database driver to use
      */
-    public string $driver;
+    public ?string $driver;
 
     // Public Methods
     // =========================================================================
