@@ -1,9 +1,9 @@
 <?php
 /**
- * SEOmatic plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * @link      https://nystudio107.com/
- * @copyright Copyright (c) 2017 nystudio107
+ * @copyright Copyright (c) 2022 nystudio107
  * @license   https://nystudio107.com/license
  */
 
@@ -22,7 +22,7 @@ use yii\helpers\StringHelper;
 /**
  * @author    nystudio107
  * @package   Retour
- * @since     3.1.74
+ * @since     3.2.0
  *
  * @property-read string $contentColumnType
  */

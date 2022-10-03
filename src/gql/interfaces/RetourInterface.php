@@ -1,6 +1,6 @@
 <?php
 /**
- * Retour plugin for Craft CMS 3.x
+ * Retour plugin for Craft CMS
  *
  * Retour allows you to intelligently redirect legacy URLs, so that you don't
  * lose SEO value when rebuilding & restructuring a website
@@ -48,7 +48,7 @@ class RetourInterface extends BaseInterfaceType
 
         $type = GqlEntityRegistry::createEntity(self::class, new InterfaceType([
             'name' => static::getName(),
-            'fields' => self::class.'::getFieldDefinitions',
+            'fields' => self::class . '::getFieldDefinitions',
             'description' => 'This is the interface implemented by Retour.',
             'resolveType' => function (array $value) {
                 return GqlEntityRegistry::getEntity(RetourGenerator::getName());

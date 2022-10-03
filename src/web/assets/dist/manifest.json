@@ -78,12 +78,12 @@
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "../src/web/assets/src/js/Retour.css": {
-    "file": "assets/Retour.01cd23e9.css",
-    "src": "../src/web/assets/src/js/Retour.css"
-  },
   "purify.css": {
     "file": "assets/purify.5c36e73b.css",
     "src": "purify.css"
+  },
+  "../src/web/assets/src/js/Retour.css": {
+    "file": "assets/Retour.01cd23e9.css",
+    "src": "../src/web/assets/src/js/Retour.css"
   }
 }
