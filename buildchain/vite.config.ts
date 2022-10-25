@@ -52,12 +52,15 @@ export default defineConfig(({command}) => ({
       sourcemap: true,
     }),
   ],
+  optimizeDeps: {
+    include: ['vue-confetti', 'vue-apexcharts', 'vue-save-state'],
+  },
   publicDir: '../src/web/assets/public',
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      'vue': 'vue/dist/vue.esm.js',
-    },
+    alias: [
+      {find: '@', replacement: path.resolve(__dirname, '../src/web/assets/src')},
+      {find: 'vue', replacement: 'vue/dist/vue.esm.js'},
+    ],
     preserveSymlinks: true,
   },
   server: {
