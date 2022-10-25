@@ -1,16 +1,16 @@
 {
   "../src/web/assets/src/js/Dashboard.js": {
-    "file": "assets/dashboard.78f13246.js",
+    "file": "assets/dashboard.24de90f1.js",
     "src": "../src/web/assets/src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.020de810.js",
+      "_purify.es.d6f25a43.js",
       "_vueComponentNormalizer.5c2c5e6e.js",
-      "_vue-apexcharts.af91dad0.js"
+      "_vue-apexcharts.8d5c4217.js"
     ]
   },
   "../src/web/assets/src/js/Import.js": {
-    "file": "assets/import.85093d73.js",
+    "file": "assets/import.09b8df0d.js",
     "src": "../src/web/assets/src/js/Import.js",
     "isEntry": true,
     "imports": [
@@ -18,12 +18,12 @@
     ]
   },
   "../src/web/assets/src/js/Redirects.js": {
-    "file": "assets/redirects.0815d8a4.js",
+    "file": "assets/redirects.cb0e8591.js",
     "src": "../src/web/assets/src/js/Redirects.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.020de810.js",
-      "_LegacyUrl.31a5be57.js",
+      "_purify.es.d6f25a43.js",
+      "_LegacyUrl.4ac43272.js",
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
@@ -36,26 +36,26 @@
     ]
   },
   "../src/web/assets/src/js/Shortlinks.js": {
-    "file": "assets/shortlinks.d821b864.js",
+    "file": "assets/shortlinks.f07c2e3b.js",
     "src": "../src/web/assets/src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
-      "_purify.es.020de810.js",
-      "_LegacyUrl.31a5be57.js",
+      "_purify.es.d6f25a43.js",
+      "_LegacyUrl.4ac43272.js",
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
   "../src/web/assets/src/js/Widget.js": {
-    "file": "assets/widget.e59f34f7.js",
+    "file": "assets/widget.cac230fe.js",
     "src": "../src/web/assets/src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts.af91dad0.js",
+      "_vue-apexcharts.8d5c4217.js",
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "_purify.es.020de810.js": {
-    "file": "assets/purify.es.020de810.js",
+  "_purify.es.d6f25a43.js": {
+    "file": "assets/purify.es.d6f25a43.js",
     "imports": [
       "_vueComponentNormalizer.5c2c5e6e.js"
     ],
@@ -66,24 +66,24 @@
   "_vueComponentNormalizer.5c2c5e6e.js": {
     "file": "assets/vueComponentNormalizer.5c2c5e6e.js"
   },
-  "_vue-apexcharts.af91dad0.js": {
-    "file": "assets/vue-apexcharts.af91dad0.js",
+  "_vue-apexcharts.8d5c4217.js": {
+    "file": "assets/vue-apexcharts.8d5c4217.js",
     "imports": [
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "_LegacyUrl.31a5be57.js": {
-    "file": "assets/LegacyUrl.31a5be57.js",
+  "_LegacyUrl.4ac43272.js": {
+    "file": "assets/LegacyUrl.4ac43272.js",
     "imports": [
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
-  },
-  "purify.css": {
-    "file": "assets/purify.5c36e73b.css",
-    "src": "purify.css"
   },
   "../src/web/assets/src/js/Retour.css": {
     "file": "assets/Retour.01cd23e9.css",
     "src": "../src/web/assets/src/js/Retour.css"
+  },
+  "purify.css": {
+    "file": "assets/purify.5c36e73b.css",
+    "src": "purify.css"
   }
 }
