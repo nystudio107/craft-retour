@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 4.1.5 - UNRELEASED
+### Changed
+ * Fixed HMR in local dev with explicit alias that resolves to the actual directory
+* Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
+
 ## 4.1.4 - 2022.10.03
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services
