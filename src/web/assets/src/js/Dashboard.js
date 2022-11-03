@@ -7,20 +7,27 @@ import DashboardTable from '@/vue/DashboardTable.vue';
 Vue.use(VueEvents);
 // Create our vue instance
 new Vue({
-    el: "#cp-nav-content",
-    components: {
-        ConfettiParty,
-        DashboardChart,
-        DashboardTable,
-    },
-    data: {
-    },
-    mounted() {
-        this.$events.$on('refresh-table', eventData => this.onTableRefresh(eventData));
-    },
-    methods: {
-        onTableRefresh (vuetable) {
-            Vue.nextTick( () => vuetable.refresh());
-        }
-    },
+  el: "#cp-nav-content",
+  components: {
+    ConfettiParty,
+    DashboardChart,
+    DashboardTable,
+  },
+  data: {},
+  mounted() {
+    this.$events.$on('refresh-table', eventData => this.onTableRefresh(eventData));
+  },
+  methods: {
+    onTableRefresh(vuetable) {
+      Vue.nextTick(() => vuetable.refresh());
+    }
+  },
 });
+
+// Accept HMR as per: https://vitejs.dev/guide/api-hmr.html
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    console.log("HMR")
+  });
+}
+

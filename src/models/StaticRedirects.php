@@ -74,7 +74,7 @@ class StaticRedirects extends DbModel
     /**
      * @var int The http status code that should be used for the redirect.
      */
-    public int $redirectHttpCode = 0;
+    public int $redirectHttpCode = 301;
 
     /**
      * @var int The number of times this redirect has been hit.
