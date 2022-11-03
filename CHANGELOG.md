@@ -5,6 +5,10 @@
  * Fixed HMR in local dev with explicit alias that resolves to the actual directory
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
 
+### Fixed
+* Fixed an issue where the default value for `redirectHttpCode` would cause a validation error to be displayed when creating a new static redirect ([#255](https://github.com/nystudio107/craft-retour/issues/255))
+* Fixed an issue where the default value for `redirectHttpCode` would cause importing a CSV file to fail if no `redirectHttpCode` was provided in the CSV file ([#253](https://github.com/nystudio107/craft-retour/issues/253))
+
 ## 4.1.4 - 2022.10.03
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services
