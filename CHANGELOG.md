@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.5 - UNRELEASED
+## 4.1.5 - 2022.11.03
 ### Changed
  * Fixed HMR in local dev with explicit alias that resolves to the actual directory
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
