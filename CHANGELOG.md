@@ -5,6 +5,9 @@
 * Fixed HMR in local dev with explicit alias that resolves to the actual directory
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
 
+### Fixed
+* Fixed an issue where the Short Links field could throw an exception on Craft 3.x
+
 ## 3.2.3 - 2022.10.03
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services
