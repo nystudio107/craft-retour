@@ -6,7 +6,8 @@
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
 
 ### Fixed
-* Fixed an issue where the Short Links field could throw an exception on Craft 3.x
+* Fixed an issue where the Short Links field could throw an exception on Craft 3.x < 3.7.19
+* Handle missing `describedBy` for Craft 3.x < 3.7.25
 
 ## 3.2.3 - 2022.10.03
 ### Changed
