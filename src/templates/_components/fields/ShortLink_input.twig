@@ -4,7 +4,7 @@
 
 {% set config = {
     id: id,
-    describedBy: field.describedBy ?? '',
+    describedBy: field['describedBy'] is defined ? field.describedBy : '',
     name: name,
     value: value,
     class: class,
