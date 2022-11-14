@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.6 - UNRELEASED
+### Fixed
+* Fixed an issue with the console command throwing an exception due to an uninitialized typed property ([#257](https://github.com/nystudio107/craft-retour/issues/257))
+
 ## 4.1.5 - 2022.11.03
 ### Changed
  * Fixed HMR in local dev with explicit alias that resolves to the actual directory
