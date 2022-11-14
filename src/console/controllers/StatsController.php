@@ -30,7 +30,7 @@ class StatsController extends Controller
     /**
      * @var null|int
      */
-    public ?int $limit;
+    public ?int $limit = null;
 
     // Protected Properties
     // =========================================================================
