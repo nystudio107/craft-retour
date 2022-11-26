@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.2.4 - UNRELEASED
+### Added
+* Added `EVENT_BEFORE_DELETE_REDIRECT` & `EVENT_AFTER_DELETE_REDIRECT` events, so you can hook in before & after a redirect is deleted ([#259](https://github.com/nystudio107/craft-retour/issues/259))
+
 ### Changed
 * Fixed HMR in local dev with explicit alias that resolves to the actual directory
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
