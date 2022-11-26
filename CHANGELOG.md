@@ -7,6 +7,7 @@
 ### Changed
 * Fixed HMR in local dev with explicit alias that resolves to the actual directory
 * Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
+* Updated docs to use VitePress `^1.0.0-alpha.29`
 
 ### Fixed
 * Fixed an issue where the Short Links field could throw an exception on Craft 3.x < 3.7.19
