@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 4.1.6 - UNRELEASED
+### Added
+* Added `EVENT_BEFORE_DELETE_REDIRECT` & `EVENT_AFTER_DELETE_REDIRECT` events, so you can hook in before & after a redirect is deleted ([#259](https://github.com/nystudio107/craft-retour/issues/259))
+
 ### Fixed
 * Fixed an issue with the console command throwing an exception due to an uninitialized typed property ([#257](https://github.com/nystudio107/craft-retour/issues/257))
 
