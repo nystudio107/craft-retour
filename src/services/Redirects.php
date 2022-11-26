@@ -89,6 +89,41 @@ class Redirects extends Component
     public const EVENT_AFTER_SAVE_REDIRECT = 'afterSaveRedirect';
 
     /**
+     * @event RedirectEvent The event that is triggered before the redirect is deleted
+     * You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting deleted.
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\RedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_BEFORE_DELETE_REDIRECT,
+     *     function(RedirectEvent $event) {
+     *         // potentially set $event->isValid;
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
+
+    /**
+     * @event RedirectEvent The event that is triggered after the redirect is deleted
+     *
+     * ```php
+     * use nystudio107\retour\services\Redirects;
+     * use nystudio107\retour\events\RedirectEvent;
+     *
+     * Event::on(Redirects::class,
+     *     Redirects::EVENT_AFTER_DELETE_REDIRECT,
+     *     function(RedirectEvent $event) {
+     *         // the redirect was deleted
+     *     }
+     * );
+     * ```
+     */
+    const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
+
+    /**
      * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
      *        to resolve redirects. You may set [[ResolveRedirectEvent::redirectDestUrl]] to
      *        to the URL that it should redirect to, or null if no redirect should happen
@@ -898,6 +933,21 @@ class Redirects extends Component
     public function deleteRedirectById(int $id): int
     {
         $db = Craft::$app->getDb();
+        // Trigger a 'beforeDeleteRedirect' event
+        $redirectConfig = $this->getRedirectById($id);
+        $isNew = (int)$redirectConfig['id'] === 0;
+        $event = new RedirectEvent([
+            'isNew' => $isNew,
+            'legacyUrl' => $redirectConfig['redirectSrcUrlParsed'],
+            'destinationUrl' => $redirectConfig['redirectDestUrl'],
+            'matchType' => $redirectConfig['redirectSrcMatch'],
+            'redirectType' => $redirectConfig['redirectHttpCode'],
+            'siteId' => $redirectConfig['siteId'],
+        ]);
+        $this->trigger(self::EVENT_BEFORE_DELETE_REDIRECT, $event);
+        if (!$event->isValid) {
+            return false;
+        }
         // Delete a row from the db table
         try {
             $result = $db->createCommand()->delete(
@@ -910,6 +960,7 @@ class Redirects extends Component
             Craft::error($e->getMessage(), __METHOD__);
             $result = 0;
         }
+        $this->trigger(self::EVENT_AFTER_DELETE_REDIRECT, $event);
 
         return $result;
     }
