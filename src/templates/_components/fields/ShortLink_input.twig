@@ -3,8 +3,8 @@
 {%- set class = ['nicetext', 'retour-shortlink-icon'] %}
 
 {% set config = {
-    id: id ?? field.getInputId(),
-    describedBy: field.describedBy,
+    id: id,
+    describedBy: field['describedBy'] is defined ? field.describedBy : '',
     name: name,
     value: value,
     class: class,

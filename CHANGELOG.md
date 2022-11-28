@@ -1,5 +1,18 @@
 # Retour Changelog
 
+## 3.2.4 - 2022.11.28
+### Added
+* Added `EVENT_BEFORE_DELETE_REDIRECT` & `EVENT_AFTER_DELETE_REDIRECT` events, so you can hook in before & after a redirect is deleted ([#259](https://github.com/nystudio107/craft-retour/issues/259))
+
+### Changed
+* Fixed HMR in local dev with explicit alias that resolves to the actual directory
+* Add `import.meta.hot.accept` for entrypoint JavaScript for HMR
+* Updated docs to use VitePress `^1.0.0-alpha.29`
+
+### Fixed
+* Fixed an issue where the Short Links field could throw an exception on Craft 3.x < 3.7.19
+* Handle missing `describedBy` for Craft 3.x < 3.7.25
+
 ## 3.2.3 - 2022.10.03
 ### Changed
 * Move to using `ServicesTrait` and add getter methods for services

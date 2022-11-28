@@ -65,6 +65,34 @@ Event::on(Redirects::class,
  );
 ```
 
+`beforeDeleteRedirect` is the event that is triggered before the redirect is deleted. You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting deleted:
+
+```php
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\events\RedirectEvent;
+
+Event::on(Redirects::class,
+     Redirects::EVENT_BEFORE_DELETE_REDIRECT,
+     function(RedirectEvent $event) {
+         // potentially set $event->isValid;
+     }
+ );
+```
+
+`afterDeleteRedirect` is the event that is triggered after the redirect is deleted.
+
+```php
+use nystudio107\retour\services\Redirects;
+use nystudio107\retour\events\RedirectEvent;
+
+Event::on(Redirects::class,
+     Redirects::EVENT_AFTER_DELETE_REDIRECT,
+     function(RedirectEvent $event) {
+         // the redirect was deleted
+     }
+ );
+```
+
 `beforeSaveEntryRedirect` is the event that is triggered before an Entry redirect is automatically saved when an Entry's URI is changed (assuming the **Create Entry Redirects** setting is enabled). You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved.
 
 ```php

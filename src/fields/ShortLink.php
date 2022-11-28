@@ -14,6 +14,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\ElementHelper;
+use craft\helpers\Html;
 use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use nystudio107\retour\Retour as RetourPlugin;
@@ -69,6 +70,15 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        // Get our id & namespaceId
+        $craft35 = version_compare(Craft::$app->getVersion(), '3.5', '>=');
+        if ($craft35) {
+            $id = Html::id($this->handle);
+        } else {
+            $id = Craft::$app->getView()->formatInputId($this->handle);
+        }
+        $namespacedId = Craft::$app->getView()->namespaceInputId($id);
+
         // Render the input template
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_input',
@@ -76,6 +86,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
                 'name' => $this->handle,
                 'value' => $value,
                 'field' => $this,
+                'id' => $id,
+                'namespacedId' => $namespacedId,
             ]
         );
     }
