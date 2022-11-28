@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.4 - UNRELEASED
+## 3.2.4 - 2022.11.28
 ### Added
 * Added `EVENT_BEFORE_DELETE_REDIRECT` & `EVENT_AFTER_DELETE_REDIRECT` events, so you can hook in before & after a redirect is deleted ([#259](https://github.com/nystudio107/craft-retour/issues/259))
 
