@@ -60,6 +60,7 @@ class FileController extends Controller
         'hitCount' => 'Hits',
         'associatedElementId' => 'Short Link Element ID',
         'hitLastTime' => 'Last Hit',
+        'priority' => 'Redirect priority',
     ];
 
     protected const EXPORT_STATISTICS_CSV_FIELDS = [
@@ -81,6 +82,7 @@ class FileController extends Controller
         'redirectSrcMatch',
         'hitCount',
         'associatedElementId',
+        'priority',
     ];
 
     // Protected Properties

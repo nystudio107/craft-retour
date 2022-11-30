@@ -77,6 +77,11 @@ class StaticRedirects extends DbModel
     public int $redirectHttpCode = 301;
 
     /**
+     * @var int The priority that determines the selected redirect in case of multiple matches
+     */
+    public int $priority = 5;
+
+    /**
      * @var int The number of times this redirect has been hit.
      */
     public int $hitCount = 0;
@@ -159,6 +164,9 @@ class StaticRedirects extends DbModel
             ['redirectHttpCode', 'integer'],
             ['redirectHttpCode', 'in', 'range' => [301, 302, 307, 308, 410]],
             ['redirectHttpCode', 'default', 'value' => 301],
+            ['priority', 'default', 'value' => 5],
+            ['priority', 'integer'],
+            ['priority', 'in', 'range' => [1, 2, 3, 4, 5, 6, 7, 8, 9]],
             ['hitCount', 'default', 'value' => 0],
             ['hitCount', 'integer'],
             ['hitLastTime', 'safe'],
