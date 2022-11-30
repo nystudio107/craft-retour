@@ -6,9 +6,9 @@ use Craft;
 use craft\db\Migration;
 
 /**
- * m221129_221000_add_sortOrder_column migration.
+ * m221129_221000_add_priorities_column migration.
  */
-class m221129_221000_add_sortOrder_column extends Migration
+class m221129_221000_add_priorities_column extends Migration
 {
     /**
      * @inheritdoc
@@ -30,7 +30,7 @@ class m221129_221000_add_sortOrder_column extends Migration
      */
     public function safeDown()
     {
-        echo "m221129_221000_add_sortOrder_column cannot be reverted.\n";
+        echo "m221129_221000_add_priorities_column cannot be reverted.\n";
         return false;
     }
 }
