@@ -95,7 +95,6 @@
       :css="css"
       :fields="fields"
       :per-page="perPage"
-      :sort-order="sortOrder"
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter border-solid">
