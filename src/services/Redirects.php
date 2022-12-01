@@ -338,7 +338,7 @@ class Redirects extends Component
             return $redirect;
         }
 
-        $redirect = $this->getStaticRedirect($fullUrl, $pathOnly, $siteId);
+        $redirect = $this->getStaticRedirect($fullUrl, $pathOnly, $siteId, true);
         if ($redirect) {
             $this->incrementRedirectHitCount($redirect);
             $this->saveRedirectToCache($pathOnly, $redirect);
@@ -347,7 +347,7 @@ class Redirects extends Component
         }
 
         // Resolve static redirects
-        $redirects = $this->getAllRegExRedirects(null, $siteId);
+        $redirects = $this->getAllRegExRedirects(null, $siteId, true);
         $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
         if ($redirect) {
             return $redirect;
@@ -456,9 +456,8 @@ class Redirects extends Component
      * @param $siteId
      * @return mixed|null
      */
-    public function getStaticRedirect(string $fullUrl, string $pathOnly, $siteId)
+    public function getStaticRedirect(string $fullUrl, string $pathOnly, $siteId, bool $enabledOnly = false)
     {
-        $enabledCondition = ['enabled' => 1];
         $staticCondition = ['redirectMatchType' => 'exactmatch'];
         $siteCondition = [
             'or',
@@ -480,13 +479,16 @@ class Redirects extends Component
         $query = (new Query)
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
-                $enabledCondition,
                 $staticCondition,
                 $pathCondition,
                 $siteCondition
             ])
             ->limit(1);
 
+        if ($enabledOnly) {
+            $query->andWhere(['enabled' => 1]);
+        }
+        
         return $query->one();
     }
 
@@ -496,14 +498,14 @@ class Redirects extends Component
      *
      * @return array All of the regex match redirects
      */
-    public function getAllRegExRedirects(int $limit = null, int $siteId = null): array
+    public function getAllRegExRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
         // Cache it in our class; no need to fetch it more than once
         if ($this->cachedRegExRedirects !== null) {
             return $this->cachedRegExRedirects;
         }
 
-        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'regexmatch');
+        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'regexmatch', $enabledOnly);
 
         // Cache for future accesses
         $this->cachedRegExRedirects = $redirects;
@@ -517,14 +519,14 @@ class Redirects extends Component
      *
      * @return array All of the regex match redirects
      */
-    public function getAllExactMatchRedirects(int $limit = null, int $siteId = null): array
+    public function getAllExactMatchRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
         // Cache it in our class; no need to fetch it more than once
         if ($this->cachedExactMatchRedirects !== null) {
             return $this->cachedExactMatchRedirects;
         }
 
-        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch');
+        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch', $enabledOnly);
 
         // Cache for future accesses
         $this->cachedExactMatchRedirects = $redirects;
@@ -538,7 +540,7 @@ class Redirects extends Component
      * @param string $type
      * @return array
      */
-    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type): array
+    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type, bool $enabledOnly = false): array
     {
         // Query the db table
         $query = (new Query())
@@ -556,6 +558,10 @@ class Redirects extends Component
         }
 
         $query->andWhere(['redirectMatchType' => $type]);
+
+        if ($enabledOnly) {
+            $query->andWhere(['enabled' => 1]);
+        }
 
         return $query->all();
     }
