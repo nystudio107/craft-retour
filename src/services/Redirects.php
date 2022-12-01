@@ -458,6 +458,7 @@ class Redirects extends Component
      */
     public function getStaticRedirect(string $fullUrl, string $pathOnly, $siteId)
     {
+        $enabledCondition = ['enabled' => 1];
         $staticCondition = ['redirectMatchType' => 'exactmatch'];
         $siteCondition = [
             'or',
@@ -479,6 +480,7 @@ class Redirects extends Component
         $query = (new Query)
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
+                $enabledCondition,
                 $staticCondition,
                 $pathCondition,
                 $siteCondition
