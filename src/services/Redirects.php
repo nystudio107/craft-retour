@@ -488,7 +488,7 @@ class Redirects extends Component
         if ($enabledOnly) {
             $query->andWhere(['enabled' => 1]);
         }
-        
+
         return $query->one();
     }
 
@@ -545,7 +545,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, priority ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, priority ASC, hitCount DESC');
 
         if ($siteId) {
             $query
@@ -581,7 +581,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, redirectSrcMatch ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, priority ASC, hitCount DESC');
         if ($siteId) {
             $query
                 ->where(['siteId' => $siteId])
