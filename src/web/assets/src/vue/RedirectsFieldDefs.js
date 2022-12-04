@@ -43,6 +43,13 @@ export default [
     dataClass: 'text-left',
   },
   {
+    name: 'priority',
+    sortField: 'priority',
+    title: Craft.t('retour', 'Priority'),
+    titleClass: 'text-right',
+    dataClass: 'text-right',
+  },
+  {
     name: 'hitCount',
     sortField: 'hitCount',
     title: Craft.t('retour', 'Hits'),
