@@ -161,5 +161,14 @@ return [
     'statistics' => 'statistics',
     'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember.' => 'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember.',
     'Redirects only happen if Craft throws a `404` exception for the Legacy URL Pattern.' => 'Redirects only happen if Craft throws a `404` exception for the Legacy URL Pattern.',
-    'Short Links are created by adding a Short Link field to the field layout of a Section.' => 'Short Links are created by adding a Short Link field to the field layout of a Section.'
+    'Short Links are created by adding a Short Link field to the field layout of a Section.' => 'Short Links are created by adding a Short Link field to the field layout of a Section.',
+    'CSV File Import Errors' => 'CSV File Import Errors',
+    'All CSV rows without errors were still imported.' => 'All CSV rows without errors were still imported.',
+    'Priority' => 'Priority',
+    'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember. Short Links are created by adding a Short Link field to the field layout of a Section' => 'Short Links are a way to create a short link or alias to an Entry, so the link is easier to type or remember. Short Links are created by adding a Short Link field to the field layout of a Section',
+    'Redirect priority' => 'Redirect priority',
+    'Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority).' => 'Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority).',
+    'Some errors occured .' => 'Some errors occured .',
+    'Some errors occured importing the CSV file.' => 'Some errors occured importing the CSV file.',
+    'Select the priority that will determine the order of mathching the redirect.' => 'Select the priority that will determine the order of mathching the redirect.'
 ];
