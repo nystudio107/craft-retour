@@ -98,7 +98,7 @@ class Retour extends Plugin
     /**
      * @var string
      */
-    public string $schemaVersion = '3.0.10';
+    public string $schemaVersion = '3.0.11';
 
     /**
      * @var bool
