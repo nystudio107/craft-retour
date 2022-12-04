@@ -180,6 +180,10 @@ export default {
     }
   },
   mounted() {
+    // If in local dev, don't cache the component state
+    if (import.meta.hot) {
+      this.clearSavedState();
+    }
     this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
     this.$events.$on('filter-reset', () => this.onFilterReset());
     this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
@@ -228,7 +232,7 @@ export default {
       }
     },
     matchFormatter(value) {
-      let label = 'Pluing Match';
+      let label = 'Plugin Match';
       switch (value) {
         case 'exactmatch':
           label = 'Exact Match';
