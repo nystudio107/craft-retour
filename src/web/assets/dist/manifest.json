@@ -18,7 +18,7 @@
     ]
   },
   "../src/web/assets/src/js/Redirects.js": {
-    "file": "assets/redirects.bcf73b71.js",
+    "file": "assets/redirects.7648a1d5.js",
     "src": "../src/web/assets/src/js/Redirects.js",
     "isEntry": true,
     "imports": [
@@ -78,12 +78,12 @@
       "_vueComponentNormalizer.5c2c5e6e.js"
     ]
   },
-  "../src/web/assets/src/js/Retour.css": {
-    "file": "assets/Retour.8d835270.css",
-    "src": "../src/web/assets/src/js/Retour.css"
-  },
   "purify.css": {
     "file": "assets/purify.5c36e73b.css",
     "src": "purify.css"
+  },
+  "../src/web/assets/src/js/Retour.css": {
+    "file": "assets/Retour.8d835270.css",
+    "src": "../src/web/assets/src/js/Retour.css"
   }
 }
