@@ -148,8 +148,8 @@ export default {
       },
       css: {
         tableClass: 'data fullwidth retour-redirects',
-        ascendingIcon: 'menubtn retour-menubtn-asc',
-        descendingIcon: 'menubtn retour-menubtn-desc'
+        ascendingIcon: 'icon retour-menubtn-asc',
+        descendingIcon: 'icon retour-menubtn-desc'
       },
       sortOrder: [
         {

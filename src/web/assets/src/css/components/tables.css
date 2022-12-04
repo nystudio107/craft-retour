@@ -13,11 +13,13 @@ table.vuetable {
     overflow: hidden;
 }
 
-.retour-menubtn-asc::after {
+.retour-menubtn-asc::before {
+    font-weight: bold;
     content: "downangle";
 }
 
-.retour-menubtn-desc::after {
+.retour-menubtn-desc::before {
+    font-weight: bold;
     content: "upangle";
 }
 
