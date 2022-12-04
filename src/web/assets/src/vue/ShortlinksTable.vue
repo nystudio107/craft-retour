@@ -49,7 +49,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
@@ -99,7 +99,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo" />
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
@@ -183,6 +183,10 @@ export default {
     }
   },
   mounted() {
+    // If in local dev, don't cache the component state
+    if (import.meta.hot) {
+      this.clearSavedState();
+    }
     this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
     this.$events.$on('filter-reset', () => this.onFilterReset());
     this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
