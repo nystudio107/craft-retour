@@ -55,7 +55,7 @@ class FileController extends Controller
         'hitCount' => 'Hits',
         'associatedElementId' => 'Short Link Element ID',
         'hitLastTime' => 'Last Hit',
-        'priority' => 'Redirect priority',
+        'priority' => 'Priority',
     ];
 
     const EXPORT_STATISTICS_CSV_FIELDS = [
