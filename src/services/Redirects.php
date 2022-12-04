@@ -182,24 +182,6 @@ class Redirects extends Component
      */
     public const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
 
-    // Protected Properties
-    // =========================================================================
-
-    /**
-     * @var null|array
-     */
-    protected ?array $cachedStaticRedirects = null;
-
-    /**
-     * @var null|array
-     */
-    protected ?array $cachedRegExRedirects = null;
-
-    /**
-     * @var null|array
-     */
-    protected ?array $cachedExactMatchRedirects = null;
-
     // Public Methods
     // =========================================================================
 
@@ -500,17 +482,7 @@ class Redirects extends Component
      */
     public function getAllRegExRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
-        // Cache it in our class; no need to fetch it more than once
-        if ($this->cachedRegExRedirects !== null) {
-            return $this->cachedRegExRedirects;
-        }
-
-        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'regexmatch', $enabledOnly);
-
-        // Cache for future accesses
-        $this->cachedRegExRedirects = $redirects;
-
-        return $redirects;
+        return $this->getRedirectsByMatchType($limit, $siteId, 'regexmatch', $enabledOnly);
     }
 
     /**
@@ -521,17 +493,7 @@ class Redirects extends Component
      */
     public function getAllExactMatchRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
-        // Cache it in our class; no need to fetch it more than once
-        if ($this->cachedExactMatchRedirects !== null) {
-            return $this->cachedExactMatchRedirects;
-        }
-
-        $redirects = $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch', $enabledOnly);
-
-        // Cache for future accesses
-        $this->cachedExactMatchRedirects = $redirects;
-
-        return $redirects;
+        return $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch', $enabledOnly);
     }
 
     /**
@@ -574,10 +536,6 @@ class Redirects extends Component
      */
     public function getAllStaticRedirects(int $limit = null, int $siteId = null): array
     {
-        // Cache it in our class; no need to fetch it more than once
-        if ($this->cachedStaticRedirects !== null) {
-            return $this->cachedStaticRedirects;
-        }
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
@@ -590,11 +548,7 @@ class Redirects extends Component
         if ($limit) {
             $query->limit($limit);
         }
-        $redirects = $query->all();
-        // Cache for future accesses
-        $this->cachedStaticRedirects = $redirects;
-
-        return $redirects;
+        return $query->all();
     }
 
     /**
