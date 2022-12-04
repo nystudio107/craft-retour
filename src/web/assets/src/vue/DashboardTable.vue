@@ -244,7 +244,7 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
-      const cacheKey = 'retour-dashboard-state-' + Craft.username + Craft.siteId;
+      const cacheKey = 'retour-dashboard-state-v2-' + Craft.username + Craft.siteId;
       return {
         'cacheKey': cacheKey,
         'ignoreProperties': ['numSelected', 'selectedIds', 'moreParams'],

@@ -191,7 +191,7 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
-      const cacheKey = 'retour-redirects-state-' + Craft.username + Craft.siteId;
+      const cacheKey = 'retour-redirects-state-v2-' + Craft.username + Craft.siteId;
       return {
         'cacheKey': cacheKey,
         'ignoreProperties': ['numSelected', 'selectedIds', 'moreParams'],
