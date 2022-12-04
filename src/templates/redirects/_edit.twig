@@ -134,7 +134,7 @@
         <div id="regexmatch" {{ redirect.redirectMatchType != 'regexmatch' ? 'class="hidden"' : '' }}>
             {{ forms.selectField({
                 label: "Priority"|t("retour"),
-                instructions: "Select the priority that will determine the order of mathching the redirect."|t("retour"),
+                instructions: "Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority)."|t("retour"),
                 id: "priority",
                 name: "priority",
                 value: redirect.priority,
