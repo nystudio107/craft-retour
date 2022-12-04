@@ -744,7 +744,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, priority ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, priority ASC');
 
         if ($siteId) {
             $query
@@ -776,7 +776,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, priority ASC, hitCount DESC');
+            ->orderBy('redirectMatchType ASC, priority ASC');
         if ($siteId) {
             $query
                 ->where(['siteId' => $siteId])
