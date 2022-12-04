@@ -49,7 +49,7 @@ th.vuetable-th-hitCount {
 }
 
 th.vuetable-th-hitLastTime {
-    width: 18% !important;
+    width: 16% !important;
 }
 
 th.vuetable-th-handledByRetour {
@@ -77,11 +77,11 @@ th.vuetable-th-redirectDestUrl {
 }
 
 th.vuetable-th-redirectMatchType {
-    width: 11% !important;
+    width: 10% !important;
 }
 
 th.vuetable-th-priority {
-    width: 6% !important;
+    width: 8% !important;
     text-align: right !important;
 }
 
@@ -90,7 +90,7 @@ th.vuetable-th-siteName {
 }
 
 th.vuetable-th-redirectHttpCode {
-    width: 5% !important;
+    width: 7% !important;
 }
 
 /**
