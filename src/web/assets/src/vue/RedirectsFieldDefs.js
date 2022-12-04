@@ -9,8 +9,8 @@ export default [
     name: '__component:legacy-url',
     sortField: 'redirectSrcUrl',
     title: Craft.t('retour', 'Legacy URL Pattern'),
-    titleClass: 'center',
-    dataClass: 'center',
+    titleClass: 'center vuetable-th-redirectSrcUrl',
+    dataClass: 'center vuetable-td-redirectSrcUrl',
   },
   {
     name: 'redirectDestUrl',
@@ -43,7 +43,7 @@ export default [
     dataClass: 'text-left',
   },
   {
-    name: 'priority',
+    name: '__component:priority-value',
     sortField: 'priority',
     title: Craft.t('retour', 'Priority'),
     titleClass: 'text-right',
