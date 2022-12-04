@@ -96,11 +96,11 @@ th.vuetable-th-redirectHttpCode {
 /**
  * Column alignment
  */
-td.text-center {
+td.text-center, th.text-center {
     text-align: center !important;
 }
 
-td.text-right {
+td.text-right, th.text-right {
     text-align: right !important;
 }
 
