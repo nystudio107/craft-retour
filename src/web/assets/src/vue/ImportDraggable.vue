@@ -121,6 +121,7 @@ export default {
         Craft.t('retour', 'Legacy URL Match Type'),
         Craft.t('retour', 'Hits'),
         Craft.t('retour', 'Short Link Element ID'),
+        Craft.t('retour', 'Priority'),
       ]
     }
   },

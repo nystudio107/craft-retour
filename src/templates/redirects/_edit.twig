@@ -128,7 +128,30 @@
             value: redirect.redirectMatchType,
             options: craft.retour.getMatchesList(),
             errors: redirect.getErrors("redirectMatchType"),
+            toggle: true,
         }) }}
+
+        <div id="regexmatch" {{ redirect.redirectMatchType != 'regexmatch' ? 'class="hidden"' : '' }}>
+            {{ forms.selectField({
+                label: "Priority"|t("retour"),
+                instructions: "Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority)."|t("retour"),
+                id: "priority",
+                name: "priority",
+                value: redirect.priority,
+                options: {
+                    1 : 1,
+                    2 : 2,
+                    3 : 3,
+                    4 : 4,
+                    5 : 5,
+                    6 : 6,
+                    7 : 7,
+                    8 : 8,
+                    9 : 9,
+                },
+                errors: redirect.getErrors("priority"),
+            }) }}
+        </div>
 
         {{ forms.selectField({
             label: "Redirect Type"|t("retour"),
