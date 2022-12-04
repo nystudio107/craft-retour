@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 3.2.5 - UNRELEASED
+### Added
+* Added the ability to set a **Priority** for regex redirects, so you have control over the order in which they execute ([#74](https://github.com/nystudio107/craft-retour/issues/74))
+
+### Fixed
+* Fixed an issue that would cause `getStaticRedirect()` to return a redirect regardless of whether or not it is enabled ([#260](https://github.com/nystudio107/craft-retour/issues/260))
+
 ## 3.2.4 - 2022.11.28
 ### Added
 * Added `EVENT_BEFORE_DELETE_REDIRECT` & `EVENT_AFTER_DELETE_REDIRECT` events, so you can hook in before & after a redirect is deleted ([#259](https://github.com/nystudio107/craft-retour/issues/259))
