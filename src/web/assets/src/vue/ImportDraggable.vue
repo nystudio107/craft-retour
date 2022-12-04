@@ -19,7 +19,7 @@
             class="retour-import-list-group-item whitespace-no-wrap clearafter"
             :class="{'retour-empty-item': element.name === '' }"
           >
-            <a class="move icon mr-2" />
+            <a class="move icon mr-2"/>
             <span
               class="truncate inline-block leading-tight align-bottom"
               style="width: 80%;"
@@ -121,7 +121,7 @@ export default {
         Craft.t('retour', 'Legacy URL Match Type'),
         Craft.t('retour', 'Hits'),
         Craft.t('retour', 'Short Link Element ID'),
-        Craft.t('retour', 'Redirect priority'),
+        Craft.t('retour', 'Priority'),
       ]
     }
   },
