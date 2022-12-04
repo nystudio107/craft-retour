@@ -46,8 +46,8 @@ export default [
     name: 'priority',
     sortField: 'priority',
     title: Craft.t('retour', 'Priority'),
-    titleClass: 'text-right',
-    dataClass: 'text-right',
+    titleClass: 'text-right vuetable-th-priority',
+    dataClass: 'text-right vuetable-td-priority',
   },
   {
     name: 'hitCount',
