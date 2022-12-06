@@ -148,8 +148,8 @@ export default {
       },
       css: {
         tableClass: 'data fullwidth retour-redirects',
-        ascendingIcon: 'menubtn retour-menubtn-asc',
-        descendingIcon: 'menubtn retour-menubtn-desc'
+        ascendingIcon: 'icon retour-menubtn-asc',
+        descendingIcon: 'icon retour-menubtn-desc'
       },
       sortOrder: [
         {
@@ -183,6 +183,10 @@ export default {
     }
   },
   mounted() {
+    // If in local dev, don't cache the component state
+    if (import.meta.hot) {
+      this.clearSavedState();
+    }
     this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
     this.$events.$on('filter-reset', () => this.onFilterReset());
     this.$refs.vuetable.$on('vuetable:checkbox-toggled', (isChecked, dataItem) => this.onCheckboxToggled(isChecked, dataItem));
@@ -190,7 +194,7 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
-      const cacheKey = 'retour-shortlinks-state-' + Craft.username + Craft.siteId;
+      const cacheKey = 'retour-shortlinks-state-v2-' + Craft.username + Craft.siteId;
       return {
         'cacheKey': cacheKey,
         'ignoreProperties': ['numSelected', 'selectedIds', 'moreParams'],

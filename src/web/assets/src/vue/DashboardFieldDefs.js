@@ -9,8 +9,8 @@ export default [
     name: '__component:file-not-found-url',
     sortField: 'redirectSrcUrl',
     title: Craft.t('retour', '404 File Not Found URL'),
-    titleClass: 'center',
-    dataClass: 'center',
+    titleClass: 'center vuetable-th-redirectSrcUrl',
+    dataClass: 'center vuetable-td-redirectSrcUrl',
   },
   {
     name: 'referrerUrl',
