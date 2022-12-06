@@ -57,6 +57,7 @@ class TablesController extends Controller
         'redirectMatchType',
         'siteId',
         'redirectHttpCode',
+        'priority',
         'hitCount',
         'hitLastTime',
     ];
