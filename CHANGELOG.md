@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.5 - UNRELEASED
+## 3.2.5 - 2022.12.05
 ### Added
 * Added the ability to set a **Priority** for regex redirects, so you have control over the order in which they execute ([#74](https://github.com/nystudio107/craft-retour/issues/74))
 
