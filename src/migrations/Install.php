@@ -82,6 +82,7 @@ class Install extends Migration
                     'redirectMatchType' => $this->string(32)->defaultValue('exactmatch'),
                     'redirectDestUrl' => $this->string(255)->defaultValue(''),
                     'redirectHttpCode' => $this->integer()->defaultValue(301),
+                    'priority' => $this->integer()->null()->defaultValue(5),
                     'hitCount' => $this->integer()->defaultValue(1),
                     'hitLastTime' => $this->dateTime(),
                 ]
