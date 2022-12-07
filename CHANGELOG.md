@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.6 - 2022.12.07
+### Fixed
+* Added missing `priority` column to the `Install.php` migration ([#262](https://github.com/nystudio107/craft-retour/issues/262))
+
 ## 3.2.5 - 2022.12.05
 ### Added
 * Added the ability to set a **Priority** for regex redirects, so you have control over the order in which they execute ([#74](https://github.com/nystudio107/craft-retour/issues/74))
