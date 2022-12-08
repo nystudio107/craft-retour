@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.9 - 2022.12.08
+### Fixed
+* Added missing `priority` column to the `retour_static_redirects` too, in `Install.php` migration ([#262](https://github.com/nystudio107/craft-retour/issues/262))
+
 ## 4.1.8 - 2022.12.07
 ### Fixed
 * Added missing `priority` column to the `Install.php` migration ([#262](https://github.com/nystudio107/craft-retour/issues/262))
