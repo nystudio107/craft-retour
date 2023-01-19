@@ -39,7 +39,7 @@ return [
     // Should the query string be stripped from the saved statistics source URLs?
     'stripQueryStringFromStats' => true,
 
-    // Whether statistics should be kept to track how many times a redirect has been followed
+    // Should the anonymous ip address of the client causing a 404 be recorded?
     'recordRemoteIp' => true,
 
     // How many stats should be stored
