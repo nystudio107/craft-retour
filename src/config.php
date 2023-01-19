@@ -39,7 +39,7 @@ return [
     // Should the query string be stripped from the saved statistics source URLs?
     'stripQueryStringFromStats' => true,
 
-    // Should the anonymous ip address of the client causing a 404 be recorded?
+    // Whether statistics should be kept to track how many times a redirect has been followed
     'recordRemoteIp' => true,
 
     // How many stats should be stored
@@ -47,6 +47,9 @@ return [
 
     // Dashboard data live refresh interval
     'refreshIntervalSecs' => 5,
+
+    // Whether statistics should be kept to track how many times a redirect has been followed
+    'enableStatistics' => true,
 
     // Whether the Statistics should be trimmed after each new statistic is recorded
     'automaticallyTrimStatistics' => true,

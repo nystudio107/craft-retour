@@ -94,6 +94,12 @@ class Settings extends Model
     public bool $automaticallyTrimStatistics = true;
 
     /**
+     * @var bool Whether statistics should be kept to track how many times
+     *      a redirect has been followed
+     */
+    public $enableStatistics = true;
+
+    /**
      * @var int The number of milliseconds required between trimming of
      *      statistics
      */
