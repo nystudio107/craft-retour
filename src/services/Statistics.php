@@ -157,6 +157,10 @@ class Statistics extends Component
      */
     public function incrementStatistics(string $url, $handled = false, $siteId = null)
     {
+        if (Retour::$settings->enableStatistics === false) {
+            return;
+        }
+
         $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
         if ($siteId === null) {
