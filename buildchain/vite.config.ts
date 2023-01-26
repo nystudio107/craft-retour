@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
-import {createVuePlugin} from 'vite-plugin-vue2'
+import createVuePlugin from '@vitejs/plugin-vue2';
 import ViteRestart from 'vite-plugin-restart';
-import {viteExternalsPlugin} from 'vite-plugin-externals'
+import {viteExternalsPlugin} from 'vite-plugin-externals';
 import viteCompression from 'vite-plugin-compression';
 import {visualizer} from 'rollup-plugin-visualizer';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
@@ -68,8 +68,8 @@ export default defineConfig(({command}) => ({
       strict: false
     },
     host: '0.0.0.0',
-    origin: 'http://localhost:3001',
-    port: 3001,
+    origin: 'http://localhost:' + process.env.DEV_PORT,
+    port: parseInt(process.env.DEV_PORT),
     strictPort: true,
   }
 }));
