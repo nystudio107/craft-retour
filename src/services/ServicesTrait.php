@@ -36,6 +36,11 @@ trait ServicesTrait
      */
     public function __construct($id, $parent = null, array $config = [])
     {
+        // Constants aren't allowed in traits until PHP >= 8.2
+        $majorVersion = '3';
+        // Dev server container name & port are based on the major version of this plugin
+        $devPort = 3000 + (int)$majorVersion;
+        $versionName = 'v' . $majorVersion;
         // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
         // ref: https://github.com/craftcms/cms/issues/1989
         $config = ArrayHelper::merge([
@@ -45,14 +50,13 @@ trait ServicesTrait
                 'statistics' => Statistics::class,
                 // Register the vite service
                 'vite' => [
-                    'class' => VitePluginService::class,
                     'assetClass' => RetourAsset::class,
-                    'useDevServer' => true,
-                    'devServerPublic' => 'http://localhost:3001',
-                    'serverPublic' => 'http://localhost:8000',
-                    'errorEntry' => 'src/js/Retour.js',
-                    'devServerInternal' => 'http://craft-retour-buildchain:3001',
                     'checkDevServer' => true,
+                    'class' => VitePluginService::class,
+                    'devServerInternal' => 'http://craft-retour-' . $versionName . '-buildchain-dev:' . $devPort,
+                    'devServerPublic' => 'http://localhost:' . $devPort,
+                    'errorEntry' => 'src/js/Retour.js',
+                    'useDevServer' => true,
                 ],
             ]
         ], $config);
