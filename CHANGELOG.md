@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 4.1.10 - UNRELEASED
+### Changed
+* Use dynamic docker container name & port for the `buildchain`
+* Update the `buildchain` to use Vite `^4.0.0`
+
 ## 4.1.9 - 2022.12.08
 ### Fixed
 * Added missing `priority` column to the `retour_static_redirects` too, in `Install.php` migration ([#262](https://github.com/nystudio107/craft-retour/issues/262))
