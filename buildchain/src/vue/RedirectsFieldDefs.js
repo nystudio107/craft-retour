@@ -43,7 +43,7 @@ export default [
     dataClass: 'text-left',
   },
   {
-    name: 'priority',
+    name: '__component:priority-value',
     sortField: 'priority',
     title: Craft.t('retour', 'Priority'),
     titleClass: 'text-right vuetable-th-priority',
