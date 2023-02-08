@@ -26,8 +26,8 @@ class m181216_043222_rebuild_indexes extends Migration
      */
     protected function dropIndexes()
     {
-        Db::dropIndexIfExists('{{%retour_static_redirects}}', 'redirectSrcUrlParsed', true, $this);
-        Db::dropIndexIfExists('{{%retour_redirects}}', 'redirectSrcUrlParsed', true, $this);
+        Db::dropIndexIfExists('{{%retour_static_redirects}}', 'redirectSrcUrlParsed', true, $this->db);
+        Db::dropIndexIfExists('{{%retour_redirects}}', 'redirectSrcUrlParsed', true, $this->db);
     }
 
     /**
