@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.10 - UNRELEASED
+## 4.1.10 - 2023.02.09
 ### Changed
 * Use dynamic docker container name & port for the `buildchain`
 * Update the `buildchain` to use Vite `^4.0.0`
