@@ -378,15 +378,14 @@ class Redirects extends Component
             return $redirect;
         }
 
-        $redirect = $this->getStaticRedirect($fullUrl, $pathOnly, $siteId, true);
+        // Resolve static redirects
+        $redirects = $this->getAllExactMatchRedirects(null, $siteId, true);
+        $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
         if ($redirect) {
-            $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($pathOnly, $redirect);
-
             return $redirect;
         }
 
-        // Resolve static redirects
+        // Resolve regex redirects
         $redirects = $this->getAllRegExRedirects(null, $siteId, true);
         $redirect = $this->resolveRedirect($fullUrl, $pathOnly, $redirects, $siteId);
         if ($redirect) {
