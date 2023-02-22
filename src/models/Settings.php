@@ -11,12 +11,10 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
 use craft\base\Model;
 use craft\behaviors\EnvAttributeParserBehavior;
 use craft\validators\ArrayValidator;
-
+use nystudio107\retour\Retour;
 use yii\behaviors\AttributeTypecastBehavior;
 
 /**
@@ -90,6 +88,12 @@ class Settings extends Model
      * @var int Dashboard data live refresh interval
      */
     public $refreshIntervalSecs = 5;
+
+    /**
+     * @var bool Whether statistics should be kept to track how many times
+     *      a redirect has been followed
+     */
+    public $enableStatistics = true;
 
     /**
      * @var bool Whether the Statistics should be trimmed after each new
