@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.11 - UNRELEASED
+### Added
+* Added the ability to disable statistics recording entirely via `enableStatistics` in the `config.php` ([#272](https://github.com/nystudio107/craft-retour/pull/272))
+
 ## 4.1.10 - 2023.02.09
 ### Changed
 * Use dynamic docker container name & port for the `buildchain`
