@@ -676,6 +676,20 @@ class Redirects extends Component
      */
     public function getStaticRedirect(string $fullUrl, string $pathOnly, $siteId, bool $enabledOnly = false)
     {
+        $result = null;
+        // Throw the Redirects::EVENT_BEFORE_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+            'siteId' => $siteId,
+        ]);
+        $this->trigger(self::EVENT_BEFORE_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
+        // Query for the static redirect
         $staticCondition = ['redirectMatchType' => 'exactmatch'];
         $siteCondition = [
             'or',
@@ -706,8 +720,33 @@ class Redirects extends Component
         if ($enabledOnly) {
             $query->andWhere(['enabled' => 1]);
         }
+        $result = $query->one();
+        if ($result) {
+            return $result;
+        }
 
-        return $query->one();
+        // Throw the Redirects::EVENT_AFTER_RESOLVE_REDIRECT event
+        $event = new ResolveRedirectEvent([
+            'fullUrl' => $fullUrl,
+            'pathOnly' => $pathOnly,
+            'redirectDestUrl' => null,
+            'redirectHttpCode' => 301,
+            'siteId' => $siteId,
+        ]);
+        $this->trigger(self::EVENT_AFTER_RESOLVE_REDIRECT, $event);
+        if ($event->redirectDestUrl !== null) {
+            return $this->resolveEventRedirect($event);
+        }
+        Craft::info(
+            Craft::t(
+                'retour',
+                'Not handled-> full URL: {fullUrl}, path only: {pathOnly}',
+                ['fullUrl' => $fullUrl, 'pathOnly' => $pathOnly]
+            ),
+            __METHOD__
+        );
+
+        return $result;
     }
 
     /**
