@@ -285,7 +285,7 @@ class Redirects extends Component
     /**
      * @param string $fullUrl
      * @param string $pathOnly
-     * @param null $siteId
+     * @param int|null $siteId
      *
      * @return bool|array|null
      */
