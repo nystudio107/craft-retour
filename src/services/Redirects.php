@@ -486,6 +486,33 @@ class Redirects extends Component
         }
         $result = $query->one();
         if ($result) {
+            // Figure out what type of source matching to do
+            $redirectSrcMatch = $result['redirectSrcMatch'] ?? 'pathonly';
+            switch ($redirectSrcMatch) {
+                case 'pathonly':
+                    $url = $pathOnly;
+                    break;
+                case 'fullurl':
+                    $url = $fullUrl;
+                    break;
+                default:
+                    $url = $pathOnly;
+                    break;
+            }
+            // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
+            $event = new RedirectResolvedEvent([
+                'fullUrl' => $fullUrl,
+                'pathOnly' => $pathOnly,
+                'redirectDestUrl' => null,
+                'redirectHttpCode' => 301,
+                'redirect' => $result,
+                'siteId' => $siteId,
+            ]);
+            $this->trigger(self::EVENT_REDIRECT_RESOLVED, $event);
+            if ($event->redirectDestUrl !== null) {
+                return $this->resolveEventRedirect($event, $url, $result);
+            }
+
             return $result;
         }
 
