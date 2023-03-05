@@ -126,7 +126,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function afterElementDelete(ElementInterface $element): void
     {
-        if ($element->getIsDraft()) {
+        if (!$element->getIsCanonical()) {
             return;
         }
 
