@@ -146,7 +146,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
      */
     public function afterElementDelete(ElementInterface $element)
     {
-        if ($element->getIsDraft()) {
+        if ($element->getIsDraft() || $element->getIsRevision()) {
             return;
         }
 
