@@ -3,7 +3,7 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
   title: 'Retour Plugin',
   description: 'Documentation for the Retour plugin',
-  base: '/docs/retour/',
+  base: '/docs/retour/v3/',
   lang: 'en-US',
   head: [
     ['meta', {content: 'https://github.com/nystudio107', property: 'og:see_also',}],
@@ -46,6 +46,12 @@ export default defineConfig({
       {text: 'Store', link: 'https://plugins.craftcms.com/retour'},
       {text: 'Changelog', link: 'https://nystudio107.com/plugins/retour/changelog'},
       {text: 'Issues', link: 'https://github.com/nystudio107/craft-retour/issues'},
+      {
+        text: 'v3', items: [
+          {text: 'v4', link: '../'},
+          {text: 'v3', link: '/'},
+        ],
+      },
     ],
   },
 });
