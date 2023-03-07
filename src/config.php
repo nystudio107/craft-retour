@@ -48,6 +48,9 @@ return [
     // Dashboard data live refresh interval
     'refreshIntervalSecs' => 5,
 
+    // Whether statistics should be kept to track how many times a redirect has been followed
+    'enableStatistics' => true,
+
     // Whether the Statistics should be trimmed after each new statistic is recorded
     'automaticallyTrimStatistics' => true,
 
