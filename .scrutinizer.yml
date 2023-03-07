@@ -20,9 +20,6 @@ build:
       - node_modules/
       - vendor/
       - ~/.composer/cache/
-  dependencies:
-    before:
-      - mysql -uroot -h 127.0.0.1 -e 'CREATE DATABASE testcraft'
   nodes:
     analysis:
       services:
@@ -37,6 +34,9 @@ build:
             use_website_config: false
           - js-scrutinizer-run
   tests:
+    dependencies:
+      before:
+        - mysql -uroot -h 127.0.0.1 -e 'CREATE DATABASE testcraft'
     override:
       - command: 'php vendor/bin/codecept run unit --coverage-xml'
         coverage:
