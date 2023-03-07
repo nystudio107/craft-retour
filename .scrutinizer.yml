@@ -1,5 +1,5 @@
 build:
-  image: ubuntu/mysql
+  image: default-bionic
   environment:
     node:
       version: v16
