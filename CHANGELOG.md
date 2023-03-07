@@ -1,5 +1,17 @@
 # Retour Changelog
 
+## 3.2.9 - 2023.03.07
+### Added
+* Added the ability to disable statistics recording entirely via `enableStatistics` in the `config.php` ([#272](https://github.com/nystudio107/craft-retour/pull/272))
+
+### Changed
+* Retour now requires Craft `^3.2.0`
+* Add versioning to the docs
+
+### Fixed
+* Fixed an issue where no events triggered when using `exactMatch` redirect ([#273](https://github.com/nystudio107/craft-retour/issues/273))
+* Fixed a bug where deleting a revision would also delete all the short links associated with the element ([#270](https://github.com/nystudio107/craft-retour/issues/270))
+
 ## 3.2.8 - 2023.02.09
 ### Changed
 * Use dynamic docker container name & port for the `buildchain`

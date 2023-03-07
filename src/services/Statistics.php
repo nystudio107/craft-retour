@@ -11,18 +11,14 @@
 
 namespace nystudio107\retour\services;
 
-use nystudio107\retour\Retour;
-
-use nystudio107\retour\models\Stats as StatsModel;
-
 use Craft;
 use craft\base\Component;
 use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\UrlHelper;
-
+use nystudio107\retour\models\Stats as StatsModel;
+use nystudio107\retour\Retour;
 use yii\db\Exception;
-use yii\web\HttpException;
 
 /** @noinspection MissingPropertyAnnotationsInspection */
 
@@ -157,6 +153,10 @@ class Statistics extends Component
      */
     public function incrementStatistics(string $url, $handled = false, $siteId = null)
     {
+        if (Retour::$settings->enableStatistics === false) {
+            return;
+        }
+
         $referrer = $remoteIp = null;
         $request = Craft::$app->getRequest();
         if ($siteId === null) {
