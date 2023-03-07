@@ -46,6 +46,12 @@ export default defineConfig({
       {text: 'Store', link: 'https://plugins.craftcms.com/retour'},
       {text: 'Changelog', link: 'https://nystudio107.com/plugins/retour/changelog'},
       {text: 'Issues', link: 'https://github.com/nystudio107/craft-retour/issues'},
+      {
+        text: 'v4', items: [
+          {text: 'v4', link: '/'},
+          {text: 'v3', link: '/v3/'},
+        ],
+      },
     ],
   },
 });
