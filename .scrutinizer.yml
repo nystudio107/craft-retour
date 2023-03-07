@@ -37,6 +37,8 @@ build:
             use_website_config: false
           - js-scrutinizer-run
   tests:
+    services:
+      mysql: 5.7
     override:
       - command: 'php vendor/bin/codecept run unit --coverage-xml'
         coverage:
