@@ -1,11 +1,12 @@
 build:
+  image: default-bionic
   environment:
     node:
       version: v16
     php:
       version: 8
     mysql:
-      version: 8
+      version: 5.7
     hosts:
       testcraft.test: '127.0.0.1'
     variables:
