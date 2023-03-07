@@ -49,7 +49,7 @@ export default defineConfig({
       {
         text: 'v4', items: [
           {text: 'v4', link: '/'},
-          {text: 'v3', link: '/v3/'},
+          {text: 'v3', link: 'https://nystudio107.com/docs/retour/v3/'},
         ],
       },
     ],
