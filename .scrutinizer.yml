@@ -15,6 +15,7 @@ build:
       DB_TABLE_PREFIX: ''
       SECURITY_KEY: 'abcde12345'
       DEFAULT_SITE_URL: 'http://testcraft.test/'
+      XDEBUG_MODE: 'coverage'
   cache:
     directories:
       - node_modules/
