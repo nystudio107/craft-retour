@@ -22,7 +22,7 @@ build:
       - ~/.composer/cache/
   dependencies:
     before:
-      - mysql -uroot -e 'CREATE DATABASE testcraft'
+      - mysql -uroot -h 127.0.0.1 -e 'CREATE DATABASE testcraft'
   nodes:
     analysis:
       services:
