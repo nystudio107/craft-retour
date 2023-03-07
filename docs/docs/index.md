@@ -28,7 +28,7 @@ Retour is the redirect tool that the SEO experts at [Moz.com](https://moz.com/) 
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0 or later, or Craft CMS 4.0.0 or later.
+This plugin requires Craft CMS 3.2.0 or later.
 
 ## Installation
 
