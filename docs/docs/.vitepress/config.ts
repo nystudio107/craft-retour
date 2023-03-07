@@ -48,7 +48,7 @@ export default defineConfig({
       {text: 'Issues', link: 'https://github.com/nystudio107/craft-retour/issues'},
       {
         text: 'v3', items: [
-          {text: 'v4', link: '../'},
+          {text: 'v4', link: 'https://nystudio107.com/docs/retour/'},
           {text: 'v3', link: '/'},
         ],
       },
