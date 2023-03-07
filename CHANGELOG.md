@@ -1,11 +1,12 @@
 # Retour Changelog
 
-## 3.2.9 - UNRELEASED
+## 3.2.9 - 2023.03.07
 ### Added
 * Added the ability to disable statistics recording entirely via `enableStatistics` in the `config.php` ([#272](https://github.com/nystudio107/craft-retour/pull/272))
 
 ### Changed
 * Retour now requires Craft `^3.2.0`
+* Add versioning to the docs
 
 ### Fixed
 * Fixed an issue where no events triggered when using `exactMatch` redirect ([#273](https://github.com/nystudio107/craft-retour/issues/273))
