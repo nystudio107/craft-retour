@@ -4,7 +4,7 @@ build:
     node:
       version: v16
     php:
-      version: 8
+      version: 8.1
     hosts:
       testcraft.test: '127.0.0.1'
     variables:
