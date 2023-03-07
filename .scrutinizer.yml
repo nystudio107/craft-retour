@@ -6,7 +6,7 @@ build:
     php:
       version: 7.4
     mysql:
-      version: 5.7
+      version: 8
     hosts:
       testcraft.test: '127.0.0.1'
     variables:
