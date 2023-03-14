@@ -236,9 +236,11 @@ class TablesController extends Controller
                 $redirect['elementTitle'] = '';
                 $redirect['elementCpUrl'] = '';
                 $elementId = $redirect['associatedElementId'] ?? null;
+                $elementSiteId = $redirect['siteId'] ?? null;
                 if (!empty($elementId)) {
-                    $element = ElementHelper::rootElement(Craft::$app->getElements()->getElementById($elementId));
+                    $element = Craft::$app->getElements()->getElementById($elementId, null, $elementSiteId);
                     if ($element) {
+                        $element = ElementHelper::rootElement($element);
                         $redirect['elementTitle'] = $element->title;
                         $redirect['elementCpUrl'] = $element->getCpEditUrl();
                     }

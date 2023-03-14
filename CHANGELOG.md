@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.10 - UNRELEASED
+### Fixed
+* Fixed a bug where short links would not work correctly with multi-sites. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
+
 ## 3.2.9 - 2023.03.07
 ### Added
 * Added the ability to disable statistics recording entirely via `enableStatistics` in the `config.php` ([#272](https://github.com/nystudio107/craft-retour/pull/272))
