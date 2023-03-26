@@ -10,6 +10,7 @@
 namespace nystudio107\retour\fields;
 
 use Craft;
+use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
@@ -113,9 +114,17 @@ class ShortLink extends Field implements PreviewableFieldInterface
 
         if (empty($value)) {
             RetourPlugin::$plugin->redirects->removeElementRedirect($element, false);
-
         } else {
-            RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
+            $redirectSrcMatch = $this->redirectSrcMatch;
+
+            if ($this->translationMethod !== Field::TRANSLATION_METHOD_NONE) {
+                if (!UrlHelper::isAbsoluteUrl($value)) {
+                    $value = UrlHelper::siteUrl($value, null, null, $element->siteId);
+                    $redirectSrcMatch = 'fullurl';
+                }
+            }
+
+            RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $redirectSrcMatch, $this->redirectHttpCode);
         }
 
         parent::afterElementSave($element, $isNew);

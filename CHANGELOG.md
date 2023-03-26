@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 4.1.12 - UNRELEASED
+### Changed
+* Enforce full URL matching for short links when used within a multi-site setup and enabling any of the content translation method for the field. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
+
 ### Fixed
 * Fixed a bug where short links would not work correctly with multi-sites. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
 
