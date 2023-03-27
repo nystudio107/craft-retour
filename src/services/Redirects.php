@@ -180,6 +180,11 @@ class Redirects extends Component
      */
     const EVENT_REDIRECT_RESOLVED = 'redirectResolved';
 
+    /**
+     * @var array A list of all the element ids for which the short links have been purged.
+     */
+    protected static $purgedShortLinkElementIds = [];
+
     // Public Methods
     // =========================================================================
 
@@ -1040,16 +1045,15 @@ class Redirects extends Component
     public function enableElementRedirect(ElementInterface $element, string $sourceUrl, string $redirectSrcMatch = 'pathonly', int $redirectHttpCode = 301)
     {
         $siteId = $element->siteId;
-        $parentElement = ElementHelper::rootElement($element);
 
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
             'redirectSrcUrl' => $sourceUrl,
             'siteId' => $siteId,
             'associatedElementId' => $element->getCanonicalId(),
-            'enabled' => $parentElement->getEnabledForSite($siteId),
+            'enabled' => $element->getEnabledForSite($siteId),
             'redirectSrcMatch' => $redirectSrcMatch,
-            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $parentElement->uri : $parentElement->getUrl(),
+            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl(),
             'redirectHttpCode' => $redirectHttpCode,
         ];
 
@@ -1060,9 +1064,19 @@ class Redirects extends Component
      * Delete an element redirect.
      *
      * @param ElementInterface $element
+     * @param bool $allSites Whether to delete the redirect for all sites
+     * @param bool $force Whether force redirect deletion, defaults to `false`.
      */
-    public function removeElementRedirect(ElementInterface $element, bool $allSites = false)
+    public function removeElementRedirect(ElementInterface $element, bool $allSites = false, bool $force = false)
     {
+        if (!$force) {
+            if (!empty(self::$purgedShortLinkElementIds[$element->id])) {
+                return;
+            }
+
+            self::$purgedShortLinkElementIds[$element->id] = true;
+        }
+
         $redirects = $this->getRedirectsByElementId($element->getCanonicalId(), $allSites ? null : $element->siteId);
 
         if (!empty($redirects)) {
