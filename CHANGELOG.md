@@ -5,6 +5,8 @@
 * Enforce full URL matching for short links when used within a multi-site setup and enabling any of the content translation method for the field. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
 
 ### Fixed
+* Fixed a bug where short links would not work correctly within Matrix fields. ([#279](https://github.com/nystudio107/craft-retour/issues/279))
+* Fixed a bug where short links would not be cleaned up appropriately when updating a Short Link value on an element. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
 * Fixed a bug where short links would not work correctly with multi-sites. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
 
 ## 4.1.11 - 2023.03.07
