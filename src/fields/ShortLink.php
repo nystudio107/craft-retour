@@ -10,6 +10,7 @@
 namespace nystudio107\retour\fields;
 
 use Craft;
+use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
@@ -111,11 +112,20 @@ class ShortLink extends Field implements PreviewableFieldInterface
             $value = UrlHelper::siteUrl($value, null, null, $element->siteId);
         }
 
-        if (empty($value)) {
-            RetourPlugin::$plugin->redirects->removeElementRedirect($element, false);
+        $parentElement = ElementHelper::rootElement($element);
+        RetourPlugin::$plugin->redirects->removeElementRedirect($parentElement, false);
 
-        } else {
-            RetourPlugin::$plugin->redirects->enableElementRedirect($element, $value, $this->redirectSrcMatch, $this->redirectHttpCode);
+        if (!empty($value)) {
+            $redirectSrcMatch = $this->redirectSrcMatch;
+
+            if ($this->translationMethod !== Field::TRANSLATION_METHOD_NONE) {
+                if (!UrlHelper::isAbsoluteUrl($value)) {
+                    $value = UrlHelper::siteUrl($value, null, null, $parentElement->siteId);
+                    $redirectSrcMatch = 'fullurl';
+                }
+            }
+
+            RetourPlugin::$plugin->redirects->enableElementRedirect($parentElement, $value, $redirectSrcMatch, $this->redirectHttpCode);
         }
 
         parent::afterElementSave($element, $isNew);
@@ -130,7 +140,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             return;
         }
 
-        RetourPlugin::$plugin->redirects->removeElementRedirect($element, true);
+        RetourPlugin::$plugin->redirects->removeElementRedirect($element, true, true);
         parent::afterElementDelete($element);
     }
 
