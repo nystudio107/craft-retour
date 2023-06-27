@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.13 - UNRELEASED
+### Added
+* Add db index for `redirectMatchType` to help with query performance ([#282](https://github.com/nystudio107/craft-retour/issues/282))
+
 ## 4.1.12 - 2023.04.07
 ### Changed
 * Enforce full URL matching for short links when used within a multi-site setup and enabling any of the content translation method for the field. ([#277](https://github.com/nystudio107/craft-retour/issues/277))
