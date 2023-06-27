@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -71,33 +70,21 @@ class m181213_233502_add_site_id extends Migration
     protected function createIndexes()
     {
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'siteId',
             false

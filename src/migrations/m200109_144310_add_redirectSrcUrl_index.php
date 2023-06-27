@@ -2,7 +2,6 @@
 
 namespace nystudio107\retour\migrations;
 
-use Craft;
 use craft\db\Migration;
 
 /**
@@ -16,6 +15,8 @@ class m200109_144310_add_redirectSrcUrl_index extends Migration
     public function safeUp()
     {
         $this->createIndexes();
+
+        return true;
     }
 
     /**
@@ -33,22 +34,14 @@ class m200109_144310_add_redirectSrcUrl_index extends Migration
     protected function createIndexes()
     {
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'redirectSrcUrl',
             false
