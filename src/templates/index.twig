@@ -20,6 +20,8 @@
     {% redirect cpUrl('retour/dashboard') %}
 {% elseif currentUser.can('retour:redirects') %}
     {% redirect cpUrl('retour/redirects') %}
+{% elseif currentUser.can('retour:shortlinks') %}
+    {% redirect cpUrl('retour/shortlinks') %}
 {% elseif currentUser.can('retour:settings') %}
     {% redirect cpUrl('retour/settings') %}
 {% else %}
