@@ -165,89 +165,70 @@ class Install extends Migration
     protected function createIndexes()
     {
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrlParsed',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrlParsed',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'redirectSrcUrl',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
+            '{{%retour_static_redirects}}',
+            'redirectMatchType',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
+            '{{%retour_redirects}}',
+            'redirectMatchType',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_static_redirects}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
             'siteId',
             false
         );
 
-
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%retour_stats}}',
-                'siteId',
-                false
-            ),
+            $this->db->getIndexName(),
             '{{%retour_stats}}',
             'siteId',
             false

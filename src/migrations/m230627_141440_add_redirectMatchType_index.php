@@ -3,20 +3,20 @@
 namespace nystudio107\retour\migrations;
 
 use craft\db\Migration;
-use craft\helpers\MigrationHelper;
 
 /**
- * m181216_043222_rebuild_indexes migration.
+ * m230627_141440_add_redirectMatchType_index migration.
  */
-class m181216_043222_rebuild_indexes extends Migration
+class m230627_141440_add_redirectMatchType_index extends Migration
 {
     /**
      * @inheritdoc
      */
     public function safeUp()
     {
-        $this->dropIndexes();
         $this->createIndexes();
+
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class m181216_043222_rebuild_indexes extends Migration
      */
     public function safeDown()
     {
-        echo "m181216_043222_rebuild_indexes cannot be reverted.\n";
+        echo "m230627_141440_add_redirectMatchType_index cannot be reverted.\n";
+
         return false;
     }
 
@@ -36,24 +37,14 @@ class m181216_043222_rebuild_indexes extends Migration
         $this->createIndex(
             $this->db->getIndexName(),
             '{{%retour_static_redirects}}',
-            'redirectSrcUrlParsed',
+            'redirectMatchType',
             false
         );
-
         $this->createIndex(
             $this->db->getIndexName(),
             '{{%retour_redirects}}',
-            'redirectSrcUrlParsed',
+            'redirectMatchType',
             false
         );
-    }
-
-    /**
-     * @return void
-     */
-    protected function dropIndexes()
-    {
-        MigrationHelper::dropIndexIfExists('{{%retour_static_redirects}}', 'redirectSrcUrlParsed', true, $this);
-        MigrationHelper::dropIndexIfExists('{{%retour_redirects}}', 'redirectSrcUrlParsed', true, $this);
     }
 }
