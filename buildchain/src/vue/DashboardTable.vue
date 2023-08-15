@@ -291,6 +291,7 @@ export default {
         return '';
       }
       value = DOMPurify.sanitize(value);
+      value = encodeURI(value);
       return `
                 <a class="go" href="${value}" title="${value}" target="_blank" rel="noopener">${value}</a>
                 `;
@@ -300,6 +301,7 @@ export default {
         return '';
       }
       value = DOMPurify.sanitize(value);
+      value = encodeURI(value);
       return `
                 <a class="go" href="https://whatismyipaddress.com/ip/${value}" title="Lookup ${value}" target="_blank" rel="noopener">${value}</a>
                 `;
