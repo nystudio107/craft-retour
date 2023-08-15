@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.13 - UNRELEASED
+## 4.1.13 - 2023.08.15
 ### Added
 * Add db index for `redirectMatchType` to help with query performance ([#282](https://github.com/nystudio107/craft-retour/issues/282))
 
