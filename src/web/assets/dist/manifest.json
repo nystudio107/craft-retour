@@ -28,7 +28,7 @@
     "src": "purify.css"
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-53afc830.js",
+    "file": "assets/dashboard-aa0a28ff.js",
     "imports": [
       "_purify.es-84470d66.js",
       "__plugin-vue2_normalizer-fe1301b8.js",
@@ -46,7 +46,7 @@
     "src": "src/js/Import.js"
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects-796aed05.js",
+    "file": "assets/redirects-0e45f881.js",
     "imports": [
       "_purify.es-84470d66.js",
       "_LegacyUrl-756dec46.js",
@@ -68,7 +68,7 @@
     "src": "src/js/Retour.js"
   },
   "src/js/Shortlinks.js": {
-    "file": "assets/shortlinks-b8ca5656.js",
+    "file": "assets/shortlinks-4db7a49a.js",
     "imports": [
       "_purify.es-84470d66.js",
       "_LegacyUrl-756dec46.js",
