@@ -190,6 +190,20 @@ class Install extends Migration
 
         $this->createIndex(
             $this->db->getIndexName(),
+            '{{%retour_static_redirects}}',
+            'redirectMatchType',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
+            '{{%retour_redirects}}',
+            'redirectMatchType',
+            false
+        );
+
+        $this->createIndex(
+            $this->db->getIndexName(),
             '{{%retour_redirects}}',
             'siteId',
             false
@@ -201,7 +215,6 @@ class Install extends Migration
             'siteId',
             false
         );
-
 
         $this->createIndex(
             $this->db->getIndexName(),

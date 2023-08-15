@@ -252,6 +252,7 @@ export default {
         return '';
       }
       value = DOMPurify.sanitize(value);
+      value = encodeURI(value);
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
