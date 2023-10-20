@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.12 - UNRELEASED
+### Fixed
+* Fixes issue where only first line of uploaded CSV is saved in cache in load balanced environment ([#286](https://github.com/nystudio107/craft-retour/pull/286))
+
 ## 3.2.11 - 2023.08.15
 ### Added
 * Add db index for `redirectMatchType` to help with query performance ([#282](https://github.com/nystudio107/craft-retour/issues/282))
