@@ -221,7 +221,10 @@ class FileController extends Controller
             $cache = Craft::$app->getCache();
             $fileHandle = fopen($filePath, 'r');
             if ($fileHandle) {
-                $fileContents = fgets($fileHandle);
+                $fileContents = null;
+                while(feof($fileHandle) !== true) {
+                    $fileContents .= fgets($fileHandle);
+                }
                 if ($fileContents) {
                     $cache->set($filePath, $fileContents);
                 }
