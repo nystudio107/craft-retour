@@ -302,14 +302,9 @@ class FileController extends Controller
             $filePath = Craft::$app->getPath()->getTempPath() . DIRECTORY_SEPARATOR . $filename;
             $file->saveAs($filePath, false);
             // Also save the file to the cache as a backup way to access it
-            $cache = Craft::$app->getCache();
-            $fileHandle = fopen($filePath, 'r');
-            if ($fileHandle) {
-                $fileContents = fgets($fileHandle);
-                if ($fileContents) {
-                    $cache->set($filePath, $fileContents);
-                }
-                fclose($fileHandle);
+            $fileContents = @file_get_contents($filePath);
+            if ($fileContents) {
+                Craft::$app->getCache()->set($filePath, $fileContents);
             }
             // Read in the headers
             $csv = Reader::createFromPath($file->tempName);

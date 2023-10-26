@@ -1,5 +1,10 @@
 # Retour Changelog
 
+## 4.1.14 - 2023.10.26
+### Fixed
+* Fixes issue where only first line of uploaded CSV is saved in cache in load balanced environment ([#286](https://github.com/nystudio107/craft-retour/pull/286))
+* Strip off a leading `/` before making a site URL from a path, because otherwise `Craft.getUrl()` considers it an absolute URL and returns it ([#281](https://github.com/nystudio107/craft-retour/issues/281))
+
 ## 4.1.13 - 2023.08.15
 ### Added
 * Add db index for `redirectMatchType` to help with query performance ([#282](https://github.com/nystudio107/craft-retour/issues/282))

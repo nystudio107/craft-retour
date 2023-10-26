@@ -256,7 +256,9 @@ export default {
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
-        url = Craft.getSiteUrl(value);
+        // Strip off a leading `/` because otherwise `Craft.getUrl()` considers it an absolute URL and returns it
+        url = url.replace(/^\//, '');
+        url = Craft.getSiteUrl(url);
       }
       return `
                 <a class="go" href="${url}" title="${url}" target="_blank" rel="noopener">${value}</a>

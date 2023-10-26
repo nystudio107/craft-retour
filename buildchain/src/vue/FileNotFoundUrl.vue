@@ -28,6 +28,8 @@ export default {
       }
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
+        // Strip off a leading `/` because otherwise `Craft.getUrl()` considers it an absolute URL and returns it
+        url = url.replace(/^\//, '');
         url = Craft.getSiteUrl(url);
       }
 
