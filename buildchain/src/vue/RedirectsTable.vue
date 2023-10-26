@@ -49,7 +49,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
@@ -99,7 +99,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo" />
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
@@ -256,7 +256,9 @@ export default {
       let url = value;
       let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
       if (!absoluteUrl.test(url) && !url.includes('$')) {
-        url = Craft.getSiteUrl(value);
+        // Strip off a leading `/` because otherwise `Craft.getUrl()` considers it an absolute URL and returns it
+        url = url.replace(/^\//, '');
+        url = Craft.getSiteUrl(url);
       }
       return `
                 <a class="go" href="${url}" title="${url}" target="_blank" rel="noopener">${value}</a>
