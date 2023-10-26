@@ -3,6 +3,7 @@
 ## 3.2.12 - UNRELEASED
 ### Fixed
 * Fixes issue where only first line of uploaded CSV is saved in cache in load balanced environment ([#286](https://github.com/nystudio107/craft-retour/pull/286))
+* Strip off a leading `/` before making a site URL from a path, because otherwise `Craft.getUrl()` considers it an absolute URL and returns it ([#281](https://github.com/nystudio107/craft-retour/issues/281))
 
 ## 3.2.11 - 2023.08.15
 ### Added
