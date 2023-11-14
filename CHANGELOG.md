@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.13 - UNRELEASED
+### Fixed
+* Fixed an issue that could cause an exception to be thrown if the **Preserve Query String** setting is on
+
 ## 3.2.12 - 2023.10.26
 ### Fixed
 * Fixes issue where only first line of uploaded CSV is saved in cache in load balanced environment ([#286](https://github.com/nystudio107/craft-retour/pull/286))
