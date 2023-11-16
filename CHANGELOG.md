@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.2.13 - UNRELEASED
+### Added
+* Switch over to Vite `^5.0.0` & Node `^20.0.0` for the buildchain
+
 ### Fixed
 * Fixed an issue that could cause an exception to be thrown if the **Preserve Query String** setting is on
 
