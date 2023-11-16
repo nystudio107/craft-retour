@@ -24,10 +24,8 @@ export default defineConfig(({command}) => ({
         'shortlinks': 'src/js/Shortlinks.js',
         'widget': 'src/js/Widget.js'
       },
-      output: {
-        sourcemap: true
-      },
-    }
+    },
+    sourcemap: true
   },
   plugins: [
     viteRestartPlugin({
