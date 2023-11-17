@@ -12,11 +12,11 @@
     "file": "assets/purify-Giv5N7ev.css",
     "src": "_purify.es-!~{007}~.js"
   },
-  "_purify.es-_4f7-6NO.js": {
+  "_purify.es-R7jRVljX.js": {
     "css": [
       "assets/purify-Giv5N7ev.css"
     ],
-    "file": "assets/purify.es-_4f7-6NO.js",
+    "file": "assets/purify.es-R7jRVljX.js",
     "imports": [
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ]
@@ -28,9 +28,9 @@
     ]
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-LVSn8E2-.js",
+    "file": "assets/dashboard-xnZmObKt.js",
     "imports": [
-      "_purify.es-_4f7-6NO.js",
+      "_purify.es-R7jRVljX.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js",
       "_vue-apexcharts-239P1znO.js"
     ],
@@ -46,9 +46,9 @@
     "src": "src/js/Import.js"
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects-iAi36NuA.js",
+    "file": "assets/redirects-svlU8eLl.js",
     "imports": [
-      "_purify.es-_4f7-6NO.js",
+      "_purify.es-R7jRVljX.js",
       "_LegacyUrl-8NcnlGd1.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ],
@@ -57,16 +57,16 @@
   },
   "src/js/Retour.js": {
     "css": [
-      "assets/retour-XOuVEgfq.css"
+      "assets/retour-axBeLE34.css"
     ],
-    "file": "assets/retour-m4QrHU8M.js",
+    "file": "assets/retour-GsbkZ0RI.js",
     "isEntry": true,
     "src": "src/js/Retour.js"
   },
   "src/js/Shortlinks.js": {
-    "file": "assets/shortlinks-TdTJNjST.js",
+    "file": "assets/shortlinks--_21YyHR.js",
     "imports": [
-      "_purify.es-_4f7-6NO.js",
+      "_purify.es-R7jRVljX.js",
       "_LegacyUrl-8NcnlGd1.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ],
