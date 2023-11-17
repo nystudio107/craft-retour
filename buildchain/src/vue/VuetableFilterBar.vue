@@ -11,7 +11,7 @@
           @keyup="doFilter"
         >
         <button
-          class="btn delete icon"
+          class="btn delete icon retour-reset"
           @click="resetFilter"
         >
           {{ stringReset }}
