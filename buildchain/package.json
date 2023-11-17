@@ -47,17 +47,9 @@
     "vite-plugin-compression": "^0.5.0",
     "vite-plugin-eslint": "^1.8.0",
     "vite-plugin-externals": "^0.6.0",
-    "vite-plugin-restart": "^0.3.0",
-    "vite-plugin-stylelint": "^5.0.0",
+    "vite-plugin-restart": "^0.4.0",
+    "vite-plugin-stylelint": "^5.2.1",
     "vue-eslint-parser": "^8.0.0"
-  },
-  "overrides": {
-    "vite-plugin-restart": {
-      "vite": "^2.9.0 || ^3.0.0 || ^4.0.0, || ^5.0.0"
-    },
-    "vite-plugin-stylelint": {
-      "vite": "^2.9.0 || ^3.0.0 || ^4.0.0, || ^5.0.0"
-    }
   },
   "scripts": {
     "dev": "vite",
