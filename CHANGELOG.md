@@ -4,6 +4,9 @@
 ### Added
 * Switch over to Vite `^5.0.0` & Node `^20.0.0` for the buildchain
 
+### Changed
+* Updated docs to use node 20 & a new sitemap plugin
+
 ### Fixed
 * Fixed an issue that could cause an exception to be thrown if the **Preserve Query String** setting is on
 
