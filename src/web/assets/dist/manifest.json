@@ -12,27 +12,27 @@
     "file": "assets/purify-Giv5N7ev.css",
     "src": "_purify.es-!~{007}~.js"
   },
-  "_purify.es-R7jRVljX.js": {
+  "_purify.es-2WhSts9N.js": {
     "css": [
       "assets/purify-Giv5N7ev.css"
     ],
-    "file": "assets/purify.es-R7jRVljX.js",
+    "file": "assets/purify.es-2WhSts9N.js",
     "imports": [
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ]
   },
-  "_vue-apexcharts-239P1znO.js": {
-    "file": "assets/vue-apexcharts-239P1znO.js",
+  "_vue-apexcharts-7Nxc_l-A.js": {
+    "file": "assets/vue-apexcharts-7Nxc_l-A.js",
     "imports": [
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ]
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-xnZmObKt.js",
+    "file": "assets/dashboard-sedyecrf.js",
     "imports": [
-      "_purify.es-R7jRVljX.js",
+      "_purify.es-2WhSts9N.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js",
-      "_vue-apexcharts-239P1znO.js"
+      "_vue-apexcharts-7Nxc_l-A.js"
     ],
     "isEntry": true,
     "src": "src/js/Dashboard.js"
@@ -46,9 +46,9 @@
     "src": "src/js/Import.js"
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects-svlU8eLl.js",
+    "file": "assets/redirects-DI2HJJxU.js",
     "imports": [
-      "_purify.es-R7jRVljX.js",
+      "_purify.es-2WhSts9N.js",
       "_LegacyUrl-8NcnlGd1.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ],
@@ -64,9 +64,9 @@
     "src": "src/js/Retour.js"
   },
   "src/js/Shortlinks.js": {
-    "file": "assets/shortlinks--_21YyHR.js",
+    "file": "assets/shortlinks-shDlGQST.js",
     "imports": [
-      "_purify.es-R7jRVljX.js",
+      "_purify.es-2WhSts9N.js",
       "_LegacyUrl-8NcnlGd1.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ],
@@ -74,9 +74,9 @@
     "src": "src/js/Shortlinks.js"
   },
   "src/js/Widget.js": {
-    "file": "assets/widget-c9_QfJuM.js",
+    "file": "assets/widget-MIAB5hSh.js",
     "imports": [
-      "_vue-apexcharts-239P1znO.js",
+      "_vue-apexcharts-7Nxc_l-A.js",
       "__plugin-vue2_normalizer-GTIfvTtm.js"
     ],
     "isEntry": true,
