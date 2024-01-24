@@ -3,7 +3,7 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
   title: 'Retour Plugin',
   description: 'Documentation for the Retour plugin',
-  base: '/docs/retour/',
+  base: '/docs/retour/v4/',
   lang: 'en-US',
   head: [
     ['meta', {content: 'https://github.com/nystudio107', property: 'og:see_also',}],
