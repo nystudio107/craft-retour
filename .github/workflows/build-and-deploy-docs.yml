@@ -1,6 +1,6 @@
 name: Build and Deploy Docs
 env:
-  DOCS_DEST_DIR: /retour/
+  DOCS_DEST_DIR: /retour/v4/
 on:
   push:
     branches:
