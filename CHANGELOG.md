@@ -1,10 +1,8 @@
 # Retour Changelog
 
 ## 4.1.15 - UNRELEASED
-### Added
-* Switch over to Vite `^5.0.0` & Node `^20.0.0` for the buildchain
-
 ### Changed
+* Switch over to Vite `^5.0.0` & Node `^20.0.0` for the buildchain
 * Updated docs to use node 20 & a new sitemap plugin
 
 ### Fixed
