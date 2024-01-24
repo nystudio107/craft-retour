@@ -9,6 +9,7 @@
 
 ### Fixed
 * Fixed an issue that could cause an exception to be thrown if the **Preserve Query String** setting is on
+* Fixed an issue where the filter controls didn't work properly for Short Links
 
 ## 3.2.12 - 2023.10.26
 ### Fixed
