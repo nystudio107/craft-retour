@@ -11,12 +11,12 @@
 
 namespace nystudio107\retour\gql\queries;
 
-use nystudio107\retour\gql\arguments\RetourArguments;
-use nystudio107\retour\gql\interfaces\RetourInterface;
-use nystudio107\retour\gql\resolvers\RetourResolver;
-
 use craft\gql\base\Query;
 use GraphQL\Type\Definition\Type;
+use nystudio107\retour\gql\arguments\RetourArguments;
+
+use nystudio107\retour\gql\interfaces\RetourInterface;
+use nystudio107\retour\gql\resolvers\RetourResolver;
 use nystudio107\retour\helpers\Gql as GqlHelper;
 
 /**
@@ -57,12 +57,12 @@ class RetourQuery extends Query
                     'site' => [
                         'name' => 'site',
                         'type' => Type::string(),
-                        'description' => 'The site handle to list all redirects for.'
+                        'description' => 'The site handle to list all redirects for.',
                     ],
                     'siteId' => [
                         'name' => 'siteId',
                         'type' => Type::int(),
-                        'description' => 'The siteId to list all redirects for.'
+                        'description' => 'The siteId to list all redirects for.',
                     ],
                 ],
                 'resolve' => RetourResolver::class . '::resolveAll',

@@ -29,11 +29,10 @@ use yii\helpers\StringHelper;
  */
 class ShortLink extends Field implements PreviewableFieldInterface
 {
-
     public string $redirectSrcMatch = 'pathonly';
     public int $redirectHttpCode = 301;
 
-    static protected bool $allowShortLinkUpdates = true;
+    protected static bool $allowShortLinkUpdates = true;
 
     // Static Methods
     // =========================================================================
@@ -108,7 +107,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             if ($this->translationMethod === Field::TRANSLATION_METHOD_NONE && ($element->propagating || $parentElement->propagating)) {
                 return;
             }
-        } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {
+        } elseif (!empty($value) && !StringHelper::startsWith($value, 'http')) {
             $value = UrlHelper::siteUrl($value, null, null, $element->siteId);
         }
 

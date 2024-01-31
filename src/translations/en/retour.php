@@ -170,5 +170,5 @@ return [
     'Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority).' => 'Select the priority of the redirect to determine the order in which matches are checked (1 is highest priority, 9 is lowest priority).',
     'Some errors occured .' => 'Some errors occured .',
     'Some errors occured importing the CSV file.' => 'Some errors occured importing the CSV file.',
-    'Select the priority that will determine the order of mathching the redirect.' => 'Select the priority that will determine the order of mathching the redirect.'
+    'Select the priority that will determine the order of mathching the redirect.' => 'Select the priority that will determine the order of mathching the redirect.',
 ];

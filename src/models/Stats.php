@@ -104,7 +104,7 @@ class Stats extends DbModel
                     'exceptionFilePath',
                 ],
                 DbStringValidator::class,
-                'max' => 255
+                'max' => 255,
             ],
             [
                 [
@@ -113,7 +113,7 @@ class Stats extends DbModel
                     'exceptionMessage',
                     'exceptionFilePath',
                 ],
-                'string'
+                'string',
             ],
             [
                 [
@@ -123,7 +123,7 @@ class Stats extends DbModel
                     'exceptionFilePath',
                 ],
                 'default',
-                'value' => ''
+                'value' => '',
             ],
             ['exceptionFileLine', 'integer'],
             ['exceptionFileLine', 'default', 'value' => 0],

@@ -56,7 +56,7 @@ trait ServicesTrait
                     'errorEntry' => 'src/js/Retour.js',
                     'useDevServer' => true,
                 ],
-            ]
+            ],
         ];
     }
 
