@@ -18,7 +18,6 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
 use DateTime;
 use nystudio107\retour\events\RedirectEvent;
@@ -104,7 +103,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
+    public const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
 
     /**
      * @event RedirectEvent The event that is triggered after the redirect is deleted
@@ -121,7 +120,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
+    public const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
 
     /**
      * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
@@ -464,26 +463,26 @@ class Redirects extends Component
         $siteCondition = [
             'or',
             ['siteId' => $siteId],
-            ['siteId' => null]
+            ['siteId' => null],
         ];
         $pathCondition = [
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly]
+                ['redirectSrcUrlParsed' => $pathOnly],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl]
+                ['redirectSrcUrlParsed' => $fullUrl],
             ],
         ];
 
-        $query = (new Query)
+        $query = (new Query())
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
                 $staticCondition,
                 $pathCondition,
-                $siteCondition
+                $siteCondition,
             ])
             ->limit(1);
 

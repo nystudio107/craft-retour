@@ -11,14 +11,13 @@
 
 namespace nystudio107\retour\gql\interfaces;
 
-use nystudio107\retour\gql\types\generators\RetourGenerator;
-
 use craft\gql\base\InterfaceType as BaseInterfaceType;
-use craft\gql\TypeLoader;
-use craft\gql\GqlEntityRegistry;
 
+use craft\gql\GqlEntityRegistry;
 use GraphQL\Type\Definition\InterfaceType;
+
 use GraphQL\Type\Definition\Type;
+use nystudio107\retour\gql\types\generators\RetourGenerator;
 
 /**
  * Class RetourInterface
@@ -50,7 +49,7 @@ class RetourInterface extends BaseInterfaceType
             'name' => static::getName(),
             'fields' => self::class . '::getFieldDefinitions',
             'description' => 'This is the interface implemented by Retour.',
-            'resolveType' => function (array $value) {
+            'resolveType' => function(array $value) {
                 return GqlEntityRegistry::getEntity(RetourGenerator::getName());
             },
         ]));
@@ -81,7 +80,7 @@ class RetourInterface extends BaseInterfaceType
             'site' => [
                 'name' => 'site',
                 'type' => Type::string(),
-                'description' => 'The site handle of the redirect (or null for all sites).'
+                'description' => 'The site handle of the redirect (or null for all sites).',
             ],
             'siteId' => [
                 'name' => 'siteId',

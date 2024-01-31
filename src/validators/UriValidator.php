@@ -21,7 +21,6 @@ use yii\validators\Validator;
  */
 class UriValidator extends Validator
 {
-
     /**
      * @var bool
      */

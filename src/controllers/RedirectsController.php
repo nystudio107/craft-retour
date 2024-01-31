@@ -118,9 +118,8 @@ class RedirectsController extends Controller
         int                  $redirectId = 0,
         string               $defaultUrl = '',
         int                  $siteId = 0,
-        StaticRedirectsModel $redirect = null
-    ): Response
-    {
+        StaticRedirectsModel $redirect = null,
+    ): Response {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
 

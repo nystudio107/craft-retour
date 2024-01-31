@@ -48,7 +48,7 @@ class FileController extends Controller
 
     protected const DOCUMENTATION_URL = 'https://github.com/nystudio107/craft-retour/';
 
-    const LOG_FILE_NAME = 'retour-csv-import-errors';
+    public const LOG_FILE_NAME = 'retour-csv-import-errors';
 
     protected const EXPORT_REDIRECTS_CSV_FIELDS = [
         'redirectSrcUrl' => 'Legacy URL Pattern',
@@ -174,7 +174,7 @@ class FileController extends Controller
         $csv->setOffset(1);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
-        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
+        $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
             ];

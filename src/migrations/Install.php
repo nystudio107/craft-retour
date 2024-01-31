@@ -49,7 +49,7 @@ class Install extends Migration
 
         // Update retour widget type
         $this->update('{{%widgets}}', [
-            'type' => RetourWidget::class
+            'type' => RetourWidget::class,
         ], ['type' => 'Retour']);
 
         return true;

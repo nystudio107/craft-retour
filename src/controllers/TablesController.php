@@ -94,9 +94,8 @@ class TablesController extends Controller
         int    $per_page = 20,
                $filter = '',
                $siteId = 0,
-               $handled = 'all'
-    ): Response
-    {
+               $handled = 'all',
+    ): Response {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
         $sortField = 'hitCount';
@@ -149,7 +148,7 @@ class TablesController extends Controller
                     }
                     $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
                         'defaultUrl' => $encodedUrl,
-                        'siteId' => $statSiteId
+                        'siteId' => $statSiteId,
                     ]);
                 }
             }
@@ -190,9 +189,8 @@ class TablesController extends Controller
         int    $per_page = 20,
                $filter = '',
                $siteId = 0,
-               $shortLinks = false
-    ): Response
-    {
+               $shortLinks = false,
+    ): Response {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $data = [];
         $sortField = 'hitCount';
