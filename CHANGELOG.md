@@ -1,9 +1,15 @@
 # Retour Changelog
 
 ## 3.2.13 - UNRELEASED
+### Added
+* Add `phpstan` and `ecs` code linting
+* Add `code-analysis.yaml` GitHub action
+
 ### Changed
 * Switch over to Vite `^5.0.0` & Node `^20.0.0` for the buildchain
 * Updated docs to use node 20 & a new sitemap plugin
+* PHPstan code cleanup
+* ECS code cleanup
 
 ### Fixed
 * Fixed an issue that could cause an exception to be thrown if the **Preserve Query String** setting is on
