@@ -11,10 +11,9 @@
 
 namespace nystudio107\retour\models;
 
-use nystudio107\retour\Retour;
-
-use Craft;
 use craft\base\Model;
+
+use nystudio107\retour\Retour;
 
 /**
  * @author    nystudio107

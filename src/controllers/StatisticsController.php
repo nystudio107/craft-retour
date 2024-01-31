@@ -11,15 +11,15 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
+use Craft;
+use craft\errors\MissingComponentException;
+use craft\helpers\UrlHelper;
+use craft\web\Controller;
+
 use nystudio107\retour\assetbundles\retour\RetourDashboardAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
-
-use Craft;
-use craft\web\Controller;
-use craft\errors\MissingComponentException;
-use craft\helpers\UrlHelper;
+use nystudio107\retour\Retour;
 
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;

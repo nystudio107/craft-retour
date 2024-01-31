@@ -11,14 +11,14 @@
 
 namespace nystudio107\retour\listeners;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\models\StaticRedirects;
-
 use craft\base\Element;
 use craft\helpers\UrlHelper;
 
-use markhuot\CraftQL\Events\AlterSchemaFields;
 use markhuot\CraftQL\Builders\Field as FieldBuilder;
+use markhuot\CraftQL\Events\AlterSchemaFields;
+
+use nystudio107\retour\models\StaticRedirects;
+use nystudio107\retour\Retour;
 
 /**
  * @author    nystudio107
@@ -62,7 +62,7 @@ class GetCraftQLSchema
                 // Boolean field
                 $retourField
                     ->addBooleanField($field)
-                    ->resolve(function ($redirect) use ($field) {
+                    ->resolve(function($redirect) use ($field) {
                         $result = $redirect[$field] ?? null;
                         return $result === null ? $result : (bool)$result;
                     });
@@ -70,7 +70,7 @@ class GetCraftQLSchema
                 // Integer field
                 $retourField
                     ->addIntField($field)
-                    ->resolve(function ($redirect) use ($field) {
+                    ->resolve(function($redirect) use ($field) {
                         $result = $redirect[$field] ?? null;
                         return $result === null ? $result : (int)$result;
                     });
@@ -78,7 +78,7 @@ class GetCraftQLSchema
                 // String field
                 $retourField
                     ->addStringField($field)
-                    ->resolve(function ($redirect) use ($field) {
+                    ->resolve(function($redirect) use ($field) {
                         $result = $redirect[$field] ?? null;
                         return $result === null ? $result : (string)$result;
                     });
@@ -86,12 +86,12 @@ class GetCraftQLSchema
         }
         // Add the root
         $event->schema->addField('retour')
-            ->arguments(function (FieldBuilder $field) {
+            ->arguments(function(FieldBuilder $field) {
                 $field->addStringArgument('uri');
                 $field->addIntArgument('siteId');
             })
             ->type($retourField)
-            ->resolve(function ($root, $args, $context, $info) {
+            ->resolve(function($root, $args, $context, $info) {
                 // If our root is an Element, extract the URI and siteId from it
                 if ($root instanceof Element) {
                     /** Element $root */

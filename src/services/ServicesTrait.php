@@ -58,7 +58,7 @@ trait ServicesTrait
                     'errorEntry' => 'src/js/Retour.js',
                     'useDevServer' => true,
                 ],
-            ]
+            ],
         ], $config);
 
         parent::__construct($id, $parent, $config);

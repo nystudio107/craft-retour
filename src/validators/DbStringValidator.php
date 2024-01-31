@@ -11,9 +11,9 @@
 
 namespace nystudio107\retour\validators;
 
-use nystudio107\retour\helpers\Text as TextHelper;
-
 use craft\helpers\StringHelper;
+
+use nystudio107\retour\helpers\Text as TextHelper;
 
 use yii\base\InvalidConfigException;
 use yii\validators\Validator;

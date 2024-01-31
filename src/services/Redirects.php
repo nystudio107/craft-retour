@@ -18,7 +18,6 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
@@ -699,26 +698,26 @@ class Redirects extends Component
         $siteCondition = [
             'or',
             ['siteId' => $siteId],
-            ['siteId' => null]
+            ['siteId' => null],
         ];
         $pathCondition = [
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly]
+                ['redirectSrcUrlParsed' => $pathOnly],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl]
+                ['redirectSrcUrlParsed' => $fullUrl],
             ],
         ];
 
-        $query = (new Query)
+        $query = (new Query())
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
                 $staticCondition,
                 $pathCondition,
-                $siteCondition
+                $siteCondition,
             ])
             ->limit(1);
 

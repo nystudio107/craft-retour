@@ -11,11 +11,11 @@
 
 namespace nystudio107\retour\widgets;
 
-use nystudio107\retour\Retour;
-use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
-
 use Craft;
 use craft\base\Widget;
+
+use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
+use nystudio107\retour\Retour;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 
@@ -30,7 +30,6 @@ use yii\base\InvalidConfigException;
  */
 class RetourWidget extends Widget
 {
-
     // Public Properties
     // =========================================================================
 

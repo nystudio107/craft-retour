@@ -11,11 +11,11 @@
 
 namespace nystudio107\retour\helpers;
 
+use Composer\Semver\Semver;
+
 use Craft;
 
 use Jean85\PrettyVersions;
-
-use \Composer\Semver\Semver;
 
 /**
  * @author    nystudio107

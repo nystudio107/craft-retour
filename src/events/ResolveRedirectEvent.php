@@ -11,8 +11,6 @@
 
 namespace nystudio107\retour\events;
 
-use nystudio107\retour\models\StaticRedirects;
-
 /**
  * @author    nystudio107
  * @package   Retour

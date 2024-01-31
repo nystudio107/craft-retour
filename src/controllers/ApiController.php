@@ -11,8 +11,8 @@
 
 namespace nystudio107\retour\controllers;
 
-use nystudio107\retour\Retour;
 use craft\web\Controller;
+use nystudio107\retour\Retour;
 
 /**
  * @author    nystudio107

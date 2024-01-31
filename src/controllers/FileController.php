@@ -77,7 +77,7 @@ class FileController extends Controller
         'redirectSrcMatch',
         'hitCount',
         'associatedElementId',
-        'priority'
+        'priority',
     ];
 
     // Protected Properties
@@ -364,7 +364,7 @@ class FileController extends Controller
         $csv->setOffset(1);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
-        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
+        $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
             ];

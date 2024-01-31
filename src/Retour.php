@@ -279,7 +279,7 @@ class Retour extends Plugin
         Event::on(
             ClearCaches::class,
             ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
-            function (RegisterCacheOptionsEvent $event) {
+            function(RegisterCacheOptionsEvent $event) {
                 Craft::debug(
                     'ClearCaches::EVENT_REGISTER_CACHE_OPTIONS',
                     __METHOD__
@@ -295,7 +295,7 @@ class Retour extends Plugin
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function (PluginEvent $event) {
+            function(PluginEvent $event) {
                 if ($event->plugin === $this) {
                     // Invalidate our caches after we've been installed
                     $this->clearAllCaches();
@@ -322,7 +322,7 @@ class Retour extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('retour', [
@@ -332,7 +332,7 @@ class Retour extends Plugin
             }
         );
 
-        $prepareRedirectOnElementChange = function (ElementEvent $event) {
+        $prepareRedirectOnElementChange = function(ElementEvent $event) {
             /** @var Element $element */
             $element = $event->element;
             if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
@@ -355,7 +355,7 @@ class Retour extends Plugin
             }
         };
 
-        $insertRedirectOnElementChange = function (ElementEvent $event) {
+        $insertRedirectOnElementChange = function(ElementEvent $event) {
             /** @var Element $element */
             $element = $event->element;
             if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
@@ -373,7 +373,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_BEFORE_SAVE_ELEMENT,
-            function (ElementEvent $event) use ($prepareRedirectOnElementChange) {
+            function(ElementEvent $event) use ($prepareRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_BEFORE_SAVE_ELEMENT',
                     __METHOD__
@@ -385,7 +385,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) use ($insertRedirectOnElementChange) {
+            function(ElementEvent $event) use ($insertRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
@@ -397,7 +397,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI,
-            function (ElementEvent $event) use ($prepareRedirectOnElementChange) {
+            function(ElementEvent $event) use ($prepareRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_BEFORE_UPDATE_SLUG_AND_URI',
                     __METHOD__
@@ -409,7 +409,7 @@ class Retour extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI,
-            function (ElementEvent $event) use ($insertRedirectOnElementChange) {
+            function(ElementEvent $event) use ($insertRedirectOnElementChange) {
                 Craft::debug(
                     'Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI',
                     __METHOD__
@@ -422,7 +422,7 @@ class Retour extends Plugin
         Event::on(
             Plugins::class,
             Plugins::EVENT_AFTER_LOAD_PLUGINS,
-            function () {
+            function() {
                 // Install these only after all other plugins have loaded
                 $request = Craft::$app->getRequest();
                 // Only respond to non-console site requests
@@ -439,7 +439,7 @@ class Retour extends Plugin
         Event::on(
             Fields::class,
             Fields::EVENT_REGISTER_FIELD_TYPES,
-            function (RegisterComponentTypesEvent $event) {
+            function(RegisterComponentTypesEvent $event) {
                 $event->types[] = ShortLinkField::class;
             }
         );
@@ -448,7 +448,7 @@ class Retour extends Plugin
             Event::on(
                 Gql::class,
                 Gql::EVENT_REGISTER_GQL_TYPES,
-                function (RegisterGqlTypesEvent $event) {
+                function(RegisterGqlTypesEvent $event) {
                     Craft::debug(
                         'Gql::EVENT_REGISTER_GQL_TYPES',
                         __METHOD__
@@ -460,7 +460,7 @@ class Retour extends Plugin
             Event::on(
                 Gql::class,
                 Gql::EVENT_REGISTER_GQL_QUERIES,
-                function (RegisterGqlQueriesEvent $event) {
+                function(RegisterGqlQueriesEvent $event) {
                     Craft::debug(
                         'Gql::EVENT_REGISTER_GQL_QUERIES',
                         __METHOD__
@@ -476,7 +476,7 @@ class Retour extends Plugin
                 Event::on(
                     Gql::class,
                     Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS,
-                    function (RegisterGqlSchemaComponentsEvent $event) {
+                    function(RegisterGqlSchemaComponentsEvent $event) {
                         Craft::debug(
                             'Gql::EVENT_REGISTER_GQL_SCHEMA_COMPONENTS',
                             __METHOD__
@@ -506,7 +506,7 @@ class Retour extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
+            function(RegisterUrlRulesEvent $event) {
                 Craft::debug(
                     'UrlManager::EVENT_REGISTER_SITE_URL_RULES',
                     __METHOD__
@@ -529,7 +529,7 @@ class Retour extends Plugin
         Event::on(
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
-            function (RegisterComponentTypesEvent $event) {
+            function(RegisterComponentTypesEvent $event) {
                 $currentUser = Craft::$app->getUser()->getIdentity();
                 if ($currentUser->can('accessPlugin-retour')) {
                     $event->types[] = RetourWidget::class;
@@ -540,7 +540,7 @@ class Retour extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
+            function(RegisterUrlRulesEvent $event) {
                 Craft::debug(
                     'UrlManager::EVENT_REGISTER_CP_URL_RULES',
                     __METHOD__
@@ -556,7 +556,7 @@ class Retour extends Plugin
         Event::on(
             UserPermissions::class,
             UserPermissions::EVENT_REGISTER_PERMISSIONS,
-            function (RegisterUserPermissionsEvent $event) {
+            function(RegisterUserPermissionsEvent $event) {
                 Craft::debug(
                     'UserPermissions::EVENT_REGISTER_PERMISSIONS',
                     __METHOD__
@@ -578,7 +578,7 @@ class Retour extends Plugin
         Event::on(
             ErrorHandler::class,
             ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION,
-            function (ExceptionEvent $event) {
+            function(ExceptionEvent $event) {
                 Craft::debug(
                     'ErrorHandler::EVENT_BEFORE_HANDLE_EXCEPTION',
                     __METHOD__
