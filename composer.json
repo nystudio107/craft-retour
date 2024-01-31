@@ -22,15 +22,23 @@
       "homepage": "https://nystudio107.com/"
     }
   ],
-  "require-dev": {
-    "codeception/codeception": "^3.0",
-    "vlucas/phpdotenv": "^3.0"
-  },
   "require": {
     "craftcms/cms": "^3.2.0",
     "nystudio107/craft-plugin-vite": "^1.0.0",
     "league/csv": "^8.2 || ^9.0",
     "jean85/pretty-package-versions": "^1.5 || ^2.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main",
+    "craftcms/rector": "dev-main",
+    "codeception/codeception": "^3.0",
+    "vlucas/phpdotenv": "^3.0"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan --ansi --memory-limit=1G",
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --fix --ansi"
   },
   "config": {
     "allow-plugins": {
