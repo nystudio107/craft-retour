@@ -1,6 +1,6 @@
-# `seomatic` docs
+# `retour` docs
 
-This buildchain is a self-contained build system for the `seomatic` documentation.
+This buildchain is a self-contained build system for the `retour` documentation.
 
 ## Overview
 

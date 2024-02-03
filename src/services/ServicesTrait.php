@@ -41,7 +41,7 @@ trait ServicesTrait
         // Dev server container name & port are based on the major version of this plugin
         $devPort = 3000 + (int)$majorVersion;
         $versionName = 'v' . $majorVersion;
-        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['vite']
+        // Merge in the passed config, so it our config can be overridden by Plugins::pluginConfigs['retour']
         // ref: https://github.com/craftcms/cms/issues/1989
         $config = ArrayHelper::merge([
             'components' => [
