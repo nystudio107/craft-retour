@@ -65,7 +65,7 @@ class m181213_233502_add_site_id extends Migration
     protected function addForeignKeys(): void
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_static_redirects}}',
             'siteId',
             '{{%sites}}',
@@ -75,7 +75,7 @@ class m181213_233502_add_site_id extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_stats}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_stats}}',
             'siteId',
             '{{%sites}}',

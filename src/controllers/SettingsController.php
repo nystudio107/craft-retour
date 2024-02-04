@@ -15,6 +15,7 @@ use Craft;
 use craft\errors\MissingComponentException;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
+use craft\web\UrlManager;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\Settings;
@@ -128,9 +129,12 @@ class SettingsController extends Controller
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save plugin settings."));
 
             // Send the plugin back to the template
-            Craft::$app->getUrlManager()->setRouteParams([
-                'plugin' => $plugin,
-            ]);
+            $urlManager = Craft::$app->getUrlManager();
+            if ($urlManager instanceof UrlManager) {
+                $urlManager->setRouteParams([
+                    'plugin' => $plugin,
+                ]);
+            }
 
             return null;
         }

@@ -66,7 +66,7 @@ class TablesController extends Controller
     // =========================================================================
 
     /**
-     * @var    bool|array
+     * @inerhitdoc
      */
     protected array|bool|int $allowAnonymous = [
     ];
@@ -177,7 +177,7 @@ class TablesController extends Controller
      * @param int $page
      * @param int $per_page
      * @param string $filter
-     * @param null $siteId
+     * @param int $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException

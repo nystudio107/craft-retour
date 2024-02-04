@@ -106,6 +106,7 @@ class FileController extends Controller
         if (!ini_get('auto_detect_line_endings')) {
             ini_set('auto_detect_line_endings', '1');
         }
+        $csv = null;
         $this->requirePostRequest();
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
@@ -137,7 +138,7 @@ class FileController extends Controller
         }
         $hasErrors = false;
         // If we have headers, then we have a file, so parse it
-        if ($headers !== null) {
+        if ($csv && $headers) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
                     $hasErrors = $this->importCsvApi8($csv, $columns, $headers);
@@ -171,9 +172,11 @@ class FileController extends Controller
     protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): bool
     {
         $hasErrors = false;
+        /** @phpstan-ignore-next-line */
         $csv->setOffset(1);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
+        /** @phpstan-ignore-next-line */
         $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
@@ -202,13 +205,13 @@ class FileController extends Controller
     }
 
     /**
-     * @param AbstractCsv $csv
+     * @param Reader $csv
      * @param array $columns
      * @param array $headers
      * @return bool whether the import has any errors
      * @throws Exception
      */
-    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): bool
+    protected function importCsvApi9(Reader $csv, array $columns, array $headers): bool
     {
         $hasErrors = false;
         $stmt = (new Statement())
