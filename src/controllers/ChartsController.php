@@ -33,7 +33,7 @@ class ChartsController extends Controller
     // =========================================================================
 
     /**
-     * @var    bool|array
+     * @inheritdoc
      */
     protected array|bool|int $allowAnonymous = [
     ];

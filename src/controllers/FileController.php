@@ -32,6 +32,7 @@ use SplTempFileObject;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -95,8 +96,10 @@ class FileController extends Controller
 
     /**
      * @throws BadRequestHttpException
+     * @throws Exception
      * @throws ForbiddenHttpException
      * @throws MissingComponentException
+     * @throws MethodNotAllowedHttpException
      */
     public function actionImportCsvColumns(): void
     {
@@ -106,6 +109,7 @@ class FileController extends Controller
         if (!ini_get('auto_detect_line_endings')) {
             ini_set('auto_detect_line_endings', '1');
         }
+        $csv = null;
         $this->requirePostRequest();
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
@@ -137,7 +141,7 @@ class FileController extends Controller
         }
         $hasErrors = false;
         // If we have headers, then we have a file, so parse it
-        if ($headers !== null) {
+        if ($csv && $headers) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
                     $hasErrors = $this->importCsvApi8($csv, $columns, $headers);
@@ -160,85 +164,6 @@ class FileController extends Controller
         } else {
             $this->redirect('retour/redirects');
         }
-    }
-
-    /**
-     * @param AbstractCsv $csv
-     * @param array $columns
-     * @param array $headers
-     * @return bool whether the import has any errors
-     */
-    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): bool
-    {
-        $hasErrors = false;
-        $csv->setOffset(1);
-        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        $rowIndex = 1;
-        $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
-            $redirectConfig = [
-                'id' => 0,
-            ];
-            $index = 0;
-            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                if (isset($columns[$index], $headers[$columns[$index]])) {
-                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                        ? null
-                        : $row[$headers[$columns[$index]]];
-                }
-                $index++;
-            }
-            $redirectDump = print_r($redirectConfig, true);
-            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
-            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
-                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
-                $hasErrors = true;
-            }
-            $rowIndex++;
-
-            return true;
-        });
-
-        return $hasErrors;
-    }
-
-    /**
-     * @param AbstractCsv $csv
-     * @param array $columns
-     * @param array $headers
-     * @return bool whether the import has any errors
-     * @throws Exception
-     */
-    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): bool
-    {
-        $hasErrors = false;
-        $stmt = (new Statement())
-            ->offset(1);
-        $rows = $stmt->process($csv);
-        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
-        $rowIndex = 1;
-        foreach ($rows as $row) {
-            $redirectConfig = [
-                'id' => 0,
-            ];
-            $index = 0;
-            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
-                if (isset($columns[$index], $headers[$columns[$index]])) {
-                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
-                        ? null
-                        : $row[$headers[$columns[$index]]];
-                }
-                $index++;
-            }
-            $redirectDump = print_r($redirectConfig, true);
-            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
-            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
-                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
-                $hasErrors = true;
-            }
-            $rowIndex++;
-        }
-
-        return $hasErrors;
     }
 
     /**
@@ -370,10 +295,6 @@ class FileController extends Controller
         return $this->renderTemplate('retour/import/errors', $variables);
     }
 
-
-    // Public Methods
-    // =========================================================================
-
     /**
      * Export the statistics table as a CSV file
      *
@@ -388,6 +309,107 @@ class FileController extends Controller
             $fields[$key] = Craft::t('retour', $field);
         }
         $this->exportCsvFile('retour-statistics', '{{%retour_stats}}', $fields);
+    }
+
+    /**
+     * Export the redirects table as a CSV file
+     *
+     * @throws ForbiddenHttpException
+     */
+    public function actionExportRedirects(): void
+    {
+        PermissionHelper::controllerPermissionCheck('retour:redirects');
+        //Allow the fields to be localized
+        $fields = self::EXPORT_REDIRECTS_CSV_FIELDS;
+        foreach ($fields as $key => $field) {
+            $fields[$key] = Craft::t('retour', $field);
+        }
+        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', $fields);
+    }
+
+
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * @param AbstractCsv $csv
+     * @param array $columns
+     * @param array $headers
+     * @return bool whether the import has any errors
+     */
+    protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): bool
+    {
+        $hasErrors = false;
+        /** @phpstan-ignore-next-line */
+        $csv->setOffset(1);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        $rowIndex = 1;
+        /** @phpstan-ignore-next-line */
+        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            $redirectDump = print_r($redirectConfig, true);
+            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
+                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+                $hasErrors = true;
+            }
+            $rowIndex++;
+
+            return true;
+        });
+
+        return $hasErrors;
+    }
+
+    /**
+     * @param Reader $csv
+     * @param array $columns
+     * @param array $headers
+     * @return bool whether the import has any errors
+     * @throws Exception
+     */
+    protected function importCsvApi9(Reader $csv, array $columns, array $headers): bool
+    {
+        $hasErrors = false;
+        $stmt = (new Statement())
+            ->offset(1);
+        $rows = $stmt->process($csv);
+        $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
+        $rowIndex = 1;
+        foreach ($rows as $row) {
+            $redirectConfig = [
+                'id' => 0,
+            ];
+            $index = 0;
+            foreach (self::IMPORT_REDIRECTS_CSV_FIELDS as $importField) {
+                if (isset($columns[$index], $headers[$columns[$index]])) {
+                    $redirectConfig[$importField] = empty($row[$headers[$columns[$index]]])
+                        ? null
+                        : $row[$headers[$columns[$index]]];
+                }
+                $index++;
+            }
+            $redirectDump = print_r($redirectConfig, true);
+            Craft::debug("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+            if (!Retour::$plugin->redirects->saveRedirect($redirectConfig)) {
+                Craft::info("-> ROW #$rowIndex contents: " . $redirectDump, __METHOD__);
+                $hasErrors = true;
+            }
+            $rowIndex++;
+        }
+
+        return $hasErrors;
     }
 
     /**
@@ -419,21 +441,5 @@ class FileController extends Controller
         $csv->insertAll($data);
         $csv->output($filename . '.csv');
         exit(0);
-    }
-
-    /**
-     * Export the redirects table as a CSV file
-     *
-     * @throws ForbiddenHttpException
-     */
-    public function actionExportRedirects(): void
-    {
-        PermissionHelper::controllerPermissionCheck('retour:redirects');
-        //Allow the fields to be localized
-        $fields = self::EXPORT_REDIRECTS_CSV_FIELDS;
-        foreach ($fields as $key => $field) {
-            $fields[$key] = Craft::t('retour', $field);
-        }
-        $this->exportCsvFile('retour-redirects', '{{%retour_static_redirects}}', $fields);
     }
 }

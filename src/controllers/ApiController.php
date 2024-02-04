@@ -58,6 +58,6 @@ class ApiController extends Controller
     {
         $redirects = Retour::$plugin->redirects->getAllStaticRedirects(null, $siteId);
 
-        return $this->asJson($redirects ?? []);
+        return $this->asJson($redirects);
     }
 }

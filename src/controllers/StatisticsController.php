@@ -131,7 +131,7 @@ class StatisticsController extends Controller
     }
 
     /**
-     * @return Response|void
+     * @return ?Response
      * @throws MissingComponentException
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException

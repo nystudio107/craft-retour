@@ -60,12 +60,21 @@ class m181213_233502_add_site_id extends Migration
     }
 
     /**
+     * @inheritdoc
+     */
+    public function safeDown()
+    {
+        echo "m181213_233502_add_site_id cannot be reverted.\n";
+        return false;
+    }
+
+    /**
      * @return void
      */
     protected function addForeignKeys(): void
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_static_redirects}}',
             'siteId',
             '{{%sites}}',
@@ -75,7 +84,7 @@ class m181213_233502_add_site_id extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_stats}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_stats}}',
             'siteId',
             '{{%sites}}',
@@ -110,14 +119,5 @@ class m181213_233502_add_site_id extends Migration
             'siteId',
             false
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function safeDown()
-    {
-        echo "m181213_233502_add_site_id cannot be reverted.\n";
-        return false;
     }
 }
