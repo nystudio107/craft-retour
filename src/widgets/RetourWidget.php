@@ -13,9 +13,9 @@ namespace nystudio107\retour\widgets;
 
 use Craft;
 use craft\base\Widget;
-
 use nystudio107\retour\assetbundles\retour\RetourWidgetAsset;
 use nystudio107\retour\Retour;
+use Twig\Error\LoaderError;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 
@@ -96,11 +96,13 @@ class RetourWidget extends Widget
                     'widget' => $this,
                 ]
             );
-        } catch (\Twig\Error\LoaderError $e) {
+        } catch (LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);
         }
+
+        return '';
     }
 
     /**
@@ -121,10 +123,12 @@ class RetourWidget extends Widget
                     'numberOfDays' => $this->numberOfDays,
                 ]
             );
-        } catch (\Twig\Error\LoaderError $e) {
+        } catch (LoaderError $e) {
             Craft::error($e->getMessage(), __METHOD__);
         } catch (Exception $e) {
             Craft::error($e->getMessage(), __METHOD__);
         }
+
+        return '';
     }
 }

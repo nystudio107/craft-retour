@@ -33,6 +33,7 @@
     "craftcms/phpstan": "dev-main",
     "craftcms/rector": "dev-main",
     "codeception/codeception": "^3.0",
+    "markhuot/craftql": "^1.0.0",
     "vlucas/phpdotenv": "^3.0"
   },
   "scripts": {

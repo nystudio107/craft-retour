@@ -13,6 +13,7 @@ namespace nystudio107\retour\controllers;
 
 use craft\web\Controller;
 use nystudio107\retour\Retour;
+use yii\web\Response;
 
 /**
  * @author    nystudio107
@@ -51,12 +52,12 @@ class ApiController extends Controller
 
     /**
      * @param null $siteId
-     * @return \yii\web\Response
+     * @return Response
      */
     public function actionGetRedirects($siteId = null)
     {
         $redirects = Retour::$plugin->redirects->getAllStaticRedirects(null, $siteId);
 
-        return $this->asJson($redirects ?? []);
+        return $this->asJson($redirects);
     }
 }

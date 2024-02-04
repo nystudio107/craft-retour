@@ -12,10 +12,10 @@
 namespace nystudio107\retour\helpers;
 
 use Craft;
-
-use craft\models\Site;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use function count;
+use function in_array;
 
 /**
  * @author    nystudio107
@@ -46,7 +46,6 @@ class MultiSite
         $sites = Craft::$app->getSites();
         if (Craft::$app->getIsMultiSite()) {
             $editableSites = $sites->getEditableSiteIds();
-            /** @var Site $site */
             foreach ($sites->getAllGroups() as $group) {
                 $groupSites = $sites->getSitesByGroupId($group->id);
                 $variables['sitesMenu'][$group->name]
@@ -65,7 +64,7 @@ class MultiSite
      * @param        $siteId
      * @param        $variables
      *
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public static function setMultiSiteVariables($siteHandle, &$siteId, array &$variables)
     {
@@ -76,14 +75,13 @@ class MultiSite
             $variables['enabledSiteIds'] = [];
             $variables['siteIds'] = [];
 
-            /** @var Site $site */
             foreach ($sites->getEditableSiteIds() as $editableSiteId) {
                 $variables['enabledSiteIds'][] = $editableSiteId;
                 $variables['siteIds'][] = $editableSiteId;
             }
 
             // Make sure the $siteId they are trying to edit is in our array of editable sites
-            if (!\in_array($siteId, $variables['enabledSiteIds'], false)) {
+            if (!in_array($siteId, $variables['enabledSiteIds'], false)) {
                 if (!empty($variables['enabledSiteIds'])) {
                     if ($siteId !== 0) {
                         $siteId = reset($variables['enabledSiteIds']);
@@ -102,7 +100,7 @@ class MultiSite
         // Page title
         $variables['showSites'] = (
             Craft::$app->getIsMultiSite() &&
-            \count($variables['enabledSiteIds'])
+            count($variables['enabledSiteIds'])
         );
 
         if ($variables['showSites']) {
@@ -133,6 +131,7 @@ class MultiSite
      */
     public static function getSiteIdFromHandle($siteHandle)
     {
+        $siteId = 0;
         // Get the site to edit
         if ($siteHandle !== null) {
             $site = Craft::$app->getSites()->getSiteByHandle($siteHandle);
@@ -140,8 +139,6 @@ class MultiSite
                 throw new NotFoundHttpException('Invalid site handle: ' . $siteHandle);
             }
             $siteId = $site->id;
-        } else {
-            $siteId = 0;
         }
 
         return $siteId;

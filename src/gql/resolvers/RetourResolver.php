@@ -13,8 +13,8 @@ namespace nystudio107\retour\gql\resolvers;
 
 use Craft;
 use craft\base\Element;
+use craft\errors\SiteNotFoundException;
 use craft\gql\base\Resolver;
-
 use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\ResolveInfo;
 use nystudio107\retour\Retour;
@@ -64,6 +64,7 @@ class RetourResolver extends Resolver
             if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
                 // Set the `site` virtual field
                 $redirect['site'] = null;
+                $redirect['siteId'] = $siteId;
                 if (isset($redirect['siteId']) && (int)$redirect['siteId'] !== 0) {
                     $site = Craft::$app->getSites()->getSiteById((int)$redirect['siteId']);
                     if ($site !== null) {
@@ -86,7 +87,7 @@ class RetourResolver extends Resolver
      * @param $context
      * @param ResolveInfo $resolveInfo
      * @return array
-     * @throws \craft\errors\SiteNotFoundException
+     * @throws SiteNotFoundException
      */
     public static function resolveAll($source, array $arguments, $context, ResolveInfo $resolveInfo)
     {

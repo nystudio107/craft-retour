@@ -12,6 +12,7 @@
 namespace nystudio107\retour\validators;
 
 use craft\helpers\UrlHelper;
+use nystudio107\retour\models\StaticRedirects;
 use yii\validators\Validator;
 
 /**
@@ -44,6 +45,7 @@ class UriValidator extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
+        /** @var StaticRedirects $model */
         $value = $model->$attribute;
         $redirectMatchType = 'redirectMatchType';
         // Always remove whitespace
