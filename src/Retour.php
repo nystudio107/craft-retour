@@ -353,7 +353,7 @@ class Retour extends Plugin
                 if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
                     // Make sure this isn't a transitioning temporary draft/revision and that it's
                     // not propagating to other sites
-                    if (strpos($element->uri, '__temp_') === false) {
+                    if (!str_contains($element->uri, '__temp_')) {
                         Retour::$plugin->events->stashElementUris($element);
                     }
                 }
