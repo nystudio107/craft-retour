@@ -23,6 +23,7 @@ use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
+use Throwable;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -122,7 +123,8 @@ class RedirectsController extends Controller
         string               $defaultUrl = '',
         int                  $siteId = 0,
         StaticRedirectsModel $redirect = null,
-    ): Response {
+    ): Response
+    {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
 
@@ -270,12 +272,11 @@ class RedirectsController extends Controller
         if (!$redirect->validate()) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings."));
             // Send the redirect back to the template
+            /** @var UrlManager $urlManager */
             $urlManager = Craft::$app->getUrlManager();
-            if ($urlManager instanceof UrlManager) {
-                $urlManager->setRouteParams([
-                    'redirect' => $redirect,
-                ]);
-            }
+            $urlManager->setRouteParams([
+                'redirect' => $redirect,
+            ]);
 
             return null;
         }
@@ -290,12 +291,11 @@ class RedirectsController extends Controller
         if ($testRedirectConfig === null) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings because it'd create a redirect loop."));
             // Send the redirect back to the template
+            /** @var UrlManager $urlManager */
             $urlManager = Craft::$app->getUrlManager();
-            if ($urlManager instanceof UrlManager) {
-                $urlManager->setRouteParams([
-                    'redirect' => $redirect,
-                ]);
-            }
+            $urlManager->setRouteParams([
+                'redirect' => $redirect,
+            ]);
 
             return null;
         }
@@ -312,8 +312,8 @@ class RedirectsController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionShortlinks(string $siteHandle = null): Response
     {
@@ -366,7 +366,7 @@ class RedirectsController extends Controller
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      * @throws MissingComponentException
-     * @throws \Throwable
+     * @throws Throwable
      * @throws ElementNotFoundException
      * @throws Exception
      */
