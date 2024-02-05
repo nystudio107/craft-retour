@@ -189,8 +189,9 @@ class Retour extends Plugin
     {
         $subNavs = [];
         $navItem = parent::getCpNavItem();
+        /** @var User $user */
         $user = Craft::$app->getUser();
-        if (($user instanceof User) && $currentUser = $user->getIdentity()) {
+        if ($currentUser = $user->getIdentity()) {
             // Only show sub-navs the user has permission to view
             if ($currentUser->can('retour:dashboard')) {
                 $subNavs['dashboard'] = [
@@ -535,8 +536,9 @@ class Retour extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
+                /** @var User $user */
                 $user = Craft::$app->getUser();
-                if (($user instanceof User) && $currentUser = $user->getIdentity()) {
+                if ($currentUser = $user->getIdentity()) {
                     if ($currentUser->can('accessPlugin-retour')) {
                         $event->types[] = RetourWidget::class;
                     }

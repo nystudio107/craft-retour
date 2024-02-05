@@ -123,12 +123,11 @@ class SettingsController extends Controller
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save plugin settings."));
 
             // Send the plugin back to the template
+            /** @var UrlManager $urlManager */
             $urlManager = Craft::$app->getUrlManager();
-            if ($urlManager instanceof UrlManager) {
-                $urlManager->setRouteParams([
-                    'plugin' => $plugin,
-                ]);
-            }
+            $urlManager->setRouteParams([
+                'plugin' => $plugin,
+            ]);
 
             return null;
         }

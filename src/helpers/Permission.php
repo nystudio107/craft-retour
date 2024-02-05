@@ -35,15 +35,14 @@ class Permission
      */
     public static function controllerPermissionCheck(string $permission)
     {
+        /** @var User $user */
         $user = Craft::$app->getUser();
-        if ($user instanceof User) {
-            if (($currentUser = $user->getIdentity()) === null) {
-                throw new ForbiddenHttpException('Your account has no identity.');
-            }
+        if (($currentUser = $user->getIdentity()) === null) {
+            throw new ForbiddenHttpException('Your account has no identity.');
+        }
 
-            if (!$currentUser->can($permission)) {
-                throw new ForbiddenHttpException("Your account doesn't have permission to assign access this resource.");
-            }
+        if (!$currentUser->can($permission)) {
+            throw new ForbiddenHttpException("Your account doesn't have permission to assign access this resource.");
         }
     }
 

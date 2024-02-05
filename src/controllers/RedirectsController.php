@@ -270,12 +270,11 @@ class RedirectsController extends Controller
         if (!$redirect->validate()) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings."));
             // Send the redirect back to the template
+            /** @var UrlManager $urlManager */
             $urlManager = Craft::$app->getUrlManager();
-            if ($urlManager instanceof UrlManager) {
-                $urlManager->setRouteParams([
-                    'redirect' => $redirect,
-                ]);
-            }
+            $urlManager->setRouteParams([
+                'redirect' => $redirect,
+            ]);
 
             return null;
         }
@@ -290,12 +289,11 @@ class RedirectsController extends Controller
         if ($testRedirectConfig === null) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings because it'd create a redirect loop."));
             // Send the redirect back to the template
+            /** @var UrlManager $urlManager */
             $urlManager = Craft::$app->getUrlManager();
-            if ($urlManager instanceof UrlManager) {
-                $urlManager->setRouteParams([
-                    'redirect' => $redirect,
-                ]);
-            }
+            $urlManager->setRouteParams([
+                'redirect' => $redirect,
+            ]);
 
             return null;
         }
