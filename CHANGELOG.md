@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.13 - UNRELEASED
+## 3.2.13 - 2024.02.05
 ### Added
 * Add `phpstan` and `ecs` code linting
 * Add `code-analysis.yaml` GitHub action
