@@ -52,7 +52,7 @@ class StatsController extends Controller
     public function options($actionID): array
     {
         return [
-            'limit'
+            'limit',
         ];
     }
 

@@ -5,4 +5,4 @@ declare module "Retour";
 declare module "Shortlinks";
 declare module "Widget";
 
-declare let Craft: any;
+declare let Craft: object;

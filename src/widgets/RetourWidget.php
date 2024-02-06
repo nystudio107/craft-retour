@@ -30,7 +30,6 @@ use yii\base\InvalidConfigException;
  */
 class RetourWidget extends Widget
 {
-
     // Public Properties
     // =========================================================================
 

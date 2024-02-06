@@ -47,7 +47,6 @@ class MultiSite
         $sites = Craft::$app->getSites();
         if (Craft::$app->getIsMultiSite()) {
             $editableSites = $sites->getEditableSiteIds();
-            /** @var Site $site */
             foreach ($sites->getAllGroups() as $group) {
                 $groupSites = $sites->getSitesByGroupId($group->id);
                 $variables['sitesMenu'][$group->name]
@@ -77,7 +76,6 @@ class MultiSite
             $variables['enabledSiteIds'] = [];
             $variables['siteIds'] = [];
 
-            /** @var Site $site */
             foreach ($sites->getEditableSiteIds() as $editableSiteId) {
                 $variables['enabledSiteIds'][] = $editableSiteId;
                 $variables['siteIds'][] = $editableSiteId;

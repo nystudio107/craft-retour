@@ -1,4 +1,5 @@
 <?php
+
 namespace nystudio107\retour\helpers;
 
 use craft\helpers\Gql as GqlHelper;

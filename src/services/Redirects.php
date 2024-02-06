@@ -18,7 +18,6 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
 use DateTime;
 use nystudio107\retour\events\RedirectEvent;
@@ -104,7 +103,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
+    public const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
 
     /**
      * @event RedirectEvent The event that is triggered after the redirect is deleted
@@ -121,7 +120,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
+    public const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
 
     /**
      * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
@@ -304,9 +303,7 @@ class Redirects extends Component
                 $siteId = $currentSite->id;
             } else {
                 $primarySite = Craft::$app->getSites()->primarySite;
-                if ($currentSite) {
                     $siteId = $primarySite->id;
-                }
             }
         }
         // Try getting the full URL redirect from the cache
@@ -464,26 +461,26 @@ class Redirects extends Component
         $siteCondition = [
             'or',
             ['siteId' => $siteId],
-            ['siteId' => null]
+            ['siteId' => null],
         ];
         $pathCondition = [
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly]
+                ['redirectSrcUrlParsed' => $pathOnly],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl]
+                ['redirectSrcUrlParsed' => $fullUrl],
             ],
         ];
 
-        $query = (new Query)
+        $query = (new Query())
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
                 $staticCondition,
                 $pathCondition,
-                $siteCondition
+                $siteCondition,
             ])
             ->limit(1);
 
@@ -790,11 +787,11 @@ class Redirects extends Component
 
     /**
      * @param ResolveRedirectEvent $event
-     * @param string|null $url
-     * @param null $redirect
+     * @param ?string $url
+     * @param ?array $redirect
      * @return null|array
      */
-    public function resolveEventRedirect(ResolveRedirectEvent $event, ?string $url = null, $redirect = null): ?array
+    public function resolveEventRedirect(ResolveRedirectEvent $event, ?string $url = null, ?array $redirect = null): ?array
     {
         $result = null;
 
@@ -806,7 +803,7 @@ class Redirects extends Component
             ]);
             $result = $resolvedRedirect->toArray();
 
-            if ($url !== null && $redirect !== null) {
+            if ($url !== null) {
                 // Save the modified redirect to the cache
                 $redirect['redirectDestUrl'] = $event->redirectDestUrl;
                 $redirect['redirectHttpCode'] = $event->redirectHttpCode;
@@ -980,7 +977,7 @@ class Redirects extends Component
         ]);
         $this->trigger(self::EVENT_BEFORE_DELETE_REDIRECT, $event);
         if (!$event->isValid) {
-            return false;
+            return 0;
         }
         // Delete a row from the db table
         try {
@@ -1103,14 +1100,16 @@ class Redirects extends Component
     /**
      * Delete a short link by its ID.
      *
-     * @param int $redirectId
      * @throws \Throwable
      * @throws \craft\errors\ElementNotFoundException
      * @throws \yii\base\Exception
      */
-    public function deleteShortlinkById(int $redirectId): void
+    public function deleteShortlinkById(int $redirectId): bool
     {
         $redirect = $this->getRedirectById($redirectId);
+        if (!$redirect) {
+            return false;
+        }
         $elementId = $redirect['associatedElementId'];
         $siteId = $redirect['siteId'];
         $element = Craft::$app->getElements()->getElementById($elementId, null, $siteId);
@@ -1123,6 +1122,8 @@ class Redirects extends Component
                 Craft::$app->getElements()->saveElement($element);
             }
         }
+
+        return true;
     }
 
     /**

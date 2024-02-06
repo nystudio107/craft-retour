@@ -49,7 +49,7 @@ class Install extends Migration
 
         // Update retour widget type
         $this->update('{{%widgets}}', [
-            'type' => RetourWidget::class
+            'type' => RetourWidget::class,
         ], ['type' => 'Retour']);
 
         return true;
@@ -230,7 +230,7 @@ class Install extends Migration
     protected function addForeignKeys(): void
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_redirects}}', 'associatedElementId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_redirects}}',
             'associatedElementId',
             '{{%elements}}',
@@ -240,7 +240,7 @@ class Install extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_static_redirects}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_static_redirects}}',
             'siteId',
             '{{%sites}}',
@@ -250,7 +250,7 @@ class Install extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%retour_stats}}', 'siteId'),
+            $this->db->getForeignKeyName(),
             '{{%retour_stats}}',
             'siteId',
             '{{%sites}}',

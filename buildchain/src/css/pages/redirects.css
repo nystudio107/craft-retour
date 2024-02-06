@@ -13,3 +13,7 @@
   position: absolute;
   z-index: -1;
 }
+
+.retour-reset::before {
+  padding-bottom: 4px;
+}

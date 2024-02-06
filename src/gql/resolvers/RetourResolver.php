@@ -64,6 +64,7 @@ class RetourResolver extends Resolver
             if ($redirect === null && Craft::$app->getElements()->getElementByUri(trim($uri, '/'), $siteId) === null) {
                 // Set the `site` virtual field
                 $redirect['site'] = null;
+                $redirect['siteId'] = $siteId;
                 if (isset($redirect['siteId']) && (int)$redirect['siteId'] !== 0) {
                     $site = Craft::$app->getSites()->getSiteById((int)$redirect['siteId']);
                     if ($site !== null) {
