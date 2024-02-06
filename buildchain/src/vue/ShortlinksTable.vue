@@ -205,6 +205,7 @@ export default {
       this.moreParams = {
         'filter': this.filterText,
         'siteId': this.siteId,
+        'shortLinks': true,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);
     },
@@ -213,6 +214,7 @@ export default {
       this.moreParams = {
         'filter': this.filterText,
         'siteId': this.siteId,
+        'shortLinks': true,
       };
       this.$events.fire('refresh-table', this.$refs.vuetable);
     },

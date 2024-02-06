@@ -12,8 +12,10 @@
 namespace nystudio107\retour\controllers;
 
 use Craft;
+use craft\errors\MissingComponentException;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
+use craft\web\UrlManager;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
@@ -21,6 +23,8 @@ use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
 use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -50,8 +54,8 @@ class RedirectsController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionRedirects(string $siteHandle = null): Response
     {
@@ -109,7 +113,7 @@ class RedirectsController extends Controller
      *
      * @return Response
      * @throws NotFoundHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionEditRedirect(
         int                  $redirectId = 0,
@@ -205,8 +209,8 @@ class RedirectsController extends Controller
 
     /**
      * @return Response|void
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws ForbiddenHttpException
      */
     public function actionDeleteRedirects()
     {
@@ -236,16 +240,15 @@ class RedirectsController extends Controller
      * Save the redirect
      *
      * @return null|Response
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
     public function actionSaveRedirect()
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->requirePostRequest();
-        /** @var StaticRedirectsModel $redirect */
         $redirectConfig = Craft::$app->getRequest()->getRequiredBodyParam('redirectConfig');
         if ($redirectConfig === null) {
             throw new NotFoundHttpException('Redirect not found');
@@ -267,7 +270,9 @@ class RedirectsController extends Controller
         if (!$redirect->validate()) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings."));
             // Send the redirect back to the template
-            Craft::$app->getUrlManager()->setRouteParams([
+            /** @var UrlManager $urlManager */
+            $urlManager = Craft::$app->getUrlManager();
+            $urlManager->setRouteParams([
                 'redirect' => $redirect,
             ]);
 
@@ -284,7 +289,9 @@ class RedirectsController extends Controller
         if ($testRedirectConfig === null) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings because it'd create a redirect loop."));
             // Send the redirect back to the template
-            Craft::$app->getUrlManager()->setRouteParams([
+            /** @var UrlManager $urlManager */
+            $urlManager = Craft::$app->getUrlManager();
+            $urlManager->setRouteParams([
                 'redirect' => $redirect,
             ]);
 
@@ -303,8 +310,8 @@ class RedirectsController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionShortlinks(string $siteHandle = null): Response
     {
@@ -354,8 +361,8 @@ class RedirectsController extends Controller
 
     /**
      * @return Response|void
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws ForbiddenHttpException
      */
     public function actionDeleteShortlinks()
     {

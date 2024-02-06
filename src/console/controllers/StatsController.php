@@ -11,12 +11,10 @@
 
 namespace nystudio107\retour\console\controllers;
 
-use nystudio107\retour\Retour;
-
 use Craft;
-use yii\console\Controller;
 
-use yii\console\Response;
+use nystudio107\retour\Retour;
+use yii\console\Controller;
 
 /**
  * Retour Stats command
@@ -55,7 +53,7 @@ class StatsController extends Controller
     public function options($actionID): array
     {
         return [
-            'limit'
+            'limit',
         ];
     }
 

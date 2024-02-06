@@ -12,12 +12,10 @@
 namespace nystudio107\retour\controllers;
 
 use Craft;
-use nystudio107\retour\helpers\Permission as PermissionHelper;
-
 use craft\db\Query;
 use craft\helpers\ArrayHelper;
 use craft\web\Controller;
-
+use nystudio107\retour\helpers\Permission as PermissionHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
@@ -35,7 +33,7 @@ class ChartsController extends Controller
     // =========================================================================
 
     /**
-     * @var    bool|array
+     * @inheritdoc
      */
     protected $allowAnonymous = [
     ];

@@ -11,7 +11,6 @@
 
 namespace nystudio107\retour\assetbundles\retour;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 use craft\web\assets\vue\VueAsset;

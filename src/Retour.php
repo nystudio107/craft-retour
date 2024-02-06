@@ -36,6 +36,7 @@ use craft\utilities\ClearCaches;
 use craft\web\ErrorHandler;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
+use craft\web\User;
 use markhuot\CraftQL\Builders\Schema;
 use markhuot\CraftQL\CraftQL;
 use markhuot\CraftQL\Events\AlterSchemaFields;
@@ -47,6 +48,7 @@ use nystudio107\retour\models\Settings;
 use nystudio107\retour\services\ServicesTrait;
 use nystudio107\retour\variables\RetourVariable;
 use nystudio107\retour\widgets\RetourWidget;
+use Twig\Error\RuntimeError;
 use yii\base\Event;
 use yii\web\HttpException;
 
@@ -58,6 +60,7 @@ use yii\web\HttpException;
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
+ * @method Settings getSettings()
  */
 class Retour extends Plugin
 {
@@ -186,36 +189,39 @@ class Retour extends Plugin
     {
         $subNavs = [];
         $navItem = parent::getCpNavItem();
-        $currentUser = Craft::$app->getUser()->getIdentity();
-        // Only show sub-navs the user has permission to view
-        if ($currentUser->can('retour:dashboard')) {
-            $subNavs['dashboard'] = [
-                'label' => 'Dashboard',
-                'url' => 'retour/dashboard',
-            ];
-        }
-        if ($currentUser->can('retour:redirects')) {
-            $subNavs['redirects'] = [
-                'label' => 'Redirects',
-                'url' => 'retour/redirects',
-            ];
-        }
-        if ($currentUser->can('retour:shortlinks')) {
-            $subNavs['shortlinks'] = [
-                'label' => 'Short Links',
-                'url' => 'retour/shortlinks',
-            ];
-        }
-        $editableSettings = true;
-        $general = Craft::$app->getConfig()->getGeneral();
-        if (self::$craft31 && !$general->allowAdminChanges) {
-            $editableSettings = false;
-        }
-        if ($currentUser->can('retour:settings') && $editableSettings) {
-            $subNavs['settings'] = [
-                'label' => 'Settings',
-                'url' => 'retour/settings',
-            ];
+        /** @var User $user */
+        $user = Craft::$app->getUser();
+        if ($currentUser = $user->getIdentity()) {
+            // Only show sub-navs the user has permission to view
+            if ($currentUser->can('retour:dashboard')) {
+                $subNavs['dashboard'] = [
+                    'label' => 'Dashboard',
+                    'url' => 'retour/dashboard',
+                ];
+            }
+            if ($currentUser->can('retour:redirects')) {
+                $subNavs['redirects'] = [
+                    'label' => 'Redirects',
+                    'url' => 'retour/redirects',
+                ];
+            }
+            if ($currentUser->can('retour:shortlinks')) {
+                $subNavs['shortlinks'] = [
+                    'label' => 'Short Links',
+                    'url' => 'retour/shortlinks',
+                ];
+            }
+            $editableSettings = true;
+            $general = Craft::$app->getConfig()->getGeneral();
+            if (self::$craft31 && !$general->allowAdminChanges) {
+                $editableSettings = false;
+            }
+            if ($currentUser->can('retour:settings') && $editableSettings) {
+                $subNavs['settings'] = [
+                    'label' => 'Settings',
+                    'url' => 'retour/settings',
+                ];
+            }
         }
         // Retour doesn't really have an index page, so if the user can't access any sub nav items, we probably shouldn't show the main sub nav item either
         if (empty($subNavs)) {
@@ -335,7 +341,7 @@ class Retour extends Plugin
         $prepareRedirectOnElementChange = function (ElementEvent $event) {
             /** @var Element $element */
             $element = $event->element;
-            if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
+            if ($element !== null && !$element->propagating && !$event->isNew && $element->getUrl() !== null) {
                 $checkElementSlug = true;
                 // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                 if (Retour::$craft32 && (
@@ -348,7 +354,7 @@ class Retour extends Plugin
                 if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
                     // Make sure this isn't a transitioning temporary draft/revision and that it's
                     // not propagating to other sites
-                    if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
+                    if (!str_contains($element->uri, '__temp_')) {
                         Retour::$plugin->events->stashElementUris($element);
                     }
                 }
@@ -530,9 +536,12 @@ class Retour extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $currentUser = Craft::$app->getUser()->getIdentity();
-                if ($currentUser->can('accessPlugin-retour')) {
-                    $event->types[] = RetourWidget::class;
+                /** @var User $user */
+                $user = Craft::$app->getUser();
+                if ($currentUser = $user->getIdentity()) {
+                    if ($currentUser->can('accessPlugin-retour')) {
+                        $event->types[] = RetourWidget::class;
+                    }
                 }
             }
         );
@@ -585,7 +594,7 @@ class Retour extends Plugin
                 );
                 $exception = $event->exception;
                 // If this is a Twig Runtime exception, use the previous one instead
-                if ($exception instanceof \Twig\Error\RuntimeError &&
+                if ($exception instanceof RuntimeError &&
                     ($previousException = $exception->getPrevious()) !== null) {
                     $exception = $previousException;
                 }

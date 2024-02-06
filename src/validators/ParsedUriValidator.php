@@ -11,8 +11,6 @@
 
 namespace nystudio107\retour\validators;
 
-use Craft;
-
 use yii\base\InvalidConfigException;
 use yii\validators\Validator;
 

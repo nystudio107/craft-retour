@@ -13,6 +13,7 @@ namespace nystudio107\retour\controllers;
 
 use Craft;
 use craft\db\Query;
+use craft\errors\MissingComponentException;
 use craft\helpers\ArrayHelper;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
@@ -27,7 +28,11 @@ use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\helpers\Version as VersionHelper;
 use nystudio107\retour\Retour;
+use SplTempFileObject;
 use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
@@ -77,7 +82,7 @@ class FileController extends Controller
         'redirectSrcMatch',
         'hitCount',
         'associatedElementId',
-        'priority'
+        'priority',
     ];
 
     // Protected Properties
@@ -89,9 +94,9 @@ class FileController extends Controller
     // =========================================================================
 
     /**
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \craft\errors\MissingComponentException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws MissingComponentException
      */
     public function actionImportCsvColumns()
     {
@@ -110,7 +115,7 @@ class FileController extends Controller
         FileLog::create(self::LOG_FILE_NAME, 'nystudio107\retour\*');
         try {
             $csv = Reader::createFromPath($filename);
-            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter);
             $headers = array_flip($csv->fetchOne(0));
         } catch (\Exception $e) {
             // If this throws an exception, try to read the CSV file from the data cache
@@ -120,7 +125,7 @@ class FileController extends Controller
             if ($cachedFile !== false) {
                 $csv = Reader::createFromString($cachedFile);
                 try {
-                    $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+                    $csv->setDelimiter(Retour::$settings->csvColumnDelimiter);
                 } catch (Exception $e) {
                     Craft::error($e, __METHOD__);
                 }
@@ -161,8 +166,8 @@ class FileController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionImportCsv(string $siteHandle = null): Response
     {
@@ -225,7 +230,7 @@ class FileController extends Controller
             // Read in the headers
             $csv = Reader::createFromPath($file->tempName);
             try {
-                $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+                $csv->setDelimiter(Retour::$settings->csvColumnDelimiter);
             } catch (Exception $e) {
                 Craft::error($e, __METHOD__);
             }
@@ -243,7 +248,7 @@ class FileController extends Controller
      * Display the error log if something went wrong
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionDisplayErrors(): Response
     {
@@ -289,7 +294,7 @@ class FileController extends Controller
     /**
      * Export the statistics table as a CSV file
      *
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionExportStatistics()
     {
@@ -305,7 +310,7 @@ class FileController extends Controller
     /**
      * Export the redirects table as a CSV file
      *
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionExportRedirects()
     {
@@ -340,9 +345,9 @@ class FileController extends Controller
             ->orderBy('hitCount DESC')
             ->all();
         // Create our CSV file writer
-        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
         try {
-            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter ?? ',');
+            $csv->setDelimiter(Retour::$settings->csvColumnDelimiter);
         } catch (Exception $e) {
             Craft::error($e, __METHOD__);
         }
@@ -361,9 +366,11 @@ class FileController extends Controller
     protected function importCsvApi8(AbstractCsv $csv, array $columns, array $headers): bool
     {
         $hasErrors = false;
+        /** @phpstan-ignore-next-line */
         $csv->setOffset(1);
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
+        /** @phpstan-ignore-next-line */
         $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
@@ -392,13 +399,13 @@ class FileController extends Controller
     }
 
     /**
-     * @param AbstractCsv $csv
+     * @param Reader $csv
      * @param array $columns
      * @param array $headers
      * @return bool whether the import has any errors
      * @throws Exception
      */
-    protected function importCsvApi9(AbstractCsv $csv, array $columns, array $headers): bool
+    protected function importCsvApi9(Reader $csv, array $columns, array $headers): bool
     {
         $hasErrors = false;
         $stmt = (new Statement())

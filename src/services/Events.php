@@ -11,14 +11,14 @@
 
 namespace nystudio107\retour\services;
 
-use nystudio107\retour\events\RedirectEvent;
-use nystudio107\retour\Retour;
-use nystudio107\retour\helpers\UrlHelper;
-
 use Craft;
 use craft\base\Component;
 use craft\base\Element;
+
 use craft\helpers\ElementHelper;
+use nystudio107\retour\events\RedirectEvent;
+use nystudio107\retour\helpers\UrlHelper;
+use nystudio107\retour\Retour;
 
 use yii\base\Exception;
 

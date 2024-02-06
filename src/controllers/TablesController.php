@@ -66,7 +66,7 @@ class TablesController extends Controller
     // =========================================================================
 
     /**
-     * @var    bool|array
+     * @inheritdoc
      */
     protected $allowAnonymous = [
     ];
@@ -149,7 +149,7 @@ class TablesController extends Controller
                     }
                     $stat['addLink'] = UrlHelper::cpUrl('retour/add-redirect', [
                         'defaultUrl' => $encodedUrl,
-                        'siteId' => $statSiteId
+                        'siteId' => $statSiteId,
                     ]);
                 }
             }
@@ -178,7 +178,7 @@ class TablesController extends Controller
      * @param int $page
      * @param int $per_page
      * @param string $filter
-     * @param null $siteId
+     * @param int $siteId
      *
      * @return Response
      * @throws ForbiddenHttpException

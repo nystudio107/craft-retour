@@ -33,7 +33,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
     public $redirectSrcMatch = 'pathonly';
     public $redirectHttpCode = 301;
 
-    static protected $allowShortLinkUpdates = true;
+    protected static $allowShortLinkUpdates = true;
 
     // Static Methods
 
@@ -129,7 +129,7 @@ class ShortLink extends Field implements PreviewableFieldInterface
             if ($this->translationMethod === Field::TRANSLATION_METHOD_NONE && ($element->propagating || $parentElement->propagating)) {
                 return;
             }
-        } else if (!empty($value) && !StringHelper::startsWith($value, 'http')) {
+        } elseif (!empty($value) && !StringHelper::startsWith($value, 'http')) {
             $value = UrlHelper::siteUrl($value, null, null, $element->siteId);
         }
 
