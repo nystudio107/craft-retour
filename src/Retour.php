@@ -56,6 +56,7 @@ use yii\web\HttpException;
  * @author    nystudio107
  * @package   Retour
  * @since     3.0.0
+ * @method Settings getSettings()
  */
 class Retour extends Plugin
 {
@@ -309,7 +310,7 @@ class Retour extends Plugin
         $prepareRedirectOnElementChange = function (ElementEvent $event) {
             /** @var Element $element */
             $element = $event->element;
-            if ($element !== null && !$event->isNew && $element->getUrl() !== null && !$element->propagating) {
+            if (!$event->isNew && $element->getUrl() !== null && !$element->propagating) {
                 $checkElementSlug = true;
                 // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                 if (ElementHelper::isDraftOrRevision($element)) {
@@ -320,7 +321,7 @@ class Retour extends Plugin
                 if (self::$settings->createUriChangeRedirects && $checkElementSlug) {
                     // Make sure this isn't a transitioning temporary draft/revision and that it's
                     // not propagating to other sites
-                    if (strpos($element->uri, '__temp_') === false && !$element->propagating) {
+                    if (!str_contains($element->uri, '__temp_')) {
                         Retour::$plugin->events->stashElementUris($element);
                     }
                 }

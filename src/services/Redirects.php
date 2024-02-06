@@ -18,7 +18,6 @@ use craft\base\Plugin;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
-use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
 use DateTime;
 use nystudio107\retour\events\RedirectEvent;
@@ -104,7 +103,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
+    public const EVENT_BEFORE_DELETE_REDIRECT = 'beforeDeleteRedirect';
 
     /**
      * @event RedirectEvent The event that is triggered after the redirect is deleted
@@ -121,7 +120,7 @@ class Redirects extends Component
      * );
      * ```
      */
-    const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
+    public const EVENT_AFTER_DELETE_REDIRECT = 'afterDeleteRedirect';
 
     /**
      * @event ResolveRedirectEvent The event that is triggered before Retour has attempted
@@ -304,9 +303,7 @@ class Redirects extends Component
                 $siteId = $currentSite->id;
             } else {
                 $primarySite = Craft::$app->getSites()->primarySite;
-                if ($currentSite) {
-                    $siteId = $primarySite->id;
-                }
+                $siteId = $primarySite->id;
             }
         }
         // Try getting the full URL redirect from the cache
@@ -464,26 +461,26 @@ class Redirects extends Component
         $siteCondition = [
             'or',
             ['siteId' => $siteId],
-            ['siteId' => null]
+            ['siteId' => null],
         ];
         $pathCondition = [
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly]
+                ['redirectSrcUrlParsed' => $pathOnly],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl]
+                ['redirectSrcUrlParsed' => $fullUrl],
             ],
         ];
 
-        $query = (new Query)
+        $query = (new Query())
             ->from('{{%retour_static_redirects}}')
             ->where(['and',
                 $staticCondition,
                 $pathCondition,
-                $siteCondition
+                $siteCondition,
             ])
             ->limit(1);
 
@@ -566,38 +563,6 @@ class Redirects extends Component
     public function getAllExactMatchRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
         return $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch', $enabledOnly);
-    }
-
-    /**
-     * @param int|null $limit
-     * @param int|null $siteId
-     * @param string $type
-     * @return array
-     */
-    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type, bool $enabledOnly = false): array
-    {
-        // Query the db table
-        $query = (new Query())
-            ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, priority ASC');
-
-        if ($siteId) {
-            $query
-                ->where(['siteId' => $siteId])
-                ->orWhere(['siteId' => null]);
-        }
-
-        if ($limit) {
-            $query->limit($limit);
-        }
-
-        $query->andWhere(['redirectMatchType' => $type]);
-
-        if ($enabledOnly) {
-            $query->andWhere(['enabled' => 1]);
-        }
-
-        return $query->all();
     }
 
     /**
@@ -791,7 +756,7 @@ class Redirects extends Component
     /**
      * @param ResolveRedirectEvent $event
      * @param string|null $url
-     * @param null $redirect
+     * @param array $redirect
      * @return null|array
      */
     public function resolveEventRedirect(ResolveRedirectEvent $event, ?string $url = null, $redirect = null): ?array
@@ -980,7 +945,7 @@ class Redirects extends Component
         ]);
         $this->trigger(self::EVENT_BEFORE_DELETE_REDIRECT, $event);
         if (!$event->isValid) {
-            return false;
+            return 0;
         }
         // Delete a row from the db table
         try {
@@ -997,34 +962,6 @@ class Redirects extends Component
         $this->trigger(self::EVENT_AFTER_DELETE_REDIRECT, $event);
 
         return $result;
-    }
-
-    /**
-     * Updates an associated element short link value.
-     *
-     * @param array $redirectConfig
-     * @param array $existingData
-     */
-    protected function updateAssociatedElementShortLink(array $redirectConfig, array $existingData): void
-    {
-        if (empty($redirectConfig['associatedElementId'])) {
-            return;
-        }
-        // Get the element and set the scenario
-        $associatedElement = Craft::$app->getElements()->getElementById($redirectConfig['associatedElementId']);
-
-        if (!$associatedElement) {
-            return;
-        }
-
-        $fieldUpdated = $this->setShortLinkFieldValue($associatedElement, $existingData['redirectSrcUrl'], $redirectConfig['redirectSrcUrl']);
-
-        if ($fieldUpdated) {
-            // Prevent element from triggering an infinite loop.
-            ShortLink::preventShortLinkUpdates();
-            Craft::$app->getElements()->saveElement($associatedElement);
-            ShortLink::allowShortLinkUpdates();
-        }
     }
 
     /**
@@ -1108,9 +1045,12 @@ class Redirects extends Component
      * @throws \craft\errors\ElementNotFoundException
      * @throws \yii\base\Exception
      */
-    public function deleteShortlinkById(int $redirectId): void
+    public function deleteShortlinkById(int $redirectId): bool
     {
         $redirect = $this->getRedirectById($redirectId);
+        if (!$redirect) {
+            return false;
+        }
         $elementId = $redirect['associatedElementId'];
         $siteId = $redirect['siteId'];
         $element = Craft::$app->getElements()->getElementById($elementId, null, $siteId);
@@ -1123,6 +1063,8 @@ class Redirects extends Component
                 Craft::$app->getElements()->saveElement($element);
             }
         }
+
+        return true;
     }
 
     /**
@@ -1318,6 +1260,66 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $siteId
+     * @param string $type
+     * @return array
+     */
+    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type, bool $enabledOnly = false): array
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->orderBy('redirectMatchType ASC, priority ASC');
+
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        $query->andWhere(['redirectMatchType' => $type]);
+
+        if ($enabledOnly) {
+            $query->andWhere(['enabled' => 1]);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * Updates an associated element short link value.
+     *
+     * @param array $redirectConfig
+     * @param array $existingData
+     */
+    protected function updateAssociatedElementShortLink(array $redirectConfig, array $existingData): void
+    {
+        if (empty($redirectConfig['associatedElementId'])) {
+            return;
+        }
+        // Get the element and set the scenario
+        $associatedElement = Craft::$app->getElements()->getElementById($redirectConfig['associatedElementId']);
+
+        if (!$associatedElement) {
+            return;
+        }
+
+        $fieldUpdated = $this->setShortLinkFieldValue($associatedElement, $existingData['redirectSrcUrl'], $redirectConfig['redirectSrcUrl']);
+
+        if ($fieldUpdated) {
+            // Prevent element from triggering an infinite loop.
+            ShortLink::preventShortLinkUpdates();
+            Craft::$app->getElements()->saveElement($associatedElement);
+            ShortLink::allowShortLinkUpdates();
+        }
     }
 
     /**

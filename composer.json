@@ -32,6 +32,16 @@
     "league/csv": "^8.2 || ^9.0",
     "jean85/pretty-package-versions": "^1.5 || ^2.0"
   },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main",
+    "craftcms/rector": "dev-main"
+  },
+  "scripts": {
+    "phpstan": "phpstan --ansi --memory-limit=1G",
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --fix --ansi"
+  },
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,

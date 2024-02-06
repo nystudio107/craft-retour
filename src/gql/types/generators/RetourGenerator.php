@@ -11,13 +11,13 @@
 
 namespace nystudio107\retour\gql\types\generators;
 
-use nystudio107\retour\gql\arguments\RetourArguments;
-use nystudio107\retour\gql\interfaces\RetourInterface;
-use nystudio107\retour\gql\types\RetourType;
-
 use craft\gql\base\GeneratorInterface;
 use craft\gql\GqlEntityRegistry;
 use craft\gql\TypeLoader;
+
+use nystudio107\retour\gql\arguments\RetourArguments;
+use nystudio107\retour\gql\interfaces\RetourInterface;
+use nystudio107\retour\gql\types\RetourType;
 
 /**
  * Class RetourGenerator
@@ -28,7 +28,6 @@ use craft\gql\TypeLoader;
  */
 class RetourGenerator implements GeneratorInterface
 {
-
     /**
      * @inheritdoc
      */
@@ -41,17 +40,17 @@ class RetourGenerator implements GeneratorInterface
         $retourType = GqlEntityRegistry::getEntity($typeName)
             ?: GqlEntityRegistry::createEntity($typeName, new RetourType([
                 'name' => $typeName,
-                'args' => function () use ($retourArgs) {
+                'args' => function() use ($retourArgs) {
                     return $retourArgs;
                 },
-                'fields' => function () use ($retourFields) {
+                'fields' => function() use ($retourFields) {
                     return $retourFields;
                 },
                 'description' => 'This entity has all the Retour fields',
             ]));
 
         $gqlTypes[$typeName] = $retourType;
-        TypeLoader::registerType($typeName, function () use ($retourType) {
+        TypeLoader::registerType($typeName, function() use ($retourType) {
             return $retourType;
         });
 

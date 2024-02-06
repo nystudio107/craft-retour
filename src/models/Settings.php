@@ -158,7 +158,7 @@ class Settings extends Model
             ['uriChangeRedirectSrcMatch', 'string'],
             ['uriChangeRedirectSrcMatch', 'in', 'range' => [
                 'pathonly',
-                'fullurl'
+                'fullurl',
             ]],
             ['staticRedirectDisplayLimit', 'integer', 'min' => 1],
             ['staticRedirectDisplayLimit', 'default', 'value' => 100],
@@ -175,7 +175,7 @@ class Settings extends Model
                     'excludePatterns',
                     'additionalHeaders',
                 ],
-                ArrayValidator::class
+                ArrayValidator::class,
             ],
         ];
     }

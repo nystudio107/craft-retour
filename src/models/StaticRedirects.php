@@ -133,7 +133,7 @@ class StaticRedirects extends DbModel
                     'redirectDestUrl',
                 ],
                 'default',
-                'value' => ''
+                'value' => '',
             ],
             ['redirectSrcUrlParsed', ParsedUriValidator::class, 'source' => 'redirectSrcUrl'],
             [
@@ -151,7 +151,7 @@ class StaticRedirects extends DbModel
                     'redirectDestUrl',
                 ],
                 DbStringValidator::class,
-                'max' => 255
+                'max' => 255,
             ],
             [
                 [
@@ -159,7 +159,7 @@ class StaticRedirects extends DbModel
                     'redirectSrcUrlParsed',
                     'redirectDestUrl',
                 ],
-                'string'
+                'string',
             ],
             ['redirectHttpCode', 'integer'],
             ['redirectHttpCode', 'in', 'range' => [301, 302, 307, 308, 410]],

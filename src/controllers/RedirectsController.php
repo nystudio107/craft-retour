@@ -12,18 +12,22 @@
 namespace nystudio107\retour\controllers;
 
 use Craft;
+use craft\errors\ElementNotFoundException;
 use craft\errors\MissingComponentException;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
+use craft\web\UrlManager;
 use nystudio107\retour\assetbundles\retour\RetourAsset;
 use nystudio107\retour\assetbundles\retour\RetourRedirectsAsset;
 use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
+use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -118,7 +122,7 @@ class RedirectsController extends Controller
         int                  $redirectId = 0,
         string               $defaultUrl = '',
         int                  $siteId = 0,
-        StaticRedirectsModel $redirect = null
+        StaticRedirectsModel $redirect = null,
     ): Response
     {
         $variables = [];
@@ -207,9 +211,10 @@ class RedirectsController extends Controller
     }
 
     /**
-     * @return Response|void
+     * @return ?Response
      * @throws MissingComponentException
      * @throws ForbiddenHttpException
+     * @throws BadRequestHttpException
      */
     public function actionDeleteRedirects(): ?Response
     {
@@ -243,12 +248,12 @@ class RedirectsController extends Controller
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
+     * @throws MethodNotAllowedHttpException
      */
     public function actionSaveRedirect(): ?Response
     {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $this->requirePostRequest();
-        /** @var StaticRedirectsModel $redirect */
         $redirectConfig = Craft::$app->getRequest()->getRequiredBodyParam('redirectConfig');
         if ($redirectConfig === null) {
             throw new NotFoundHttpException('Redirect not found');
@@ -270,7 +275,9 @@ class RedirectsController extends Controller
         if (!$redirect->validate()) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings."));
             // Send the redirect back to the template
-            Craft::$app->getUrlManager()->setRouteParams([
+            /** @var UrlManager $urlManager */
+            $urlManager = Craft::$app->getUrlManager();
+            $urlManager->setRouteParams([
                 'redirect' => $redirect,
             ]);
 
@@ -287,7 +294,9 @@ class RedirectsController extends Controller
         if ($testRedirectConfig === null) {
             Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save redirect settings because it'd create a redirect loop."));
             // Send the redirect back to the template
-            Craft::$app->getUrlManager()->setRouteParams([
+            /** @var UrlManager $urlManager */
+            $urlManager = Craft::$app->getUrlManager();
+            $urlManager->setRouteParams([
                 'redirect' => $redirect,
             ]);
 
@@ -357,8 +366,12 @@ class RedirectsController extends Controller
 
     /**
      * @return Response|void
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\web\ForbiddenHttpException
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws MissingComponentException
+     * @throws \Throwable
+     * @throws ElementNotFoundException
+     * @throws Exception
      */
     public function actionDeleteShortlinks()
     {
@@ -367,7 +380,7 @@ class RedirectsController extends Controller
         $redirectIds = $request->getRequiredBodyParam('redirectIds');
         $stickyError = false;
         foreach ($redirectIds as $redirectId) {
-            if (Retour::$plugin->redirects->deleteShortlinkById($redirectId) === 0) {
+            if (Retour::$plugin->redirects->deleteShortlinkById($redirectId)) {
                 $stickyError = true;
             }
         }

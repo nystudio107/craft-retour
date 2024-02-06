@@ -11,12 +11,12 @@
 
 namespace nystudio107\retour\gql\types;
 
-use nystudio107\retour\gql\interfaces\RetourInterface;
-
 use Craft;
-use craft\gql\base\ObjectType;
 
+use craft\gql\base\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
+
+use nystudio107\retour\gql\interfaces\RetourInterface;
 
 /**
  * Class RetourType
