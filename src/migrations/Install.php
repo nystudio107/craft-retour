@@ -12,8 +12,10 @@
 namespace nystudio107\retour\migrations;
 
 use Craft;
+use craft\db\Connection;
 use craft\db\Migration;
 use nystudio107\retour\widgets\RetourWidget;
+use yii\base\NotSupportedException;
 
 /**
  * @author    nystudio107
@@ -71,12 +73,15 @@ class Install extends Migration
 
     /**
      * @return bool
+     * @throws NotSupportedException
      */
     protected function createTables(): bool
     {
         $tablesCreated = false;
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_redirects}}');
+        /** @var Connection $db */
+        $db = Craft::$app->getDb();
+        $tableSchema = $db->getSchema()->getTableSchema('{{%retour_redirects}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
@@ -103,7 +108,7 @@ class Install extends Migration
             );
         }
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_static_redirects}}');
+        $tableSchema = $db->schema->getTableSchema('{{%retour_static_redirects}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
@@ -130,7 +135,7 @@ class Install extends Migration
             );
         }
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_stats}}');
+        $tableSchema = $db->schema->getTableSchema('{{%retour_stats}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
