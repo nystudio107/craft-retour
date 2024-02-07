@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.14 - UNRELEASED
+### Fixed
+* Added  the unused `static` to the Tailwind CSS `blocklist` to avoid a name collision with a Craft CSS class ([#1412](https://github.com/nystudio107/craft-seomatic/issues/1412))
+
 ## 3.2.13 - 2024.02.05
 ### Added
 * Add `phpstan` and `ecs` code linting
