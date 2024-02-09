@@ -27,7 +27,7 @@
   },
   "require": {
     "php": "^8.0.2",
-    "craftcms/cms": "^5.0.0-alpha.1",
+    "craftcms/cms": "^5.0.0-beta.1",
     "nystudio107/craft-plugin-vite": "^5.0.0-beta.1",
     "league/csv": "^8.2 || ^9.0",
     "jean85/pretty-package-versions": "^1.5 || ^2.0"
