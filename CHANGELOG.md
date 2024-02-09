@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.0-beta.4 - 2024.02.09
+### Fixed
+* Fixed an issue with the Sites menu styling
+
 ## 5.0.0-beta.3 - 2024.02.09
 ### Added
 * Added a custom Field icon
