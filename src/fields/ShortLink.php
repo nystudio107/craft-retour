@@ -10,7 +10,6 @@
 namespace nystudio107\retour\fields;
 
 use Craft;
-use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
@@ -29,10 +28,9 @@ use yii\helpers\StringHelper;
  */
 class ShortLink extends Field implements PreviewableFieldInterface
 {
+    protected static bool $allowShortLinkUpdates = true;
     public string $redirectSrcMatch = 'pathonly';
     public int $redirectHttpCode = 301;
-
-    protected static bool $allowShortLinkUpdates = true;
 
     // Static Methods
     // =========================================================================
@@ -43,6 +41,14 @@ class ShortLink extends Field implements PreviewableFieldInterface
     public static function displayName(): string
     {
         return Craft::t('retour', 'Short Link');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function icon(): string
+    {
+        return '@nystudio107/retour/icon-mask.svg';
     }
 
     /**
