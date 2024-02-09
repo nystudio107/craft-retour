@@ -1,6 +1,9 @@
 # Retour Changelog
 
-## 5.0.0-beta.3 - UNRELEASED
+## 5.0.0-beta.3 - 2024.02.09
+### Added
+* Added a custom Field icon
+
 ### Fixed
 * Added  the unused `static` to the Tailwind CSS `blocklist` to avoid a name collision with a Craft CSS class ([#1412](https://github.com/nystudio107/craft-seomatic/issues/1412))
 
