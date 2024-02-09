@@ -3,20 +3,21 @@
 {% set baseUrl = "retour/#{controllerHandle}/" %}
 {% set params = [] %}
 
-{# @TODO: enable when multi-site support is in #}
-
 {% if showSites %}
-    <div id="sites-btn" class="btn menubtn" data-icon="world">{{ sitesMenuLabel }}</div>
-    <div class="menu">
+    <a id="sites-btn" class="crumb-link" data-icon="world"> {{ sitesMenuLabel }} </a>
+    <button type="button" class="btn menubtn" aria-label="Select site" aria-controls="language-menu"
+            data-disclosure-trigger="" aria-expanded="false"></button>
+
+    <div id="language-menu" class="padded menu">
         <ul class="padded">
             <li>
                 {% if currentSiteId == 0 %}
-                    <a class="sel">
+                    <a class="menu-item sel">
                         <div class="status enabled"></div>{{ "All Sites"|t('retour') }}
                     </a>
                 {% else %}
                     {% set url = url(baseUrl, params) %}
-                    <a href="{{ url }}">
+                    <a href="{{ url }}" class="menu-item">
                         <div class="status enabled"></div>{{ "All Sites"|t('site') }}
                     </a>
                 {% endif %}
@@ -33,12 +34,12 @@
                         {% set status = siteId in enabledSiteIds ? 'enabled' : 'disabled' %}
                         <li>
                             {% if siteId == currentSiteId %}
-                                <a class="sel">
+                                <a class="menu-item sel">
                                     <div class="status {{ status }}"></div>{{ site.name|t('site') }}
                                 </a>
                             {% else %}
                                 {% set url = url(baseUrl~site.handle, params) %}
-                                <a href="{{ url }}">
+                                <a href="{{ url }}" class="menu-item">
                                     <div class="status {{ status }}"></div>{{ site.name|t('site') }}
                                 </a>
                             {% endif %}
