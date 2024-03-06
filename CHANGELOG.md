@@ -3,6 +3,7 @@
 ## 3.2.14 - UNRELEASED
 ### Fixed
 * Added  the unused `static` to the Tailwind CSS `blocklist` to avoid a name collision with a Craft CSS class ([#1412](https://github.com/nystudio107/craft-seomatic/issues/1412))
+* Fixed an issue with impropertly text-encoded characters in URLs potentially causing a db exception ([#291](https://github.com/nystudio107/craft-retour/issues/291))
 
 ## 3.2.13 - 2024.02.05
 ### Added
