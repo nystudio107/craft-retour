@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.0-beta.5 - UNRELEASED
+### Fixed
+* Fixed an issue with impropertly text-encoded characters in URLs potentially causing a db exception ([#291](https://github.com/nystudio107/craft-retour/issues/291))
+
 ## 5.0.0-beta.4 - 2024.02.09
 ### Fixed
 * Fixed an issue with the Sites menu styling
