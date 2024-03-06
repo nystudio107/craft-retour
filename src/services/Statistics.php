@@ -16,6 +16,8 @@ use craft\base\Component;
 use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\UrlHelper;
+use DateTime;
+use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\models\Stats as StatsModel;
 use nystudio107\retour\Retour;
 use yii\db\Exception;
@@ -193,7 +195,7 @@ class Statistics extends Component
         // Find any existing retour_stats record
         $statsConfig = (new Query())
             ->from(['{{%retour_stats}}'])
-            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
+            ->where(['redirectSrcUrl' => TextHelper::cleanupText($stats->redirectSrcUrl)])
             ->one();
         // If no record is found, initialize some values
         if ($statsConfig === null) {
@@ -211,7 +213,7 @@ class Statistics extends Component
         $stats->exceptionMessage = $exceptionMessage;
         $stats->exceptionFilePath = $exceptionFilePath;
         $stats->exceptionFileLine = (int)$exceptionFileLine;
-        $stats->hitLastTime = Db::prepareDateForDb(new \DateTime());
+        $stats->hitLastTime = Db::prepareDateForDb(new DateTime());
         $stats->handledByRetour = (int)$handled;
         $stats->hitCount++;
         $statsConfig = $stats->getAttributes();
