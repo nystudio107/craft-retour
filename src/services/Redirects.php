@@ -24,6 +24,7 @@ use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
 use nystudio107\retour\fields\ShortLink;
+use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
@@ -467,11 +468,11 @@ class Redirects extends Component
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly],
+                ['redirectSrcUrlParsed' => TextHelper::cleanupText($pathOnly)],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl],
+                ['redirectSrcUrlParsed' => TextHelper::cleanupText($fullUrl)],
             ],
         ];
 
@@ -1227,7 +1228,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->where(['redirectSrcUrl' => $redirectSrcUrl]);
+            ->where(['redirectSrcUrl' => TextHelper::cleanupText($redirectSrcUrl)]);
         if ($siteId) {
             $query
                 ->andWhere(['or', [
