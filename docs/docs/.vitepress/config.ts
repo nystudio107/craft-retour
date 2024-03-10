@@ -24,7 +24,10 @@ export default defineConfig({
     algolia: {
       appId: 'PBLZ7FT9Z3',
       apiKey: 'ab56b755c575dc94a58f7d1cae6e4e0e',
-      indexName: 'retour'
+      indexName: 'retour',
+      searchParameters: {
+        facetFilters: ["version:v3"],
+      },
     },
     lastUpdatedText: 'Last Updated',
     sidebar: [
