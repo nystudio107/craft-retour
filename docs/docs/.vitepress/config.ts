@@ -23,7 +23,7 @@ export default defineConfig({
     },
     algolia: {
       appId: 'PBLZ7FT9Z3',
-      apiKey: 'ab56b755c575dc94a58f7d1cae6e4e0e',
+      apiKey: '953923b236f39535b8553f4143cab98d',
       indexName: 'retour',
       searchParameters: {
         facetFilters: ["version:v5"],
