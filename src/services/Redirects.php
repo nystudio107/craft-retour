@@ -1210,9 +1210,21 @@ class Redirects extends Component
         $uri = '/' . ltrim($uri, '/');
         if (!empty(Retour::$settings->excludePatterns)) {
             foreach (Retour::$settings->excludePatterns as $excludePattern) {
+                if (empty($excludePattern['pattern'])) {
+                    continue;
+                }
                 $pattern = '`' . $excludePattern['pattern'] . '`i';
                 try {
                     if (preg_match($pattern, $uri) === 1) {
+                        Craft::info(
+                            Craft::t(
+                                'retour',
+                                'Excluded URI: {uri} due to match of pattern: {pattern}',
+                                ['uri' => $uri, 'pathOnly' => $pattern]
+                            ),
+                            __METHOD__
+                        );
+
                         return true;
                     }
                 } catch (\Exception $e) {
