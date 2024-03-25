@@ -16,6 +16,7 @@ use craft\base\Component;
 use craft\base\ElementInterface;
 use craft\base\Plugin;
 use craft\db\Query;
+use craft\errors\ElementNotFoundException;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
@@ -28,6 +29,7 @@ use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
+use Throwable;
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
@@ -273,9 +275,21 @@ class Redirects extends Component
         $uri = '/' . ltrim($uri, '/');
         if (!empty(Retour::$settings->excludePatterns)) {
             foreach (Retour::$settings->excludePatterns as $excludePattern) {
+                if (empty($excludePattern['pattern'])) {
+                    continue;
+                }
                 $pattern = '`' . $excludePattern['pattern'] . '`i';
                 try {
                     if (preg_match($pattern, $uri) === 1) {
+                        Craft::info(
+                            Craft::t(
+                                'retour',
+                                'Excluded URI: {uri} due to match of pattern: {pattern}',
+                                ['uri' => $uri, 'pathOnly' => $pattern]
+                            ),
+                            __METHOD__
+                        );
+
                         return true;
                     }
                 } catch (\Exception $e) {
@@ -1042,8 +1056,8 @@ class Redirects extends Component
      * Delete a short link by its ID.
      *
      * @param int $redirectId
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
+     * @throws Throwable
+     * @throws ElementNotFoundException
      * @throws \yii\base\Exception
      */
     public function deleteShortlinkById(int $redirectId): bool
