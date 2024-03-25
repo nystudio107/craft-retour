@@ -171,4 +171,5 @@ return [
     'Some errors occured .' => 'Some errors occured .',
     'Some errors occured importing the CSV file.' => 'Some errors occured importing the CSV file.',
     'Select the priority that will determine the order of mathching the redirect.' => 'Select the priority that will determine the order of mathching the redirect.',
+    'Excluded URI: {uri} due to match of pattern: {pattern}' => 'Excluded URI: {uri} due to match of pattern: {pattern}'
 ];
