@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 3.2.14 - 2024.03.25
+### Fixed
+* Added  the unused `static` to the Tailwind CSS `blocklist` to avoid a name collision with a Craft CSS class ([#1412](https://github.com/nystudio107/craft-seomatic/issues/1412))
+* Fixed an issue with impropertly text-encoded characters in URLs potentially causing a db exception ([#291](https://github.com/nystudio107/craft-retour/issues/291))
+* Fixed an issue where an empty redirect in the `excludePatterns` list could cause redirects to stop functioning, add logging when a redirect is excluded ([#297](https://github.com/nystudio107/craft-retour/issues/297))
+
 ## 3.2.13 - 2024.02.05
 ### Added
 * Add `phpstan` and `ecs` code linting

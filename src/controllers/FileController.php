@@ -106,6 +106,7 @@ class FileController extends Controller
         if (!ini_get('auto_detect_line_endings')) {
             ini_set('auto_detect_line_endings', '1');
         }
+        $csv = null;
         $this->requirePostRequest();
         $filename = Craft::$app->getRequest()->getRequiredBodyParam('filename');
         $columns = Craft::$app->getRequest()->getRequiredBodyParam('columns');
@@ -137,7 +138,7 @@ class FileController extends Controller
         }
         $hasErrors = false;
         // If we have headers, then we have a file, so parse it
-        if ($headers !== null) {
+        if ($csv && $headers) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
                     $hasErrors = $this->importCsvApi8($csv, $columns, $headers);

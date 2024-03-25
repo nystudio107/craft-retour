@@ -14,6 +14,7 @@ namespace nystudio107\retour\migrations;
 use Craft;
 use craft\db\Migration;
 use nystudio107\retour\widgets\RetourWidget;
+use yii\base\NotSupportedException;
 
 /**
  * @author    nystudio107
@@ -71,13 +72,14 @@ class Install extends Migration
 
     /**
      * @return bool
+     * @throws NotSupportedException
      */
     protected function createTables(): bool
     {
         $tablesCreated = false;
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_redirects}}');
-        if ($tableSchema === null) {
+        $tableSchema = $this->getDb()->getSchema()->getTableSchema('{{%retour_redirects}}');
+        if ($tableSchema) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_redirects}}',
@@ -103,8 +105,8 @@ class Install extends Migration
             );
         }
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_static_redirects}}');
-        if ($tableSchema === null) {
+        $tableSchema = $this->getDb()->schema->getTableSchema('{{%retour_static_redirects}}');
+        if ($tableSchema) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_static_redirects}}',
@@ -130,8 +132,8 @@ class Install extends Migration
             );
         }
 
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%retour_stats}}');
-        if ($tableSchema === null) {
+        $tableSchema = $this->getDb()->schema->getTableSchema('{{%retour_stats}}');
+        if ($tableSchema) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_stats}}',
@@ -165,70 +167,70 @@ class Install extends Migration
     protected function createIndexes()
     {
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrlParsed',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_redirects}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_stats}}',
             'redirectSrcUrl',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_static_redirects}}',
             'redirectMatchType',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_redirects}}',
             'redirectMatchType',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_static_redirects}}',
             'siteId',
             false
         );
 
         $this->createIndex(
-            $this->db->getIndexName(),
+            $this->getDb()->getIndexName(),
             '{{%retour_stats}}',
             'siteId',
             false
@@ -241,7 +243,7 @@ class Install extends Migration
     protected function addForeignKeys()
     {
         $this->addForeignKey(
-            $this->db->getForeignKeyName(),
+            $this->getDb()->getForeignKeyName(),
             '{{%retour_redirects}}',
             'associatedElementId',
             '{{%elements}}',
@@ -251,7 +253,7 @@ class Install extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName(),
+            $this->getDb()->getForeignKeyName(),
             '{{%retour_static_redirects}}',
             'siteId',
             '{{%sites}}',
@@ -261,7 +263,7 @@ class Install extends Migration
         );
 
         $this->addForeignKey(
-            $this->db->getForeignKeyName(),
+            $this->getDb()->getForeignKeyName(),
             '{{%retour_stats}}',
             'siteId',
             '{{%sites}}',
