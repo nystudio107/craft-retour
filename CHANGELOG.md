@@ -1,8 +1,9 @@
 # Retour Changelog
 
-## 5.0.0-beta.5 - UNRELEASED
+## 5.0.0-beta.5 - 2024.03.25
 ### Fixed
 * Fixed an issue with impropertly text-encoded characters in URLs potentially causing a db exception ([#291](https://github.com/nystudio107/craft-retour/issues/291))
+* Fixed an issue where an empty redirect in the `excludePatterns` list could cause redirects to stop functioning, add logging when a redirect is excluded ([#297](https://github.com/nystudio107/craft-retour/issues/297))
 
 ## 5.0.0-beta.4 - 2024.02.09
 ### Fixed
