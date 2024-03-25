@@ -17,6 +17,7 @@ use craft\db\Query;
 use craft\helpers\Db;
 use craft\helpers\UrlHelper;
 use DateTime;
+use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\models\Stats as StatsModel;
 use nystudio107\retour\Retour;
 use yii\db\Exception;
@@ -194,7 +195,7 @@ class Statistics extends Component
         // Find any existing retour_stats record
         $statsConfig = (new Query())
             ->from(['{{%retour_stats}}'])
-            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
+            ->where(['redirectSrcUrl' => TextHelper::cleanupText($stats->redirectSrcUrl)])
             ->one();
         // If no record is found, initialize some values
         if ($statsConfig === null) {
@@ -276,28 +277,6 @@ class Statistics extends Component
     }
 
     /**
-     * Don't trim more than a given interval, so that performance is not affected
-     *
-     * @return bool
-     */
-    protected function rateLimited(): bool
-    {
-        $limited = false;
-        $now = round(microtime(true) * 1000);
-        $cache = Craft::$app->getCache();
-        $then = $cache->get(self::LAST_STATISTICS_TRIM_CACHE_KEY);
-        if (($then !== false) && ($now - (int)$then < Retour::$settings->statisticsRateLimitMs)) {
-            $limited = true;
-        }
-        $cache->set(self::LAST_STATISTICS_TRIM_CACHE_KEY, $now, 0);
-
-        return $limited;
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
      * Trim the retour_stats db table based on the statsStoredLimit config.php
      * setting
      *
@@ -363,5 +342,27 @@ class Statistics extends Component
         }
 
         return $affectedRows;
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Don't trim more than a given interval, so that performance is not affected
+     *
+     * @return bool
+     */
+    protected function rateLimited(): bool
+    {
+        $limited = false;
+        $now = round(microtime(true) * 1000);
+        $cache = Craft::$app->getCache();
+        $then = $cache->get(self::LAST_STATISTICS_TRIM_CACHE_KEY);
+        if (($then !== false) && ($now - (int)$then < Retour::$settings->statisticsRateLimitMs)) {
+            $limited = true;
+        }
+        $cache->set(self::LAST_STATISTICS_TRIM_CACHE_KEY, $now, 0);
+
+        return $limited;
     }
 }

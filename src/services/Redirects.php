@@ -16,6 +16,7 @@ use craft\base\Component;
 use craft\base\ElementInterface;
 use craft\base\Plugin;
 use craft\db\Query;
+use craft\errors\ElementNotFoundException;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
@@ -24,9 +25,11 @@ use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
 use nystudio107\retour\events\ResolveRedirectEvent;
 use nystudio107\retour\fields\ShortLink;
+use nystudio107\retour\helpers\Text as TextHelper;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
+use Throwable;
 use yii\base\ExitException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidRouteException;
@@ -272,9 +275,21 @@ class Redirects extends Component
         $uri = '/' . ltrim($uri, '/');
         if (!empty(Retour::$settings->excludePatterns)) {
             foreach (Retour::$settings->excludePatterns as $excludePattern) {
+                if (empty($excludePattern['pattern'])) {
+                    continue;
+                }
                 $pattern = '`' . $excludePattern['pattern'] . '`i';
                 try {
                     if (preg_match($pattern, $uri) === 1) {
+                        Craft::info(
+                            Craft::t(
+                                'retour',
+                                'Excluded URI: {uri} due to match of pattern: {pattern}',
+                                ['uri' => $uri, 'pathOnly' => $pattern]
+                            ),
+                            __METHOD__
+                        );
+
                         return true;
                     }
                 } catch (\Exception $e) {
@@ -303,7 +318,7 @@ class Redirects extends Component
                 $siteId = $currentSite->id;
             } else {
                 $primarySite = Craft::$app->getSites()->primarySite;
-                    $siteId = $primarySite->id;
+                $siteId = $primarySite->id;
             }
         }
         // Try getting the full URL redirect from the cache
@@ -467,11 +482,11 @@ class Redirects extends Component
             'or',
             ['and',
                 ['redirectSrcMatch' => 'pathonly'],
-                ['redirectSrcUrlParsed' => $pathOnly],
+                ['redirectSrcUrlParsed' => TextHelper::cleanupText($pathOnly)],
             ],
             ['and',
                 ['redirectSrcMatch' => 'fullurl'],
-                ['redirectSrcUrlParsed' => $fullUrl],
+                ['redirectSrcUrlParsed' => TextHelper::cleanupText($fullUrl)],
             ],
         ];
 
@@ -563,38 +578,6 @@ class Redirects extends Component
     public function getAllExactMatchRedirects(int $limit = null, int $siteId = null, bool $enabledOnly = false): array
     {
         return $this->getRedirectsByMatchType($limit, $siteId, 'exactmatch', $enabledOnly);
-    }
-
-    /**
-     * @param int|null $limit
-     * @param int|null $siteId
-     * @param string $type
-     * @return array
-     */
-    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type, bool $enabledOnly = false): array
-    {
-        // Query the db table
-        $query = (new Query())
-            ->from(['{{%retour_static_redirects}}'])
-            ->orderBy('redirectMatchType ASC, priority ASC');
-
-        if ($siteId) {
-            $query
-                ->where(['siteId' => $siteId])
-                ->orWhere(['siteId' => null]);
-        }
-
-        if ($limit) {
-            $query->limit($limit);
-        }
-
-        $query->andWhere(['redirectMatchType' => $type]);
-
-        if ($enabledOnly) {
-            $query->andWhere(['enabled' => 1]);
-        }
-
-        return $query->all();
     }
 
     /**
@@ -997,34 +980,6 @@ class Redirects extends Component
     }
 
     /**
-     * Updates an associated element short link value.
-     *
-     * @param array $redirectConfig
-     * @param array $existingData
-     */
-    protected function updateAssociatedElementShortLink(array $redirectConfig, array $existingData): void
-    {
-        if (empty($redirectConfig['associatedElementId'])) {
-            return;
-        }
-        // Get the element and set the scenario
-        $associatedElement = Craft::$app->getElements()->getElementById($redirectConfig['associatedElementId']);
-
-        if (!$associatedElement) {
-            return;
-        }
-
-        $fieldUpdated = $this->setShortLinkFieldValue($associatedElement, $existingData['redirectSrcUrl'], $redirectConfig['redirectSrcUrl']);
-
-        if ($fieldUpdated) {
-            // Prevent element from triggering an infinite loop.
-            ShortLink::preventShortLinkUpdates();
-            Craft::$app->getElements()->saveElement($associatedElement);
-            ShortLink::allowShortLinkUpdates();
-        }
-    }
-
-    /**
      * Save an element redirect.
      *
      * @param ElementInterface $element
@@ -1100,8 +1055,8 @@ class Redirects extends Component
     /**
      * Delete a short link by its ID.
      *
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
+     * @throws Throwable
+     * @throws ElementNotFoundException
      * @throws \yii\base\Exception
      */
     public function deleteShortlinkById(int $redirectId): bool
@@ -1286,7 +1241,7 @@ class Redirects extends Component
         // Query the db table
         $query = (new Query())
             ->from(['{{%retour_static_redirects}}'])
-            ->where(['redirectSrcUrl' => $redirectSrcUrl]);
+            ->where(['redirectSrcUrl' => TextHelper::cleanupText($redirectSrcUrl)]);
         if ($siteId) {
             $query
                 ->andWhere(['or', [
@@ -1319,6 +1274,66 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $siteId
+     * @param string $type
+     * @return array
+     */
+    protected function getRedirectsByMatchType(int $limit = null, int $siteId = null, string $type, bool $enabledOnly = false): array
+    {
+        // Query the db table
+        $query = (new Query())
+            ->from(['{{%retour_static_redirects}}'])
+            ->orderBy('redirectMatchType ASC, priority ASC');
+
+        if ($siteId) {
+            $query
+                ->where(['siteId' => $siteId])
+                ->orWhere(['siteId' => null]);
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        $query->andWhere(['redirectMatchType' => $type]);
+
+        if ($enabledOnly) {
+            $query->andWhere(['enabled' => 1]);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * Updates an associated element short link value.
+     *
+     * @param array $redirectConfig
+     * @param array $existingData
+     */
+    protected function updateAssociatedElementShortLink(array $redirectConfig, array $existingData): void
+    {
+        if (empty($redirectConfig['associatedElementId'])) {
+            return;
+        }
+        // Get the element and set the scenario
+        $associatedElement = Craft::$app->getElements()->getElementById($redirectConfig['associatedElementId']);
+
+        if (!$associatedElement) {
+            return;
+        }
+
+        $fieldUpdated = $this->setShortLinkFieldValue($associatedElement, $existingData['redirectSrcUrl'], $redirectConfig['redirectSrcUrl']);
+
+        if ($fieldUpdated) {
+            // Prevent element from triggering an infinite loop.
+            ShortLink::preventShortLinkUpdates();
+            Craft::$app->getElements()->saveElement($associatedElement);
+            ShortLink::allowShortLinkUpdates();
+        }
     }
 
     /**
