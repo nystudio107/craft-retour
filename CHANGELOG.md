@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.15 - UNRELEASED
+### Fixed
+* Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
+
 ## 3.2.14 - 2024.03.25
 ### Fixed
 * Added  the unused `static` to the Tailwind CSS `blocklist` to avoid a name collision with a Craft CSS class ([#1412](https://github.com/nystudio107/craft-seomatic/issues/1412))
