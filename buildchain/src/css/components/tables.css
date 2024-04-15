@@ -15,12 +15,12 @@ table.vuetable {
 
 .retour-menubtn-asc::before {
     font-weight: bold;
-    content: "downangle";
+    content: "upangle";
 }
 
 .retour-menubtn-desc::before {
     font-weight: bold;
-    content: "upangle";
+    content: "downangle";
 }
 
 /**

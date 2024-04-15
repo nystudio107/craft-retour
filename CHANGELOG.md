@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 5.0.0 - 2024.04.15
+### Added
+* Stable release for Craft CMS 5
+
+### Fixed
+* Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
+
 ## 5.0.0-beta.5 - 2024.03.25
 ### Fixed
 * Fixed an issue with impropertly text-encoded characters in URLs potentially causing a db exception ([#291](https://github.com/nystudio107/craft-retour/issues/291))
