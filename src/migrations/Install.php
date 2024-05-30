@@ -79,7 +79,7 @@ class Install extends Migration
         $tablesCreated = false;
 
         $tableSchema = $this->getDb()->getSchema()->getTableSchema('{{%retour_redirects}}');
-        if ($tableSchema) {
+        if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_redirects}}',
@@ -106,7 +106,7 @@ class Install extends Migration
         }
 
         $tableSchema = $this->getDb()->schema->getTableSchema('{{%retour_static_redirects}}');
-        if ($tableSchema) {
+        if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_static_redirects}}',
@@ -133,7 +133,7 @@ class Install extends Migration
         }
 
         $tableSchema = $this->getDb()->schema->getTableSchema('{{%retour_stats}}');
-        if ($tableSchema) {
+        if ($tableSchema === null) {
             $tablesCreated = true;
             $this->createTable(
                 '{{%retour_stats}}',
