@@ -18,6 +18,7 @@ use craft\helpers\ElementHelper;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
+use Throwable;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -95,8 +96,7 @@ class TablesController extends Controller
                $filter = '',
                $siteId = 0,
                $handled = 'all'
-    ): Response
-    {
+    ): Response {
         PermissionHelper::controllerPermissionCheck('retour:dashboard');
         $data = [];
         $sortField = 'hitCount';
@@ -134,6 +134,15 @@ class TablesController extends Controller
         if ($stats) {
             // Add in the `addLink` field
             foreach ($stats as &$stat) {
+                // Normalize the `redirectSrcUrl` to point to a valid frontend site URL
+                $stat['redirectSrcUrlFull'] = $stat['redirectSrcUrl'];
+                if (!UrlHelper::isAbsoluteUrl($stat['redirectSrcUrlFull'])) {
+                    try {
+                        $stat['redirectSrcUrlFull'] = UrlHelper::siteUrl($stat['redirectSrcUrlFull'], null, null, $stat['siteId']);
+                    } catch (Throwable $e) {
+                        // That's fine
+                    }
+                }
                 $stat['addLink'] = '';
                 if (!$stat['handledByRetour']) {
                     $encodedUrl = urlencode('/' . ltrim($stat['redirectSrcUrl'], '/'));
@@ -191,8 +200,7 @@ class TablesController extends Controller
                $filter = '',
                $siteId = 0,
                $shortLinks = false
-    ): Response
-    {
+    ): Response {
         PermissionHelper::controllerPermissionCheck('retour:redirects');
         $data = [];
         $sortField = 'hitCount';
