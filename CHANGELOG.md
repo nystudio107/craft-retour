@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.1 - UNRELESED
+### Fixed
+* Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
+
 ## 5.0.0 - 2024.04.15
 ### Added
 * Stable release for Craft CMS 5
