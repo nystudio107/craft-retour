@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     linkHref: function () {
-      let url = this.rowData.redirectSrcUrl;
+      let url = this.rowData.redirectSrcUrlFull;
       if (typeof url === 'undefined' || url === '') {
         return '';
       }
