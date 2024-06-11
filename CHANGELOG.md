@@ -1,6 +1,10 @@
 # Retour Changelog
 
-## 3.2.15 - UNRELEASED
+## 3.2.16 - UNRELESED
+### Fixed
+* Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
+
+## 3.2.15 - 2024.05.30
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
 * Fixed an issue that would cause new installations to not function do to an error in the `install` migration ([#302](https://github.com/nystudio107/craft-retour/issues/302))
