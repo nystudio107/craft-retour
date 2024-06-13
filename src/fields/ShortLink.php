@@ -15,6 +15,7 @@ use craft\base\Field;
 use craft\base\InlineEditableFieldInterface;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\ElementHelper;
+use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\helpers\StringHelper;
@@ -102,6 +103,10 @@ class ShortLink extends Field implements PreviewableFieldInterface, InlineEditab
      */
     public function getPreviewHtml($value, ElementInterface $element): string
     {
+        $decoded = Json::decodeIfJson($value);
+        if (is_array($decoded)) {
+            $value = $decoded['legacyUrl'] ?? '';
+        }
         // Render the preview template
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_preview',
