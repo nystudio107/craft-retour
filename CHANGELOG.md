@@ -4,6 +4,7 @@
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
+* Fixed an issue where the Short Link wouldn't display properly in the element index view ([#301](https://github.com/nystudio107/craft-retour/issues/301))
 
 ## 4.1.16 - 2024.03.25
 ### Fixed
