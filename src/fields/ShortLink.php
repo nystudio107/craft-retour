@@ -102,7 +102,7 @@ class ShortLink extends Field implements PreviewableFieldInterface, InlineEditab
      */
     public function getPreviewHtml($value, ElementInterface $element): string
     {
-        // Render the input template
+        // Render the preview template
         return Craft::$app->getView()->renderTemplate(
             'retour/_components/fields/ShortLink_preview',
             [
