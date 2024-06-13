@@ -1,6 +1,13 @@
 # Retour Changelog
 
 ## 5.0.1 - UNRELESED
+### Added
+* Added better inline preview support via `getPreviewHtml()`
+* Support inline editing by implementing `InlineEditableFieldInterface`
+
+### Changed
+* Removed the now deprecated `getTableAttributeHtml` method in the Short Links field
+
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
 
