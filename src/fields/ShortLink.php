@@ -10,7 +10,6 @@
 namespace nystudio107\retour\fields;
 
 use Craft;
-use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
@@ -29,10 +28,9 @@ use yii\helpers\StringHelper;
  */
 class ShortLink extends Field implements PreviewableFieldInterface
 {
+    protected static bool $allowShortLinkUpdates = true;
     public string $redirectSrcMatch = 'pathonly';
     public int $redirectHttpCode = 301;
-
-    protected static bool $allowShortLinkUpdates = true;
 
     // Static Methods
     // =========================================================================
@@ -149,11 +147,17 @@ class ShortLink extends Field implements PreviewableFieldInterface
     public function getTableAttributeHtml($value, ElementInterface $element): string
     {
         $decoded = Json::decodeIfJson($value);
-        if ($decoded) {
-            return $decoded['legacyUrl'] ?? '';
+        if (is_array($decoded)) {
+            $value = $decoded['legacyUrl'] ?? '';
         }
-
-        // Render the input template
-        return $value;
+        // Render the preview template
+        return Craft::$app->getView()->renderTemplate(
+            'retour/_components/fields/ShortLink_preview',
+            [
+                'name' => $this->handle,
+                'value' => $value,
+                'field' => $this,
+            ]
+        );
     }
 }
