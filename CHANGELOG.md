@@ -4,6 +4,7 @@
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
 * Fixed an issue where the Short Link wouldn't display properly in the element index view ([#301](https://github.com/nystudio107/craft-retour/issues/301))
+* Fixed an issue where Short Links wouldn't work properly if they were added to Asset elements ([#300](https://github.com/nystudio107/craft-retour/issues/300))
 
 ## 3.2.15 - 2024.05.30
 ### Fixed
