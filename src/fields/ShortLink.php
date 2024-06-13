@@ -12,9 +12,9 @@ namespace nystudio107\retour\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\base\InlineEditableFieldInterface;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\ElementHelper;
-use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use nystudio107\retour\Retour as RetourPlugin;
 use yii\helpers\StringHelper;
@@ -26,7 +26,7 @@ use yii\helpers\StringHelper;
  *
  * @property-read string $contentColumnType
  */
-class ShortLink extends Field implements PreviewableFieldInterface
+class ShortLink extends Field implements PreviewableFieldInterface, InlineEditableFieldInterface
 {
     protected static bool $allowShortLinkUpdates = true;
     public string $redirectSrcMatch = 'pathonly';
@@ -100,6 +100,22 @@ class ShortLink extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
+    public function getPreviewHtml($value, ElementInterface $element): string
+    {
+        // Render the input template
+        return Craft::$app->getView()->renderTemplate(
+            'retour/_components/fields/ShortLink_preview',
+            [
+                'name' => $this->handle,
+                'value' => $value,
+                'field' => $this,
+            ]
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function afterElementSave(ElementInterface $element, bool $isNew): void
     {
         if (!self::$allowShortLinkUpdates || $element->getIsDraft() || !$element->getSite()->hasUrls) {
@@ -147,19 +163,5 @@ class ShortLink extends Field implements PreviewableFieldInterface
 
         RetourPlugin::$plugin->redirects->removeElementRedirect($element, true, true);
         parent::afterElementDelete($element);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTableAttributeHtml($value, ElementInterface $element): string
-    {
-        $decoded = Json::decodeIfJson($value);
-        if ($decoded) {
-            return $decoded['legacyUrl'] ?? '';
-        }
-
-        // Render the input template
-        return $value;
     }
 }
