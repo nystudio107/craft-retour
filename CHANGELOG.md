@@ -1,6 +1,13 @@
 # Retour Changelog
 
-## 3.2.15 - UNRELEASED
+## 3.2.16 - 2024.06.19
+### Fixed
+* Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
+* Fixed an issue where the Short Link wouldn't display properly in the element index view ([#301](https://github.com/nystudio107/craft-retour/issues/301))
+* Fixed an issue where Short Links wouldn't work properly if they were added to Asset elements ([#300](https://github.com/nystudio107/craft-retour/issues/300))
+* Fixed an issue where a "Integrity constraint violation" error could occurr if malformed `redirectSrcUrl`s was introduced into the statistics table ([#305](https://github.com/nystudio107/craft-retour/issues/305))
+
+## 3.2.15 - 2024.05.30
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
 * Fixed an issue that would cause new installations to not function do to an error in the `install` migration ([#302](https://github.com/nystudio107/craft-retour/issues/302))
