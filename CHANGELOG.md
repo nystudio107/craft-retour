@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.16 - UNRELESED
+## 3.2.16 - 2024.06.19
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
 * Fixed an issue where the Short Link wouldn't display properly in the element index view ([#301](https://github.com/nystudio107/craft-retour/issues/301))
