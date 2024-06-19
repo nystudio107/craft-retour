@@ -189,13 +189,13 @@ class Statistics extends Component
         }
         // Normalize the $url via the validator
         $stats = new StatsModel([
-            'redirectSrcUrl' => $url,
+            'redirectSrcUrl' => TextHelper::cleanupText($url),
         ]);
         $stats->validate();
         // Find any existing retour_stats record
         $statsConfig = (new Query())
             ->from(['{{%retour_stats}}'])
-            ->where(['redirectSrcUrl' => TextHelper::cleanupText($stats->redirectSrcUrl)])
+            ->where(['redirectSrcUrl' => $stats->redirectSrcUrl])
             ->one();
         // If no record is found, initialize some values
         if ($statsConfig === null) {
