@@ -11,6 +11,7 @@
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
 * Fixed an issue where Short Links wouldn't work properly if they were added to Asset elements ([#300](https://github.com/nystudio107/craft-retour/issues/300))
+* Fixed an issue where a "Integrity constraint violation" error could occurr if malformed `redirectSrcUrl`s was introduced into the statistics table ([#305](https://github.com/nystudio107/craft-retour/issues/305))
 
 ## 5.0.0 - 2024.04.15
 ### Added
