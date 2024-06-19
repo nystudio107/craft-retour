@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.1 - UNRELESED
+## 5.0.1 - 2024.06.19
 ### Added
 * Added better inline preview support via `getPreviewHtml()`
 * Support inline editing by implementing `InlineEditableFieldInterface`
