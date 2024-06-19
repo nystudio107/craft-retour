@@ -991,6 +991,10 @@ class Redirects extends Component
     {
         $siteId = $element->siteId;
 
+        $destUrl = $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl();
+        if ($destUrl === null) {
+            $destUrl = $element->getUrl();
+        }
         $redirectConfig = [
             'redirectMatchType' => 'exactmatch',
             'redirectSrcUrl' => $sourceUrl,
@@ -998,7 +1002,7 @@ class Redirects extends Component
             'associatedElementId' => $element->getCanonicalId(),
             'enabled' => $element->getEnabledForSite($siteId),
             'redirectSrcMatch' => $redirectSrcMatch,
-            'redirectDestUrl' => $redirectSrcMatch === 'pathonly' ? $element->uri : $element->getUrl(),
+            'redirectDestUrl' => $destUrl,
             'redirectHttpCode' => $redirectHttpCode,
         ];
 
