@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 4.1.17 - UNRELEASED
+## 4.1.17 - 2024.06.19
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
