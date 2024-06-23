@@ -878,6 +878,10 @@ class Redirects extends Component
             }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
+            // Optionally set the no-cache headers
+            if (Retour::$settings->setNoCacheHeaders) {
+                $response->setNoCacheHeaders();
+            }
             // Add any additional headers (existing ones will be replaced)
             if (!empty(Retour::$settings->additionalHeaders)) {
                 foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
