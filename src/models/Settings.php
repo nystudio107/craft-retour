@@ -58,6 +58,11 @@ class Settings extends Model
     public $preserveQueryString = false;
 
     /**
+     * @var bool Should `no-cache` headers be set on the redirect response to prevent client-side caching?
+     */
+    public bool $setNoCacheHeaders = true;
+
+    /**
      * @var bool Should the anonymous ip address of the client causing a 404 be
      *      recorded?
      */

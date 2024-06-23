@@ -36,6 +36,12 @@ return [
     // Should the query string be stripped from all 404 URLs before their evaluation?
     'alwaysStripQueryString' => false,
 
+    // Should the query string be preserved and passed along to the redirected URL?
+    'preserveQueryString' => false,
+
+    // Should `no-cache` headers be set on the redirect response to prevent client-side caching?
+    'setNoCacheHeaders' => true,
+
     // Should the query string be stripped from the saved statistics source URLs?
     'stripQueryStringFromStats' => true,
 
