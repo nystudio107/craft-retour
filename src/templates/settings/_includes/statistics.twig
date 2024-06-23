@@ -1,0 +1,98 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS
+ *
+ * Retour Settings index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import configWarning %}
+
+<div id="statistics" class="hidden">
+    {% namespace "settings" %}
+        {{ forms.lightswitchField({
+            label: "Strip Query String from Statistics"|t("retour"),
+            instructions: "Should the query string be stripped from the saved statistics source URLs?"|t("retour"),
+            id: "stripQueryStringFromStats",
+            name: "stripQueryStringFromStats",
+            on: settings.stripQueryStringFromStats,
+            warning: configWarning("stripQueryStringFromStats", "retour"),
+            errors: settings.getErrors("stripQueryStringFromStats"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Record Remote IP"|t("retour"),
+            instructions: "Should the anonymous ip address of the client causing a 404 be recorded?"|t("retour"),
+            id: "recordRemoteIp",
+            name: "recordRemoteIp",
+            on: settings.recordRemoteIp,
+            warning: configWarning("recordRemoteIp", "retour"),
+            errors: settings.getErrors("recordRemoteIp"),
+        }) }}
+
+        {{ forms.textField({
+            label: "Statistics to Store"|t("retour"),
+            instructions: "How many unique 404 statistics should be stored before they are trimmed."|t("retour"),
+            id: "statsStoredLimit",
+            name: "statsStoredLimit",
+            size: 7,
+            maxlength: 7,
+            value: settings.statsStoredLimit,
+            warning: configWarning("statsStoredLimit", "retour"),
+            errors: settings.getErrors("statsStoredLimit"),
+        }) }}
+
+        {{ forms.selectField({
+            label: "Dashboard Refresh Interval"|t("retour"),
+            instructions: "Dashboard data live refresh interval."|t("retour"),
+            id: "refreshIntervalSecs",
+            name: "refreshIntervalSecs",
+            options: {
+                0: "Never"|t("retour"),
+                5: "5 seconds"|t("retour"),
+                10: "10 seconds"|t("retour"),
+                30: "30 seconds"|t("retour"),
+                60: "60 seconds"|t("retour"),
+            },
+            size: 7,
+            maxlength: 7,
+            value: settings.refreshIntervalSecs,
+            warning: configWarning("refreshIntervalSecs", "retour"),
+            errors: settings.getErrors("refreshIntervalSecs"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Automatically Trim Statistics"|t("retour"),
+            instructions: "Whether the Statistics should be trimmed after each new statistic is recorded."|t("retour"),
+            id: "automaticallyTrimStatistics",
+            name: "automaticallyTrimStatistics",
+            on: settings.automaticallyTrimStatistics,
+            warning: configWarning("automaticallyTrimStatistics", "retour"),
+            errors: settings.getErrors("automaticallyTrimStatistics"),
+        }) }}
+
+        {{ forms.selectField({
+            label: "Statistics Trimming Rate Limit"|t("retour"),
+            instructions: "The amount of time required between trimming of statistics."|t("retour"),
+            id: "statisticsRateLimitMs",
+            name: "statisticsRateLimitMs",
+            options: {
+                3600000: "Once per hour"|t("retour"),
+                86400000: "Once per day"|t("retour"),
+                604800000: "Once per week"|t("retour"),
+            },
+            value: settings.statisticsRateLimitMs,
+            warning: configWarning("statisticsRateLimitMs", "retour"),
+            errors: settings.getErrors("statisticsRateLimitMs"),
+        }) }}
+
+    {% endnamespace %}
+</div>
