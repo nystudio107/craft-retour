@@ -70,6 +70,16 @@
             warning: configWarning("preserveQueryString", "retour"),
             errors: settings.getErrors("preserveQueryString"),
         }) }}
-        
+
+        {{ forms.lightswitchField({
+            label: "Set No-Cache Headers"|t("retour"),
+            instructions: "Should `no-cache` headers be set on the redirect response to prevent client-side caching?"|t("retour"),
+            id: "setNoCacheHeaders",
+            name: "setNoCacheHeaders",
+            on: settings.setNoCacheHeaders,
+            warning: configWarning("setNoCacheHeaders", "retour"),
+            errors: settings.getErrors("setNoCacheHeaders"),
+        }) }}
+
     {% endnamespace %}
 </div>
