@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.2 - UNRELEASED
+### Added
+* Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
+
 ## 5.0.1 - 2024.06.19
 ### Added
 * Added better inline preview support via `getPreviewHtml()`
