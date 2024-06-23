@@ -332,7 +332,7 @@ class Redirects extends Component
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
             // Optionally set the no-cache headers
-            if (Retour::$settings->setNoCacheHeaders) {
+            if (Retour::$settings->setNoCacheHeaders && $response instanceof \yii\web\Response) {
                 $response->setNoCacheHeaders();
             }
             // Add any additional headers (existing ones will be replaced)
