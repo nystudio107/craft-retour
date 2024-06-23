@@ -20,6 +20,7 @@ use craft\errors\ElementNotFoundException;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
+use craft\web\Response as WebResponse;
 use DateTime;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
@@ -332,7 +333,7 @@ class Redirects extends Component
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
             // Optionally set the no-cache headers
-            if (Retour::$settings->setNoCacheHeaders && $response instanceof \yii\web\Response) {
+            if (Retour::$settings->setNoCacheHeaders && $response instanceof WebResponse) {
                 $response->setNoCacheHeaders();
             }
             // Add any additional headers (existing ones will be replaced)
