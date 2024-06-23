@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.18 - UNRELEASED
+### Added
+* Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
+
 ## 4.1.17 - 2024.06.19
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))
