@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.2 - UNRELEASED
+## 5.0.2 - 2024.06.24
 ### Added
 * Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
 * Added a **Set No-Cache Headers** setting (defaulting to on) to set `no-cache` headers on the redirect response to prevent client-side caching ([#306](https://github.com/nystudio107/craft-retour/issues/306))
