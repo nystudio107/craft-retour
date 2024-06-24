@@ -20,6 +20,7 @@ use craft\errors\ElementNotFoundException;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
+use craft\web\Response as WebResponse;
 use DateTime;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\events\RedirectResolvedEvent;
@@ -878,6 +879,10 @@ class Redirects extends Component
             }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
+            // Optionally set the no-cache headers
+            if (Retour::$settings->setNoCacheHeaders && $response instanceof WebResponse) {
+                $response->setNoCacheHeaders();
+            }
             // Add any additional headers (existing ones will be replaced)
             if (!empty(Retour::$settings->additionalHeaders)) {
                 foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
@@ -1193,30 +1198,6 @@ class Redirects extends Component
                 Craft::error($e->getMessage(), __METHOD__);
 
                 return false;
-            }
-        }
-        // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
-        $testRedirectConfig = $this->getRedirectByRedirectSrcUrl(
-            $redirectConfig['redirectDestUrl'],
-            $redirectConfig['siteId']
-        );
-        if ($testRedirectConfig !== null) {
-            Craft::debug(
-                Craft::t(
-                    'retour',
-                    'Deleting redirect to prevent a loop: {redirect}',
-                    ['redirect' => print_r($testRedirectConfig, true)]
-                ),
-                __METHOD__
-            );
-            // Delete the redirect that has a redirectSrcUrl the same as this record's redirectDestUrl
-            try {
-                $db->createCommand()->delete(
-                    '{{%retour_static_redirects}}',
-                    ['id' => $testRedirectConfig['id']]
-                )->execute();
-            } catch (Exception $e) {
-                Craft::error($e->getMessage(), __METHOD__);
             }
         }
         // Trigger a 'afterSaveRedirect' event

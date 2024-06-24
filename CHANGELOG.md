@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 4.1.18 - 2024.06.24
+### Added
+* Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
+* Added a **Set No-Cache Headers** setting (defaulting to on) to set `no-cache` headers on the redirect response to prevent client-side caching ([#306](https://github.com/nystudio107/craft-retour/issues/306))
+
+### Changed
+* When saving a redirect, Retour no longer deletes redirects that have the `redirectDestUrl` of the redirect being saved as their `redirectSrcUrl` ([#303](https://github.com/nystudio107/craft-retour/issues/303))
+
 ## 4.1.17 - 2024.06.19
 ### Fixed
 * Fixed an issue where the down and up arrows were reversed for sorting purposes ([#299](https://github.com/nystudio107/craft-retour/issues/299))

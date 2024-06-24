@@ -1,0 +1,99 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS
+ *
+ * Retour Settings index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import configWarning %}
+
+<div id="advanced" class="hidden">
+    {% namespace "settings" %}
+        {{ forms.lightswitchField({
+            label: "Enable API Access"|t("retour"),
+            instructions: "Determines whether the Retour API endpoint should be enabled for anonymous frontend access."|t("retour"),
+            id: "enableApiEndpoint",
+            name: "enableApiEndpoint",
+            on: settings.enableApiEndpoint,
+            warning: configWarning("enableApiEndpoint", "retour"),
+            errors: settings.getErrors("enableApiEndpoint"),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: "Exclude Patterns"|t("retour"),
+            instructions: "[Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour."|t("retour"),
+            id: 'excludePatterns',
+            name: 'excludePatterns',
+            required: false,
+            allowAdd: true,
+            allowDelete: true,
+            allowReorder: true,
+            defaultValues: {
+                pattern: "",
+            },
+            cols: {
+                pattern: {
+                    heading: "RegEx pattern to exclude"|t("retour"),
+                    type: "singleline",
+                    width: "100%",
+                    code: true,
+                },
+            },
+            rows: settings.excludePatterns,
+            errors: settings.getErrors("excludePatterns"),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: "Additional Headers"|t("retour"),
+            instructions: "Additional headers to add to the redirected request"|t("retour"),
+            id: 'additionalHeaders',
+            name: 'additionalHeaders',
+            allowAdd: true,
+            allowDelete: true,
+            allowReorder: true,
+            required: false,
+            defaultValues: {
+                name: "",
+                value: "",
+            },
+            cols: {
+                name: {
+                    heading: "Header Name"|t("retour"),
+                    type: "singleline",
+                    width: "50%",
+                    code: true,
+                },
+                value: {
+                    heading: "Header Value"|t("retour"),
+                    type: "singleline",
+                    width: "50%",
+                    code: true,
+                },
+            },
+            rows: settings.additionalHeaders,
+            errors: settings.getErrors("additionalHeaders"),
+        }) }}
+
+        {{ forms.textField({
+            label: "CSV Delimiter"|t("retour"),
+            instructions: "The delimiter between data column values for importing CSV files (normally `,`)."|t("retour"),
+            id: "csvColumnDelimiter",
+            name: "csvColumnDelimiter",
+            size: 1,
+            maxlength: 1,
+            value: settings.csvColumnDelimiter,
+            warning: configWarning("csvColumnDelimiter", "retour"),
+            errors: settings.getErrors("csvColumnDelimiter"),
+        }) }}
+
+    {% endnamespace %}
+</div>
