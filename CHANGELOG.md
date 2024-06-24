@@ -5,6 +5,9 @@
 * Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
 * Added a **Set No-Cache Headers** setting (defaulting to on) to set `no-cache` headers on the redirect response to prevent client-side caching ([#306](https://github.com/nystudio107/craft-retour/issues/306))
 
+### Changed
+* When saving a redirect, Retour no longer deletes redirects that have the `redirectDestUrl` of the redirect being saved as their `redirectSrcUrl` ([#303](https://github.com/nystudio107/craft-retour/issues/303))
+
 ## 3.2.16 - 2024.06.19
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#290](https://github.com/nystudio107/craft-retour/issues/290))
