@@ -1,0 +1,85 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Retour plugin for Craft CMS
+ *
+ * Retour Settings index.twig
+ *
+ * @author    nystudio107
+ * @copyright Copyright (c) 2018 nystudio107
+ * @link      https://nystudio107.com/
+ * @package   Retour
+ * @since     3.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+{% from "retour/_includes/macros.twig" import configWarning %}
+
+<div id="general">
+    {% namespace "settings" %}
+        {{ forms.textField({
+            label: "Plugin name"|t("retour"),
+            instructions: "The public-facing name of the plugin"|t("retour"),
+            id: "pluginName",
+            name: "pluginName",
+            value: settings.pluginName,
+            warning: configWarning("pluginName", "retour"),
+            errors: settings.getErrors("pluginName"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Create Entry Redirects"|t("retour"),
+            instructions: "Controls whether Retour automatically creates static redirects when an entry's URI changes."|t("retour"),
+            id: "createUriChangeRedirects",
+            name: "createUriChangeRedirects",
+            on: settings.createUriChangeRedirects,
+            warning: configWarning("createUriChangeRedirects", "retour"),
+            errors: settings.getErrors("createUriChangeRedirects"),
+        }) }}
+
+        {{ forms.selectField({
+            label: "Entry Redirects URL Match Type"|t("retour"),
+            instructions: "Should the automatically created Entry Redirects be matched by path (e.g. `/new-recipes/`) or by full URL (e.g.: `http://example.com/de/new-recipes/`)?"|t("retour"),
+            id: "uriChangeRedirectSrcMatch",
+            name: "uriChangeRedirectSrcMatch",
+            value: settings.uriChangeRedirectSrcMatch ?? "pathonly",
+            options: {
+                "pathonly": "Path Only"|t("retour"),
+                "fullurl": "Full URL"|t("retour"),
+            },
+            errors: settings.getErrors("uriChangeRedirectSrcMatch"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Strip Query String from 404s"|t("retour"),
+            instructions: "Should the query string be stripped from all 404 URLs before their evaluation?"|t("retour"),
+            id: "alwaysStripQueryString",
+            name: "alwaysStripQueryString",
+            on: settings.alwaysStripQueryString,
+            warning: configWarning("alwaysStripQueryString", "retour"),
+            errors: settings.getErrors("alwaysStripQueryString"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Preserve Query String"|t("retour"),
+            instructions: "Should the query string be preserved and passed along to the redirected URL?"|t("retour"),
+            id: "preserveQueryString",
+            name: "preserveQueryString",
+            on: settings.preserveQueryString,
+            warning: configWarning("preserveQueryString", "retour"),
+            errors: settings.getErrors("preserveQueryString"),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Set No-Cache Headers"|t("retour"),
+            instructions: "Should `no-cache` headers be set on the redirect response to prevent client-side caching?"|t("retour"),
+            id: "setNoCacheHeaders",
+            name: "setNoCacheHeaders",
+            on: settings.setNoCacheHeaders,
+            warning: configWarning("setNoCacheHeaders", "retour"),
+            errors: settings.getErrors("setNoCacheHeaders"),
+        }) }}
+
+    {% endnamespace %}
+</div>
