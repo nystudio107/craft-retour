@@ -66,28 +66,38 @@ Choose the fields to import into Retour from the CSV file by dragging them in th
 
 The **Match Type** field must be either `exactmatch` or `regexmatch` (case sensitive). Anything left blank will be filled in with default values.
 
-### Redirect Loop Prevention
-
-Retour will automatically prevent the creation of a "redirect loop". If you create a new redirect that’s destination URL is the same as the source URL of an existing redirect, it will remove the older redirect.
-
 ## Settings
 
 The **Retour->Settings** page allows you to configure various site-wide settings for Retour:
 
-![Screenshot](./resources/screenshots/retour-settings.png)
+### General
+
+![Screenshot](./resources/screenshots/retour-settings-general.png)
 
 * **Plugin name** - The public-facing name of the plugin
 * **Create Entry Redirects** - Controls whether Retour automatically creates static redirects when an entry’s URI changes.
 * **Strip Query String from 404s** - Should the query string be stripped from all 404 URLs before their evaluation?
 * **Preserve Query String** - Should the query string be preserved and passed along to the redirected URL?
+* **Set No-Cache Headers** - Should `no-cache` headers be set on the redirect response to prevent client-side caching?
+
+### Statistics
+
+![Screenshot](./resources/screenshots/retour-settings-statistics.png)
+
 * **Strip Query String from Statistics** - Should the query string be stripped from the saved statistics source URLs?
 * **Record Remote IP** - Should the anonymous ip address of the client causing a 404 be recorded?
 * **Statistics to Store** - How many unique 404 statistics should be stored before they are trimmed.
 * **Dashboard Refresh Interval** - Dashboard data live refresh interval for the chart and table data
 * **Automatically Trim Statistics** - Whether the Statistics should be trimmed after each new statistic is recorded. If you turn this off, statistics will only be trimmed when you visit the Retour Dashboard page in the Control Panel, or you run the `retour/stats/trim` console command (see below).
-* **Statistics Trimming Rate Limit** - Whether the Statistics should be trimmed after each new statistic is recorded.
+* **Statistics Trimming Rate Limit** - The amount of time required between trimming of statistics.
+
+### Advanced
+
+![Screenshot](./resources/screenshots/retour-settings-advanced.png)
+
 * **Enable API Access** - Determines whether the Retour API endpoint should be enabled for anonymous frontend access.
 * **Exclude Patterns** - [Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour.
 * **Additional Headers** - Additional HTTP headers to add to the redirected request
-   
+* **CSV Delimiter** - The delimiter between data column values for importing CSV files (normally `,`).
+
 Brought to you by [nystudio107](https://nystudio107.com/)
