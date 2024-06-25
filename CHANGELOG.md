@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.18 - 2024.06.25
+### Fixed
+* Fix a `ParseError` exception that is thrown by older versions of PHP that do not support types for class properties ([#307](https://github.com/nystudio107/craft-retour/issues/307))
+
 ## 3.2.17 - 2024.06.24
 ### Added
 * Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
