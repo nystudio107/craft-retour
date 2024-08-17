@@ -45,6 +45,30 @@ class UrlHelper extends CraftUrlHelper
     }
 
     /**
+     * Merge the $url and $path together, combining any overlapping path segments
+     *
+     * @param string $url
+     * @param string $path
+     * @return string
+     */
+    public static function mergeUrlWithPath(string $url, string $path): string
+    {
+        $overlap = 0;
+        $urlOffset = strlen($url);
+        $pathLength = strlen($path);
+        $pathOffset = 0;
+        while ($urlOffset > 0 && $pathOffset < $pathLength) {
+            $urlOffset--;
+            $pathOffset++;
+            if (str_starts_with($path, substr($url, $urlOffset, $pathOffset))) {
+                $overlap = $pathOffset;
+            }
+        }
+
+        return rtrim($url, '/') . '/' . ltrim(substr($path, $overlap), '/');
+    }
+
+    /**
      * Return a sanitized URL
      *
      * @param string $url
