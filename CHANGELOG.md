@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.19 - UNRELEASED
+## 3.2.19 - 2024.08.19
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#310](https://github.com/nystudio107/craft-retour/issues/310))
 
