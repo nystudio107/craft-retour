@@ -138,6 +138,7 @@ class FileController extends Controller
         }
         $hasErrors = false;
         // If we have headers, then we have a file, so parse it
+        /** @phpstan-ignore-next-line */
         if ($csv && $headers) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
@@ -372,7 +373,7 @@ class FileController extends Controller
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
         /** @phpstan-ignore-next-line */
-        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
+        $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
             ];
