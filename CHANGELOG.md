@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.3 - 2024.08.19
+### Fixed
+* Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#310](https://github.com/nystudio107/craft-retour/issues/310))
+
 ## 5.0.2 - 2024.06.24
 ### Added
 * Separate out the plugin settings into **General**, **Statistics**, and **Advanced** tabs
