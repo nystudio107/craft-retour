@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.19 - 2024.08.19
+### Fixed
+* Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#310](https://github.com/nystudio107/craft-retour/issues/310))
+
 ## 3.2.18 - 2024.06.25
 ### Fixed
 * Fix a `ParseError` exception that is thrown by older versions of PHP that do not support types for class properties ([#307](https://github.com/nystudio107/craft-retour/issues/307))

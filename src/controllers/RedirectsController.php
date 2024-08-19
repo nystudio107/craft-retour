@@ -120,8 +120,7 @@ class RedirectsController extends Controller
         string               $defaultUrl = '',
         int                  $siteId = 0,
         StaticRedirectsModel $redirect = null
-    ): Response
-    {
+    ): Response {
         $variables = [];
         PermissionHelper::controllerPermissionCheck('retour:redirects');
 

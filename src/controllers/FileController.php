@@ -372,7 +372,7 @@ class FileController extends Controller
         $columns = ArrayHelper::filterEmptyStringsFromArray($columns);
         $rowIndex = 1;
         /** @phpstan-ignore-next-line */
-        $csv->each(function ($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
+        $csv->each(function($row) use ($headers, $columns, &$rowIndex, &$hasErrors) {
             $redirectConfig = [
                 'id' => 0,
             ];
