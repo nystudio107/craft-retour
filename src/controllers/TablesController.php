@@ -15,10 +15,9 @@ use Craft;
 use craft\db\Query;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\ElementHelper;
-use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
-use Throwable;
+use nystudio107\retour\helpers\UrlHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -137,10 +136,10 @@ class TablesController extends Controller
                 // Normalize the `redirectSrcUrl` to point to a valid frontend site URL
                 $stat['redirectSrcUrlFull'] = $stat['redirectSrcUrl'];
                 if (!UrlHelper::isAbsoluteUrl($stat['redirectSrcUrlFull'])) {
-                    try {
-                        $stat['redirectSrcUrlFull'] = UrlHelper::siteUrl($stat['redirectSrcUrlFull'], null, null, $stat['siteId']);
-                    } catch (Throwable $e) {
-                        // That's fine
+                    $sites = Craft::$app->getSites();
+                    $site = $sites->getSiteById($stat['siteId'], true);
+                    if ($site) {
+                        $stat['redirectSrcUrlFull'] = UrlHelper::mergeUrlWithPath($site->baseUrl, $stat['redirectSrcUrlFull']);
                     }
                 }
                 $stat['addLink'] = '';
