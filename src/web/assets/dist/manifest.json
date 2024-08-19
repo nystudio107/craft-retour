@@ -14,8 +14,8 @@
     "file": "assets/purify-aK_k3t68.css",
     "src": "_purify.es-!~{007}~.js"
   },
-  "_purify.es-t8Zp7TOX.js": {
-    "file": "assets/purify.es-t8Zp7TOX.js",
+  "_purify.es-Xo6LZ5T9.js": {
+    "file": "assets/purify.es-Xo6LZ5T9.js",
     "name": "purify.es",
     "imports": [
       "__plugin-vue2_normalizer-DeOsZA-U.js"
@@ -24,22 +24,22 @@
       "assets/purify-aK_k3t68.css"
     ]
   },
-  "_vue-apexcharts-D8bYg5rc.js": {
-    "file": "assets/vue-apexcharts-D8bYg5rc.js",
+  "_vue-apexcharts-Bqp5DSZb.js": {
+    "file": "assets/vue-apexcharts-Bqp5DSZb.js",
     "name": "vue-apexcharts",
     "imports": [
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-BZ4JJyI7.js",
+    "file": "assets/dashboard-arO7X85D.js",
     "name": "dashboard",
     "src": "src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-t8Zp7TOX.js",
+      "_purify.es-Xo6LZ5T9.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js",
-      "_vue-apexcharts-D8bYg5rc.js"
+      "_vue-apexcharts-Bqp5DSZb.js"
     ]
   },
   "src/js/Import.js": {
@@ -52,12 +52,12 @@
     ]
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects-DRXFZRrb.js",
+    "file": "assets/redirects--9ofOl-C.js",
     "name": "redirects",
     "src": "src/js/Redirects.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-t8Zp7TOX.js",
+      "_purify.es-Xo6LZ5T9.js",
       "_LegacyUrl-7VynczAE.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
@@ -72,23 +72,23 @@
     ]
   },
   "src/js/Shortlinks.js": {
-    "file": "assets/shortlinks-CLzfscgO.js",
+    "file": "assets/shortlinks-Q4nOpy0m.js",
     "name": "shortlinks",
     "src": "src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-t8Zp7TOX.js",
+      "_purify.es-Xo6LZ5T9.js",
       "_LegacyUrl-7VynczAE.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Widget.js": {
-    "file": "assets/widget-DVkRq5wz.js",
+    "file": "assets/widget-DNFe3Srq.js",
     "name": "widget",
     "src": "src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts-D8bYg5rc.js",
+      "_vue-apexcharts-Bqp5DSZb.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   }
