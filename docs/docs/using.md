@@ -157,7 +157,7 @@ Arguments:
 
 ### Getting All Redirects
 
-If you want to retrieve **all** of the redirects that have been entered into Retour, you can to that with the `retourRedirects` query:
+To retrieve **all** of the redirects that have been entered into Retour, you can to that with the `retourRedirects` query:
 
 ```graphql
 {
