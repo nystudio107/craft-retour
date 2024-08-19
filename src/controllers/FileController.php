@@ -138,7 +138,6 @@ class FileController extends Controller
         }
         $hasErrors = false;
         // If we have headers, then we have a file, so parse it
-        /** @phpstan-ignore-next-line */
         if ($csv && $headers) {
             switch (VersionHelper::getLeagueCsvVersion()) {
                 case 8:
