@@ -93,7 +93,7 @@ Event::on(Redirects::class,
  );
 ```
 
-`beforeSaveEntryRedirect` is the event that is triggered before an Entry redirect is automatically saved when an Entry's URI is changed (assuming the **Create Entry Redirects** setting is enabled). You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved.
+`beforeSaveEntryRedirect` is the event that is triggered before an Entry redirect is automatically saved when an Entry’s URI is changed (assuming the **Create Entry Redirects** setting is enabled). You may set [[RedirectEvent::isValid]] to `false` to prevent the redirect from getting saved.
 
 ```php
 use nystudio107\retour\services\Events;
