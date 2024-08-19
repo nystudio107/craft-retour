@@ -10,7 +10,7 @@ They are redirects under the hood, but are presented in a simplified interface t
 
 ## Short Link field
 
-To create short links, you'll need to create a Short Link field, and add it to the field layout of a Section.
+To create short links, you’ll need to create a Short Link field, and add it to the field layout of a Section.
 
 There are also field settings that let you choose how the short link should function (analogous to regular redirect settings):
 
@@ -27,7 +27,7 @@ When the entry is saved, a redirect will automtically be created that redirects 
 In the above example, anyone visiting `https://example.com/promo` will be redirected to `https://example.com/my-first-blog`.
 
 * If a Short Link field is left blank, the corresponding redirect will be deleted.
-* A Short Link will be enabled and disabled with the element's status.
+* A Short Link will be enabled and disabled with the element’s status.
 * For multi-site setups, if you want different short links for each site, ensure you set the field propagation appropriately.
 * If a content author creates a Short Link to a URL that already exists, nothing will happen because Retour does nothing until Craft throws a 404
 
