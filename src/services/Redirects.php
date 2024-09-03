@@ -317,19 +317,6 @@ class Redirects extends Component
             );
             // Increment the stats
             Retour::$plugin->statistics->incrementStatistics($url, true);
-            // Handle a Retour return status > 400 to render the actual error template
-            if ($status >= 400) {
-                Retour::$currentException->statusCode = $status;
-                $errorHandler = Craft::$app->getErrorHandler();
-                $errorHandler->exception = Retour::$currentException;
-                try {
-                    $response = Craft::$app->runAction('templates/render-error');
-                } catch (InvalidRouteException $e) {
-                    Craft::error($e->getMessage(), __METHOD__);
-                } catch (\yii\console\Exception $e) {
-                    Craft::error($e->getMessage(), __METHOD__);
-                }
-            }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
             // Optionally set the no-cache headers
@@ -340,6 +327,21 @@ class Redirects extends Component
             if (!empty(Retour::$settings->additionalHeaders)) {
                 foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
                     $response->headers->set($additionalHeader['name'], $additionalHeader['value']);
+                }
+            }
+            // Handle a Retour return status > 400 to render the actual error template
+            if ($status >= 400) {
+                Retour::$currentException->statusCode = $status;
+                $errorHandler = Craft::$app->getErrorHandler();
+                $errorHandler->exception = Retour::$currentException;
+                try {
+                    $response = Craft::$app->runAction('templates/render-error');
+                    $response->setStatusCode($status);
+                    $response->send();
+                } catch (InvalidRouteException $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                } catch (\yii\console\Exception $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
                 }
             }
             // Redirect the request away;
