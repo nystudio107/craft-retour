@@ -51,7 +51,7 @@ class UrlHelper extends CraftUrlHelper
      * @param string $path
      * @return string
      */
-    public static function mergeUrlWithPath(string $url, string $path): string
+    public static function mergeUrlWithPath(string $url = '', string $path = ''): string
     {
         $overlap = 0;
         $urlOffset = strlen($url);
