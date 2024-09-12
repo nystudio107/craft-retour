@@ -24,22 +24,22 @@
       "assets/purify-aK_k3t68.css"
     ]
   },
-  "_vue-apexcharts-Bqp5DSZb.js": {
-    "file": "assets/vue-apexcharts-Bqp5DSZb.js",
+  "_vue-apexcharts-Nop2JhTm.js": {
+    "file": "assets/vue-apexcharts-Nop2JhTm.js",
     "name": "vue-apexcharts",
     "imports": [
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-arO7X85D.js",
+    "file": "assets/dashboard--4c4omta.js",
     "name": "dashboard",
     "src": "src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
       "_purify.es-Xo6LZ5T9.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js",
-      "_vue-apexcharts-Bqp5DSZb.js"
+      "_vue-apexcharts-Nop2JhTm.js"
     ]
   },
   "src/js/Import.js": {
@@ -83,12 +83,12 @@
     ]
   },
   "src/js/Widget.js": {
-    "file": "assets/widget-DNFe3Srq.js",
+    "file": "assets/widget-B0Swf_04.js",
     "name": "widget",
     "src": "src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts-Bqp5DSZb.js",
+      "_vue-apexcharts-Nop2JhTm.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   }
