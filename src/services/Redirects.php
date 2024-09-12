@@ -827,7 +827,7 @@ class Redirects extends Component
                     break;
             }
             $dest = $redirect['redirectDestUrl'];
-            // If this isn't a full URL, make it one based on the appropriate site
+            // If this isn't an absolute URL, make it one based on the appropriate site
             if (!UrlHelper::isAbsoluteUrl($dest)) {
                 try {
                     $siteId = $redirect['siteId'] ?? null;
