@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\helpers;
 
+use craft\errors\SiteNotFoundException;
 use craft\helpers\UrlHelper as CraftUrlHelper;
 
 /**
@@ -45,15 +46,46 @@ class UrlHelper extends CraftUrlHelper
     }
 
     /**
-     * Merge the $url and $path together, combining any overlapping path segments
+     * Strip out any site-defined sub-path from the incoming $path
+     * e.g. if the Site's baseUrl is set to https://example.com/es and $path is /es/blog
+     * this function will return /blog
      *
-     * @param string $url
      * @param string $path
      * @return string
      */
-    public static function mergeUrlWithPath(string $url = '', string $path = ''): string
+    public static function stripSitePathPrefix(string $path): string
+    {
+        try {
+            $baseSiteUrl = self::baseSiteUrl();
+        } catch (SiteNotFoundException $e) {
+            $baseSiteUrl = '';
+        }
+        $sitePath = parse_url($baseSiteUrl, PHP_URL_PATH);
+        if (!empty($sitePath)) {
+            // Normalizes a URI path by trimming leading/ trailing slashes and removing double slashes
+            $sitePath = '/' . preg_replace('/\/\/+/', '/', trim($sitePath, '/'));
+        }
+        // Strip the $sitePath from the incoming $path
+        if (str_starts_with($path, $sitePath)) {
+            $path = substr($path, strlen($sitePath));
+            $path = '/' . preg_replace('/\/\/+/', '/', trim($path, '/'));
+        }
+
+        return $path;
+    }
+
+    /**
+     * Merge the $url and $path together, combining any overlapping path segments
+     *
+     * @param ?string $url
+     * @param ?string $path
+     * @return string
+     */
+    public static function mergeUrlWithPath(?string $url, ?string $path): string
     {
         $overlap = 0;
+        $url = $url ?? '';
+        $path = $path ?? '';
         $urlOffset = strlen($url);
         $pathLength = strlen($path);
         $pathOffset = 0;
