@@ -220,13 +220,15 @@ class Redirects extends Component
                 $pathOnly = '';
                 $fullUrl = '';
             }
+            // Stash the $pathOnly for use when incrementing the statistics
+            $originalPathOnly = $pathOnly;
+            // Strip out any site-defined baseUrl path prefixes
+            $pathOnly = UrlHelper::stripSitePathPrefix($pathOnly);
             // Strip the query string if `alwaysStripQueryString` is set
             if (Retour::$settings->alwaysStripQueryString) {
                 $fullUrl = UrlHelper::stripQueryString($fullUrl);
                 $pathOnly = UrlHelper::stripQueryString($pathOnly);
             }
-            // Stash the $pathOnly for use when incrementing the statistics
-            $originalPathOnly = $pathOnly;
             Craft::info(
                 Craft::t(
                     'retour',
