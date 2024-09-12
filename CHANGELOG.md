@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 5.0.4 - UNRELEASED
+### Changed
+* Retour now strips site path prefixes from incoming 404 URL paths, such that redirects will work as expected (any Site sub-path prefix is ignored) ([#288](https://github.com/nystudio107/craft-retour/issues/288))
+
 ### Fixed
 * Fixed an issue where `410 Gone` redirects returned a generic browser error rather than a custom-defined Craft template ([#11](https://github.com/nystudio107/craft-retour/issues/311))
 * Fixed an issue where an exception could be thrown if a Site had no `baseUrl` defined
