@@ -222,8 +222,6 @@ class Redirects extends Component
             }
             // Stash the $pathOnly for use when incrementing the statistics
             $originalPathOnly = $pathOnly;
-            // Strip out any site-defined baseUrl path prefixes
-            $pathOnly = UrlHelper::stripSitePathPrefix($pathOnly);
             // Strip the query string if `alwaysStripQueryString` is set
             if (Retour::$settings->alwaysStripQueryString) {
                 $fullUrl = UrlHelper::stripQueryString($fullUrl);
@@ -240,6 +238,12 @@ class Redirects extends Component
             if (!$this->excludeUri($pathOnly)) {
                 // Redirect if we find a match, otherwise let Craft handle it
                 $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                // If the redirect wasn't found, look for it without the Site-defined prefix
+                if ($redirect === null) {
+                    // Strip out any site-defined baseUrl path prefixes
+                    $pathOnly = UrlHelper::stripSitePathPrefix($pathOnly);
+                    $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                }
                 if (!$this->doRedirect($fullUrl, $pathOnly, $redirect) && !Retour::$settings->alwaysStripQueryString) {
                     // Try it again without the query string
                     $fullUrl = UrlHelper::stripQueryString($fullUrl);
