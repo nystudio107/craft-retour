@@ -18,6 +18,7 @@ use craft\gql\base\Resolver;
 use GraphQL\Type\Definition\ResolveInfo;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\Retour;
+use Throwable;
 
 /**
  * Class RetourResolver
