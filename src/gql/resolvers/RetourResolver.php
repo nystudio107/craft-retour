@@ -13,9 +13,10 @@ namespace nystudio107\retour\gql\resolvers;
 
 use Craft;
 use craft\base\Element;
+use craft\errors\SiteNotFoundException;
 use craft\gql\base\Resolver;
-use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\ResolveInfo;
+use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\Retour;
 
 /**
@@ -74,6 +75,17 @@ class RetourResolver extends Resolver
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }
         }
+        $dest = $redirect['redirectDestUrl'];
+        // If this isn't an absolute URL, make it one based on the appropriate site
+        if (!UrlHelper::isAbsoluteUrl($dest)) {
+            try {
+                $dest = UrlHelper::siteUrl($dest, null, null, $siteId);
+                $dest = parse_url($dest, PHP_URL_PATH);
+            } catch (Throwable $e) {
+                // That's ok
+            }
+        }
+        $redirect['redirectDestUrl'] = $dest;
 
         return $redirect;
     }
@@ -86,7 +98,7 @@ class RetourResolver extends Resolver
      * @param $context
      * @param ResolveInfo $resolveInfo
      * @return array
-     * @throws \craft\errors\SiteNotFoundException
+     * @throws SiteNotFoundException
      */
     public static function resolveAll($source, array $arguments, $context, ResolveInfo $resolveInfo)
     {
