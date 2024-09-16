@@ -7,6 +7,7 @@
 ### Fixed
 * Fixed an issue where `410 Gone` redirects returned a generic browser error rather than a custom-defined Craft template ([#11](https://github.com/nystudio107/craft-retour/issues/311))
 * Fixed an issue where an exception could be thrown if a Site had no `baseUrl` defined
+* Normalize the incoming `url` and `path` so that `mergUrlWithPath()` handles edge-cases properly ([#1512](https://github.com/nystudio107/craft-seomatic/issues/1512))
 
 ## 5.0.3 - 2024.08.19
 ### Fixed
