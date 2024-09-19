@@ -77,6 +77,7 @@ class RetourResolver extends Resolver
             }
         }
         if ($redirect !== null && isset($redirect['redirectDestUrl'])) {
+            $dest = $redirect['redirectDestUrl'];
             $path = $redirect['redirectDestUrl'];
             // Combine the URL and path together, merging them as appropriate
             try {
