@@ -76,16 +76,15 @@ class RetourResolver extends Resolver
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }
         }
-        if ($redirect !== null) {
-            $dest = $redirect['redirectDestUrl'];
-            // If this isn't an absolute URL, make it one based on the appropriate site
-            if (!UrlHelper::isAbsoluteUrl($dest)) {
-                try {
-                    $dest = UrlHelper::siteUrl($dest, null, null, $siteId);
-                    $dest = parse_url($dest, PHP_URL_PATH);
-                } catch (Throwable $e) {
-                    // That's ok
-                }
+        if ($redirect !== null && isset($redirect['redirectDestUrl'])) {
+            $path = $redirect['redirectDestUrl'];
+            // Combine the URL and path together, merging them as appropriate
+            try {
+                $dest = UrlHelper::siteUrl('/', null, null, $siteId);
+                $dest = UrlHelper::mergeUrlWithPath($dest, $path);
+                $dest = parse_url($dest, PHP_URL_PATH);
+            } catch (Throwable $e) {
+                // That's ok
             }
             $redirect['redirectDestUrl'] = $dest;
         }

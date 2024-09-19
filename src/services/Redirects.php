@@ -272,9 +272,21 @@ class Redirects extends Component
         if ($redirect !== null) {
             // Figure out what type of source matching was done
             $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
+            $dest = $redirect['redirectDestUrl'];
+            $path = $redirect['redirectDestUrl'];
             switch ($redirectSrcMatch) {
                 case 'pathonly':
                     $url = $pathOnly;
+                    try {
+                        $siteId = $redirect['siteId'] ?? null;
+                        if ($siteId !== null) {
+                            $siteId = (int)$siteId;
+                        }
+                        $dest = UrlHelper::siteUrl('/', null, null, $siteId);
+                        $dest = UrlHelper::mergeUrlWithPath($dest, $path);
+                        $dest = parse_url($dest, PHP_URL_PATH);
+                    } catch (\yii\base\Exception $e) {
+                    }
                     break;
                 case 'fullurl':
                     $url = $fullUrl;
@@ -283,9 +295,8 @@ class Redirects extends Component
                     $url = $pathOnly;
                     break;
             }
-            $dest = $redirect['redirectDestUrl'];
-            // If this isn't an absolute URL, make it one based on the appropriate site
-            if (!UrlHelper::isAbsoluteUrl($dest)) {
+            // If this isn't a full URL, make it one based on the appropriate site
+            if (!UrlHelper::isFullUrl($dest)) {
                 try {
                     $siteId = $redirect['siteId'] ?? null;
                     if ($siteId !== null) {
