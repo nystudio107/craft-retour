@@ -11,6 +11,7 @@
 
 namespace nystudio107\retour\helpers;
 
+use Craft;
 use craft\errors\SiteNotFoundException;
 use craft\helpers\UrlHelper as CraftUrlHelper;
 
@@ -72,6 +73,30 @@ class UrlHelper extends CraftUrlHelper
         }
 
         return $path;
+    }
+
+    /**
+     * See if the path includes a site prefix for any site
+     *
+     * @param string $path
+     * @return bool
+     */
+    public static function pathHasSitePrefix(string $path): bool
+    {
+        $sites = Craft::$app->getSites()->getAllSites();
+        foreach ($sites as $site) {
+            $sitePath = parse_url($site->baseUrl, PHP_URL_PATH);
+            if (!empty($sitePath)) {
+                // Normalizes a URI path by trimming leading/ trailing slashes and removing double slashes
+                $sitePath = '/' . preg_replace('/\/\/+/', '/', trim($sitePath, '/'));
+            }
+            // Strip the $sitePath from the incoming $path
+            if (str_starts_with($path, $sitePath)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
