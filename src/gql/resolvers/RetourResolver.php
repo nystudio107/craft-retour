@@ -81,9 +81,11 @@ class RetourResolver extends Resolver
             $path = $redirect['redirectDestUrl'];
             // Combine the URL and path together, merging them as appropriate
             try {
-                $dest = UrlHelper::siteUrl('/', null, null, $siteId);
-                $dest = UrlHelper::mergeUrlWithPath($dest, $path);
-                $dest = parse_url($dest, PHP_URL_PATH);
+                if (!UrlHelper::pathHasSitePrefix($path)) {
+                    $dest = UrlHelper::siteUrl('/', null, null, $siteId);
+                    $dest = UrlHelper::mergeUrlWithPath($dest, $path);
+                    $dest = parse_url($dest, PHP_URL_PATH);
+                }
             } catch (Throwable $e) {
                 // That's ok
             }
