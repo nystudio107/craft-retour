@@ -62,6 +62,7 @@ class UrlHelper extends CraftUrlHelper
             $baseSiteUrl = '';
         }
         $sitePath = parse_url($baseSiteUrl, PHP_URL_PATH);
+        $addSlash = str_ends_with($path, '/');
         if (!empty($sitePath)) {
             // Normalizes a URI path by trimming leading/ trailing slashes and removing double slashes
             $sitePath = '/' . preg_replace('/\/\/+/', '/', trim($sitePath, '/'));
@@ -71,6 +72,7 @@ class UrlHelper extends CraftUrlHelper
             $path = substr($path, strlen($sitePath));
             $path = '/' . preg_replace('/\/\/+/', '/', trim($path, '/'));
         }
+        $path = $addSlash ? $path . '/' : $path;
 
         return $path;
     }
