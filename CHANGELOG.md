@@ -3,6 +3,7 @@
 ## 3.2.20 - UNRELEASED
 ### Changed
 * Retour now strips site path prefixes from incoming 404 URL paths, such that redirects will work as expected (any Site sub-path prefix is ignored) ([#288](https://github.com/nystudio107/craft-retour/issues/288))
+* Don't create automatic redirects for elements that are not enabled
 
 ### Fixed
 * Fixed an issue where `410 Gone` redirects returned a generic browser error rather than a custom-defined Craft template ([#11](https://github.com/nystudio107/craft-retour/issues/311))
