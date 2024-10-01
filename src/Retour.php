@@ -312,6 +312,10 @@ class Retour extends Plugin
             $element = $event->element;
             if (!$event->isNew && $element->getUrl() !== null && !$element->propagating) {
                 $checkElementSlug = true;
+                // Make sure the element is enabled
+                if (!$element->enabled || !$element->getEnabledForSite()) {
+                    $checkElementSlug = false;
+                }
                 // If we're running Craft 3.2 or later, also check that isn't not a draft or revision
                 if (ElementHelper::isDraftOrRevision($element)) {
                     $checkElementSlug = false;
@@ -333,6 +337,10 @@ class Retour extends Plugin
             $element = $event->element;
             if ($element !== null && !$event->isNew && $element->getUrl() !== null) {
                 $checkElementSlug = true;
+                // Make sure the element is enabled
+                if (!$element->enabled || !$element->getEnabledForSite()) {
+                    $checkElementSlug = false;
+                }
                 if (ElementHelper::isDraftOrRevision($element)) {
                     $checkElementSlug = false;
                 }
