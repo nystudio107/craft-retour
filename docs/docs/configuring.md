@@ -48,11 +48,11 @@ For **Path Only** redirects, Retour will automatically take Craft Sites into acc
 
 Example: if a redirect from `/foo` to `/bar` happens on a site with the current Site URL of `http://example.com/en/`, the resulting redirect URL will be `http://example.com/en/bar`.
 
-This is normally what you'd want, but if you do not want Craft Sites to be taken into account, set the **Destination URL** to a fully qualified URL.
+This is normally what you’d want, but if you do not want Craft Sites to be taken into account, set the **Destination URL** to a fully qualified URL.
 
 Example: if a redirect from `/foo` to `http://example.com/bar` happens on a site with the current Site URL of `http://example.com/en/`, the resulting redirect URL will be `http://example.com/bar`.
 
-This is useful if you do not want Craft Sites taken into account, such as a situation where Craft is installed as a part of a larger website that has non-Craft handled URLs in it.
+This is useful if you do not want Craft Sites taken into account, such as a situation where Craft is installed as a part of a larger site that has non-Craft handled URLs in it.
 
 ### Automatic Slug Redirects
 
