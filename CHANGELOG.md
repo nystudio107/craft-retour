@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.4 - UNRELEASED
+## 5.0.4 - 2024.12.14
 ### Changed
 * Retour now strips site path prefixes from incoming 404 URL paths, such that redirects will work as expected (any Site sub-path prefix is ignored) ([#288](https://github.com/nystudio107/craft-retour/issues/288))
 * Don't create automatic redirects for elements that are not enabled
