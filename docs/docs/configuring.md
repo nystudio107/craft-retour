@@ -42,6 +42,18 @@ If you’re using Craft to host [multiple sites](https://docs.craftcms.com/v3/si
 * **Pattern Match Type** - What type of matching should be done with the Legacy URL Pattern. Details on regular expression matching can be found at [regexr.com](http://regexr.com). If a plugin provides a custom matching function, you can select it here.
 * **Redirect Type** - Select whether the redirect should be permanent or temporary.
 
+### Sites & Redirect Resolution
+
+For **Path Only** redirects, Retour will automatically take Craft Sites into account.
+
+Example: if a redirect from `/foo` to `/bar` happens on a site with the current Site URL of `http://example.com/en/`, the resulting redirect URL will be `http://example.com/en/bar`.
+
+This is normally what you'd want, but if you do not want Craft Sites to be taken into account, set the **Destination URL** to a fully qualified URL.
+
+Example: if a redirect from `/foo` to `http://example.com/bar` happens on a site with the current Site URL of `http://example.com/en/`, the resulting redirect URL will be `http://example.com/bar`.
+
+This is useful if you do not want Craft Sites taken into account, such as a situation where Craft is installed as a part of a larger website that has non-Craft handled URLs in it.
+
 ### Automatic Slug Redirects
 
 If you rename an Entry’s `slug` (or any other Element with URLs), Retour will automatically create a static redirect for you to keep traffic going to the right place.  It will also automatically create a static redirect if you move an entry around in a Structure.
