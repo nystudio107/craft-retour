@@ -15,9 +15,10 @@ use Craft;
 use craft\base\Element;
 use craft\errors\SiteNotFoundException;
 use craft\gql\base\Resolver;
-use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\ResolveInfo;
+use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\Retour;
+use Throwable;
 
 /**
  * Class RetourResolver
@@ -74,6 +75,21 @@ class RetourResolver extends Resolver
                 // Increment the stats
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }
+        }
+        if ($redirect !== null && isset($redirect['redirectDestUrl'])) {
+            $dest = $redirect['redirectDestUrl'];
+            $path = $redirect['redirectDestUrl'];
+            // Combine the URL and path together, merging them as appropriate
+            try {
+                if (!UrlHelper::pathHasSitePrefix($path)) {
+                    $dest = UrlHelper::siteUrl('/', null, null, $siteId);
+                    $dest = UrlHelper::mergeUrlWithPath($dest, $path);
+                    $dest = parse_url($dest, PHP_URL_PATH);
+                }
+            } catch (Throwable $e) {
+                // That's ok
+            }
+            $redirect['redirectDestUrl'] = $dest;
         }
 
         return $redirect;

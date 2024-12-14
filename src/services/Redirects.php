@@ -220,13 +220,13 @@ class Redirects extends Component
                 $pathOnly = '';
                 $fullUrl = '';
             }
+            // Stash the $pathOnly for use when incrementing the statistics
+            $originalPathOnly = $pathOnly;
             // Strip the query string if `alwaysStripQueryString` is set
             if (Retour::$settings->alwaysStripQueryString) {
                 $fullUrl = UrlHelper::stripQueryString($fullUrl);
                 $pathOnly = UrlHelper::stripQueryString($pathOnly);
             }
-            // Stash the $pathOnly for use when incrementing the statistics
-            $originalPathOnly = $pathOnly;
             Craft::info(
                 Craft::t(
                     'retour',
@@ -238,6 +238,12 @@ class Redirects extends Component
             if (!$this->excludeUri($pathOnly)) {
                 // Redirect if we find a match, otherwise let Craft handle it
                 $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                // If the redirect wasn't found, look for it without the Site-defined prefix
+                if ($redirect === null) {
+                    // Strip out any site-defined baseUrl path prefixes
+                    $pathOnly = UrlHelper::stripSitePathPrefix($pathOnly);
+                    $redirect = $this->findRedirectMatch($fullUrl, $pathOnly);
+                }
                 if (!$this->doRedirect($fullUrl, $pathOnly, $redirect) && !Retour::$settings->alwaysStripQueryString) {
                     // Try it again without the query string
                     $fullUrl = UrlHelper::stripQueryString($fullUrl);
@@ -266,9 +272,23 @@ class Redirects extends Component
         if ($redirect !== null) {
             // Figure out what type of source matching was done
             $redirectSrcMatch = $redirect['redirectSrcMatch'] ?? 'pathonly';
+            $dest = $redirect['redirectDestUrl'];
+            $path = $redirect['redirectDestUrl'];
             switch ($redirectSrcMatch) {
                 case 'pathonly':
                     $url = $pathOnly;
+                    try {
+                        $siteId = $redirect['siteId'] ?? null;
+                        if ($siteId !== null) {
+                            $siteId = (int)$siteId;
+                        }
+                        if (!UrlHelper::isFullUrl($dest) && !UrlHelper::pathHasSitePrefix($path)) {
+                            $dest = UrlHelper::siteUrl('/', null, null, $siteId);
+                            $dest = UrlHelper::mergeUrlWithPath($dest, $path);
+                            $dest = parse_url($dest, PHP_URL_PATH);
+                        }
+                    } catch (\yii\base\Exception $e) {
+                    }
                     break;
                 case 'fullurl':
                     $url = $fullUrl;
@@ -277,7 +297,6 @@ class Redirects extends Component
                     $url = $pathOnly;
                     break;
             }
-            $dest = $redirect['redirectDestUrl'];
             // If this isn't a full URL, make it one based on the appropriate site
             if (!UrlHelper::isFullUrl($dest)) {
                 try {
@@ -317,19 +336,6 @@ class Redirects extends Component
             );
             // Increment the stats
             Retour::$plugin->statistics->incrementStatistics($url, true);
-            // Handle a Retour return status > 400 to render the actual error template
-            if ($status >= 400) {
-                Retour::$currentException->statusCode = $status;
-                $errorHandler = Craft::$app->getErrorHandler();
-                $errorHandler->exception = Retour::$currentException;
-                try {
-                    $response = Craft::$app->runAction('templates/render-error');
-                } catch (InvalidRouteException $e) {
-                    Craft::error($e->getMessage(), __METHOD__);
-                } catch (\yii\console\Exception $e) {
-                    Craft::error($e->getMessage(), __METHOD__);
-                }
-            }
             // Sanitize the URL
             $dest = UrlHelper::sanitizeUrl($dest);
             // Optionally set the no-cache headers
@@ -340,6 +346,21 @@ class Redirects extends Component
             if (!empty(Retour::$settings->additionalHeaders)) {
                 foreach (Retour::$settings->additionalHeaders as $additionalHeader) {
                     $response->headers->set($additionalHeader['name'], $additionalHeader['value']);
+                }
+            }
+            // Handle a Retour return status > 400 to render the actual error template
+            if ($status >= 400) {
+                Retour::$currentException->statusCode = $status;
+                $errorHandler = Craft::$app->getErrorHandler();
+                $errorHandler->exception = Retour::$currentException;
+                try {
+                    $response = Craft::$app->runAction('templates/render-error');
+                    $response->setStatusCode($status);
+                    $response->send();
+                } catch (InvalidRouteException $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                } catch (\yii\console\Exception $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
                 }
             }
             // Redirect the request away;
