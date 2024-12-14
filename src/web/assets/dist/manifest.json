@@ -11,35 +11,35 @@
     "name": "_plugin-vue2_normalizer"
   },
   "_purify.es-!~{007}~.js": {
-    "file": "assets/purify-aK_k3t68.css",
+    "file": "assets/purify-DvoaRXnC.css",
     "src": "_purify.es-!~{007}~.js"
   },
-  "_purify.es-Xo6LZ5T9.js": {
-    "file": "assets/purify.es-Xo6LZ5T9.js",
+  "_purify.es-T1dZ8B5N.js": {
+    "file": "assets/purify.es-T1dZ8B5N.js",
     "name": "purify.es",
     "imports": [
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ],
     "css": [
-      "assets/purify-aK_k3t68.css"
+      "assets/purify-DvoaRXnC.css"
     ]
   },
-  "_vue-apexcharts-Bqp5DSZb.js": {
-    "file": "assets/vue-apexcharts-Bqp5DSZb.js",
+  "_vue-apexcharts-SftWG7rg.js": {
+    "file": "assets/vue-apexcharts-SftWG7rg.js",
     "name": "vue-apexcharts",
     "imports": [
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Dashboard.js": {
-    "file": "assets/dashboard-arO7X85D.js",
+    "file": "assets/dashboard-Cd8Jof-e.js",
     "name": "dashboard",
     "src": "src/js/Dashboard.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-Xo6LZ5T9.js",
+      "_purify.es-T1dZ8B5N.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js",
-      "_vue-apexcharts-Bqp5DSZb.js"
+      "_vue-apexcharts-SftWG7rg.js"
     ]
   },
   "src/js/Import.js": {
@@ -52,43 +52,43 @@
     ]
   },
   "src/js/Redirects.js": {
-    "file": "assets/redirects--9ofOl-C.js",
+    "file": "assets/redirects-MFAcS0Yj.js",
     "name": "redirects",
     "src": "src/js/Redirects.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-Xo6LZ5T9.js",
+      "_purify.es-T1dZ8B5N.js",
       "_LegacyUrl-7VynczAE.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Retour.js": {
-    "file": "assets/retour-BOu9DI9D.js",
+    "file": "assets/retour-nCwm8tyg.js",
     "name": "retour",
     "src": "src/js/Retour.js",
     "isEntry": true,
     "css": [
-      "assets/retour-DlWrJ6Fo.css"
+      "assets/retour-ecV1HJmh.css"
     ]
   },
   "src/js/Shortlinks.js": {
-    "file": "assets/shortlinks-Q4nOpy0m.js",
+    "file": "assets/shortlinks-Da8cmtQ7.js",
     "name": "shortlinks",
     "src": "src/js/Shortlinks.js",
     "isEntry": true,
     "imports": [
-      "_purify.es-Xo6LZ5T9.js",
+      "_purify.es-T1dZ8B5N.js",
       "_LegacyUrl-7VynczAE.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   },
   "src/js/Widget.js": {
-    "file": "assets/widget-DNFe3Srq.js",
+    "file": "assets/widget-JT9gu8Fw.js",
     "name": "widget",
     "src": "src/js/Widget.js",
     "isEntry": true,
     "imports": [
-      "_vue-apexcharts-Bqp5DSZb.js",
+      "_vue-apexcharts-SftWG7rg.js",
       "__plugin-vue2_normalizer-DeOsZA-U.js"
     ]
   }

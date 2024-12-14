@@ -1,5 +1,16 @@
 # Retour Changelog
 
+## 4.1.20 - 2024.12.14
+### Changed
+* Retour now strips site path prefixes from incoming 404 URL paths, such that redirects will work as expected (any Site sub-path prefix is ignored) ([#288](https://github.com/nystudio107/craft-retour/issues/288))
+* Don't create automatic redirects for elements that are not enabled
+
+### Fixed
+* Fixed an issue where `410 Gone` redirects returned a generic browser error rather than a custom-defined Craft template ([#11](https://github.com/nystudio107/craft-retour/issues/311))
+* Fixed an issue where an exception could be thrown if a Site had no `baseUrl` defined
+* Normalize the incoming `url` and `path` so that `mergUrlWithPath()` handles edge-cases properly ([#1512](https://github.com/nystudio107/craft-seomatic/issues/1512))
+* Fixed an issue where deprecation errors would occur when an element does not have a `uri` ([#317](https://github.com/nystudio107/craft-retour/issues/317))
+
 ## 4.1.19 - 2024.08.19
 ### Fixed
 * Fixed an issue where the "File Not Found URL" link could be wrong when clicked on in some multi-site setups ([#310](https://github.com/nystudio107/craft-retour/issues/310))
