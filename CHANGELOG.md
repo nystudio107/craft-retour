@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.5 - UNRELEASED
+## 5.0.5 - 2025.01.08
 ### Changed
 * Fixed an issue where a GraphQL Retour query could return a URL with a `/` prefixed to it if the destination was a full URL ([#320](https://github.com/nystudio107/craft-retour/issues/320))
 
