@@ -65,8 +65,14 @@ export default defineConfig(({command}) => ({
     preserveSymlinks: true,
   },
   server: {
+    // Allow cross-origin requests -- https://github.com/vitejs/vite/security/advisories/GHSA-vg6x-rcgg-rjx6
+    allowedHosts: true,
+    cors: true,
     fs: {
       strict: false
+    },
+    headers: {
+      "Access-Control-Allow-Private-Network": "true",
     },
     host: '0.0.0.0',
     origin: 'http://localhost:' + process.env.DEV_PORT,
