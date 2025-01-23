@@ -1,10 +1,12 @@
 name: Code Analysis
 
 on:
-  pull_request: null
+  pull_request:
+  pull_request_review:
+    types: [ submitted, edited ]
   push:
     branches:
-      - develop
+      - develop-v4
   workflow_dispatch:
 permissions:
   contents: read
