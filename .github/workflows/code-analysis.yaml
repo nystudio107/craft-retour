@@ -6,7 +6,7 @@ on:
     types: [ submitted, edited ]
   push:
     branches:
-      - develop-v4
+      - develop
   workflow_dispatch:
 permissions:
   contents: read
