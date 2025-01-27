@@ -1,8 +1,8 @@
 # Retour Changelog
 
-## 3.2.22 - UNRELEASED
+## 3.2.22 - 2025.01.27
 ### Fixed
-* Fixed an issue where redirects we note, in fact, redirecting with the appropriate site URL prefix as expected ([#325](https://github.com/nystudio107/craft-retour/issues/325))
+* Fixed an issue where redirects were not, in fact, redirecting with the appropriate site URL prefix as expected ([#325](https://github.com/nystudio107/craft-retour/issues/325))
 
 ## 3.2.21 - 2025.01.08
 ### Changed
