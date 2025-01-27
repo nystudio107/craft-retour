@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.22 - 2025.01.27
+### Fixed
+* Fixed an issue where redirects were not, in fact, redirecting with the appropriate site URL prefix as expected ([#325](https://github.com/nystudio107/craft-retour/issues/325))
+
 ## 3.2.21 - 2025.01.08
 ### Changed
 * Fixed an issue where a GraphQL Retour query could return a URL with a `/` prefixed to it if the destination was a full URL ([#320](https://github.com/nystudio107/craft-retour/issues/320))

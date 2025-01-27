@@ -92,8 +92,8 @@ class UrlHelper extends CraftUrlHelper
                 // Normalizes a URI path by trimming leading/ trailing slashes and removing double slashes
                 $sitePath = '/' . preg_replace('/\/\/+/', '/', trim($sitePath, '/'));
             }
-            // Strip the $sitePath from the incoming $path
-            if (str_starts_with($path, $sitePath)) {
+            // See if the path begins with a site path prefix
+            if ($sitePath !== '/' && str_starts_with($path, $sitePath)) {
                 return true;
             }
         }

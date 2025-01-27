@@ -282,7 +282,7 @@ class Redirects extends Component
                         if ($siteId !== null) {
                             $siteId = (int)$siteId;
                         }
-                        if (!UrlHelper::isFullUrl($dest) && !UrlHelper::pathHasSitePrefix($path)) {
+                        if (!UrlHelper::isAbsoluteUrl($dest) && !UrlHelper::pathHasSitePrefix($path)) {
                             $dest = UrlHelper::siteUrl('/', null, null, $siteId);
                             $dest = UrlHelper::mergeUrlWithPath($dest, $path);
                             $dest = parse_url($dest, PHP_URL_PATH);
