@@ -5,3 +5,7 @@ parameters:
     level: 5
     paths:
         - src
+    excludePaths:
+    # The support for multiple najor versions of league/csv (which have different APIs) causes this
+    # throw errors
+        - src/controllers/FileController.php
