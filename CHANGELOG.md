@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.7 - UNRELEASED
+### Fixed
+* Fixed an issue where query strings and fragments could be stripped from the destination URL ([#327](https://github.com/nystudio107/craft-retour/issues/327))
+
 ## 5.0.6 - 2025.01.27
 ### Fixed
 * Fixed an issue where redirects were not, in fact, redirecting with the appropriate site URL prefix as expected ([#325](https://github.com/nystudio107/craft-retour/issues/325))
