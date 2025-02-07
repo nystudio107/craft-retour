@@ -831,8 +831,8 @@ class Redirects extends Component
                         }
                         if (!UrlHelper::isAbsoluteUrl($dest) && !UrlHelper::pathHasSitePrefix($path)) {
                             $dest = UrlHelper::siteUrl('/', null, null, $siteId);
-                            $dest = UrlHelper::mergeUrlWithPath($dest, $path);
                             $dest = parse_url($dest, PHP_URL_PATH);
+                            $dest = UrlHelper::mergeUrlWithPath($dest, $path);
                         }
                     } catch (\yii\base\Exception $e) {
                     }
