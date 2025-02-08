@@ -1,6 +1,9 @@
 # Retour Changelog
 
 ## 3.2.23 - UNRELEASED
+### Changed
+* Update buildchain to Vite 6 & Tailwind CSS 4
+
 ### Fixed
 * Fixed an issue where query strings and fragments could be stripped from the destination URL ([#327](https://github.com/nystudio107/craft-retour/issues/327))
 
