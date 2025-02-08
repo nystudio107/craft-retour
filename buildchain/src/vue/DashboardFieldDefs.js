@@ -1,3 +1,4 @@
+/* global Craft */
 // Field definitions for DashboardTable.vue
 export default [
   {
