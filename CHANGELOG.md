@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.7 - UNRELEASED
+## 5.0.7 - 2025.02.12
 ### Changed
 * Update buildchain to Vite 6 & Tailwind CSS 4
 
