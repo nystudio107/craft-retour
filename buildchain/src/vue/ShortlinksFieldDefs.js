@@ -1,3 +1,4 @@
+/* global Craft */
 // Field definitions for ShortlinksTable.vue
 export default [
   {
