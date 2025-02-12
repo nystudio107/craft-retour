@@ -1,5 +1,12 @@
 # Retour Changelog
 
+## 4.1.23 - 2025.02.12
+### Changed
+* Update buildchain to Vite 6 & Tailwind CSS 4
+
+### Fixed
+* Fixed an issue where query strings and fragments could be stripped from the destination URL ([#327](https://github.com/nystudio107/craft-retour/issues/327))
+
 ## 4.1.22 - 2025.01.27
 ### Fixed
 * Fixed an issue where redirects were not, in fact, redirecting with the appropriate site URL prefix as expected ([#325](https://github.com/nystudio107/craft-retour/issues/325))

@@ -13,7 +13,6 @@ new Vue({
     DashboardChart,
     DashboardTable,
   },
-  data: {},
   mounted() {
     this.$events.$on('refresh-table', eventData => this.onTableRefresh(eventData));
   },

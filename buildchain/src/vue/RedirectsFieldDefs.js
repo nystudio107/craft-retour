@@ -1,3 +1,4 @@
+/* global Craft */
 // Field definitions for RedirectsTable.vue
 export default [
   {
