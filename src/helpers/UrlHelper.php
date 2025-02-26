@@ -41,7 +41,7 @@ class UrlHelper extends CraftUrlHelper
             parse_str($parsedUrl['query'] ?? '', $params);
             $queryParams[] = $params;
         }
-        $queryParams = array_unique(array_merge([], ...$queryParams), SORT_REGULAR);
+        $queryParams = array_merge([], ...$queryParams);
 
         return http_build_query($queryParams);
     }
