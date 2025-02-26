@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.24 - UNRELEASED
+### Fixed
+* Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
+
 ## 4.1.23 - 2025.02.12
 ### Changed
 * Update buildchain to Vite 6 & Tailwind CSS 4
