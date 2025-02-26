@@ -3,6 +3,7 @@
 ## 4.1.24 - UNRELEASED
 ### Fixed
 * Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
+* Fixed a logic error where query parameters with duplicate values could be removed from the resulting destination URL
 
 ## 4.1.23 - 2025.02.12
 ### Changed
