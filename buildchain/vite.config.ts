@@ -61,7 +61,6 @@ export default defineConfig(({command}) => ({
         dev: {
           overrideConfig: {
             cache: true,
-            fix: false
           }
         }
       },
