@@ -1,5 +1,11 @@
 # Retour Changelog
 
+## 5.0.8 - 2025.03.05
+### Fixed
+* Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
+* Fixed a logic error where query parameters with duplicate values could be removed from the resulting destination URL
+* Destination URLs are no longer URL decoded _unless_ a malicious payload was stripped from them ([#330](https://github.com/nystudio107/craft-retour/issues/330))
+
 ## 5.0.7 - 2025.02.12
 ### Changed
 * Update buildchain to Vite 6 & Tailwind CSS 4
