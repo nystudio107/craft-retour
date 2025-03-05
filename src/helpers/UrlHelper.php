@@ -41,7 +41,7 @@ class UrlHelper extends CraftUrlHelper
             parse_str($parsedUrl['query'] ?? '', $params);
             $queryParams[] = $params;
         }
-        $queryParams = array_unique(array_merge([], ...$queryParams), SORT_REGULAR);
+        $queryParams = array_merge([], ...$queryParams);
 
         return http_build_query($queryParams);
     }
@@ -138,9 +138,11 @@ class UrlHelper extends CraftUrlHelper
      */
     public static function sanitizeUrl(string $url): string
     {
+        $originalUrl = $url;
         // HTML decode the entities, then strip out any tags
         $url = html_entity_decode($url, ENT_NOQUOTES, 'UTF-8');
         $url = urldecode($url);
+        $decodedUrl = $url;
         $url = strip_tags($url);
         // Remove any Twig tags that somehow are present in the incoming URL
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
@@ -153,7 +155,10 @@ class UrlHelper extends CraftUrlHelper
             ]
             , '', $url
         );
-
+        // If the URL didn't have anything stripped from it, us the original encoded URL
+        if ($url === $decodedUrl) {
+            $url = $originalUrl;
+        }
         return $url;
     }
 }
