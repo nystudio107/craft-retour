@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 3.2.24 - UNRELEASED
+## 3.2.24 - 2025.03.05
 ### Fixed
 * Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
 * Fixed a logic error where query parameters with duplicate values could be removed from the resulting destination URL
