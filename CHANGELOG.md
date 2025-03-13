@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.25 - UNRELEASED
+### Changed
+* Only look at adding site prefixes to `pathonly` redirects via GraphQL
+
 ## 3.2.24 - 2025.03.05
 ### Fixed
 * Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
