@@ -508,7 +508,7 @@ class Redirects extends Component
             ->limit(1);
 
         if ($enabledOnly) {
-            $query->andWhere(['enabled' => 1]);
+            $query->andWhere(['enabled' => true]);
         }
         $result = $query->one();
         if ($result) {
@@ -1309,7 +1309,7 @@ class Redirects extends Component
         $query->andWhere(['redirectMatchType' => $type]);
 
         if ($enabledOnly) {
-            $query->andWhere(['enabled' => 1]);
+            $query->andWhere(['enabled' => true]);
         }
 
         return $query->all();
