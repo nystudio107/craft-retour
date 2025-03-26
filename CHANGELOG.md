@@ -4,6 +4,9 @@
 ### Changed
 * Only look at adding site prefixes to `pathonly` redirects via GraphQL
 
+### Fixed
+* Fixed an issue with Postgres throwing a `PDOException` ([#336](https://github.com/nystudio107/craft-retour/issues/336))
+
 ## 4.1.24 - 2025.03.05
 ### Fixed
 * Fixed an issue where redirects with a path site prefix were processed in the wrong order, and might not work as expected
