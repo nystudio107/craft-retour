@@ -76,7 +76,7 @@ class RetourResolver extends Resolver
                 Retour::$plugin->statistics->incrementStatistics($uri, false, $siteId);
             }
         }
-        if ($redirect !== null && isset($redirect['redirectDestUrl'])) {
+        if ($redirect !== null && isset($redirect['redirectDestUrl']) && $redirect['redirectSrcMatch'] === 'pathonly') {
             $dest = $redirect['redirectDestUrl'];
             $path = $redirect['redirectDestUrl'];
             // Combine the URL and path together, merging them as appropriate
