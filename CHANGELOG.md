@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.9 - UNRELEASED
+## 5.0.9 - 2024.04.03
 ### Changed
 * Only look at adding site prefixes to `pathonly` redirects via GraphQL
 
