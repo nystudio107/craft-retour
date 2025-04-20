@@ -190,7 +190,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
     {
         return [
             [
-                function(ElementInterface $element) {
+                /** @var ElementInterface $element */
+                function($element) {
                     $value = $element->getFieldValue($this->handle);
                     $redirect = RetourPlugin::$plugin->getRedirects()->getRedirectByRedirectSrcUrl($value);
                     if ($redirect && isset($redirect['associatedElementId'])) {
