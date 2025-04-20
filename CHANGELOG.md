@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 3.2.26 - UNRELEASED
+### Added
+* Added the **Resolve Craft Sites** setting to allow user control over whether Craft sites should be factored in to destination URLs ([#334](https://github.com/nystudio107/craft-retour/issues/334))
+
 ## 3.2.25 - 2024.04.03
 ### Changed
 * Only look at adding site prefixes to `pathonly` redirects via GraphQL
