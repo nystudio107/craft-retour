@@ -171,6 +171,8 @@ class ShortLink extends Field implements PreviewableFieldInterface
                 function(ElementInterface $element) {
                     $value = $element->getFieldValue($this->handle);
                     $redirect = RetourPlugin::$plugin->getRedirects()->getRedirectByRedirectSrcUrl($value);
+                    // Handle drafts
+                    $element = $element->getCanonical();
                     if ($redirect && isset($redirect['associatedElementId'])) {
                         if ($redirect['associatedElementId'] == 0) {
                             $element->addError($this->handle, Craft::t('retour', 'A Retour redirect with this Legacy URL already exists.'));
