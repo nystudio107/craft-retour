@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.10 - UNRELEASED
+## 5.0.10 - 2025.04.22
 ### Added
 * Added the **Resolve Craft Sites** setting to allow user control over whether Craft sites should be factored in to destination URLs ([#334](https://github.com/nystudio107/craft-retour/issues/334))
 * Added validation on Short Link fields so you cannot create one if the Short Link already exists at that URL ([#340](https://github.com/nystudio107/craft-retour/issues/340))
