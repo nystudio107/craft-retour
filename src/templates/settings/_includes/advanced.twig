@@ -28,6 +28,16 @@
             errors: settings.getErrors("enableApiEndpoint"),
         }) }}
 
+        {{ forms.lightswitchField({
+            label: "Resolve Craft Sites"|t("retour"),
+            instructions: "Should Craft sites factor into determining redirect destination URLs."|t("retour"),
+            id: "resolveCraftSites",
+            name: "resolveCraftSites",
+            on: settings.resolveCraftSites,
+            warning: configWarning("resolveCraftSites", "retour"),
+            errors: settings.getErrors("resolveCraftSites"),
+        }) }}
+
         {{ forms.editableTableField({
             label: "Exclude Patterns"|t("retour"),
             instructions: "[Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour."|t("retour"),

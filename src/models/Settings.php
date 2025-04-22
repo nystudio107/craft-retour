@@ -121,6 +121,11 @@ class Settings extends Model
     public bool $enableApiEndpoint = false;
 
     /**
+     * @var bool Should Craft sites factor into determining redirect destination URLs
+     */
+    public bool $resolveCraftSites = true;
+
+    /**
      * @var array [Regular expressions](https://regexr.com/) to match URLs to
      *      exclude from Retour
      */
@@ -156,6 +161,8 @@ class Settings extends Model
                     'preserveQueryString',
                     'stripQueryStringFromStats',
                     'recordRemoteIp',
+                    'enableApiEndpoint',
+                    'resolveCraftSites',
                 ],
                 'boolean',
             ],
