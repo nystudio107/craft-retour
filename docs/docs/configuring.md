@@ -108,6 +108,7 @@ The **Retour->Settings** page allows you to configure various site-wide settings
 ![Screenshot](./resources/screenshots/retour-settings-advanced.png)
 
 * **Enable API Access** - Determines whether the Retour API endpoint should be enabled for anonymous frontend access.
+* **Resolve Craft Sites** - Should Craft sites factor into determining redirect destination URLs.
 * **Exclude Patterns** - [Regular expressions](https://regexr.com/) to match URIs that should be excluded from Retour.
 * **Additional Headers** - Additional HTTP headers to add to the redirected request
 * **CSV Delimiter** - The delimiter between data column values for importing CSV files (normally `,`).

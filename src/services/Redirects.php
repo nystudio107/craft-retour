@@ -283,7 +283,7 @@ class Redirects extends Component
                         if ($siteId !== null) {
                             $siteId = (int)$siteId;
                         }
-                        if (!UrlHelper::isAbsoluteUrl($dest) && !UrlHelper::pathHasSitePrefix($path)) {
+                        if (!UrlHelper::isAbsoluteUrl($dest) && !UrlHelper::pathHasSitePrefix($path) && Retour::$settings->resolveCraftSites) {
                             $dest = UrlHelper::siteUrl('/', null, null, $siteId);
                             $dest = parse_url($dest, PHP_URL_PATH);
                             $dest = UrlHelper::mergeUrlWithPath($dest, $path);

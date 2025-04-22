@@ -182,4 +182,31 @@ class ShortLink extends Field implements PreviewableFieldInterface
             ]
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getElementValidationRules(): array
+    {
+        return [
+            [
+                /** @var ElementInterface $element */
+                function($element) {
+                    $value = $element->getFieldValue($this->handle);
+                    $redirect = RetourPlugin::$plugin->getRedirects()->getRedirectByRedirectSrcUrl($value);
+                    if (method_exists($element, 'getCanonical')) {
+                        // Handle drafts
+                        $element = $element->getCanonical();
+                    }
+                    if ($redirect && isset($redirect['associatedElementId'])) {
+                        if ($redirect['associatedElementId'] == 0) {
+                            $element->addError($this->handle, Craft::t('retour', 'A Retour redirect with this Legacy URL already exists.'));
+                        } elseif ($redirect['associatedElementId'] !== $element->id) {
+                            $element->addError($this->handle, Craft::t('retour', 'A Short Link with this URL already exists.'));
+                        }
+                    }
+                },
+            ],
+        ];
+    }
 }
