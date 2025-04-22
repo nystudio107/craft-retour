@@ -66,6 +66,9 @@ return [
     // Determines whether the Retour API endpoint should be enabled for anonymous frontend access
     'enableApiEndpoint' => false,
 
+    // Should Craft sites factor into determining redirect destination URLs
+    'resolveCraftSites' => true,
+
     // [Regular expressions](https://regexr.com/) to match URLs to exclude from tracking
     'excludePatterns' => [
     ],
