@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.11 - UNRELEASED
+### Changed
+* Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
+
 ## 5.0.10 - 2025.04.22
 ### Added
 * Added the **Resolve Craft Sites** setting to allow user control over whether Craft sites should be factored in to destination URLs ([#334](https://github.com/nystudio107/craft-retour/issues/334))
