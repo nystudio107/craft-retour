@@ -148,6 +148,13 @@ class Events extends Component
                         if (!$event->isValid) {
                             return;
                         }
+                        // Apply any changes from the event
+                        $redirectConfig['redirectSrcUrl'] = $event->legacyUrl;
+                        $redirectConfig['redirectDestUrl'] = $event->destinationUrl;
+                        $redirectConfig['redirectSrcMatch'] = $event->matchType;
+                        $redirectConfig['redirectHttpCode'] = $event->redirectType;
+                        $redirectConfig['siteId'] = $event->siteId;
+
                         Retour::$plugin->redirects->saveRedirect($redirectConfig);
                     }
                 }
