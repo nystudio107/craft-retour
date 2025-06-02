@@ -3,6 +3,7 @@
 ## 5.0.11 - UNRELEASED
 ### Changed
 * Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
+* "Redirect To" links on the **Redirects** page are no longer relative, so they will work with non-standard Craft URL setups ([#341](https://github.com/nystudio107/craft-retour/issues/341))
 
 ### Fixed
 * Don't append `/`'s errantly to URLs that have fragments in them if `addTrailingSlashesToUrls` is set to `true` in `config/general.php`
