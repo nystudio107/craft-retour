@@ -4,6 +4,9 @@
 ### Changed
 * Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
 
+### Fixed
+* Don't append `/`'s errantly to URLs that have fragments in them if `addTrailingSlashesToUrls` is set to `true` in `config/general.php`
+
 ## 4.1.26 - 2025.04.22
 ### Added
 * Added the **Resolve Craft Sites** setting to allow user control over whether Craft sites should be factored in to destination URLs ([#334](https://github.com/nystudio107/craft-retour/issues/334))
