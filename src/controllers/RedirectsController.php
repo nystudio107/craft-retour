@@ -400,7 +400,7 @@ class RedirectsController extends Controller
     protected function addSlashToSiteUrls(string $url): string
     {
         // Make sure the URL doesn't end with a file extension, e.g.: .jpg or have a query string
-        if (!preg_match('/\.[^\/]+$/', $url) && strpos($url, '?') === false) {
+        if (!preg_match('/\.[^\/]+$/', $url) && strpos($url, '?') === false && strpos($url, '#') === false) {
             // If it's a root relative URL, assume it's a site URL
             if (UrlHelper::isRootRelativeUrl($url)) {
                 return rtrim($url, '/') . '/';
