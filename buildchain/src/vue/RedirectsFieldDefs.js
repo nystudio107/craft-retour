@@ -14,12 +14,11 @@ export default [
     dataClass: 'center vuetable-td-redirectSrcUrl',
   },
   {
-    name: 'redirectDestUrl',
+    name: '__component:redirect-to-url',
     sortField: 'redirectDestUrl',
     title: Craft.t('retour', 'Redirect To'),
-    titleClass: 'center',
-    dataClass: 'center',
-    callback: 'urlFormatter'
+    titleClass: 'center vuetable-th-redirectDestUrl',
+    dataClass: 'center vuetable-td-redirectDestUrl',
   },
   {
     name: 'redirectMatchType',
