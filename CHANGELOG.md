@@ -6,6 +6,7 @@
 
 ### Fixed
 * Don't append `/`'s errantly to URLs that have fragments in them if `addTrailingSlashesToUrls` is set to `true` in `config/general.php`
+* Fixed an issue where GraphQL wouldn't return `redirectDestUrl` URLs with query strings in them ([#327](https://github.com/nystudio107/craft-retour/issues/327#issuecomment-2894811915))
 
 ## 4.1.26 - 2025.04.22
 ### Added
