@@ -144,13 +144,6 @@ class ShortLink extends Field implements PreviewableFieldInterface, InlineEditab
         if (!empty($value)) {
             $redirectSrcMatch = $this->redirectSrcMatch;
 
-            if ($this->translationMethod !== Field::TRANSLATION_METHOD_NONE) {
-                if (!UrlHelper::isAbsoluteUrl($value)) {
-                    $value = UrlHelper::siteUrl($value, null, null, $parentElement->siteId);
-                    $redirectSrcMatch = 'fullurl';
-                }
-            }
-
             RetourPlugin::$plugin->redirects->enableElementRedirect($parentElement, $value, $redirectSrcMatch, $this->redirectHttpCode);
         }
 
