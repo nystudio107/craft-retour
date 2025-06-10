@@ -8,6 +8,7 @@
 ### Fixed
 * Don't append `/`'s errantly to URLs that have fragments in them if `addTrailingSlashesToUrls` is set to `true` in `config/general.php`
 * Fixed an issue where GraphQL wouldn't return `redirectDestUrl` URLs with query strings in them ([#327](https://github.com/nystudio107/craft-retour/issues/327#issuecomment-2894811915))
+* ShortLinks no longer attempt to localize the redirect value for translated fields ([#313](https://github.com/nystudio107/craft-retour/issues/313#issuecomment-2898486055))
 
 ## 3.2.26 - 2025.04.22
 ### Added
