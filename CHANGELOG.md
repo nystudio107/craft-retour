@@ -1,6 +1,6 @@
 # Retour Changelog
 
-## 5.0.11 - UNRELEASED
+## 5.0.11 - 2025.06.13
 ### Changed
 * Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
 * "Redirect To" links on the **Redirects** page are no longer relative, so they will work with non-standard Craft URL setups ([#341](https://github.com/nystudio107/craft-retour/issues/341))
