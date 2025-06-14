@@ -259,15 +259,20 @@ class TablesController extends Controller
                     $redirect['redirectDestUrl'] = '';
                 }
             }
-            // Handle extracting the site name
+            // Handle extracting the site name and base URL
             $redirect['siteName'] = Craft::t('retour', 'All Sites');
+            $sites = Craft::$app->getSites();
+            $site = null;
             if ($redirect['siteId']) {
-                $sites = Craft::$app->getSites();
                 $site = $sites->getSiteById($redirect['siteId']);
                 if ($site) {
                     $redirect['siteName'] = $site->name;
                 }
             }
+            if (!$site) {
+                $site = $sites->getPrimarySite();
+            }
+            $redirect['siteBaseUrl'] = $site->getBaseUrl();
 
             $redirect['editLink'] = UrlHelper::cpUrl('retour/edit-redirect/' . $redirect['id']);
         }

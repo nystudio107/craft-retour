@@ -14,12 +14,10 @@ namespace nystudio107\retour\services;
 use Craft;
 use craft\base\Component;
 use craft\base\Element;
-
 use craft\helpers\ElementHelper;
 use nystudio107\retour\events\RedirectEvent;
 use nystudio107\retour\helpers\UrlHelper;
 use nystudio107\retour\Retour;
-
 use yii\base\Exception;
 
 /**
@@ -150,6 +148,13 @@ class Events extends Component
                         if (!$event->isValid) {
                             return;
                         }
+                        // Apply any changes from the event
+                        $redirectConfig['redirectSrcUrl'] = $event->legacyUrl;
+                        $redirectConfig['redirectDestUrl'] = $event->destinationUrl;
+                        $redirectConfig['redirectSrcMatch'] = $event->matchType;
+                        $redirectConfig['redirectHttpCode'] = $event->redirectType;
+                        $redirectConfig['siteId'] = $event->siteId;
+
                         Retour::$plugin->redirects->saveRedirect($redirectConfig);
                     }
                 }
