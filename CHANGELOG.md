@@ -1,5 +1,15 @@
 # Retour Changelog
 
+## 5.0.11 - 2025.06.13
+### Changed
+* Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
+* "Redirect To" links on the **Redirects** page are no longer relative, so they will work with non-standard Craft URL setups ([#341](https://github.com/nystudio107/craft-retour/issues/341))
+
+### Fixed
+* Don't append `/`'s errantly to URLs that have fragments in them if `addTrailingSlashesToUrls` is set to `true` in `config/general.php`
+* Fixed an issue where GraphQL wouldn't return `redirectDestUrl` URLs with query strings in them ([#327](https://github.com/nystudio107/craft-retour/issues/327#issuecomment-2894811915))
+* ShortLinks no longer attempt to localize the redirect value for translated fields ([#313](https://github.com/nystudio107/craft-retour/issues/313#issuecomment-2898486055))
+
 ## 5.0.10 - 2025.04.22
 ### Added
 * Added the **Resolve Craft Sites** setting to allow user control over whether Craft sites should be factored in to destination URLs ([#334](https://github.com/nystudio107/craft-retour/issues/334))
