@@ -1176,6 +1176,13 @@ class Redirects extends Component
         if (!$event->isValid) {
             return false;
         }
+        // Apply any changes from the event
+        $redirectConfig['redirectSrcUrl'] = $event->legacyUrl;
+        $redirectConfig['redirectDestUrl'] = $event->destinationUrl;
+        $redirectConfig['redirectSrcMatch'] = $event->matchType;
+        $redirectConfig['redirectHttpCode'] = $event->redirectType;
+        $redirectConfig['siteId'] = $event->siteId;
+
         // See if this is an existing redirect
         if (!$isNew) {
             Craft::debug(

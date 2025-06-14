@@ -49,7 +49,7 @@
       :initial-filter-text="filterText"
     />
     <div class="vuetable-pagination clearafter">
-      <vuetable-pagination-info ref="paginationInfoTop" />
+      <vuetable-pagination-info ref="paginationInfoTop"/>
 
       <div class="floated left vuetable-pagination-info py-3">
         <div class="inline pl-3 text-gray-600">
@@ -99,7 +99,7 @@
       @vuetable:pagination-data="onPaginationData"
     />
     <div class="vuetable-pagination clearafter border-solid">
-      <vuetable-pagination-info ref="paginationInfo" />
+      <vuetable-pagination-info ref="paginationInfo"/>
       <vuetable-pagination
         ref="pagination"
         @vuetable-pagination:change-page="onChangePage"
@@ -111,17 +111,18 @@
 <script>
 import FieldDefs from '@/vue/RedirectsFieldDefs.js';
 import LegacyUrl from '@/vue/LegacyUrl.vue';
+import RedirectToUrl from '@/vue/RedirectToUrl.vue';
 import VueTable from 'vuetable-2/src/components/Vuetable.vue';
 import VueTablePagination from '@/vue/VuetablePagination.vue';
 import VueTablePaginationInfo from '@/vue/VuetablePaginationInfo.vue';
 import VueTableFilterBar from '@/vue/VuetableFilterBar.vue';
 import saveState from 'vue-save-state';
-import DOMPurify from 'dompurify';
 import PriorityValue from '@/vue/PriorityValue.vue';
 
 // Make the PriorityValue component globally available
 Vue.component('PriorityValue', PriorityValue);
 Vue.component('LegacyUrl', LegacyUrl);
+Vue.component('RedirectToUrl', RedirectToUrl);
 // Our component exports
 export default {
   components: {
@@ -194,7 +195,7 @@ export default {
   },
   methods: {
     getSaveStateConfig() {
-      const cacheKey = 'retour-redirects-state-v2-' + Craft.username + Craft.siteId;
+      const cacheKey = 'retour-redirects-state-v3-' + Craft.username + Craft.siteId;
       return {
         'cacheKey': cacheKey,
         'ignoreProperties': ['numSelected', 'selectedIds', 'moreParams'],
@@ -246,21 +247,6 @@ export default {
       }
 
       return label;
-    },
-    urlFormatter(value) {
-      if (value === '') {
-        return '';
-      }
-      value = DOMPurify.sanitize(value);
-      value = encodeURI(value);
-      let url = value;
-      let absoluteUrl = new RegExp('^(?:[a-z]+:)?//', 'i');
-      if (!absoluteUrl.test(url) && !url.includes('$')) {
-        url = Craft.getSiteUrl(url);
-      }
-      return `
-                <a class="go" href="${url}" title="${url}" target="_blank" rel="noopener">${value}</a>
-                `;
     },
     deleteRedirectFormatter(value) {
       if (value === '') {
