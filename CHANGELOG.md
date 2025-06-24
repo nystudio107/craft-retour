@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 4.1.28 - UNRELEASED
+### Changed
+* Use `StringHelper::convertToUtf8()` instead of our homebrew solution
+
 ## 4.1.27 - 2025.06.13
 ### Changed
 * Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))
