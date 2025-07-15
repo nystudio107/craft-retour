@@ -3,6 +3,7 @@
 ## 3.2.28 - UNRELEASED
 ### Changed
 * Use `StringHelper::convertToUtf8()` instead of our homebrew solution
+* Throw an exception if an attempt is made to edit a redirect that doesn't exist ([#345](https://github.com/nystudio107/craft-retour/issues/345))
 
 ## 3.2.27 - 2025.06.13
 ### Changed
