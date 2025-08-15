@@ -271,7 +271,7 @@ class RedirectsController extends Controller
         }
         // Save the redirect
         $redirectConfig = $redirect->getAttributes();
-        Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        Retour::$plugin->redirects->saveRedirect($redirectConfig, false);
         // Handle the case where the redirect wasn't saved because it'd create a redirect loop
         $testRedirectConfig = Retour::$plugin->redirects->getRedirectByRedirectSrcUrl(
             $redirectConfig['redirectSrcUrl'],
