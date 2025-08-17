@@ -1,5 +1,13 @@
 # Retour Changelog
 
+## 5.0.12 - 2025.08.17
+### Changed
+* Use `StringHelper::convertToUtf8()` instead of our homebrew solution
+* Throw an exception if an attempt is made to edit a redirect that doesn't exist ([#345](https://github.com/nystudio107/craft-retour/issues/345))
+
+### Fixed
+* Fixed a regression that caused the redirect loop detection to no longer function ([#348](https://github.com/nystudio107/craft-retour/issues/348))
+
 ## 5.0.11 - 2025.06.13
 ### Changed
 * Allow `RedirectEvent`s to change the redirect that is saved ([#342](https://github.com/nystudio107/craft-retour/issues/342))

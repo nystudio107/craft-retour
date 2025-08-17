@@ -23,6 +23,7 @@ use nystudio107\retour\helpers\MultiSite as MultiSiteHelper;
 use nystudio107\retour\helpers\Permission as PermissionHelper;
 use nystudio107\retour\models\StaticRedirects as StaticRedirectsModel;
 use nystudio107\retour\Retour;
+use Throwable;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -138,15 +139,7 @@ class RedirectsController extends Controller
         if ($redirect === null) {
             $redirectConfig = Retour::$plugin->redirects->getRedirectById($redirectId);
             if ($redirectConfig === null) {
-                $redirectConfig = [];
-                Craft::error(
-                    Craft::t(
-                        'retour',
-                        "Couldn't load redirect id {id}",
-                        ['id' => $redirectId]
-                    ),
-                    __METHOD__
-                );
+                throw new NotFoundHttpException('Redirect not found');
             }
             $redirect = new StaticRedirectsModel($redirectConfig);
         }
@@ -284,7 +277,7 @@ class RedirectsController extends Controller
         }
         // Save the redirect
         $redirectConfig = $redirect->getAttributes();
-        Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        Retour::$plugin->redirects->saveRedirect($redirectConfig, false);
         // Handle the case where the redirect wasn't saved because it'd create a redirect loop
         $testRedirectConfig = Retour::$plugin->redirects->getRedirectByRedirectSrcUrl(
             $redirectConfig['redirectSrcUrl'],
@@ -314,8 +307,8 @@ class RedirectsController extends Controller
      * @param string|null $siteHandle
      *
      * @return Response
-     * @throws \yii\web\ForbiddenHttpException
-     * @throws \yii\web\NotFoundHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionShortlinks(string $siteHandle = null): Response
     {
@@ -368,7 +361,7 @@ class RedirectsController extends Controller
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      * @throws MissingComponentException
-     * @throws \Throwable
+     * @throws Throwable
      * @throws ElementNotFoundException
      * @throws Exception
      */
