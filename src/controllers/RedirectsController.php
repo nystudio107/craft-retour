@@ -135,15 +135,7 @@ class RedirectsController extends Controller
         if ($redirect === null) {
             $redirectConfig = Retour::$plugin->redirects->getRedirectById($redirectId);
             if ($redirectConfig === null) {
-                $redirectConfig = [];
-                Craft::error(
-                    Craft::t(
-                        'retour',
-                        "Couldn't load redirect id {id}",
-                        ['id' => $redirectId]
-                    ),
-                    __METHOD__
-                );
+                throw new NotFoundHttpException('Redirect not found');
             }
             $redirect = new StaticRedirectsModel($redirectConfig);
         }
@@ -279,7 +271,7 @@ class RedirectsController extends Controller
         }
         // Save the redirect
         $redirectConfig = $redirect->getAttributes();
-        Retour::$plugin->redirects->saveRedirect($redirectConfig);
+        Retour::$plugin->redirects->saveRedirect($redirectConfig, false);
         // Handle the case where the redirect wasn't saved because it'd create a redirect loop
         $testRedirectConfig = Retour::$plugin->redirects->getRedirectByRedirectSrcUrl(
             $redirectConfig['redirectSrcUrl'],
