@@ -1114,9 +1114,10 @@ class Redirects extends Component
 
     /**
      * @param array $redirectConfig
+     * @param bool $checkForRedirectLoop
      * @return bool
      */
-    public function saveRedirect(array $redirectConfig): bool
+    public function saveRedirect(array $redirectConfig, bool $checkForRedirectLoop = true): bool
     {
         // Handle URL encoded URLs by decoding them before saving them
         if (isset($redirectConfig['redirectMatchType']) && $redirectConfig['redirectMatchType'] === 'exactmatch') {
@@ -1227,6 +1228,32 @@ class Redirects extends Component
                 Craft::error($e->getMessage(), __METHOD__);
 
                 return false;
+            }
+        }
+        if ($checkForRedirectLoop) {
+            // To prevent redirect loops, see if any static redirects have our redirectDestUrl as their redirectSrcUrl
+            $testRedirectConfig = $this->getRedirectByRedirectSrcUrl(
+                $redirectConfig['redirectDestUrl'],
+                $redirectConfig['siteId']
+            );
+            if ($testRedirectConfig !== null) {
+                Craft::debug(
+                    Craft::t(
+                        'retour',
+                        'Deleting redirect to prevent a loop: {redirect}',
+                        ['redirect' => print_r($testRedirectConfig, true)]
+                    ),
+                    __METHOD__
+                );
+                // Delete the redirect that has a redirectSrcUrl the same as this record's redirectDestUrl
+                try {
+                    $db->createCommand()->delete(
+                        '{{%retour_static_redirects}}',
+                        ['id' => $testRedirectConfig['id']]
+                    )->execute();
+                } catch (Exception $e) {
+                    Craft::error($e->getMessage(), __METHOD__);
+                }
             }
         }
         // Trigger a 'afterSaveRedirect' event

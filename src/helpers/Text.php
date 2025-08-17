@@ -11,8 +11,8 @@
 
 namespace nystudio107\retour\helpers;
 
+use craft\helpers\StringHelper;
 use Stringy\Stringy;
-use function function_exists;
 
 /**
  * @author    nystudio107
@@ -88,12 +88,7 @@ class Text
             return '';
         }
         // Convert to UTF-8
-        if (function_exists('iconv')) {
-            $text = iconv(mb_detect_encoding($text, mb_detect_order(), true), 'UTF-8//IGNORE', $text);
-        } else {
-            ini_set('mbstring.substitute_character', 'none');
-            $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
-        }
+        $text = StringHelper::convertToUtf8($text);
         // Strip HTML tags
         $text = strip_tags($text);
         // Remove excess whitespace
