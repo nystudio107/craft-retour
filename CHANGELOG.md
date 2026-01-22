@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.13 - 2026.01.22
+### Changed
+* Fixed an issue with Craft `^5.9` where it throws an error because `craftcms/cms` no longer uses the `Stringy` package ([#349](https://github.com/nystudio107/craft-retour/issues/349))
+
 ## 5.0.12 - 2025.08.17
 ### Changed
 * Use `StringHelper::convertToUtf8()` instead of our homebrew solution
