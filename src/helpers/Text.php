@@ -12,7 +12,6 @@
 namespace nystudio107\retour\helpers;
 
 use craft\helpers\StringHelper;
-use Stringy\Stringy;
 
 /**
  * @author    nystudio107
@@ -44,7 +43,7 @@ class Text
 
         if (!empty($string)) {
             $string = strip_tags($string);
-            $result = (string)Stringy::create($string)->truncate($length, $substring);
+            $result = StringHelper::truncate($string, $length, $substring);
         }
 
         return $result;
@@ -68,7 +67,7 @@ class Text
 
         if (!empty($string)) {
             $string = strip_tags($string);
-            $result = (string)Stringy::create($string)->safeTruncate($length, $substring);
+            $result = StringHelper::safeTruncate($string, $length, $substring);
         }
 
         return $result;
