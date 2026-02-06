@@ -43,7 +43,8 @@ class Text
 
         if (!empty($string)) {
             $string = strip_tags($string);
-            $result = StringHelper::truncate($string, $length, $substring);
+            $adjustedLength = $length - strlen($substring);
+            $result = StringHelper::truncate($string, $adjustedLength, $substring);
         }
 
         return $result;
