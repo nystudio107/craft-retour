@@ -1,5 +1,9 @@
 # Retour Changelog
 
+## 5.0.14 - 2026.02.06
+### Changed
+* Fixed a regression caused by the removal of `Stringy` that caused an off by 1 error when saving truncated strings to the database ([#350](https://github.com/nystudio107/craft-retour/issues/350))
+
 ## 5.0.13 - 2026.01.22
 ### Changed
 * Fixed an issue with Craft `^5.9` where it throws an error because `craftcms/cms` no longer uses the `Stringy` package ([#349](https://github.com/nystudio107/craft-retour/issues/349))
