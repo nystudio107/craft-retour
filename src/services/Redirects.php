@@ -329,27 +329,36 @@ class Redirects extends Component
                 $siteId = $primarySite->id;
             }
         }
+        $siteId = (int)$siteId;
         // Try getting the full URL redirect from the cache
         $redirect = $this->getRedirectFromCache($fullUrl, $siteId);
         if ($redirect) {
-            $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($fullUrl, $redirect);
+            if (!$this->redirectAppliesToSite($redirect, $siteId, $fullUrl)) {
+                $this->deleteRedirectFromCache($fullUrl, $siteId);
+            } else {
+                $this->incrementRedirectHitCount($redirect);
+                $this->saveRedirectToCache($fullUrl, $redirect, $siteId);
 
-            return $redirect;
+                return $redirect;
+            }
         }
         // Try getting the path only redirect from the cache
         $redirect = $this->getRedirectFromCache($pathOnly, $siteId);
         if ($redirect) {
-            $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($pathOnly, $redirect);
+            if (!$this->redirectAppliesToSite($redirect, $siteId, $pathOnly)) {
+                $this->deleteRedirectFromCache($pathOnly, $siteId);
+            } else {
+                $this->incrementRedirectHitCount($redirect);
+                $this->saveRedirectToCache($pathOnly, $redirect, $siteId);
 
-            return $redirect;
+                return $redirect;
+            }
         }
 
         $redirect = $this->getStaticRedirect($fullUrl, $pathOnly, $siteId, true);
         if ($redirect) {
             $this->incrementRedirectHitCount($redirect);
-            $this->saveRedirectToCache($pathOnly, $redirect);
+            $this->saveRedirectToCache($pathOnly, $redirect, $siteId);
 
             return $redirect;
         }
@@ -373,7 +382,7 @@ class Redirects extends Component
     public function getRedirectFromCache(string $url, int $siteId = 0): bool|array
     {
         $cache = Craft::$app->getCache();
-        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
+        $cacheKey = $this->buildRedirectCacheKey($url, $siteId);
         $redirect = $cache->get($cacheKey);
         Craft::info(
             Craft::t(
@@ -428,23 +437,26 @@ class Redirects extends Component
     /**
      * @param string $url
      * @param array $redirect
+     * @param int|null $cacheSiteId
      */
-    public function saveRedirectToCache(string $url, array $redirect): void
+    public function saveRedirectToCache(string $url, array $redirect, ?int $cacheSiteId = null): void
     {
         $cache = Craft::$app->getCache();
-        // Get the current site id
-        $sites = Craft::$app->getSites();
-        try {
-            $siteId = $sites->getCurrentSite()->id;
-        } catch (SiteNotFoundException $e) {
-            $siteId = 1;
+        if ($cacheSiteId === null) {
+            $sites = Craft::$app->getSites();
+            try {
+                $cacheSiteId = $sites->getCurrentSite()->id;
+            } catch (SiteNotFoundException $e) {
+                $cacheSiteId = $sites->getPrimarySite()->id;
+            }
         }
-        $cacheKey = $this::CACHE_KEY . md5($url) . $siteId;
+        $cacheSiteId = (int)$cacheSiteId;
+        $cacheKey = $this->buildRedirectCacheKey($url, $cacheSiteId);
         // Create the dependency tags
         $dependency = new TagDependency([
             'tags' => [
                 $this::GLOBAL_REDIRECTS_CACHE_TAG,
-                $this::GLOBAL_REDIRECTS_CACHE_TAG . $siteId,
+                $this::GLOBAL_REDIRECTS_CACHE_TAG . $cacheSiteId,
             ],
         ]);
         $cache->set($cacheKey, $redirect, Retour::$cacheDuration, $dependency);
@@ -456,6 +468,60 @@ class Redirects extends Component
             ),
             __METHOD__
         );
+    }
+
+    /**
+     * Build the cache key used for a URL + site partition
+     */
+    protected function buildRedirectCacheKey(string $url, int $siteId): string
+    {
+        return $this::CACHE_KEY . md5($url) . $siteId;
+    }
+
+    /**
+     * Remove a cached redirect for the given URL/site partition (e.g. stale cross-site data)
+     */
+    protected function deleteRedirectFromCache(string $url, int $siteId): void
+    {
+        try {
+            Craft::$app->getCache()->delete($this->buildRedirectCacheKey($url, $siteId));
+        } catch (\Exception $_) {
+            Craft::warning(
+                Craft::t(
+                    'retour',
+                    'Failed to delete cached redirect for {url} and site ID {siteId}',
+                    ['url' => $url, 'siteId' => $siteId]
+                ),
+                __METHOD__
+            );
+        }
+    }
+
+    /**
+     * Determine whether a redirect row may be served for the given site
+     */
+    protected function redirectAppliesToSite(array $redirect, int $siteId, string $urlOrPath): bool
+    {
+        if (!array_key_exists('siteId', $redirect)) {
+            return true;
+        }
+        $redirectSiteId = $redirect['siteId'];
+        if ($redirectSiteId === null || $redirectSiteId === '' || (int)$redirectSiteId === 0) {
+            return true;
+        }
+
+        $shouldApply = (int)$redirectSiteId === (int)$siteId;
+        if (!$shouldApply) {
+            Craft::warning(
+                Craft::t(
+                    'retour',
+                    'Redirect {urlOrPath} attempted for site ID {siteId} but redirect is for site ID {redirectSiteId}',
+                    ['urlOrPath' => $urlOrPath, 'siteId' => $siteId, 'redirectSiteId' => $redirectSiteId]
+                ),
+                __METHOD__
+            );
+        }
+        return $shouldApply;
     }
 
     /**
@@ -657,7 +723,7 @@ class Redirects extends Component
                     case 'exactmatch':
                         if (strcasecmp($redirect['redirectSrcUrlParsed'], $url) === 0) {
                             $this->incrementRedirectHitCount($redirect);
-                            $this->saveRedirectToCache($url, $redirect);
+                            $this->saveRedirectToCache($url, $redirect, (int)$siteId);
 
                             // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
                             $event = new RedirectResolvedEvent([
@@ -692,7 +758,7 @@ class Redirects extends Component
                                     );
                                 }
                                 $url = preg_replace('/([^:])(\/{2,})/', '$1/', $url);
-                                $this->saveRedirectToCache($url, $redirect);
+                                $this->saveRedirectToCache($url, $redirect, (int)$siteId);
 
                                 // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
                                 $event = new RedirectResolvedEvent([
@@ -729,7 +795,7 @@ class Redirects extends Component
                             $result = call_user_func_array([$plugin, 'retourMatch'], $args);
                             if ($result) {
                                 $this->incrementRedirectHitCount($redirect);
-                                $this->saveRedirectToCache($url, $redirect);
+                                $this->saveRedirectToCache($url, $redirect, (int)$siteId);
 
                                 // Throw the Redirects::EVENT_REDIRECT_RESOLVED event
                                 $event = new RedirectResolvedEvent([
@@ -798,7 +864,7 @@ class Redirects extends Component
                 // Save the modified redirect to the cache
                 $redirect['redirectDestUrl'] = $event->redirectDestUrl;
                 $redirect['redirectHttpCode'] = $event->redirectHttpCode;
-                $this->saveRedirectToCache($url, $redirect);
+                $this->saveRedirectToCache($url, $redirect, $event->siteId);
             }
         }
 

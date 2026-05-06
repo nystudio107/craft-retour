@@ -1,9 +1,14 @@
 <?php
 
+use craft\helpers\App;
+
+$dsn = App::env('DB_DSN');
+
 return [
-    'dsn' => getenv('DB_DSN'),
-    'password' => getenv('DB_PASSWORD'),
-    'user' => getenv('DB_USER'),
-    'tablePrefix' => getenv('DB_TABLE_PREFIX'),
-    'schema' => getenv('DB_SCHEMA'),
+    'dsn' => $dsn,
+    'password' => App::env('DB_PASSWORD'),
+    'user' => App::env('DB_USER'),
+    'tablePrefix' => App::env('DB_TABLE_PREFIX'),
+    'schema' => App::env('DB_SCHEMA'),
+    'driver' => str_contains($dsn, 'mysql:') ? 'mysql' : null,
 ];
